@@ -88,6 +88,16 @@
         "depth": 1
       },
       {
+        "label": "仓库与 worktree",
+        "link": "/docs/usage/worktrees/",
+        "depth": 1
+      },
+      {
+        "label": "移动端使用",
+        "link": "/docs/usage/mobile/",
+        "depth": 1
+      },
+      {
         "label": "混合会话",
         "link": "/docs/hybrid-sessions/",
         "depth": 0
@@ -175,6 +185,16 @@
       {
         "label": "CI 耗时优化与验收",
         "link": "/docs/ci-performance/",
+        "depth": 0
+      }
+    ]
+  },
+  {
+    "label": "官网与推广",
+    "items": [
+      {
+        "label": "官网建设指南",
+        "link": "/docs/website/",
         "depth": 0
       }
     ]

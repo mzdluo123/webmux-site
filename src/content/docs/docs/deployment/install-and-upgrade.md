@@ -34,18 +34,35 @@ curl -fsSL https://ghfast.top/https://github.com/mzdluo123/webmux/releases/lates
 curl -fsSL https://cdn.jsdelivr.net/gh/mzdluo123/webmux@main/install.sh | sh
 ```
 
-| 变量                 | 默认值                                    | 说明                                                            |
-| -------------------- | ----------------------------------------- | --------------------------------------------------------------- |
-| `WEBMUX_VERSION`     | 最新 Release                              | 指定 `x.y.z`（可带 `v` 前缀），从 `releases/download/v...` 下载 |
-| `WEBMUX_INSTALL_DIR` | `~/.local/bin`                            | 目标目录；不可写时明确报错，不自动 sudo                         |
-| `WEBMUX_MIRRORS`     | `https://ghfast.top https://gh-proxy.com` | 空格分隔的 gh-proxy 前缀；空值表示只用 GitHub                   |
-| `WEBMUX_SHA256`      | 空                                        | 固定二进制 SHA-256，跳过同源 `SHA256SUMS`                       |
-| `WEBMUX_BASE_URL`    | `https://github.com/mzdluo123/webmux`     | GitHub 仓库地址，主要用于测试和自建镜像                         |
+| 变量                 | 默认值                                    | 说明                                                                                              |
+| -------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `WEBMUX_VERSION`     | 最新 Release                              | 指定 `x.y.z`（可带 `v` 前缀），从 `releases/download/v...` 下载；也可指定当前开发版 `x.y.z-dev.N` |
+| `WEBMUX_CHANNEL`     | `stable`                                  | `dev` 安装 `dev` Release 中的当前开发版；只影响本次安装，不写配置                                 |
+| `WEBMUX_INSTALL_DIR` | `~/.local/bin`                            | 目标目录；不可写时明确报错，不自动 sudo                                                           |
+| `WEBMUX_MIRRORS`     | `https://ghfast.top https://gh-proxy.com` | 空格分隔的 gh-proxy 前缀；空值表示只用 GitHub                                                     |
+| `WEBMUX_SHA256`      | 空                                        | 固定二进制 SHA-256，跳过同源 `SHA256SUMS`                                                         |
+| `WEBMUX_BASE_URL`    | `https://github.com/mzdluo123/webmux`     | GitHub 仓库地址，主要用于测试和自建镜像                                                           |
 
 ```sh
 curl -fsSL https://github.com/mzdluo123/webmux/releases/latest/download/install.sh \
   | WEBMUX_VERSION=0.2.0 WEBMUX_INSTALL_DIR="$HOME/bin" sh
 ```
+
+### 安装开发版
+
+开发版发布在预发布 Release `dev` 中（见[自动更新](updates.md#更新通道)），它自带同一份 `install.sh`：
+
+```sh
+curl -fsSL https://github.com/mzdluo123/webmux/releases/download/dev/install.sh | WEBMUX_CHANNEL=dev sh
+
+# 国内网络
+curl -fsSL https://ghfast.top/https://github.com/mzdluo123/webmux/releases/download/dev/install.sh | WEBMUX_CHANNEL=dev sh
+```
+
+- 脚本读取 `dev` Release 的 `SHA256SUMS`，找出与本机系统、架构匹配的 `webmux-<x.y.z-dev.N>-<系统>-<架构>`，同样只核对同源摘要。
+- `WEBMUX_VERSION=x.y.z-dev.N` 隐含开发版，且只接受 `dev` Release 当前清单中的版本；其他版本报错并给出当前开发版版本。
+- `WEBMUX_CHANNEL=dev` 搭配 `x.y.z`，或 `WEBMUX_CHANNEL=stable` 搭配开发版版本时报错退出。
+- 要让之后的 `webmux update check` 也跟随开发版，执行 `sudo webmux update channel dev`。
 
 下载顺序为 GitHub 直连，然后依次尝试镜像（地址为 `<前缀>/https://github.com/...`），每个来源都有连接、低速和总时限。
 
@@ -53,7 +70,7 @@ curl -fsSL https://github.com/mzdluo123/webmux/releases/latest/download/install.
 - 镜像是第三方服务，能看到请求者 IP。
 - 同源校验只能发现截断和损坏，无法防范同时替换两者的恶意镜像；高保证或离线场景请用 `WEBMUX_SHA256` 固定摘要。
 
-脚本只安装二进制。完成后按提示运行 `webmux --listen 127.0.0.1:7681`。
+脚本只安装二进制。完成后按提示运行 `webmux`（默认监听 `127.0.0.1:7681`）。
 
 - 需要后台服务时再执行 `webmux service install`，首次启动会自动生成配置与 Token。
 - 重复执行脚本会升级二进制；正在运行的服务需手动重启，重启会结束现有会话。
@@ -83,7 +100,7 @@ sudo apt install ./webmux_0.2.0-1_amd64.deb
 sudo dnf install ./webmux-0.2.0-1.x86_64.rpm
 ```
 
-- 包内只有 `/usr/bin/webmux` 与 systemd 用户单元 `/usr/lib/systemd/user/webmux.service`，没有依赖，也没有安装脚本。
+- 包内有 `/usr/bin/webmux`、systemd 用户单元 `/usr/lib/systemd/user/webmux.service` 与自动更新的系统单元 `webmux-update.service` / `webmux-update.timer`，没有依赖；第一次装上带定时器的版本时启用该定时器，见[自动更新](updates.md)。
 - 安装、升级、卸载都不会为任何用户启用、启动或重启服务。需要开机自启的用户执行一次 `systemctl --user enable --now webmux`；首次启动会在 `~/.config/webmux/config.toml` 生成带随机 Token 的配置。
 - 升级后正在运行的服务继续使用旧进程，执行 `systemctl --user restart webmux`（或 `webmux service restart`）后生效，重启会结束现有会话。
 - `webmux service status|start|stop|restart|logs` 同样作用于包内单元；`webmux service uninstall` 只禁用并停止它，删除请卸载软件包。也可以改用 `webmux service install`，它写入的 `~/.config/systemd/user/webmux.service` 优先于包内单元。
@@ -92,7 +109,9 @@ Windows 不使用 `install.sh` 或这些安装包：请使用 `webmux-setup-wind
 
 ## 升级
 
-替换二进制后重启服务。**重启会结束所有终端会话**，升级前请保存工作；仓库清单和磁盘上的 worktree 会保留。混合会话在重启后标记为已中断，可从首页“可恢复”分组恢复到聊天或终端（对话由 agent 保存，排队消息不保留）。只替换磁盘上的文件不会让正在运行的进程加载新版本。
+替换二进制后重启服务才会加载新版本，**重启会结束所有终端会话**；仓库清单与 worktree 保留，混合会话可从首页“可恢复”分组恢复（排队消息不保留）。WebMux 会在状态与 Web UI 中提示已安装但尚未生效的版本。
+
+deb / rpm 与安装版托盘的自动更新、`webmux update check` 与发布签名验证见[自动更新](updates.md)。
 
 ## 持久化升级与诊断
 

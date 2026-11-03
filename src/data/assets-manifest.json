@@ -1,7 +1,7 @@
 {
   "repo": "mzdluo123/webmux",
-  "ref": "main",
-  "commit": "306d2537757b7c345120e125975c48c4949d51b8",
+  "ref": "v0.11.0",
+  "commit": "e8ab57fa40930b353c2fd71dfa2da510e469d13e",
   "files": [
     {
       "source": "docs/images/brand/webmux-logo-light.svg",
@@ -159,6 +159,11 @@
       "sha256": "6cf859adec8d09580e5dccd10ce60fdae69282926a6e52c3c39805f807422bd7"
     },
     {
+      "source": "web/src/icons/lobehub/antigravity.svg",
+      "dest": "src/assets/agents/antigravity.svg",
+      "sha256": "7a3c6e4d58aec1363624de8e29a6053899bd3489ed5889fc3b54aa7b780dadd9"
+    },
+    {
       "source": "web/src/icons/lobehub/claudecode.svg",
       "dest": "src/assets/agents/claudecode.svg",
       "sha256": "d7eb2d876b49e51cc16291a42b681d7cf4906e60e0150776dbfb353ec4ca3746"
@@ -202,6 +207,11 @@
       "source": "web/src/icons/lobehub/pi.svg",
       "dest": "src/assets/agents/pi.svg",
       "sha256": "d82978781b824273c55473822c1f243a6ed34fc6e8c2dbfe1a90dfc66ae43ee8"
+    },
+    {
+      "source": "web/src/icons/lobehub/qoder.svg",
+      "dest": "src/assets/agents/qoder.svg",
+      "sha256": "b40fc46f6b9294375f4376274deb9c26d9c128b19a365ad058f52aa3c7f390ea"
     },
     {
       "source": "web/src/icons/lobehub/qwen.svg",

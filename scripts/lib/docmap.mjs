@@ -43,7 +43,8 @@ export function urlForSlug(slug) {
 export function contentPathFor(file) {
   if (file in ROOT_DOCS) return `${ROOT_DOCS[file]}.md`;
   if (file === "docs/README.md") return "docs/index.md";
-  return file;
+  // Nested READMEs are directory index pages; Starlight would otherwise slug them as …/readme.
+  return file.replace(/\/README\.md$/, "/index.md");
 }
 
 /** Mirrored images live in public/ under the same repo path, converted to WebP. */
