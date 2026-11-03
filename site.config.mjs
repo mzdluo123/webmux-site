@@ -1,6 +1,6 @@
 // Production origin. Canonical URLs, sitemap, OG and hreflang links are built from it.
-// Change it here (or via SITE_URL in CI) when a custom domain replaces workers.dev.
-export const SITE_URL = process.env.SITE_URL || "https://webmux-site.rainchan.workers.dev";
+// CI may override it via the SITE_URL repository variable.
+export const SITE_URL = process.env.SITE_URL || "https://webmux.rainbit.net";
 
 export const REPO = "mzdluo123/webmux";
 export const REPO_URL = `https://github.com/${REPO}`;

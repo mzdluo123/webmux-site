@@ -51,7 +51,7 @@ After changing `src/plugins/remark-webmux-docs.mjs` or the Expressive Code optio
 
 ## Deploy
 
-GitHub Actions (`.github/workflows/site.yml`): pull requests run the gates and upload a preview version (`pr-<n>` alias); pushes to `main` deploy with `wrangler deploy`. Required secrets: `CLOUDFLARE_API_TOKEN` (Workers Scripts: Edit) and `CLOUDFLARE_ACCOUNT_ID`. Optional repository variables: `SITE_URL` (canonical origin, defaults to the workers.dev URL in `site.config.mjs`) and `PUBLIC_CF_WEB_ANALYTICS_TOKEN` (cookie-free Cloudflare Web Analytics).
+GitHub Actions (`.github/workflows/site.yml`): pull requests run the gates and upload a preview version (`pr-<n>` alias); pushes to `main` deploy with `wrangler deploy` to the custom domain `webmux.rainbit.net` (declared in `wrangler.jsonc`). Required secrets: `CLOUDFLARE_API_TOKEN` (Workers Scripts: Edit) and `CLOUDFLARE_ACCOUNT_ID`. Optional repository variables: `SITE_URL` (canonical origin, defaults to `https://webmux.rainbit.net` from `site.config.mjs`) and `PUBLIC_CF_WEB_ANALYTICS_TOKEN` (cookie-free Cloudflare Web Analytics).
 
 ## License
 

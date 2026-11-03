@@ -9,6 +9,7 @@
     "html_handling": "force-trailing-slash",
     "not_found_handling": "404-page",
   },
+  "routes": [{ "pattern": "webmux.rainbit.net", "custom_domain": true }],
   "workers_dev": true,
   "preview_urls": true,
   "observability": { "enabled": true },

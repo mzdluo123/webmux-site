@@ -23,8 +23,10 @@ interface Props {
   installHref?: string;
   /** Set when the page has no counterpart in the other language. */
   single?: boolean;
+  /** Error pages: robots noindex, no canonical. */
+  noindex?: boolean;
 }
-const { lang, path, title, description, ogType = "article", og = "default", ogAlt, jsonLd = [], active, installHref, single } =
+const { lang, path, title, description, ogType = "article", og = "default", ogAlt, jsonLd = [], active, installHref, single, noindex } =
   Astro.props;
 const t = UI[lang];
 const abs = (p: string) => new URL(p, SITE_URL).href;
@@ -60,7 +62,7 @@ const site = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     {
       !single && (
         <>

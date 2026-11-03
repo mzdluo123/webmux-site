@@ -1,8 +1,45 @@
 ---
-// Starlight's head plus the site's shared head pieces (fonts, icons, pre-paint theme).
+// Starlight's head plus the site's shared head pieces (fonts, icons, pre-paint theme),
+// per-page og:image:alt and TechArticle + BreadcrumbList JSON-LD (seo.md#元信息与社交卡片).
 import Default from "@astrojs/starlight/components/Head.astro";
 import HeadCommon from "../HeadCommon.astro";
+import { docsLastmod } from "../../lib/lastmod.mjs";
+import { SITE_URL } from "../../../site.config.mjs";
+
+const { entry, head } = Astro.locals.starlightRoute;
+const title = entry.data.title;
+head.push({ tag: "meta", attrs: { property: "og:image:alt", content: title }, content: "" });
+
+const abs = (p: string) => new URL(p, SITE_URL).href;
+const url = abs(Astro.url.pathname);
+const docsIndex = abs("/docs/");
+const dateModified = docsLastmod(entry.id.replace(/^docs\/?/, "").replace(/\/index$/, ""));
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      headline: title,
+      description: entry.data.description,
+      url,
+      inLanguage: "zh-CN",
+      image: abs("/og/docs-zh-cn.png"),
+      ...(dateModified && { dateModified }),
+      isPartOf: { "@id": abs("/#website") },
+      publisher: { "@id": abs("/#org") },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "WebMux", item: abs("/") },
+        { "@type": "ListItem", position: 2, name: "文档", item: docsIndex },
+        ...(url === docsIndex ? [] : [{ "@type": "ListItem", position: 3, name: title, item: url }]),
+      ],
+    },
+  ],
+};
 ---
 
 <Default />
 <HeadCommon />
+<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

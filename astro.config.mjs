@@ -7,6 +7,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import sidebar from "./src/data/docs-sidebar.json" with { type: "json" };
 import remarkWebmuxDocs from "./src/plugins/remark-webmux-docs.mjs";
+import { lastmodForPath } from "./src/lib/lastmod.mjs";
 import { SITE_URL } from "./site.config.mjs";
 
 export default defineConfig({
@@ -50,6 +51,7 @@ export default defineConfig({
         },
         { tag: "meta", attrs: { property: "og:image:width", content: "1200" } },
         { tag: "meta", attrs: { property: "og:image:height", content: "630" } },
+        { tag: "meta", attrs: { property: "og:locale", content: "zh_CN" } },
         { tag: "meta", attrs: { name: "twitter:card", content: "summary_large_image" } },
       ],
       components: {
@@ -90,6 +92,10 @@ export default defineConfig({
     sitemap({
       i18n: { defaultLocale: "zh-cn", locales: { "zh-cn": "zh-CN", en: "en" } },
       filter: (page) => !page.includes("/404"),
+      serialize: (item) => {
+        const lastmod = lastmodForPath(new URL(item.url).pathname);
+        return lastmod ? { ...item, lastmod } : item;
+      },
     }),
   ],
 });
