@@ -23,6 +23,16 @@ export default defineConfig({
     resolve: { alias: { $lib: fileURLToPath(new URL("./src/lib", import.meta.url)) } },
   },
   integrations: [
+    {
+      name: "client-interaction",
+      hooks: {
+        "astro:config:setup": ({ addClientDirective }) =>
+          addClientDirective({
+            name: "interaction",
+            entrypoint: fileURLToPath(new URL("./src/directives/interaction.mjs", import.meta.url)),
+          }),
+      },
+    },
     svelte(),
     starlight({
       title: "WebMux 文档",
