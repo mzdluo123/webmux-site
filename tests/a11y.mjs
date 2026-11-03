@@ -33,7 +33,7 @@ const runs = [
   { name: "dark-390", viewport: { width: 390, height: 844 }, colorScheme: "dark", axe: true },
   { name: "320px", viewport: { width: 320, height: 700 }, colorScheme: "light", axe: false },
 ];
-const WORKERS = Number(process.env.A11Y_WORKERS ?? 4);
+const WORKERS = Number(process.env.A11Y_WORKERS ?? 3);
 
 async function check(page, run, url) {
   await page.goto(base + url, { waitUntil: "load" });

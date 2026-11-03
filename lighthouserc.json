@@ -8,7 +8,7 @@
         "http://localhost/download/",
         "http://localhost/docs/usage/"
       ],
-      "numberOfRuns": 1,
+      "numberOfRuns": 3,
       "settings": {
         "chromeFlags": "--no-sandbox"
       }
