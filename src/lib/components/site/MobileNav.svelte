@@ -4,7 +4,7 @@
   import IconMenu2 from "@tabler/icons-svelte/icons/menu-2";
   import { buttonVariants } from "$lib/components/ui/button/index.js";
   import * as Sheet from "$lib/components/ui/sheet/index.js";
-  import ThemeMenu from "./ThemeMenu.svelte";
+  import ThemeToggle from "./ThemeToggle.svelte";
 
   interface Link {
     href: string;
@@ -53,7 +53,7 @@
     </nav>
     <div class="flex items-center justify-between px-4 text-sm text-muted-foreground">
       {theme.label}
-      <ThemeMenu labels={theme} />
+      <ThemeToggle labels={theme} />
     </div>
   </Sheet.Content>
 </Sheet.Root>

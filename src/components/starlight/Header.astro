@@ -4,7 +4,7 @@
 import Search from "@astrojs/starlight/components/Search.astro";
 import IconBrandGithub from "@tabler/icons-svelte/icons/brand-github";
 import TablerIcon from "../TablerIcon.astro";
-import ThemeMenu from "$lib/components/site/ThemeMenu.svelte";
+import ThemeToggle from "$lib/components/site/ThemeToggle.svelte";
 import Logo from "../Logo.astro";
 import { UI } from "../../lib/i18n";
 import { REPO_URL } from "../../../site.config.mjs";
@@ -27,6 +27,6 @@ const link = "inline-flex min-h-9 items-center gap-1.5 text-[15px] text-foregrou
       <TablerIcon icon={IconBrandGithub} class="size-[18px]" />{t.github}
     </a>
     <a href="/en/" lang="en" hreflang="en" class:list={[link, "text-muted-foreground"]}>EN<span class="sr-only"> {t.switchLangLabel}</span></a>
-    <ThemeMenu client:idle labels={t.theme} />
+    <ThemeToggle client:idle labels={t.theme} />
   </div>
 </div>

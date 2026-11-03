@@ -6,7 +6,7 @@ import IconBrandGithub from "@tabler/icons-svelte/icons/brand-github";
 import TablerIcon from "./TablerIcon.astro";
 import { Button } from "$lib/components/ui/button/index.js";
 import MobileNav from "$lib/components/site/MobileNav.svelte";
-import ThemeMenu from "$lib/components/site/ThemeMenu.svelte";
+import ThemeToggle from "$lib/components/site/ThemeToggle.svelte";
 import Logo from "./Logo.astro";
 import { localize, UI, type Lang } from "../lib/i18n";
 import { stars } from "../lib/releases";
@@ -73,7 +73,7 @@ const linkClass = "inline-flex min-h-9 items-center gap-1.5 text-[15px] text-for
     </nav>
     <slot name="search" />
     <div class="hidden items-center gap-1 min-[900px]:flex not-in-[.js]:hidden">
-      <ThemeMenu client:idle labels={t.theme} />
+      <ThemeToggle client:idle labels={t.theme} />
     </div>
     <Button href={installHref ?? localize(lang, "/download/")} class="wm-control h-10 rounded-md px-3 text-sm font-semibold sm:px-4 sm:text-[15px]">
       {t.installCta}
