@@ -1,0 +1,14 @@
+---
+// Horizontal logo, light and dark variants (design.md#logo-使用). The `dark:` variant follows
+// the root `.dark` class, so the manual theme override applies; source viewBox is 3:1.
+interface Props {
+  height?: number;
+}
+const { height = 26 } = Astro.props;
+const width = height * 3;
+---
+
+<span class="inline-flex items-center">
+  <img class="dark:hidden" src="/brand/webmux-logo-light.svg" alt="WebMux" width={width} height={height} />
+  <img class="hidden dark:inline" src="/brand/webmux-logo-dark.svg" alt="WebMux" width={width} height={height} />
+</span>

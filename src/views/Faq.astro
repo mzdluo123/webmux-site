@@ -1,0 +1,115 @@
+---
+// /faq/ (pages.md#10): all questions, troubleshooting entry points and help channels (docs/faq.md).
+import FaqList from "../components/FaqList.astro";
+import PageBreadcrumb from "../components/PageBreadcrumb.astro";
+import Base from "../layouts/Base.astro";
+import { allFaq, faqJsonLd } from "../data/faq";
+import type { Lang } from "../lib/i18n";
+import { REPO_URL } from "../../site.config.mjs";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const zh = lang === "zh-cn";
+const items = allFaq(lang);
+const cn = zh ? "" : " (Chinese)";
+
+const trouble = zh
+  ? [
+      { topic: "安装、升级与服务状态", links: [["持久化升级与诊断", "deployment/install-and-upgrade/#持久化升级与诊断"], ["服务管理命令", "deployment/services/#服务管理命令"]] },
+      { topic: "平台行为差异（Linux / macOS / WSL）", links: [["平台差异", "deployment/services/#平台差异"]] },
+      { topic: "Windows 托盘与 WSL", links: [["localhost 转发诊断", "deployment/windows-wsl/#localhost-转发诊断"], ["Token 与剪贴板", "deployment/windows-wsl/#token-与剪贴板"]] },
+      { topic: "公网入口", links: [["Cloudflare Tunnel 故障排查", "cloudflare-tunnel/#9-故障排查"], ["Tailscale 手工移除与排错", "tailscale/#手工移除与排错"]] },
+      { topic: "手机推送收不到", links: [["手机推送（Web Push）", "deployment/pwa-and-push/#手机推送web-push"]] },
+      { topic: "混合会话无法切换到聊天", links: [["开启条件", "hybrid-sessions/#开启"], ["注意事项", "hybrid-sessions/#注意事项"]] },
+      { topic: "agent 没有触发“需要你介入”提醒", links: [["需要你介入的提醒", "usage/#需要你介入的提醒"]] },
+    ]
+  : [
+      { topic: "Install, upgrade and service status", links: [["Persistent upgrade and diagnostics", "deployment/install-and-upgrade/#持久化升级与诊断"], ["Service commands", "deployment/services/#服务管理命令"]] },
+      { topic: "Platform differences (Linux / macOS / WSL)", links: [["Platform differences", "deployment/services/#平台差异"]] },
+      { topic: "Windows tray and WSL", links: [["localhost forwarding diagnostics", "deployment/windows-wsl/#localhost-转发诊断"], ["Token and clipboard", "deployment/windows-wsl/#token-与剪贴板"]] },
+      { topic: "Public entry points", links: [["Cloudflare Tunnel troubleshooting", "cloudflare-tunnel/#9-故障排查"], ["Tailscale removal and troubleshooting", "tailscale/#手工移除与排错"]] },
+      { topic: "Phone notifications not arriving", links: [["Web Push", "deployment/pwa-and-push/#手机推送web-push"]] },
+      { topic: "Hybrid session cannot switch to chat", links: [["Requirements", "hybrid-sessions/#开启"], ["Caveats", "hybrid-sessions/#注意事项"]] },
+      { topic: "Agent does not raise “needs you” alerts", links: [["Attention alerts", "usage/#需要你介入的提醒"]] },
+    ];
+
+const c = zh
+  ? {
+      title: "常见问题 · WebMux",
+      description:
+        "WebMux 常见问题与解答：怎么安装、手机怎么访问、安全边界在哪里、Windows（WSL）能否使用、许可与费用、数据去向与遥测、能否多人使用，以及会话在重启后消失、找不到 claude 命令、复制粘贴受限等问题的排障入口与求助渠道。",
+      h1: "常见问题",
+      lead: "先在本页找答案，再按排障入口定位到对应主题的诊断步骤；仍无法解决时按下方渠道反馈。",
+      h2Faq: "问题与解答",
+      h2Trouble: "排障入口",
+      h2Help: "获取帮助",
+    }
+  : {
+      title: "FAQ · WebMux",
+      description:
+        "WebMux FAQ: installing, phone access, safety, Windows (WSL), license and data, plus troubleshooting for lost sessions, a missing claude command and clipboard limits.",
+      h1: "Frequently asked questions",
+      lead: "Look for your answer here first, then use the troubleshooting entry points to reach the diagnostic steps for each topic. If you are still stuck, use the help channels below.",
+      h2Faq: "Questions and answers",
+      h2Trouble: "Troubleshooting",
+      h2Help: "Getting help",
+    };
+---
+
+<Base lang={lang} path="/faq/" title={c.title} description={c.description} og="faq" active="faq" jsonLd={[faqJsonLd(items)]}>
+  <div class="container-site py-16 sm:py-24">
+    <PageBreadcrumb lang={lang} items={[{ label: c.h1 }]} />
+    <h1 class="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">{c.h1}</h1>
+    <p class="mt-4 max-w-2xl text-[17px] leading-[1.75] text-muted-foreground">{c.lead}</p>
+
+    <section class="mt-12" aria-labelledby="faq-list">
+      <h2 id="faq-list" class="mb-4 text-[26px] font-bold sm:text-[30px]">{c.h2Faq}</h2>
+      <FaqList lang={lang} items={items} />
+    </section>
+  </div>
+
+  <section class="border-y border-band-line bg-band py-16 sm:py-24" aria-labelledby="trouble">
+    <div class="container-site">
+      <h2 id="trouble" class="text-[26px] font-bold sm:text-[30px]">{c.h2Trouble}</h2>
+      <ul class="mt-6 grid gap-3 text-base leading-[1.75]">
+        {
+          trouble.map((row) => (
+            <li>
+              <span class="font-medium">{row.topic}</span>：
+              {row.links.map(([label, href], i) => (
+                <>
+                  {i > 0 && (zh ? "、" : ", ")}
+                  <a class="link" href={`/docs/${href}`}>{label}</a>
+                </>
+              ))}
+              {cn}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="container-site py-16 sm:py-24" aria-labelledby="help">
+    <h2 id="help" class="text-[26px] font-bold sm:text-[30px]">{c.h2Help}</h2>
+    {
+      zh ? (
+        <ul class="mt-6 grid list-disc gap-3 pl-5 text-base leading-[1.75]">
+          <li><strong>提问或报告缺陷</strong>：在 <a class="link" href={`${REPO_URL}/issues`}>GitHub Issues</a> 新建 issue，附上 <code>webmux version</code>、操作系统、浏览器与复现步骤。</li>
+          <li><strong>不要公开安全漏洞</strong>：按 <a class="link" href="/docs/security/#报告漏洞">安全策略</a> 私下报告。</li>
+          <li><strong>日志</strong>：用户服务可用 <code>webmux service logs -f</code> 查看；日志不包含终端输入输出，但请在粘贴前检查是否含有路径等隐私信息。</li>
+          <li><strong>想参与修复</strong>：从 <a class="link" href="/docs/contributing/">参与贡献</a> 开始。</li>
+        </ul>
+      ) : (
+        <ul class="mt-6 grid list-disc gap-3 pl-5 text-base leading-[1.75]">
+          <li><strong>Questions and bugs</strong>: open an issue on <a class="link" href={`${REPO_URL}/issues`}>GitHub Issues</a> with <code>webmux version</code>, your OS, browser and steps to reproduce.</li>
+          <li><strong>Never report vulnerabilities in public</strong>: report them privately as described in the <a class="link" href="/docs/security/#报告漏洞">security policy</a> (Chinese).</li>
+          <li><strong>Logs</strong>: for the user service, run <code>webmux service logs -f</code>. Logs contain no terminal input or output, but check for private details such as paths before pasting.</li>
+          <li><strong>Want to help fix it?</strong> Start with <a class="link" href="/docs/contributing/">contributing</a> (Chinese).</li>
+        </ul>
+      )
+    }
+  </section>
+</Base>

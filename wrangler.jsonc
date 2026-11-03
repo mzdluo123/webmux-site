@@ -1,0 +1,15 @@
+// Static-assets-only Worker serving the Astro build (docs/website/stack.md#托管与部署).
+// _headers and _redirects in dist/ are applied by Workers static assets.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "webmux-site",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "force-trailing-slash",
+    "not_found_handling": "404-page",
+  },
+  "workers_dev": true,
+  "preview_urls": true,
+  "observability": { "enabled": true },
+}

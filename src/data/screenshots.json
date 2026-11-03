@@ -1,0 +1,20 @@
+{
+  "hero.jpg": "同一个 omp 会话：电脑浏览器里是原生 TUI，手机上切到聊天视图继续对话",
+  "desktop-overview.png": "会话总览：多个 agent 会话按仓库分组，显示运行状态与屏幕预览",
+  "mobile-overview.png": "手机上的会话总览",
+  "mobile-omp.png": "手机上遥控 omp，底部是软键栏",
+  "mobile-chat.png": "移动端混合会话聊天视图",
+  "desktop-diff.png": "代码工作区：在终端旁查看 agent 改动的 Git Diff",
+  "desktop-chat.png": "混合会话：同一段对话切换到聊天视图",
+  "desktop-terminal.png": "桌面端 Shell 终端",
+  "mobile-terminal.png": "移动端终端与软键栏",
+  "mobile-diff.png": "移动端 Diff 查看",
+  "terminal-splits/after-desktop-light.jpg": "终端分屏与草稿模式",
+  "terminal-splits/after-desktop-dark.jpg": "终端分屏与草稿模式",
+  "kitty-graphics/after-desktop-light.png": "浏览器终端中显示 Kitty 协议图片",
+  "kitty-graphics/after-desktop-dark.png": "浏览器终端中显示 Kitty 协议图片",
+  "file-explorer/after-desktop-light.png": "代码工作区资源管理器",
+  "file-explorer/after-desktop-dark.png": "代码工作区资源管理器",
+  "cli-agents/after-desktop-light.png": "预置的 CLI agent 启动配置",
+  "cli-agents/after-desktop-dark.png": "预置的 CLI agent 启动配置"
+}

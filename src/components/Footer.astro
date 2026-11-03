@@ -1,0 +1,55 @@
+---
+// Footer (design.md#链接按钮与页脚): the designed single row, plus a quieter second row so the
+// footer is a complete site map (ux.md#导航模型, seo.md#性能与可抓取性).
+import { Separator } from "$lib/components/ui/separator/index.js";
+import Logo from "./Logo.astro";
+import { localize, UI, type Lang } from "../lib/i18n";
+import { REPO_URL } from "../../site.config.mjs";
+
+interface Props {
+  lang: Lang;
+  /** Docs pages render inside Starlight's column and skip the container. */
+  bare?: boolean;
+}
+const { lang, bare } = Astro.props;
+const t = UI[lang];
+const l = (p: string) => localize(lang, p);
+const main = [
+  { href: "/docs/", label: t.footerLinks.docs },
+  { href: l("/changelog/"), label: t.footerLinks.changelog },
+  { href: l("/security/"), label: t.footerLinks.security },
+  { href: REPO_URL, label: "GitHub" },
+];
+const more = [
+  { href: l("/download/"), label: t.footerMore.download },
+  { href: l("/faq/"), label: t.footerMore.faq },
+  { href: l("/compare/"), label: t.footerMore.compare },
+  { href: l("/windows/"), label: t.footerMore.windows },
+  { href: l("/agents/"), label: t.footerMore.agents },
+  { href: `${REPO_URL}/issues`, label: t.footerMore.issues },
+  { href: "/docs/security/#报告漏洞", label: t.footerMore.vuln },
+  { href: "/docs/contributing/", label: t.footerMore.contributing },
+  { href: l("/licenses/"), label: t.footerMore.licenses },
+];
+const Tag = bare ? "div" : "footer";
+const link = "inline-flex min-h-11 items-center no-underline hover:underline underline-offset-[3px] min-[900px]:min-h-6";
+---
+
+<Tag class:list={["text-sm", !bare && "border-t border-band-line py-10"]}>
+  <div class:list={[!bare && "container-site"]}>
+    <div class="grid gap-x-8 gap-y-3 min-[900px]:grid-cols-[auto_1fr_auto]">
+      <a href={l("/")} class="inline-flex pt-0.5" aria-label="WebMux"><Logo height={22} /></a>
+      <nav aria-label={t.footerNav}>
+        <ul class="m-0 flex list-none flex-wrap gap-x-6 p-0">
+          {main.map((x) => <li><a class:list={[link, "text-foreground"]} href={x.href}>{x.label}</a></li>)}
+        </ul>
+        <ul class="m-0 mt-2 flex list-none flex-wrap gap-x-5 p-0 text-[13px]">
+          {more.map((x) => <li><a class:list={[link, "text-muted-foreground"]} href={x.href}>{x.label}</a></li>)}
+        </ul>
+      </nav>
+      <p class="m-0 text-muted-foreground">{t.footerNote}</p>
+    </div>
+    <Separator class="my-4 bg-band-line" />
+    <p class="m-0 text-[13px] text-muted-foreground">{t.disclaimer}</p>
+  </div>
+</Tag>

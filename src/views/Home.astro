@@ -1,0 +1,370 @@
+---
+// Home page, prototype C "叙事长卷" (docs/website/pages.md#首页区块, design.md#选定方向叙事长卷).
+import { Badge } from "$lib/components/ui/badge/index.js";
+import { Button } from "$lib/components/ui/button/index.js";
+import CommandBox from "$lib/components/site/CommandBox.svelte";
+import InstallGenerator from "$lib/components/site/InstallGenerator.svelte";
+import Shot from "../components/Shot.astro";
+import SecurityNote from "../components/SecurityNote.astro";
+import CompareSummary from "../components/CompareSummary.astro";
+import FaqList from "../components/FaqList.astro";
+import Base from "../layouts/Base.astro";
+import { AGENTS, agentIcon } from "../data/agents";
+import { homeFaq } from "../data/faq";
+import { localize, UI, type Lang } from "../lib/i18n";
+import { installProps, softwareApplication } from "../lib/install";
+import { latest, serverSizeMB, version } from "../lib/releases";
+import { INSTALL_URL, REPO_URL } from "../../site.config.mjs";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = UI[lang];
+const l = (p: string) => localize(lang, p);
+const zh = lang === "zh-cn";
+const size = serverSizeMB() ?? 20;
+
+const c = zh
+  ? {
+      title: "WebMux：在浏览器里持续运行的终端，远程遥控 Claude Code 与 Codex",
+      description:
+        "WebMux 把终端会话放在服务端：电脑上开工，手机上接着回答 agent 的问题，回到电脑审阅 Diff。单二进制，支持 Linux、macOS 与 Windows（WSL 2），MIT 开源。",
+      h1: ["让 agent 在服务器上一直跑，", "你在任何设备上随时接管。"],
+      sub: "WebMux 是一个在浏览器里持续运行的终端，为远程遥控 Claude Code、Codex 等 CLI agent 而生。会话放在服务端；浏览器、手机和本机终端只是“附着”上去。",
+      meta: "Linux、macOS、Windows（WSL 2）· MIT",
+      story: [
+        {
+          eyebrow: "01 / 电脑上开工",
+          title: "你在电脑前让 Claude Code 重构一个模块，然后得出门。",
+          body: "合上笔记本，agent 还在干活。总览里按仓库分组列出所有会话，实时显示谁在运行、谁在等你、屏幕上正在发生什么。",
+          doc: { href: "/docs/usage/#会话列表", label: "会话列表" },
+        },
+        {
+          eyebrow: "02 / 手机上接管",
+          title: "地铁上手机亮起，它停下来问你一个问题。",
+          body: "锁屏推送叫你回来。可以用软键栏在原生 TUI 里回答，也可以把同一段对话切到聊天视图；回一句话它就继续。",
+          doc: { href: "/docs/usage/#需要你介入的提醒", label: "需要你介入的提醒" },
+        },
+        {
+          eyebrow: "03 / 回到电脑审阅",
+          title: "到了公司打开浏览器，改动的 Diff 已经摆在终端旁边。",
+          body: "审完在同一个终端里接着干，一键把 路径:行号 发给 agent。这一路是同一个进程，一行输出都不会丢。",
+          doc: { href: "/docs/usage/#代码工作区", label: "代码工作区" },
+        },
+      ],
+      docLink: "了解",
+      whyTitle: "为什么会爱上它",
+      whySub: `一个约 ${size} MB 的单二进制，把终端会话放在服务端。`,
+      why: [
+        ["断线不断会话", "锁屏、换网、关标签页都不影响；重连只补发缺失的输出。", "/docs/architecture/"],
+        ["原样运行你的 agent", "Claude Code、Codex、omp 等九款 CLI 预置即用，跑在真实 PTY 里。", "/docs/cli-agents/"],
+        ["TUI ↔ 聊天一键切换", "同一段对话，电脑上用 TUI，手机上用聊天视图，历史完整保留。", "/docs/hybrid-sessions/"],
+        ["它在等你时会告诉你", "识别 agent 的提问与授权请求：总览标记、标签页提示、锁屏推送。", "/docs/deployment/pwa-and-push/"],
+        ["写代码的工作台", "分屏、草稿模式、资源管理器与 Diff、多格式预览、Git worktree、终端里显示图片。", "/docs/usage/terminal/"],
+        ["轻到可以忘了它", "单二进制、空闲约 13 MB 内存，无需 root、tmux 或数据库；Windows 经 WSL 2 一等支持。", "/docs/overview/"],
+      ],
+      galleryTitle: "界面一览",
+      gallerySub: "全部是真实界面截图，来自 WebMux 仓库。",
+      gallery: [
+        ["desktop-chat.png", "混合会话：同一段对话在 TUI 与聊天视图间切换"],
+        ["desktop-terminal.png", "终端：原生 PTY，字节流直通 xterm.js"],
+        ["mobile-terminal.png", "终端 + 软键栏"],
+        ["mobile-chat.png", "聊天视图"],
+        ["mobile-diff.png", "Diff 审阅"],
+      ],
+      moreShots: "更多截图：分屏、终端图形、资源管理器、启动配置",
+      more: [
+        ["terminal-splits/after-desktop-light.jpg", "terminal-splits/after-desktop-dark.jpg", "终端分屏 + 草稿：最多 8 个窗格，Ctrl+B 前缀操作"],
+        ["kitty-graphics/after-desktop-light.png", "kitty-graphics/after-desktop-dark.png", "终端图形：Kitty 图形协议，agent 可直接显示图片"],
+        ["file-explorer/after-desktop-light.png", "file-explorer/after-desktop-dark.png", "资源管理器：上传、下载、重命名、移动文件"],
+        ["cli-agents/after-desktop-light.png", "cli-agents/after-desktop-dark.png", "启动配置：预置九款 CLI agent，可自由编辑"],
+      ],
+      hybridEyebrow: "混合会话",
+      hybridTitle: "同一段对话，电脑上用 TUI，手机上用聊天视图。",
+      hybridBody:
+        "OpenCode、omp、Codex CLI 与 Claude Code 可以在终端与聊天视图之间切换，历史完整保留；聊天端支持附件、权限请求作答与 Token 用量。Codex CLI 与 Claude Code 的聊天端需要另装第三方 ACP 连接器（codex-acp、claude-agent-acp），它们不是 WebMux 或 agent 厂商的官方组件。",
+      hybridLink: "混合会话文档",
+      agentsTitle: "预置九款 CLI agent",
+      agentsSub: "外加 Shell 与 omp。图标只用于说明兼容性，各商标归其所有者。",
+      agentsLink: "查看兼容矩阵",
+      installTitle: "两分钟装好",
+      compareTitle: "和你现在用的方案比",
+      faqTitle: "常见问题",
+      faqMore: "查看全部问题",
+      finalTitle: "开源、MIT、单二进制。",
+      finalBody: "复制命令装好它，或者先到 GitHub 看看源码。",
+      finalGithub: "在 GitHub 上查看",
+    }
+  : {
+      title: "WebMux: a persistent web terminal for Claude Code and Codex",
+      description:
+        "WebMux keeps terminal sessions on your server: start an agent at your desk, answer its questions from your phone, review the diff back at your computer. One binary, Linux, macOS and Windows (WSL 2), MIT.",
+      h1: ["Your agents keep running on the server.", "Pick them up from any device."],
+      sub: "WebMux is a terminal that keeps running in the browser, built for driving CLI agents such as Claude Code and Codex from anywhere. Sessions live on the server; browsers, phones and local terminals just attach.",
+      meta: "Linux, macOS, Windows (WSL 2) · MIT",
+      story: [
+        {
+          eyebrow: "01 / Start at your desk",
+          title: "You ask Claude Code to refactor a module, then you have to leave.",
+          body: "Close the laptop; the agent keeps working. The overview groups every session by repository and shows live who is running, who is waiting for you, and what is on each screen.",
+          doc: { href: "/docs/usage/#会话列表", label: "the session list (Chinese docs)" },
+        },
+        {
+          eyebrow: "02 / Take over on your phone",
+          title: "On the train your phone lights up: the agent has a question.",
+          body: "A lock-screen notification brings you back. Answer in the native TUI with the soft-key bar, or switch the same conversation to the chat view. One reply and it carries on.",
+          doc: { href: "/docs/usage/#需要你介入的提醒", label: "attention alerts (Chinese docs)" },
+        },
+        {
+          eyebrow: "03 / Review back at your computer",
+          title: "At the office, the diff is already waiting next to the terminal.",
+          body: "Review it and keep going in the same terminal; send path:line to the agent in one click. It is the same process all the way, and not a line of output is lost.",
+          doc: { href: "/docs/usage/#代码工作区", label: "the code workspace (Chinese docs)" },
+        },
+      ],
+      docLink: "Read about",
+      whyTitle: "Why you’ll like it",
+      whySub: `A single binary of about ${size} MB that keeps terminal sessions on the server.`,
+      why: [
+        ["Sessions survive disconnects", "Lock the phone, switch networks, close the tab. Reconnecting replays only the output you missed.", "/docs/architecture/"],
+        ["Your agents, unmodified", "Nine CLIs including Claude Code, Codex and omp come preconfigured and run in a real PTY.", "/docs/cli-agents/"],
+        ["TUI ↔ chat in one tap", "One conversation: TUI on the desktop, chat view on the phone, full history kept.", "/docs/hybrid-sessions/"],
+        ["It tells you when it’s waiting", "Questions and permission requests are detected: overview badges, tab hints, lock-screen push.", "/docs/deployment/pwa-and-push/"],
+        ["A workbench for code", "Splits, drafts, file explorer and diffs, multi-format preview, Git worktrees, images in the terminal.", "/docs/usage/terminal/"],
+        ["Light enough to forget", "One binary, about 13 MB of memory when idle, no root, tmux or database; first-class on Windows via WSL 2.", "/docs/overview/"],
+      ],
+      galleryTitle: "A look inside",
+      gallerySub: "Every image is a real screenshot from the WebMux repository.",
+      gallery: [
+        ["desktop-chat.png", "Hybrid session: the same conversation in TUI and chat view"],
+        ["desktop-terminal.png", "Terminal: native PTY, bytes straight to xterm.js"],
+        ["mobile-terminal.png", "Terminal with soft-key bar"],
+        ["mobile-chat.png", "Chat view"],
+        ["mobile-diff.png", "Diff review"],
+      ],
+      moreShots: "More screenshots: splits, terminal graphics, file explorer, launch configs",
+      more: [
+        ["terminal-splits/after-desktop-light.jpg", "terminal-splits/after-desktop-dark.jpg", "Splits and drafts: up to 8 panes, Ctrl+B prefix"],
+        ["kitty-graphics/after-desktop-light.png", "kitty-graphics/after-desktop-dark.png", "Terminal graphics: the Kitty protocol lets agents show images"],
+        ["file-explorer/after-desktop-light.png", "file-explorer/after-desktop-dark.png", "File explorer: upload, download, rename and move files"],
+        ["cli-agents/after-desktop-light.png", "cli-agents/after-desktop-dark.png", "Launch configs: nine CLI agents preconfigured, all editable"],
+      ],
+      hybridEyebrow: "Hybrid sessions",
+      hybridTitle: "One conversation: TUI on the desktop, chat on the phone.",
+      hybridBody:
+        "OpenCode, omp, Codex CLI and Claude Code switch between the terminal and a chat view with the full history kept; the chat side handles attachments, permission prompts and token usage. The chat side of Codex CLI and Claude Code needs a third-party ACP connector (codex-acp, claude-agent-acp), which is not an official component of WebMux or the agent vendors.",
+      hybridLink: "Hybrid session docs (Chinese)",
+      agentsTitle: "Nine CLI agents, preconfigured",
+      agentsSub: "Plus Shell and omp. Icons only indicate compatibility; trademarks belong to their owners.",
+      agentsLink: "See the compatibility matrix",
+      installTitle: "Installed in two minutes",
+      compareTitle: "Compared with what you use today",
+      faqTitle: "FAQ",
+      faqMore: "See all questions",
+      finalTitle: "Open source, MIT, one binary.",
+      finalBody: "Copy the command to install it, or read the source on GitHub first.",
+      finalGithub: "View on GitHub",
+    };
+
+const installCmd = `curl -fsSL ${INSTALL_URL} | sh`;
+const box = { copyLabel: t.copyInstall, copiedLabel: t.copied, failedLabel: t.copyFailed };
+const storyShots = [
+  { name: "desktop-overview.png" },
+  { names: ["mobile-omp.png", "mobile-chat.png"] },
+  { name: "desktop-diff.png" },
+];
+const faq = homeFaq(lang);
+---
+
+<Base
+  lang={lang}
+  path="/"
+  title={c.title}
+  description={c.description}
+  ogType="website"
+  og="home"
+  active={undefined}
+  installHref="#install"
+  jsonLd={[softwareApplication(lang), faq.jsonLd]}
+>
+  <!-- 1. Hero -->
+  <section class="container-site pt-12 pb-16 sm:pt-20 sm:pb-24" aria-labelledby="hero-title">
+    <h1 id="hero-title" class="max-w-[880px] text-[36px] leading-[1.15] font-bold tracking-[-0.02em] sm:text-[60px] sm:leading-[1.12]">
+      {c.h1[0]}<br />{c.h1[1]}
+    </h1>
+    <p class="mt-6 mb-0 max-w-[640px] text-[17px] leading-[1.65] text-muted-foreground sm:text-xl">{c.sub}</p>
+    <div class="mt-8 flex max-w-[640px] flex-col gap-3">
+      <CommandBox client:visible command={installCmd} variant="hero" {...box} />
+      <p class="m-0 text-sm text-muted-foreground">
+        {latest ? <a class="link text-muted-foreground" href={l("/changelog/")}>{latest.tag}</a> : t.versionUnavailable} · {c.meta}
+      </p>
+    </div>
+    <div class="mt-12">
+      <Shot name="hero.jpg" eager sizes="(max-width: 1088px) 100vw, 1040px" widths={[640, 1040, 1600, 2080]} />
+    </div>
+  </section>
+
+  <!-- 2. Three-step story -->
+  <section id="story" class="border-y border-band-line bg-band py-16 sm:py-24" aria-labelledby="story-title">
+    <h2 id="story-title" class="sr-only">{t.nav.story}</h2>
+    <div class="container-site flex flex-col gap-16 sm:gap-24">
+      {
+        c.story.map((row, i) => (
+          <article class="grid items-center gap-6 md:grid-cols-12 md:gap-10">
+            <div class:list={["md:col-span-5", i % 2 === 1 && "md:order-2"]}>
+              <p class="m-0 mb-3 font-mono text-[13px] text-primary">{row.eyebrow}</p>
+              <h3 class="m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{row.title}</h3>
+              <p class="mt-4 mb-0 text-[17px] leading-[1.75] text-muted-foreground">{row.body}</p>
+              <p class="mt-4 mb-0 text-sm">
+                <a class="link" href={row.doc.href}>{c.docLink} {row.doc.label}</a>
+              </p>
+            </div>
+            <div class:list={["md:col-span-7", i % 2 === 1 && "md:order-1"]}>
+              {storyShots[i].names ? (
+                <div class="flex justify-center gap-[4%]">
+                  {storyShots[i].names.map((n) => (
+                    <Shot name={n} class="w-[48%] md:w-[44%]" sizes="(max-width: 768px) 48vw, 270px" widths={[300, 540, 800]} />
+                  ))}
+                </div>
+              ) : (
+                <Shot name={storyShots[i].name!} sizes="(max-width: 768px) 100vw, 600px" widths={[480, 800, 1200]} />
+              )}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- 3. Six reasons -->
+  <section class="container-site py-16 sm:py-24" aria-labelledby="why-title">
+    <div class="grid gap-8 md:grid-cols-12 md:gap-10">
+      <div class="md:col-span-4">
+        <h2 id="why-title" class="m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{c.whyTitle}</h2>
+        <p class="mt-3 mb-0 text-muted-foreground">{c.whySub}</p>
+      </div>
+      <dl class="m-0 grid gap-x-10 gap-y-7 sm:grid-cols-2 md:col-span-8">
+        {
+          c.why.map(([title, body, href]) => (
+            <div>
+              <dt class="text-[17px] font-semibold">
+                <a href={href} class="text-foreground no-underline hover:underline underline-offset-[3px]">{title}</a>
+              </dt>
+              <dd class="m-0 mt-1 text-[15px] leading-[1.7] text-muted-foreground">{body}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <!-- 4. Gallery -->
+  <section class="border-y border-band-line bg-band py-16 sm:py-24" aria-labelledby="gallery-title">
+    <div class="container-site">
+      <h2 id="gallery-title" class="m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{c.galleryTitle}</h2>
+      <p class="mt-3 mb-8 text-muted-foreground">{c.gallerySub}</p>
+      <div class="grid gap-6 md:grid-cols-6">
+        {
+          c.gallery.map(([name, caption], i) => (
+            <figure class:list={["m-0", i < 2 ? "md:col-span-3" : "md:col-span-2"]}>
+              <Shot name={name} sizes={i < 2 ? "(max-width: 768px) 100vw, 510px" : "(max-width: 768px) 100vw, 330px"} widths={[400, 680, 1020]} />
+              <figcaption class="mt-2 text-sm text-muted-foreground">{caption}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+      <details class="group mt-8 rounded-md border bg-page">
+        <summary class="flex min-h-11 cursor-pointer list-none items-center gap-2 px-4 text-[15px] font-semibold [&::-webkit-details-marker]:hidden">
+          <span aria-hidden="true" class="inline-block transition-transform group-open:rotate-90">›</span>
+          {c.moreShots}
+        </summary>
+        <div class="grid gap-6 px-4 pb-4 md:grid-cols-2">
+          {
+            c.more.map(([light, dark, caption]) => (
+              <figure class="m-0">
+                <Shot name={light} dark={dark} sizes="(max-width: 768px) 100vw, 500px" widths={[400, 800, 1000]} />
+                <figcaption class="mt-2 text-sm text-muted-foreground">{caption}</figcaption>
+              </figure>
+            ))
+          }
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- 5. Hybrid sessions + 6. Agents -->
+  <section class="container-site py-16 sm:py-24" aria-labelledby="hybrid-title">
+    <div class="grid gap-10 md:grid-cols-12">
+      <div class="md:col-span-6">
+        <p class="m-0 mb-3 font-mono text-[13px] text-primary">{c.hybridEyebrow}</p>
+        <h2 id="hybrid-title" class="m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{c.hybridTitle}</h2>
+        <p class="mt-4 mb-0 text-[17px] leading-[1.75] text-muted-foreground">{c.hybridBody}</p>
+        <p class="mt-4 mb-0 text-sm"><a class="link" href="/docs/hybrid-sessions/">{c.hybridLink}</a></p>
+      </div>
+      <div class="md:col-span-6" aria-labelledby="agents-title">
+        <h2 id="agents-title" class="m-0 text-xl font-semibold">{c.agentsTitle}</h2>
+        <p class="mt-2 mb-5 text-sm text-muted-foreground">{c.agentsSub}</p>
+        <ul class="m-0 grid list-none grid-cols-2 gap-2 p-0 sm:grid-cols-3">
+          {
+            AGENTS.map((a) => (
+              <li>
+                <a
+                  href={l(`/agents/${a.slug}/`)}
+                  class="flex min-h-11 items-center gap-2 rounded-md border px-3 py-2 text-sm text-foreground no-underline hover:border-primary"
+                >
+                  <span class="inline-flex size-5 shrink-0 text-foreground [&_svg]:size-5" set:html={agentIcon(a.icon)} />
+                  <span class="min-w-0">{a.name}</span>
+                  {a.hybrid && <Badge variant="secondary" class="ml-auto shrink-0 text-[11px]">{zh ? "混合" : "hybrid"}</Badge>}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-4 mb-0 text-sm"><a class="link" href={l("/agents/")}>{c.agentsLink}</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Install + 8. Safety -->
+  <section id="install" class="border-y border-band-line bg-band py-16 sm:py-24" aria-labelledby="install-title">
+    <div class="container-site">
+      <h2 id="install-title" class="m-0 mb-8 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{c.installTitle}</h2>
+      <div class="max-w-[760px]">
+        <InstallGenerator client:visible {...installProps(lang)} tabs={["linux", "windows", "packages", "manual"]} />
+      </div>
+      <SecurityNote lang={lang} class="mt-10 max-w-[760px]" />
+    </div>
+  </section>
+
+  <!-- 9. Compare -->
+  <section class="container-site py-16 sm:py-24" aria-labelledby="compare-title">
+    <h2 id="compare-title" class="m-0 mb-8 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{c.compareTitle}</h2>
+    <CompareSummary lang={lang} />
+  </section>
+
+  <!-- 10. FAQ -->
+  <section class="border-y border-band-line bg-band py-16 sm:py-24" aria-labelledby="faq-title">
+    <div class="container-site grid gap-8 md:grid-cols-12 md:gap-10">
+      <div class="md:col-span-4">
+        <h2 id="faq-title" class="m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{c.faqTitle}</h2>
+        <p class="mt-3 mb-0 text-sm"><a class="link" href={l("/faq/")}>{c.faqMore}</a></p>
+      </div>
+      <div class="md:col-span-8">
+        <FaqList lang={lang} items={faq.items} />
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Final call to action -->
+  <section class="container-site py-16 sm:py-24" aria-labelledby="final-title">
+    <h2 id="final-title" class="m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{c.finalTitle}</h2>
+    <p class="mt-3 mb-6 text-muted-foreground">{c.finalBody}</p>
+    <div class="flex max-w-[640px] flex-col gap-4">
+      <CommandBox client:visible command={installCmd} variant="hero" {...box} />
+      <div>
+        <Button href={REPO_URL} variant="outline" class="wm-control h-10 px-4 text-[15px]" rel="noopener">{c.finalGithub}</Button>
+      </div>
+    </div>
+  </section>
+</Base>

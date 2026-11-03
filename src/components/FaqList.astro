@@ -1,0 +1,27 @@
+---
+// FAQ list: native <details> so answers work without JS and each question is anchor-addressable.
+import IconChevronDown from "@tabler/icons-svelte/icons/chevron-down";
+import TablerIcon from "./TablerIcon.astro";
+import type { FaqItem } from "../data/faq";
+import type { Lang } from "../lib/i18n";
+
+interface Props {
+  lang: Lang;
+  items: FaqItem[];
+}
+const { items } = Astro.props;
+---
+
+<div class="divide-y border-y">
+  {
+    items.map((item) => (
+      <details id={item.id} class="group scroll-mt-24">
+        <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 py-3 text-[17px] font-bold text-foreground [&::-webkit-details-marker]:hidden">
+          <span>{item.q}</span>
+          <TablerIcon icon={IconChevronDown} class="size-5 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" />
+        </summary>
+        <div class="prose-link pb-5 text-base leading-[1.75] text-muted-foreground" set:html={item.a} />
+      </details>
+    ))
+  }
+</div>

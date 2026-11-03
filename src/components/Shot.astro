@@ -1,0 +1,61 @@
+---
+// Real product screenshots from docs/images (design.md#截图与图片): AVIF/WebP with original
+// fallback, explicit width/height, lazy by default, alt text from the README.
+// Light/dark pairs render both and the `dark:` variant picks one, so the manual override applies.
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import alts from "../data/screenshots.json";
+
+const files = import.meta.glob<{ default: ImageMetadata }>("../assets/screenshots/**/*.{png,jpg}", { eager: true });
+const load = (name: string) => {
+  const mod = files[`../assets/screenshots/${name}`];
+  if (!mod) throw new Error(`screenshot not synced: ${name}`);
+  return mod.default;
+};
+
+interface Props {
+  name: string;
+  dark?: string;
+  alt?: string;
+  /** Responsive widths; the largest should not exceed the rendered size × 2. */
+  widths?: number[];
+  sizes: string;
+  eager?: boolean;
+  class?: string;
+}
+const { name, dark, alt, widths = [480, 800, 1200, 1600], sizes, eager = false, class: className } = Astro.props;
+const text = alt ?? (alts as Record<string, string>)[name];
+if (!text) throw new Error(`no alt text for ${name}`);
+const light = load(name);
+const usable = (img: ImageMetadata) => widths.filter((w) => w <= img.width);
+const common = {
+  sizes,
+  formats: ["avif", "webp"] as ("avif" | "webp")[],
+  loading: eager ? ("eager" as const) : ("lazy" as const),
+  decoding: "async" as const,
+};
+---
+
+<span class:list={["block overflow-hidden rounded-lg border bg-white [&_img]:block [&_img]:h-auto [&_img]:w-full", className]}>
+  <Picture
+    src={light}
+    alt={text}
+    widths={usable(light)}
+    fallbackFormat={name.endsWith(".png") ? "png" : "jpg"}
+    class={dark ? "dark:hidden!" : undefined}
+    fetchpriority={eager ? "high" : undefined}
+    {...common}
+  />
+  {
+    dark && (
+      <Picture
+        src={load(dark)}
+        alt={text}
+        widths={usable(load(dark))}
+        fallbackFormat={dark.endsWith(".png") ? "png" : "jpg"}
+        class="hidden! dark:block!"
+        {...common}
+      />
+    )
+  }
+</span>

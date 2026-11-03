@@ -1,0 +1,6 @@
+# Short links (docs/website/stack.md#托管与部署). Targets are always GitHub; the site never
+# hosts a copy of install.sh, so `curl -fsSL https://<site>/install.sh | sh` installs the
+# release asset.
+/install.sh  https://github.com/mzdluo123/webmux/releases/latest/download/install.sh  302
+/releases    https://github.com/mzdluo123/webmux/releases  302
+/github      https://github.com/mzdluo123/webmux  302

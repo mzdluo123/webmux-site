@@ -1,0 +1,64 @@
+/* Marketing pages: full Tailwind (with preflight) + shared theme. */
+@import "tailwindcss";
+@import "./theme.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@source not "../content/docs";
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    font-synthesis-weight: none;
+    scroll-padding-top: 88px;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-page text-foreground antialiased;
+    margin: 0;
+    line-height: 1.7;
+  }
+  :lang(en) body {
+    line-height: 1.6;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  code,
+  kbd,
+  pre {
+    @apply font-mono;
+  }
+}
+
+/* Same touch policy as the product (web/src/styles.css). */
+@media (any-pointer: coarse), (max-width: 639px) {
+  .wm-control {
+    min-height: var(--control-touch);
+    min-width: var(--control-touch);
+  }
+  [data-slot="input"],
+  [data-slot="input-group-control"],
+  [data-slot="textarea"] {
+    font-size: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

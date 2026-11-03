@@ -1,0 +1,23 @@
+---
+// Home-page comparison summary (pages.md#9): five dimensions × WebMux + three alternatives.
+import CompareTable from "./CompareTable.astro";
+import { CHECKED, DIMENSIONS, TOOLS, WEBMUX } from "../data/compare";
+import { localize, type Lang } from "../lib/i18n";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const zh = lang === "zh-cn";
+---
+
+<CompareTable
+  lang={lang}
+  dimensions={DIMENSIONS.filter((d) => d.summary)}
+  tools={[WEBMUX, ...TOOLS.filter((x) => x.summary)]}
+  caption={zh ? "WebMux 与常见方案的对比摘要" : "WebMux compared with common alternatives"}
+/>
+<p class="mt-4 text-sm text-muted-foreground">
+  {zh ? `第三方信息按官方文档核对于 ${CHECKED}；“未核实”表示官方文档未说明。` : `Third-party cells checked against official docs on ${CHECKED}; “Not verified” means the docs do not say.`}
+  <a class="link ml-1" href={localize(lang, "/compare/")}>{zh ? "查看全部对比" : "See the full comparison"}</a>
+</p>

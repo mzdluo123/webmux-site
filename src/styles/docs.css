@@ -1,0 +1,79 @@
+/* Docs mirror: Starlight layout with its tokens overridden by the product's
+   (design.md#内页: sidebar 260px, content ≤ 760px, same fonts, colors and radii). */
+@layer base, starlight, theme, components, utilities;
+
+@import "@astrojs/starlight-tailwind";
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+@import "./theme.css";
+
+@source "../components";
+@source "../lib";
+
+:root,
+:root[data-theme="light"] {
+  --sl-font: var(--font-sans);
+  --sl-font-mono: var(--font-mono);
+  --sl-color-white: var(--neutral-900);
+  --sl-color-gray-1: var(--neutral-900);
+  --sl-color-gray-2: var(--neutral-700);
+  --sl-color-gray-3: var(--neutral-500);
+  --sl-color-gray-4: color-mix(in oklch, var(--neutral-500), var(--neutral-200));
+  --sl-color-gray-5: var(--neutral-200);
+  --sl-color-gray-6: var(--neutral-100);
+  --sl-color-gray-7: var(--neutral-50);
+  --sl-color-black: var(--neutral-0);
+  --sl-color-accent-low: color-mix(in oklch, var(--green-700) 12%, var(--neutral-0));
+  --sl-color-accent: var(--green-700);
+  --sl-color-accent-high: var(--primary-hover);
+  --sl-color-bg-nav: var(--neutral-0);
+  --sl-color-bg-sidebar: var(--neutral-0);
+  --sl-color-hairline: var(--neutral-100);
+  --sl-color-hairline-light: var(--neutral-100);
+  --sl-color-hairline-shade: var(--neutral-200);
+  --sl-color-text-accent: var(--green-700);
+  --sl-sidebar-width: 260px;
+  --sl-content-width: 760px;
+  --sl-nav-height: 72px;
+  --sl-text-h1: 2.5rem;
+}
+
+:root[data-theme="dark"] {
+  --sl-color-white: var(--neutral-100);
+  --sl-color-gray-1: var(--neutral-100);
+  --sl-color-gray-2: var(--neutral-200);
+  --sl-color-gray-3: var(--muted-foreground);
+  --sl-color-gray-4: color-mix(in oklch, var(--neutral-500), var(--neutral-700));
+  --sl-color-gray-5: var(--neutral-700);
+  --sl-color-gray-6: var(--neutral-900);
+  --sl-color-black: var(--neutral-950);
+  --sl-color-accent-low: color-mix(in oklch, var(--green-300) 14%, var(--neutral-950));
+  --sl-color-accent: var(--green-300);
+  --sl-color-accent-high: var(--green-300);
+  --sl-color-bg-nav: var(--neutral-950);
+  --sl-color-bg-sidebar: var(--neutral-950);
+  --sl-color-hairline: var(--neutral-700);
+  --sl-color-hairline-light: var(--neutral-700);
+  --sl-color-hairline-shade: var(--neutral-700);
+  --sl-color-text-accent: var(--green-300);
+}
+
+/* Sub-pages listed under a parent in docs/README.md. */
+.sidebar-content a.sidebar-sub {
+  padding-inline-start: 1.75rem;
+}
+
+.sl-markdown-content a:not(:where(.not-content *)) {
+  text-underline-offset: 3px;
+}
+.sl-markdown-content img {
+  border: 1px solid var(--sl-color-hairline-shade);
+  border-radius: var(--radius);
+}
+.sl-markdown-content table {
+  font-size: 0.9rem;
+}
+.sl-markdown-content pre,
+.sl-markdown-content .expressive-code {
+  border-radius: 6px;
+}

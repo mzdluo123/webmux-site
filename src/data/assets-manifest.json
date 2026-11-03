@@ -1,0 +1,212 @@
+{
+  "repo": "mzdluo123/webmux",
+  "ref": "main",
+  "commit": "306d2537757b7c345120e125975c48c4949d51b8",
+  "files": [
+    {
+      "source": "docs/images/brand/webmux-logo-light.svg",
+      "dest": "public/brand/webmux-logo-light.svg",
+      "sha256": "b159ff2180d73b35e902f2047b402fb0b9da7edf90fb4c3bd2d7a81bdb4e4c48"
+    },
+    {
+      "source": "docs/images/brand/webmux-logo-dark.svg",
+      "dest": "public/brand/webmux-logo-dark.svg",
+      "sha256": "cac026d49ed7ab7920357baac2eacf9d0f31579e97a879db4eaeaf4842b8ef6b"
+    },
+    {
+      "source": "web/public/icon.svg",
+      "dest": "public/favicon.svg",
+      "sha256": "8059ca5d08fd225554ef7d5ddbcdebedb3ddb428e2028cad6090a5eececebd62"
+    },
+    {
+      "source": "web/src/design-tokens.css",
+      "dest": "src/styles/design-tokens.css",
+      "sha256": "329091cb3b61b4c4b90decae37023ebe8cde68caed869ec25e886cbfffa6439c"
+    },
+    {
+      "source": "web/public/fonts/inter-latin-3100e775.woff2",
+      "dest": "public/fonts/inter-latin-3100e775.woff2",
+      "sha256": "3100e775e8616cd2611beecfa23a4263d7037586789b43f035236a2e6fbd4c62"
+    },
+    {
+      "source": "web/public/fonts/inter-latin-ext-34b9c504.woff2",
+      "dest": "public/fonts/inter-latin-ext-34b9c504.woff2",
+      "sha256": "34b9c504cab7a73e37b746343a449132e56cf7b5481af2cb81dc74dcff25c956"
+    },
+    {
+      "source": "web/public/fonts/maple-400-latin-0909c56b.woff2",
+      "dest": "public/fonts/maple-400-latin-0909c56b.woff2",
+      "sha256": "0909c56b5f99c0392fd61b308d782a587bddc2346d4e106f3cd591d071057458"
+    },
+    {
+      "source": "web/public/fonts/maple-700-latin-9c0a39e5.woff2",
+      "dest": "public/fonts/maple-700-latin-9c0a39e5.woff2",
+      "sha256": "9c0a39e5b4f090784a79965b6ce80059f29fe9ab60666a13df602f5e8079cee5"
+    },
+    {
+      "source": "web/public/fonts/licenses/OFL-Inter.txt",
+      "dest": "public/licenses/OFL-Inter.txt",
+      "sha256": "262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a"
+    },
+    {
+      "source": "web/public/fonts/licenses/OFL-MapleMono.txt",
+      "dest": "public/licenses/OFL-MapleMono.txt",
+      "sha256": "eb2d28d2e565a0757e3d64e34ebb452e75a0cad87c0ab3faf4e08ba7596de902"
+    },
+    {
+      "source": "web/public/fonts/licenses/NOTICE.txt",
+      "dest": "public/licenses/fonts-NOTICE.txt",
+      "sha256": "cdc7ee75303e3a511024f1b1774cfbba0be081c04328564fcaea7f866c236e8e"
+    },
+    {
+      "source": "web/src/icons/lobehub/LICENSE",
+      "dest": "public/licenses/lobe-icons-MIT.txt",
+      "sha256": "add9d7531d1b21646317a8958e38fc727506fa39d24bdecb44154d943c82753a"
+    },
+    {
+      "source": "LICENSE",
+      "dest": "public/licenses/webmux-MIT.txt",
+      "sha256": "9551d6facbfbc4abfb54a74029ad3963243c68e14d1a0cb1b969e3d5f79995cc"
+    },
+    {
+      "source": "docs/images/hero.jpg",
+      "dest": "src/assets/screenshots/hero.jpg",
+      "sha256": "4df292365f256b9aea437c32233a93cbd9ef8e3717a9a7f3b8a919d055dd536b"
+    },
+    {
+      "source": "docs/images/desktop-overview.png",
+      "dest": "src/assets/screenshots/desktop-overview.png",
+      "sha256": "8158073f68ca3ee530e8b8f646087c43abd5b0ffbe42bd951f4faf464ecfff1e"
+    },
+    {
+      "source": "docs/images/mobile-overview.png",
+      "dest": "src/assets/screenshots/mobile-overview.png",
+      "sha256": "44988e3567b70819585184d47928833dda01bfaccd93c84b7aed4f01629390ed"
+    },
+    {
+      "source": "docs/images/mobile-omp.png",
+      "dest": "src/assets/screenshots/mobile-omp.png",
+      "sha256": "90f5662dbe19da94d7295b462ab797e1677666a73581fde4bbafc0a297266325"
+    },
+    {
+      "source": "docs/images/mobile-chat.png",
+      "dest": "src/assets/screenshots/mobile-chat.png",
+      "sha256": "44b143e4ee953b454670361c01bffc68e7912c9961aff214ce0d5e49a039347c"
+    },
+    {
+      "source": "docs/images/desktop-diff.png",
+      "dest": "src/assets/screenshots/desktop-diff.png",
+      "sha256": "810ab62f55d8ec03093521b5aadec357d2ce04fa843dbe95c027bc3c548153b2"
+    },
+    {
+      "source": "docs/images/desktop-chat.png",
+      "dest": "src/assets/screenshots/desktop-chat.png",
+      "sha256": "e3a288c3a88757927cfd16be077333f071881d50099833dc0e7e66457af3821a"
+    },
+    {
+      "source": "docs/images/desktop-terminal.png",
+      "dest": "src/assets/screenshots/desktop-terminal.png",
+      "sha256": "e25726fd7a0fd3f868f69b347504e6d0ef867bd26970f32e88be547c24c06a99"
+    },
+    {
+      "source": "docs/images/mobile-terminal.png",
+      "dest": "src/assets/screenshots/mobile-terminal.png",
+      "sha256": "d0cd3a63c27e37373e9737c41ff8d9adbe00fba115afb1dc952a333ba3d768d8"
+    },
+    {
+      "source": "docs/images/mobile-diff.png",
+      "dest": "src/assets/screenshots/mobile-diff.png",
+      "sha256": "44a8b3de4d068dba2ed0b689d5c462f07c9cb7eed4c681e83760d03eea665727"
+    },
+    {
+      "source": "docs/images/terminal-splits/after-desktop-light.jpg",
+      "dest": "src/assets/screenshots/terminal-splits/after-desktop-light.jpg",
+      "sha256": "b16d74b686a21ebafbf6519dd9dffba1231906587b92c0a787545dceccd53e13"
+    },
+    {
+      "source": "docs/images/terminal-splits/after-desktop-dark.jpg",
+      "dest": "src/assets/screenshots/terminal-splits/after-desktop-dark.jpg",
+      "sha256": "5e3519125f48533fa26429ffc42d3937666d72401b7c07c2b01fd1e5db7f0385"
+    },
+    {
+      "source": "docs/images/kitty-graphics/after-desktop-light.png",
+      "dest": "src/assets/screenshots/kitty-graphics/after-desktop-light.png",
+      "sha256": "1bbccea52c946fc107903c55aa454ebfd688240b6d7d49e3feabfe35ab1044b7"
+    },
+    {
+      "source": "docs/images/kitty-graphics/after-desktop-dark.png",
+      "dest": "src/assets/screenshots/kitty-graphics/after-desktop-dark.png",
+      "sha256": "1b15ad97aafe4435d506e85d10013b638161bf0f087e28e028c59fa7f972ceed"
+    },
+    {
+      "source": "docs/images/file-explorer/after-desktop-light.png",
+      "dest": "src/assets/screenshots/file-explorer/after-desktop-light.png",
+      "sha256": "150fa9db046d0a6101d271b2ff1d4e3d7b4099c7959736f2beab4e6dfda915eb"
+    },
+    {
+      "source": "docs/images/file-explorer/after-desktop-dark.png",
+      "dest": "src/assets/screenshots/file-explorer/after-desktop-dark.png",
+      "sha256": "53cfd616531517352027c3c690e74abf457f94dd5832d64ece5b7b76ffc537ca"
+    },
+    {
+      "source": "docs/images/cli-agents/after-desktop-light.png",
+      "dest": "src/assets/screenshots/cli-agents/after-desktop-light.png",
+      "sha256": "779c6667b2d9ac433f959d0cf09844b98ba195ad2a372828946102cae4c8a6d0"
+    },
+    {
+      "source": "docs/images/cli-agents/after-desktop-dark.png",
+      "dest": "src/assets/screenshots/cli-agents/after-desktop-dark.png",
+      "sha256": "6cf859adec8d09580e5dccd10ce60fdae69282926a6e52c3c39805f807422bd7"
+    },
+    {
+      "source": "web/src/icons/lobehub/claudecode.svg",
+      "dest": "src/assets/agents/claudecode.svg",
+      "sha256": "d7eb2d876b49e51cc16291a42b681d7cf4906e60e0150776dbfb353ec4ca3746"
+    },
+    {
+      "source": "web/src/icons/lobehub/codebuddy.svg",
+      "dest": "src/assets/agents/codebuddy.svg",
+      "sha256": "4d03a71c6d85ab3cbbed74a5dedbdeed49a4d0b60a9787bb29c53aff25719878"
+    },
+    {
+      "source": "web/src/icons/lobehub/codex.svg",
+      "dest": "src/assets/agents/codex.svg",
+      "sha256": "d08b4e824cd6727e89617f59e4737273ff53e44c1da849d016dd64dfd08b33e1"
+    },
+    {
+      "source": "web/src/icons/lobehub/cursor.svg",
+      "dest": "src/assets/agents/cursor.svg",
+      "sha256": "c39ee63dd6a38a9856bd97a1dcb863023eed2b353b9709742e000c8ac90d91d7"
+    },
+    {
+      "source": "web/src/icons/lobehub/geminicli.svg",
+      "dest": "src/assets/agents/geminicli.svg",
+      "sha256": "bc9b0199cb4c5deee25d6cf49d6e7d60a891171ccbc5520f657d3047b84e5d2e"
+    },
+    {
+      "source": "web/src/icons/lobehub/githubcopilot.svg",
+      "dest": "src/assets/agents/githubcopilot.svg",
+      "sha256": "7b0a793b3ec1eb3d057bdbdb7b3a3eecb8cc6d57cd4e9e3604a23b3b73e3d25d"
+    },
+    {
+      "source": "web/src/icons/lobehub/kimi.svg",
+      "dest": "src/assets/agents/kimi.svg",
+      "sha256": "adda73bc0201816bae3175003a6b925a227fccacec5ee07c10c7c354c73292ff"
+    },
+    {
+      "source": "web/src/icons/lobehub/opencode.svg",
+      "dest": "src/assets/agents/opencode.svg",
+      "sha256": "7cfa6e9d6726f7c9fa26c7d9aef0dfec52d20a137380454340f30f12ccbfd302"
+    },
+    {
+      "source": "web/src/icons/lobehub/pi.svg",
+      "dest": "src/assets/agents/pi.svg",
+      "sha256": "d82978781b824273c55473822c1f243a6ed34fc6e8c2dbfe1a90dfc66ae43ee8"
+    },
+    {
+      "source": "web/src/icons/lobehub/qwen.svg",
+      "dest": "src/assets/agents/qwen.svg",
+      "sha256": "fca4831a34de2d691c2b91e039e7e28b368d872ef34c7015d04ccf16ea499be6"
+    }
+  ]
+}

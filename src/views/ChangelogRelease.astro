@@ -1,0 +1,121 @@
+---
+// One release (seo.md#内容规则: every version has its own URL whose title carries version and
+// date). Notes are rendered from the GitHub Release Markdown as written upstream.
+import IconArrowLeft from "@tabler/icons-svelte/icons/arrow-left";
+import { Badge } from "$lib/components/ui/badge/index.js";
+import PageBreadcrumb from "../components/PageBreadcrumb.astro";
+import TablerIcon from "../components/TablerIcon.astro";
+import Base from "../layouts/Base.astro";
+import { HTML_LANG, localize, UI, type Lang } from "../lib/i18n";
+import { NOTES_CLASS, releaseExcerpt, renderReleaseNotes } from "../lib/release-notes";
+import { formatDate, latest, releaseDataFresh, releases } from "../lib/releases";
+import { REPO_URL, SITE_URL } from "../../site.config.mjs";
+
+interface Props {
+  lang: Lang;
+  tag: string;
+}
+const { lang, tag } = Astro.props;
+const t = UI[lang];
+const l = (p: string) => localize(lang, p);
+const zh = lang === "zh-cn";
+const sorted = [...releases].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+const index = sorted.findIndex((r) => r.tag === tag);
+const release = sorted[index];
+if (!release) throw new Error(`Unknown release ${tag}`);
+const newer = sorted[index - 1];
+const older = sorted[index + 1];
+const date = formatDate(release.publishedAt, lang);
+const path = `/changelog/${release.tag}/`;
+
+const describe = (prefix: string) => {
+  const room = 150 - [...prefix].length;
+  return `${prefix}${releaseExcerpt(release.body, room)}`;
+};
+const c = zh
+  ? {
+      title: `${release.tag} 更新说明（${date}） · WebMux`,
+      description: describe(`WebMux ${release.tag} 于 ${date} 发布，更新内容：`),
+      crumb: "更新日志",
+      h1: `WebMux ${release.tag} 更新说明`,
+      published: `${date} 发布`,
+      latest: "最新版本",
+      prerelease: "预发布",
+      back: "返回更新日志",
+      onGithub: "在 GitHub Release 查看与下载",
+      download: "下载最新版本",
+      pager: "相邻版本",
+      newer: "较新版本：",
+      older: "较旧版本：",
+    }
+  : {
+      title: `${release.tag} release notes (${date}) · WebMux`,
+      description: describe(`WebMux ${release.tag}, released ${date}. From the release notes: `),
+      crumb: "Changelog",
+      h1: `WebMux ${release.tag} release notes`,
+      published: `Released ${date}`,
+      latest: "Latest release",
+      prerelease: "Pre-release",
+      back: "Back to the changelog",
+      onGithub: "View and download on GitHub Releases",
+      download: "Download the latest release",
+      pager: "Adjacent versions",
+      newer: "Newer: ",
+      older: "Older: ",
+    };
+
+const url = new URL(l(path), SITE_URL).href;
+const article = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: c.h1,
+  datePublished: release.publishedAt,
+  inLanguage: HTML_LANG[lang],
+  url,
+  mainEntityOfPage: url,
+  author: { "@type": "Person", name: "mzdluo123", url: "https://github.com/mzdluo123" },
+  publisher: { "@id": new URL("/#org", SITE_URL).href },
+  about: { "@type": "SoftwareApplication", name: "WebMux", softwareVersion: release.tag, sameAs: [REPO_URL] },
+};
+---
+
+<Base lang={lang} path={path} title={c.title} description={c.description} og="changelog" jsonLd={[article]}>
+  <article class="container-site pt-10 pb-16 sm:pt-16 sm:pb-24" aria-labelledby="release-title">
+    <PageBreadcrumb lang={lang} items={[{ label: c.crumb, href: l("/changelog/") }, { label: release.tag }]} />
+    <h1 id="release-title" class="mt-5 mb-0 text-[36px] leading-[1.15] font-bold tracking-[-0.02em] sm:text-[48px]">{c.h1}</h1>
+    <p class="mt-5 mb-0 flex flex-wrap items-center gap-x-6 gap-y-2 text-[15px]">
+      <time datetime={release.publishedAt} class="text-muted-foreground">{c.published}</time>
+      {latest?.tag === release.tag && <Badge variant="success">{c.latest}</Badge>}
+      {release.prerelease && <Badge variant="warning">{c.prerelease}</Badge>}
+      <a class="link" href={release.url} rel="noopener">{c.onGithub}<span class="sr-only">{t.external}</span></a>
+      {latest?.tag !== release.tag && <a class="link" href={l("/download/")}>{c.download}</a>}
+    </p>
+    {!releaseDataFresh && <p class="mt-3 mb-0 text-sm text-muted-foreground">{t.staleData}</p>}
+
+    <div class:list={[NOTES_CLASS, "mt-10"]} set:html={renderReleaseNotes(release.body, 2)} />
+
+    <nav aria-label={c.pager} class="mt-14 flex max-w-[760px] flex-wrap justify-between gap-4 border-t border-band-line pt-6 text-[15px]">
+      {
+        newer ? (
+          <a class="link" href={l(`/changelog/${newer.tag}/`)} rel="prev">
+            {c.newer}<span class="font-mono">{newer.tag}</span>
+          </a>
+        ) : (
+          <span />
+        )
+      }
+      {
+        older && (
+          <a class="link" href={l(`/changelog/${older.tag}/`)} rel="next">
+            {c.older}<span class="font-mono">{older.tag}</span>
+          </a>
+        )
+      }
+    </nav>
+    <p class="mt-6 mb-0 text-[15px]">
+      <a class="link inline-flex items-center gap-1.5" href={l("/changelog/")}>
+        <TablerIcon icon={IconArrowLeft} class="size-4" />{c.back}
+      </a>
+    </p>
+  </article>
+</Base>

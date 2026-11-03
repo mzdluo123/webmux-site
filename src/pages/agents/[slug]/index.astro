@@ -1,0 +1,12 @@
+---
+import AgentDetail from "../../../views/AgentDetail.astro";
+import { AGENTS, type Agent } from "../../../data/agents";
+
+export function getStaticPaths() {
+  return AGENTS.map((agent) => ({ params: { slug: agent.slug }, props: { agent } }));
+}
+
+const { agent } = Astro.props as { agent: Agent };
+---
+
+<AgentDetail lang="zh-cn" agent={agent} />

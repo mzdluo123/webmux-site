@@ -1,0 +1,225 @@
+---
+// /security/ (pages.md#安全页): security model, three deployment topologies and the vulnerability
+// report entry. Source: SECURITY.md, docs/deployment/remote-access.md, docs/tailscale.md.
+import PageBreadcrumb from "../components/PageBreadcrumb.astro";
+import SecurityNote from "../components/SecurityNote.astro";
+import Base from "../layouts/Base.astro";
+import * as Card from "$lib/components/ui/card/index.js";
+import { Badge } from "$lib/components/ui/badge/index.js";
+import type { Lang } from "../lib/i18n";
+import { REPO_URL } from "../../site.config.mjs";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const zh = lang === "zh-cn";
+const cn = zh ? "" : " (Chinese)";
+
+const topologies = zh
+  ? [
+      {
+        id: "local",
+        name: "仅本机",
+        badge: "风险最低",
+        listen: "127.0.0.1:7681",
+        who: "只在运行 WebMux 的这台电脑上用浏览器或 webmux attach 操作会话。",
+        token: "仅监听 loopback 且未启用隧道时，空 token 表示不认证；仍建议保留首次启动生成的 256 位 Token。",
+        dont: ["保留默认的 0.0.0.0:7681 却以为只有本机能访问。", "在同一台机器上与不可信的其他用户共用该端口。"],
+        doc: ["配置", "deployment/configuration/"],
+      },
+      {
+        id: "vpn",
+        name: "Tailscale / WireGuard",
+        badge: "推荐的远程方式",
+        listen: "Tailscale / WireGuard 地址，或 [tailscale] mode = \"serve\"",
+        who: "要从手机、平板或另一台电脑访问，访问设备都能加入同一个可信 VPN。",
+        token: "使用随机 token；托管 Serve 要求至少 43 字符的登录 Token。token 保存在浏览器 localStorage 中，只在可信设备上登录。",
+        dont: ["让防火墙对 VPN 以外的接口开放该端口。", "把 tailnet 内的入口当作公网入口分享给不在 tailnet 的人。"],
+        doc: ["手机访问（Tailscale）", "deployment/remote-access/#手机访问tailscale"],
+      },
+      {
+        id: "public",
+        name: "Cloudflare Named Tunnel 或 Tailscale Funnel",
+        badge: "公网：Token 是唯一屏障",
+        listen: "127.0.0.1，经 Named Tunnel 或 Funnel 提供 HTTPS",
+        who: "确实无法使用 VPN，又需要从任意网络访问，并愿意承担公开 shell 风险的人。",
+        token: "Token 是唯一入口屏障：隧道与 Funnel 都要求至少 43 字符的 WebMux 登录 Token，建议用 openssl rand -base64 32 生成。任何拿到链接与 Token 的人都能以服务用户身份执行命令。",
+        dont: [
+          "把 WebMux 端口直接暴露到公网，或用无身份验证的反向代理转发。",
+          "长期使用 Quick Tunnel：它没有 Cloudflare Access 或额外身份验证，地址随机且无 SLA。",
+          "让他人读取 journal 或日志：带 #token= 的链接和二维码会写入其中。",
+          "以为移除 --tunnel 就关闭了公网：持久化设置会在下次启动恢复，需在网页、托盘或本机 API 中关闭。",
+        ],
+        doc: ["Cloudflare Named Tunnel 配置指南", "cloudflare-tunnel/"],
+      },
+    ]
+  : [
+      {
+        id: "local",
+        name: "Local only",
+        badge: "Lowest risk",
+        listen: "127.0.0.1:7681",
+        who: "You only use sessions on the machine running WebMux, in a browser or with webmux attach.",
+        token: "When listening on loopback only with no tunnel, an empty token means no authentication; we still recommend keeping the 256-bit token generated on first start.",
+        dont: ["Keep the default 0.0.0.0:7681 and assume only this machine can reach it.", "Share the port with untrusted users on the same machine."],
+        doc: ["Configuration", "deployment/configuration/"],
+      },
+      {
+        id: "vpn",
+        name: "Tailscale / WireGuard",
+        badge: "Recommended for remote use",
+        listen: "Tailscale / WireGuard address, or [tailscale] mode = \"serve\"",
+        who: "You want to reach it from a phone, tablet or another computer, and every device can join the same trusted VPN.",
+        token: "Use a random token; managed Serve requires a login token of at least 43 characters. The token is stored in the browser's localStorage, so log in only on trusted devices.",
+        dont: ["Let the firewall open the port on interfaces other than the VPN.", "Share a tailnet-only entry with people outside the tailnet as if it were public."],
+        doc: ["Phone access (Tailscale)", "deployment/remote-access/#手机访问tailscale"],
+      },
+      {
+        id: "public",
+        name: "Cloudflare Named Tunnel or Tailscale Funnel",
+        badge: "Public: the token is the only barrier",
+        listen: "127.0.0.1, with HTTPS from a Named Tunnel or Funnel",
+        who: "You truly cannot use a VPN, need access from any network, and accept the risk of a public shell.",
+        token: "The token is the only barrier: tunnels and Funnel require a WebMux login token of at least 43 characters; generate one with openssl rand -base64 32. Anyone holding the link and the token can run commands as the service user.",
+        dont: [
+          "Expose the WebMux port directly to the internet, or forward it through a reverse proxy without authentication.",
+          "Rely on a Quick Tunnel long term: it has no Cloudflare Access or extra authentication, a random address and no SLA.",
+          "Let others read the journal or log files: links and QR codes containing #token= are written there.",
+          "Assume removing --tunnel turns public access off: the persisted setting returns on the next start; turn it off in the web UI, the tray or the local API.",
+        ],
+        doc: ["Cloudflare Named Tunnel guide", "cloudflare-tunnel/"],
+      },
+    ];
+
+const c = zh
+  ? {
+      title: "安全与部署建议 · WebMux",
+      description:
+        "WebMux 的安全模型与推荐部署拓扑：它等同于把 shell 暴露到网络，不是进程沙箱，也不提供多用户隔离；本页说明仅本机、Tailscale / WireGuard 与公网隧道三种方式各自适合谁、Token 要求、不要这样做的事项，以及私下报告漏洞的入口。",
+      h1: "安全与部署建议",
+      lead: "WebMux 以启动服务的系统用户身份执行任意命令，等同于把一个 shell 暴露到网络上。它不是进程沙箱，也不提供多用户隔离，安全依赖于网络隔离。",
+      h2Model: "安全模型",
+      h2Topo: "三种推荐拓扑",
+      who: "适合谁",
+      listen: "监听",
+      token: "Token 要求",
+      dont: "不要这样做",
+      more: "详细步骤",
+      h2Report: "报告漏洞",
+    }
+  : {
+      title: "Security and deployment · WebMux",
+      description:
+        "WebMux security model and topologies: it exposes a shell and is not a sandbox. Token rules and risks for local, Tailscale / WireGuard and public tunnels, plus reporting.",
+      h1: "Security and deployment",
+      lead: "WebMux runs arbitrary commands as the user who started the service, which amounts to exposing a shell to the network. It is not a process sandbox and offers no multi-user isolation; safety relies on network isolation.",
+      h2Model: "Security model",
+      h2Topo: "Three recommended topologies",
+      who: "Who it suits",
+      listen: "Listen on",
+      token: "Token requirements",
+      dont: "Do not",
+      more: "Step-by-step guide",
+      h2Report: "Reporting a vulnerability",
+    };
+
+const model = zh
+  ? [
+      "默认监听所有接口 0.0.0.0:7681；仅本机使用请设为 127.0.0.1:7681，远程访问建议绑定可信 VPN 地址，并用防火墙限制可访问的接口。",
+      "首次启动生成 0600 配置文件和持久化的 256 位 Token，可用 webmux status --json --reveal-token 查看。",
+      "所有 API 与 WebSocket 都需要认证（启用 token 时），token 以常量时间比较；带 Origin 的请求必须同源或位于 allowed_origins 中。",
+      "Token 不进入请求 URL：HTTP 使用 Bearer 头，WebSocket 使用子协议；终端输入输出不会写入日志，配置接口不返回 token。",
+      "WebMux 不内置 TLS；需要 HTTPS 时使用 tailscale serve 或反向代理。",
+      "登记的 Git 仓库必须可信：Git 会执行仓库配置中的 hooks 与 filters。关闭会话会清理其进程树，但完全脱离终端会话的自守护进程可能不受控制。",
+      "只有最新发布版本会接收安全修复。",
+    ]
+  : [
+      "By default it listens on every interface at 0.0.0.0:7681. For local use set 127.0.0.1:7681; for remote use bind to a trusted VPN address and restrict reachable interfaces with a firewall.",
+      "The first start creates a 0600 configuration file and a persistent 256-bit token; show it with webmux status --json --reveal-token.",
+      "Every API and WebSocket requires authentication (when a token is set), compared in constant time; requests with an Origin must be same-origin or listed in allowed_origins.",
+      "The token never appears in request URLs: HTTP uses a Bearer header and WebSocket a subprotocol. Terminal input and output are never logged, and the configuration API never returns the token.",
+      "WebMux has no built-in TLS; for HTTPS use tailscale serve or a reverse proxy.",
+      "Registered Git repositories must be trusted: Git runs hooks and filters from repository config. Closing a session cleans up its process tree, but daemons that fully detach from the session may escape it.",
+      "Only the latest release receives security fixes.",
+    ];
+---
+
+<Base lang={lang} path="/security/" title={c.title} description={c.description} og="security">
+  <div class="container-site py-16 sm:py-24">
+    <PageBreadcrumb lang={lang} items={[{ label: c.h1 }]} />
+    <h1 class="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">{c.h1}</h1>
+    <p class="mt-4 max-w-2xl text-[17px] leading-[1.75] text-muted-foreground">{c.lead}</p>
+    <SecurityNote lang={lang} class="mt-8" />
+
+    <section class="mt-16" aria-labelledby="model">
+      <h2 id="model" class="text-[26px] font-bold sm:text-[30px]">{c.h2Model}</h2>
+      <ul class="mt-6 grid max-w-3xl list-disc gap-3 pl-5 text-base leading-[1.75]">
+        {model.map((line) => <li>{line}</li>)}
+      </ul>
+      <p class="mt-6 text-base">
+        <a class="link" href="/docs/security/">{zh ? "阅读完整安全策略" : "Read the full security policy"}</a>{cn}
+      </p>
+    </section>
+  </div>
+
+  <section class="border-y border-band-line bg-band py-16 sm:py-24" aria-labelledby="topologies">
+    <div class="container-site">
+      <h2 id="topologies" class="text-[26px] font-bold sm:text-[30px]">{c.h2Topo}</h2>
+      <div class="mt-8 grid gap-6 lg:grid-cols-3">
+        {
+          topologies.map((tp) => (
+            <Card.Root id={tp.id} class="scroll-mt-24 bg-page">
+              <Card.Header>
+                <Badge variant={tp.id === "public" ? "outline" : "secondary"} class:list={["w-fit", tp.id === "public" && "border-note-warning-border bg-note-warning-bg text-note-warning-fg"]}>{tp.badge}</Badge>
+                <h3 class="mt-2 text-xl font-bold">{tp.name}</h3>
+              </Card.Header>
+              <Card.Content class="grid gap-4 text-[15px] leading-[1.7]">
+                <div>
+                  <h4 class="font-bold">{c.who}</h4>
+                  <p class="m-0 text-muted-foreground">{tp.who}</p>
+                </div>
+                <div>
+                  <h4 class="font-bold">{c.listen}</h4>
+                  <p class="m-0"><code>{tp.listen}</code></p>
+                </div>
+                <div>
+                  <h4 class="font-bold">{c.token}</h4>
+                  <p class="m-0 text-muted-foreground">{tp.token}</p>
+                </div>
+                <div>
+                  <h4 class="font-bold">{c.dont}</h4>
+                  <ul class="m-0 list-disc pl-5 text-muted-foreground">
+                    {tp.dont.map((x) => <li>{x}</li>)}
+                  </ul>
+                </div>
+                <p class="m-0">
+                  {c.more}: <a class="link" href={`/docs/${tp.doc[1]}`}>{tp.doc[0]}</a>{cn}
+                </p>
+              </Card.Content>
+            </Card.Root>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="container-site py-16 sm:py-24" aria-labelledby="report">
+    <h2 id="report" class="text-[26px] font-bold sm:text-[30px]">{c.h2Report}</h2>
+    {
+      zh ? (
+        <p class="mt-4 max-w-2xl text-base leading-[1.75]">
+          请<strong>不要</strong>通过公开 Issue 报告安全漏洞。请使用 GitHub 的{" "}
+          <a class="link" href={`${REPO_URL}/security/advisories/new`}>私密漏洞报告</a>，并提供受影响的版本与平台、复现步骤或概念验证、可能的影响范围。详见{" "}
+          <a class="link" href="/docs/security/#报告漏洞">安全策略 · 报告漏洞</a>。
+        </p>
+      ) : (
+        <p class="mt-4 max-w-2xl text-base leading-[1.75]">
+          Please do <strong>not</strong> report vulnerabilities in public issues. Use GitHub's{" "}
+          <a class="link" href={`${REPO_URL}/security/advisories/new`}>private vulnerability reporting</a> and include the affected version and platform, steps to reproduce or a proof of concept, and the possible impact. See{" "}
+          <a class="link" href="/docs/security/#报告漏洞">security policy · reporting</a> (Chinese).
+        </p>
+      )
+    }
+  </section>
+</Base>

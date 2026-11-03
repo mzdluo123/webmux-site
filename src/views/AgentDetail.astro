@@ -1,0 +1,180 @@
+---
+// /agents/<slug>/ (pages.md agent 子页): how to run this CLI remotely with WebMux.
+import PageBreadcrumb from "../components/PageBreadcrumb.astro";
+import SecurityNote from "../components/SecurityNote.astro";
+import Base from "../layouts/Base.astro";
+import CommandBox from "$lib/components/site/CommandBox.svelte";
+import type { Agent } from "../data/agents";
+import { agentIcon } from "../data/agents";
+import { AGENTS_CHECKED, ALERTS, COMMANDS_CHECKED, GENERIC_ALERTS, LIMITS, TERMINAL_NOTE } from "../data/agent-details";
+import { localize, UI, type Lang } from "../lib/i18n";
+import { SITE_URL } from "../../site.config.mjs";
+
+interface Props {
+  lang: Lang;
+  agent: Agent;
+}
+const { lang, agent: a } = Astro.props;
+const zh = lang === "zh-cn";
+const k = zh ? "zh" : "en";
+const cn = zh ? "" : " (Chinese)";
+const t = UI[lang];
+const path = `/agents/${a.slug}/`;
+const listLabel = zh ? "支持的 agent" : "Supported agents";
+const limits = LIMITS[a.slug] ?? [];
+const run = `webmux run -- ${a.command}${a.args ? ` ${a.args}` : ""}`;
+
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    [t.breadcrumbHome, localize(lang, "/")],
+    [listLabel, localize(lang, "/agents/")],
+    [a.name, localize(lang, path)],
+  ].map(([name, href], i) => ({ "@type": "ListItem", position: i + 1, name, item: new URL(href, SITE_URL).href })),
+};
+
+const title = zh ? `用 WebMux 远程运行 ${a.name}` : `Run ${a.name} remotely with WebMux`;
+const description = zh
+  ? `如何用 WebMux 在服务器上持续运行 ${a.name}（命令 ${a.command}），从浏览器或手机接管：安装与认证、预置启动配置、混合会话与“需要你介入”提醒的支持情况，以及已知限制。`
+  : `How to keep ${a.name} (command ${a.command}) running on a server with WebMux and take over from a browser or phone: install and sign-in, the preset launch configuration, hybrid sessions, alerts and known limits.`;
+---
+
+<Base
+  lang={lang}
+  path={path}
+  title={`${a.name} · WebMux`}
+  description={description}
+  og="agents"
+  jsonLd={[breadcrumbLd]}
+>
+  <div class="container-site py-16 sm:py-24">
+    <PageBreadcrumb lang={lang} items={[{ label: listLabel, href: localize(lang, "/agents/") }, { label: a.name }]} />
+    <div class="mt-6 flex items-center gap-4">
+      <span class="size-12 shrink-0 [&_svg]:size-12" set:html={agentIcon(a.icon)} />
+      <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">{title}</h1>
+    </div>
+    <p class="mt-4 max-w-2xl text-[17px] leading-[1.75] text-muted-foreground">
+      {
+        zh
+          ? `WebMux 把 ${a.name} 放在服务端的持久终端里运行：你可以合上电脑，在手机或另一台电脑的浏览器里继续同一个进程。`
+          : `WebMux runs ${a.name} in a persistent terminal on the server, so you can close your laptop and continue the same process from a phone or another computer's browser.`
+      }
+    </p>
+
+    <section class="mt-12 max-w-3xl" aria-labelledby="install">
+      <h2 id="install" class="text-[26px] font-bold sm:text-[30px]">{zh ? `1. 安装并认证 ${a.name}` : `1. Install and sign in to ${a.name}`}</h2>
+      <p class="mt-4 text-base leading-[1.75]">
+        {zh ? "在运行 WebMux 的机器上按" : "On the machine running WebMux, follow"}{" "}
+        <a class="link" href={a.docsUrl} rel="noopener">{zh ? `${a.name} 官方说明` : `the official ${a.name} docs`}</a>
+        {t.external}{" "}
+        {
+          zh
+            ? "安装，并以运行 WebMux 的服务用户身份完成认证。WebMux 不会自动安装或认证 CLI，也不代管模型密钥。"
+            : "to install it, and sign in as the same user that runs the WebMux service. WebMux does not install or sign in to CLIs and does not manage model keys."
+        }
+      </p>
+      {
+        a.connector && (
+          <p class="mt-4 text-base leading-[1.75]">
+            {zh
+              ? `要使用聊天视图，还需在服务器上另外安装第三方 ACP 连接器 ${a.connector}：`
+              : `For the chat view, also install the third-party ACP connector ${a.connector} on the server:`}
+          </p>
+        )
+      }
+      {
+        a.connector && (
+          <div class="mt-3">
+            <CommandBox
+              client:visible
+              command={`npm install -g @agentclientprotocol/${a.connector}`}
+              copyLabel={t.copy}
+              copiedLabel={t.copied}
+              failedLabel={t.copyFailed}
+              variant="plain"
+            />
+          </div>
+        )
+      }
+    </section>
+
+    <section class="mt-12 max-w-3xl" aria-labelledby="preset">
+      <h2 id="preset" class="text-[26px] font-bold sm:text-[30px]">{zh ? "2. 使用预置启动配置" : "2. Use the preset launch configuration"}</h2>
+      <dl class="mt-4 grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-base">
+        <dt class="font-medium">{zh ? "交互式命令" : "Interactive command"}</dt>
+        <dd class="m-0"><code>{a.command}</code></dd>
+        <dt class="font-medium">{zh ? "预置参数" : "Preset arguments"}</dt>
+        <dd class="m-0">{a.args ? <code>{a.args}</code> : zh ? "无" : "None"}</dd>
+      </dl>
+      <p class="mt-4 text-base leading-[1.75]">
+        {
+          zh
+            ? "在“新建会话 → 预先输入”选择该启动配置，指定目录或工作树，再创建会话。也可以在服务所在机器的终端里启动，Ctrl+] 分离后到手机上继续："
+            : "In “New session → Pre-type”, pick this launch configuration, choose a directory or worktree and create the session. You can also start it from a terminal on the server, detach with Ctrl+] and continue on your phone:"
+        }
+      </p>
+      <div class="mt-3">
+        <CommandBox client:visible command={run} copyLabel={t.copy} copiedLabel={t.copied} failedLabel={t.copyFailed} variant="plain" />
+      </div>
+      <p class="mt-4 text-base leading-[1.75] text-muted-foreground">
+        {
+          zh
+            ? "已有安装升级时不会改写 launch-configs.json；列表里缺少该 CLI 时，在“设置 → 启动配置 → 新建启动配置”填写名称和上面的命令。预置命令用“加载 shell 启动文件”包装，以读取 ~/.bashrc 或 ~/.zshrc 中的 PATH。"
+            : "Upgrades never rewrite an existing launch-configs.json; if this CLI is missing, add it in “Settings → Launch configurations → New” with the command above. Presets use the “load shell startup files” wrapper so the CLI sees the PATH from ~/.bashrc or ~/.zshrc."
+        }{" "}
+        <a class="link" href="/docs/cli-agents/#已有安装">{zh ? "已有安装" : "Existing installs"}</a>{cn}
+      </p>
+    </section>
+
+    <section class="mt-12 max-w-3xl" aria-labelledby="support">
+      <h2 id="support" class="text-[26px] font-bold sm:text-[30px]">{zh ? "3. 终端、混合会话与提醒" : "3. Terminal, hybrid sessions and alerts"}</h2>
+      <dl class="mt-4 grid gap-4 text-base leading-[1.75]">
+        <div>
+          <dt class="font-bold">{zh ? "终端" : "Terminal"}</dt>
+          <dd class="m-0 text-muted-foreground">{TERMINAL_NOTE[k]}</dd>
+        </div>
+        <div>
+          <dt class="font-bold">{zh ? "混合会话（聊天 ↔ 终端）" : "Hybrid session (chat ↔ terminal)"}</dt>
+          <dd class="m-0 text-muted-foreground">
+            {
+              a.hybrid
+                ? zh
+                  ? `支持。预置配置已勾选混合模式，可在终端与聊天视图之间切换同一段对话，历史由 ${a.name} 自己保存。`
+                  : `Supported. The preset has hybrid mode enabled, so the same conversation switches between terminal and chat views; ${a.name} keeps the history itself.`
+                : zh
+                  ? "不支持，使用终端视图。不能仅凭其提供 ACP 接口就视为已适配 WebMux 的切换和恢复行为。"
+                  : "Not supported; it uses the terminal view. Offering an ACP interface alone does not mean WebMux's switching and resume behavior has been adapted."
+            }{" "}
+            {a.hybrid && <><a class="link" href="/docs/hybrid-sessions/#开启">{zh ? "开启条件" : "Requirements"}</a>{cn}</>}
+          </dd>
+        </div>
+        <div>
+          <dt class="font-bold">{zh ? "“需要你介入”提醒" : "“Needs you” alerts"}</dt>
+          <dd class="m-0 text-muted-foreground">
+            {(ALERTS[a.slug] ?? GENERIC_ALERTS)[k]}{zh ? "。" : "."}{" "}
+            <a class="link" href="/docs/usage/#需要你介入的提醒">{zh ? "提醒配置" : "Alert setup"}</a>{cn}
+          </dd>
+        </div>
+      </dl>
+    </section>
+
+    {
+      limits.length > 0 && (
+        <section class="mt-12 max-w-3xl" aria-labelledby="limits">
+          <h2 id="limits" class="text-[26px] font-bold sm:text-[30px]">{zh ? "4. 已知限制" : "4. Known limits"}</h2>
+          <ul class="mt-4 grid list-disc gap-3 pl-5 text-base leading-[1.75]">
+            {limits.map((l) => <li>{l[k]}</li>)}
+          </ul>
+        </section>
+      )
+    }
+
+    <SecurityNote lang={lang} class="mt-12 max-w-3xl" />
+
+    <p class="mt-8 text-sm text-muted-foreground">
+      {zh ? `命令由上游按 ${COMMANDS_CHECKED} 的官方资料核对；本页核对于 ${AGENTS_CHECKED}。` : `Command checked upstream against official docs on ${COMMANDS_CHECKED}; page verified on ${AGENTS_CHECKED}.`}{" "}
+      <a class="link" href={localize(lang, "/agents/")}>{zh ? "返回全部 agent" : "All agents"}</a>
+    </p>
+  </div>
+</Base>

@@ -1,0 +1,15 @@
+---
+// Renders a @tabler/icons-svelte icon from .astro files. The package ships Svelte 4 class
+// typings that Astro's checker rejects as JSX components; at runtime they are Svelte 5
+// components, so this wrapper narrows the type once instead of at every call site.
+import type { SVGAttributes } from "svelte/elements";
+
+interface Props extends SVGAttributes<SVGSVGElement> {
+  icon: unknown;
+}
+const { icon, ...rest } = Astro.props;
+// Unchecked cast: see header comment; Astro renders any Svelte component passed here.
+const Icon = icon as unknown as (props: SVGAttributes<SVGSVGElement>) => unknown;
+---
+
+<Icon aria-hidden="true" {...rest} />

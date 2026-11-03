@@ -1,0 +1,39 @@
+---
+// Inner-page breadcrumb (ux.md#导航模型): Home → … → current page, using the shadcn Breadcrumb.
+import * as Breadcrumb from "$lib/components/ui/breadcrumb/index.js";
+import { localize, UI, type Lang } from "../lib/i18n";
+
+interface Props {
+  lang: Lang;
+  /** Trail after Home; the last item is the current page and takes no href. */
+  items: { label: string; href?: string }[];
+  class?: string;
+}
+const { lang, items, class: className } = Astro.props;
+---
+
+<Breadcrumb.Root aria-label={lang === "zh-cn" ? "面包屑" : "Breadcrumb"} class={className}>
+  <Breadcrumb.List class="text-sm">
+    <Breadcrumb.Item>
+      <Breadcrumb.Link href={localize(lang, "/")} class="text-muted-foreground no-underline hover:underline underline-offset-[3px]">
+        {UI[lang].breadcrumbHome}
+      </Breadcrumb.Link>
+    </Breadcrumb.Item>
+    {
+      items.map((item, i) => (
+        <>
+          <Breadcrumb.Separator />
+          <Breadcrumb.Item>
+            {item.href && i < items.length - 1 ? (
+              <Breadcrumb.Link href={item.href} class="text-muted-foreground no-underline hover:underline underline-offset-[3px]">
+                {item.label}
+              </Breadcrumb.Link>
+            ) : (
+              <Breadcrumb.Page>{item.label}</Breadcrumb.Page>
+            )}
+          </Breadcrumb.Item>
+        </>
+      ))
+    }
+  </Breadcrumb.List>
+</Breadcrumb.Root>

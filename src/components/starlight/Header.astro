@@ -1,0 +1,32 @@
+---
+// Docs header = the site header with Pagefind search in the middle (c-docs prototype).
+// Docs are Chinese only, so the language switch leads to the English home page.
+import Search from "@astrojs/starlight/components/Search.astro";
+import IconBrandGithub from "@tabler/icons-svelte/icons/brand-github";
+import TablerIcon from "../TablerIcon.astro";
+import ThemeMenu from "$lib/components/site/ThemeMenu.svelte";
+import Logo from "../Logo.astro";
+import { UI } from "../../lib/i18n";
+import { REPO_URL } from "../../../site.config.mjs";
+
+const t = UI["zh-cn"];
+const link = "inline-flex min-h-9 items-center gap-1.5 text-[15px] text-foreground no-underline hover:underline underline-offset-[3px]";
+---
+
+<div class="flex h-full items-center gap-6">
+  <a href="/" class="inline-flex shrink-0" aria-label="WebMux"><Logo height={26} /></a>
+  <nav aria-label={t.navLabel} class="hidden items-center gap-6 lg:flex">
+    <a class={link} href="/#story">{t.nav.story}</a>
+    <a class={link} href="/download/">{t.nav.install}</a>
+    <a class:list={[link, "font-semibold"]} href="/docs/" aria-current="page">{t.nav.docs}</a>
+    <a class={link} href="/faq/">{t.nav.faq}</a>
+  </nav>
+  <div class="ml-auto flex min-w-0 flex-1 justify-end md:max-w-xs"><Search /></div>
+  <div class="hidden items-center gap-4 md:flex">
+    <a href={REPO_URL} rel="noopener" class:list={[link, "text-muted-foreground"]}>
+      <TablerIcon icon={IconBrandGithub} class="size-[18px]" />{t.github}
+    </a>
+    <a href="/en/" lang="en" hreflang="en" class:list={[link, "text-muted-foreground"]}>EN<span class="sr-only"> {t.switchLangLabel}</span></a>
+    <ThemeMenu client:idle labels={t.theme} />
+  </div>
+</div>

@@ -1,0 +1,16 @@
+---
+// Prev/next from the sidebar, links back to download and home (pages.md#文档中心), then the
+// site footer.
+import Pagination from "@astrojs/starlight/components/Pagination.astro";
+import SiteFooter from "../Footer.astro";
+---
+
+<footer class="not-content mt-12 flex flex-col gap-8">
+  <Pagination />
+  <p class="m-0 text-sm text-muted-foreground">
+    还没安装？<a class="link" href="/download/">下载与安装 WebMux</a> · <a class="link" href="/">返回首页</a>
+  </p>
+  <div class="border-t border-band-line pt-8">
+    <SiteFooter lang="zh-cn" bare />
+  </div>
+</footer>

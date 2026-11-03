@@ -1,0 +1,182 @@
+[
+  {
+    "label": "了解 WebMux",
+    "items": [
+      {
+        "label": "项目介绍",
+        "link": "/docs/overview/",
+        "depth": 0
+      },
+      {
+        "label": "User Stories",
+        "link": "/docs/user-stories/",
+        "depth": 0
+      },
+      {
+        "label": "常见问题与获取帮助",
+        "link": "/docs/faq/",
+        "depth": 0
+      }
+    ]
+  },
+  {
+    "label": "安装与部署",
+    "items": [
+      {
+        "label": "部署指南",
+        "link": "/docs/deployment/",
+        "depth": 0
+      },
+      {
+        "label": "安装与升级",
+        "link": "/docs/deployment/install-and-upgrade/",
+        "depth": 1
+      },
+      {
+        "label": "配置",
+        "link": "/docs/deployment/configuration/",
+        "depth": 1
+      },
+      {
+        "label": "服务管理与平台差异",
+        "link": "/docs/deployment/services/",
+        "depth": 1
+      },
+      {
+        "label": "远程访问与 HTTPS",
+        "link": "/docs/deployment/remote-access/",
+        "depth": 1
+      },
+      {
+        "label": "安装为应用与手机推送",
+        "link": "/docs/deployment/pwa-and-push/",
+        "depth": 1
+      },
+      {
+        "label": "Windows（WSL）部署",
+        "link": "/docs/deployment/windows-wsl/",
+        "depth": 1
+      },
+      {
+        "label": "Cloudflare Named Tunnel 配置指南",
+        "link": "/docs/cloudflare-tunnel/",
+        "depth": 0
+      },
+      {
+        "label": "Tailscale Serve / Funnel",
+        "link": "/docs/tailscale/",
+        "depth": 0
+      },
+      {
+        "label": "安全策略",
+        "link": "/docs/security/",
+        "depth": 0
+      }
+    ]
+  },
+  {
+    "label": "日常使用",
+    "items": [
+      {
+        "label": "使用指南",
+        "link": "/docs/usage/",
+        "depth": 0
+      },
+      {
+        "label": "终端使用",
+        "link": "/docs/usage/terminal/",
+        "depth": 1
+      },
+      {
+        "label": "混合会话",
+        "link": "/docs/hybrid-sessions/",
+        "depth": 0
+      },
+      {
+        "label": "CLI agent 接入",
+        "link": "/docs/cli-agents/",
+        "depth": 0
+      }
+    ]
+  },
+  {
+    "label": "开发与架构",
+    "items": [
+      {
+        "label": "参与贡献",
+        "link": "/docs/contributing/",
+        "depth": 0
+      },
+      {
+        "label": "架构设计",
+        "link": "/docs/architecture/",
+        "depth": 0
+      },
+      {
+        "label": "API 与协议",
+        "link": "/docs/protocol/",
+        "depth": 0
+      },
+      {
+        "label": "配置与持久化清单",
+        "link": "/docs/persistence/",
+        "depth": 0
+      },
+      {
+        "label": "OpenSpec 规格索引",
+        "link": "/docs/specs/",
+        "depth": 0
+      },
+      {
+        "label": "代码规范 · Go",
+        "link": "/docs/go-style/",
+        "depth": 0
+      },
+      {
+        "label": "代码规范 · 前端",
+        "link": "/docs/frontend-style/",
+        "depth": 0
+      },
+      {
+        "label": "代码规范 · 前端架构守卫",
+        "link": "/docs/frontend-architecture/",
+        "depth": 0
+      },
+      {
+        "label": "界面 · 设计系统",
+        "link": "/docs/design-system/",
+        "depth": 0
+      },
+      {
+        "label": "界面 · Storybook 与防溢出测试",
+        "link": "/docs/storybook/",
+        "depth": 0
+      }
+    ]
+  },
+  {
+    "label": "性能与质量",
+    "items": [
+      {
+        "label": "布局稳定性与 4× CPU 回归",
+        "link": "/docs/performance/",
+        "depth": 0
+      },
+      {
+        "label": "页面性能与连接稳定性验证",
+        "link": "/docs/page-performance/",
+        "depth": 0
+      },
+      {
+        "label": "内嵌二进制体积",
+        "link": "/docs/binary-size/",
+        "depth": 0
+      },
+      {
+        "label": "CI 耗时优化与验收",
+        "link": "/docs/ci-performance/",
+        "depth": 0
+      }
+    ]
+  }
+]

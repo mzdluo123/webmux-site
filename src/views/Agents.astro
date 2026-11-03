@@ -1,0 +1,116 @@
+---
+// /agents/ (pages.md agent 兼容矩阵): nine preset CLIs × command, terminal, hybrid, alerts, extra deps.
+import PageBreadcrumb from "../components/PageBreadcrumb.astro";
+import Base from "../layouts/Base.astro";
+import * as Table from "$lib/components/ui/table/index.js";
+import { AGENTS, agentIcon } from "../data/agents";
+import { AGENTS_CHECKED, ALERTS, COMMANDS_CHECKED, GENERIC_ALERTS, TERMINAL_NOTE } from "../data/agent-details";
+import { localize, type Lang } from "../lib/i18n";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const zh = lang === "zh-cn";
+const k = zh ? "zh" : "en";
+const cn = zh ? "" : " (Chinese)";
+
+const c = zh
+  ? {
+      title: "支持的 CLI agent · WebMux",
+      description:
+        "WebMux 预置九款 CLI agent：Claude Code、Codex CLI、Gemini CLI、Cursor CLI、GitHub Copilot CLI、OpenCode、Qwen Code、Kimi Code CLI 与 CodeBuddy Code 的命令、混合会话与提醒兼容矩阵。",
+      h1: "支持的 CLI agent",
+      lead: "新安装首次启动时，WebMux 写入九款 CLI 的启动配置。它们是可编辑、可删除的普通配置，不会自动安装或认证 CLI；CLI 使用服务用户的权限、账号与配置。",
+      h2: "兼容矩阵",
+      cols: ["CLI", "命令", "预置参数", "终端", "混合会话", "提醒来源", "额外依赖"],
+      none: "无",
+      yes: "支持",
+      no: "终端视图",
+      term: "持久 PTY",
+      h2Notes: "说明",
+      notes: [
+        TERMINAL_NOTE.zh,
+        "混合会话可在终端与聊天视图之间切换；其他六款使用终端视图，不能仅凭其提供 ACP 接口就视为已适配。",
+        "Claude Code、Codex、Gemini、OpenCode 的预置参数会自动批准工具调用，Codex 参数还关闭其沙箱；需要逐次授权时在设置页移除。",
+        "运行、空闲与等待状态使用通用终端判断；具体的回答、授权与完成提醒取决于 CLI 发出的结构化事件、OSC 通知或 BEL。",
+      ],
+      checked: `命令由上游按 ${COMMANDS_CHECKED} 的官方资料核对；本页核对于 ${AGENTS_CHECKED}。`,
+    }
+  : {
+      title: "Supported CLI agents · WebMux",
+      description:
+        "Compatibility matrix for the nine CLI agents WebMux presets, from Claude Code, Codex CLI and Gemini CLI to OpenCode and Qwen Code: commands, hybrid sessions and alerts.",
+      h1: "Supported CLI agents",
+      lead: "On a fresh install WebMux writes launch configurations for nine CLIs. They are ordinary configurations you can edit or delete; WebMux does not install or sign in to any CLI, and each CLI runs with the service user's permissions, accounts and configuration.",
+      h2: "Compatibility matrix",
+      cols: ["CLI", "Command", "Preset args", "Terminal", "Hybrid session", "Alert source", "Extra dependency"],
+      none: "None",
+      yes: "Supported",
+      no: "Terminal view",
+      term: "Persistent PTY",
+      h2Notes: "Notes",
+      notes: [
+        TERMINAL_NOTE.en,
+        "Hybrid sessions switch between terminal and chat views; the other six use the terminal view, and offering an ACP interface alone does not make a CLI adapted.",
+        "The presets for Claude Code, Codex, Gemini and OpenCode auto-approve tool calls, and the Codex preset also disables its sandbox; remove those arguments in settings to approve each step.",
+        "Running, idle and waiting states use generic terminal heuristics; specific question, permission and completion alerts depend on the CLI's structured events, OSC notifications or BEL.",
+      ],
+      checked: `Commands checked upstream against official docs on ${COMMANDS_CHECKED}; this page verified on ${AGENTS_CHECKED}.`,
+    };
+---
+
+<Base lang={lang} path="/agents/" title={c.title} description={c.description} og="agents">
+  <div class="container-site py-16 sm:py-24">
+    <PageBreadcrumb lang={lang} items={[{ label: c.h1 }]} />
+    <h1 class="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">{c.h1}</h1>
+    <p class="mt-4 max-w-2xl text-[17px] leading-[1.75] text-muted-foreground">{c.lead}</p>
+
+    <section class="mt-12" aria-labelledby="matrix">
+      <h2 id="matrix" class="mb-6 text-[26px] font-bold sm:text-[30px]">{c.h2}</h2>
+      <div class="overflow-x-auto">
+        <Table.Root class="text-[14px]">
+          <caption class="sr-only">{c.h2}</caption>
+          <Table.Header>
+            <Table.Row>{c.cols.map((col) => <Table.Head scope="col">{col}</Table.Head>)}</Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {
+              AGENTS.map((a) => (
+                <Table.Row>
+                  <Table.Head scope="row" class="align-top">
+                    <a class="link inline-flex items-center gap-2 font-bold" href={localize(lang, `/agents/${a.slug}/`)}>
+                      <span class="size-5 shrink-0 [&_svg]:size-5" set:html={agentIcon(a.icon)} />
+                      {a.name}
+                    </a>
+                  </Table.Head>
+                  <Table.Cell class="align-top"><code>{a.command}</code></Table.Cell>
+                  <Table.Cell class="align-top">{a.args ? <code>{a.args}</code> : c.none}</Table.Cell>
+                  <Table.Cell class="align-top">{c.term}</Table.Cell>
+                  <Table.Cell class="align-top font-medium">{a.hybrid ? c.yes : c.no}</Table.Cell>
+                  <Table.Cell class="min-w-64 align-top whitespace-normal">{(ALERTS[a.slug] ?? GENERIC_ALERTS)[k]}</Table.Cell>
+                  <Table.Cell class="align-top">{a.connector ? <code>{a.connector}</code> : c.none}</Table.Cell>
+                </Table.Row>
+              ))
+            }
+          </Table.Body>
+        </Table.Root>
+      </div>
+      <p class="mt-4 text-sm text-muted-foreground">{c.checked}</p>
+    </section>
+  </div>
+
+  <section class="border-y border-band-line bg-band py-16 sm:py-24" aria-labelledby="notes">
+    <div class="container-site">
+      <h2 id="notes" class="text-[26px] font-bold sm:text-[30px]">{c.h2Notes}</h2>
+      <ul class="mt-6 grid max-w-3xl list-disc gap-3 pl-5 text-base leading-[1.75]">
+        {c.notes.map((n) => <li>{n}</li>)}
+      </ul>
+      <p class="mt-6 text-base">
+        <a class="link" href="/docs/cli-agents/">{zh ? "CLI agent 接入" : "CLI agent setup"}</a>{cn} ·
+        <a class="link" href="/docs/hybrid-sessions/">{zh ? "混合会话" : "Hybrid sessions"}</a>{cn} ·
+        <a class="link" href="/docs/usage/#需要你介入的提醒">{zh ? "需要你介入的提醒" : "Attention alerts"}</a>{cn}
+      </p>
+    </div>
+  </section>
+</Base>

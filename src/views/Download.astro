@@ -1,0 +1,285 @@
+---
+// Download page (pages.md#下载页, prototype c-download.html): install generator with next steps,
+// the full asset table of the latest release, checksum verification, mirrors and the safety note.
+// Facts: docs/deployment/install-and-upgrade.md and windows-wsl.md in mzdluo123/webmux.
+import IconExternalLink from "@tabler/icons-svelte/icons/external-link";
+import { Button } from "$lib/components/ui/button/index.js";
+import * as Table from "$lib/components/ui/table/index.js";
+import CommandBox from "$lib/components/site/CommandBox.svelte";
+import InstallGenerator from "$lib/components/site/InstallGenerator.svelte";
+import PageBreadcrumb from "../components/PageBreadcrumb.astro";
+import TablerIcon from "../components/TablerIcon.astro";
+import SecurityNote from "../components/SecurityNote.astro";
+import Base from "../layouts/Base.astro";
+import { localize, UI, type Lang } from "../lib/i18n";
+import { installProps, softwareApplication } from "../lib/install";
+import {
+  describeAsset,
+  findAsset,
+  formatDate,
+  formatSize,
+  GROUP_LABELS,
+  groupAssets,
+  latest,
+  releaseDataFresh,
+} from "../lib/releases";
+import { INSTALL_URL, MIRROR_PREFIX, REPO_URL } from "../../site.config.mjs";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = UI[lang];
+const l = (p: string) => localize(lang, p);
+const zh = lang === "zh-cn";
+const box = { copyLabel: t.copy, copiedLabel: t.copied, failedLabel: t.copyFailed };
+const releasesUrl = `${REPO_URL}/releases`;
+const sums = findAsset(/^SHA256SUMS$/);
+const groups = groupAssets(latest);
+const verifyCommand = "sha256sum --check --ignore-missing SHA256SUMS   # macOS: shasum -a 256 -c --ignore-missing SHA256SUMS";
+const mirrorCommand = `curl -fsSL ${MIRROR_PREFIX}${INSTALL_URL} | sh`;
+const mirrorsCommand = `curl -fsSL ${INSTALL_URL} \\\n  | WEBMUX_MIRRORS="" sh`;
+
+const c = zh
+  ? {
+      title: "下载与安装 · WebMux",
+      description:
+        "下载 WebMux 最新版本：Linux 与 macOS 一键安装脚本、deb / rpm 安装包、Windows 托盘与控制台客户端，每个文件附大小与 SHA-256 校验值；另有国内镜像说明，以及升级前需要知道的事：重启服务会结束所有终端会话。",
+      h1: "下载与安装",
+      latest: "最新版本",
+      published: (d: string) => `${d} 发布`,
+      changelog: "更新日志",
+      installTitle: "安装方式",
+      nextTitle: "下一步",
+      next: [
+        { pre: "让服务常驻后台：", code: "webmux start", mid: "，或", link: "安装为用户服务", href: "/docs/deployment/services/", post: "。" },
+        { pre: "从手机访问：在服务器和手机上加入同一个 Tailscale 网络，见", link: "远程访问", href: "/docs/deployment/remote-access/", post: "。" },
+        { pre: "在常用终端里启动 agent：", code: "webmux run -- claude", mid: "，", link: "Ctrl+] 分离", href: "/docs/usage/#从终端启动与附着", post: "后到手机上继续。" },
+      ],
+      upgradeTitle: "升级提示",
+      upgrade:
+        "重复执行安装脚本即升级二进制；正在运行的服务需手动重启才会加载新版本，重启会结束所有终端会话，先让 agent 告一段落。deb / rpm 由 apt / dnf 升级，之后执行 systemctl --user restart webmux。",
+      upgradeLink: "升级说明",
+      assetsTitle: "全部下载",
+      assetsSub: (v: string) => `${v} · 数据来自 GitHub Releases，构建时自动更新`,
+      cols: ["文件", "平台 / 架构", "大小", "SHA-256", "下载"],
+      download: "下载",
+      downloadLabel: (name: string) => `下载 ${name}`,
+      noHash: "无",
+      showHash: (name: string) => `${name} 的完整 SHA-256`,
+      tableNote: "SHA-256 列显示前 8 位，展开可查看完整值；全部摘要见",
+      verify: "下载后在同一目录手动校验：",
+      mirrorTitle: "国内镜像",
+      mirrorIntro:
+        "安装脚本本身不依赖 raw.githubusercontent.com。国内网络可以经 ghfast.top 代理同一 Release 资产获取脚本：",
+      mirrorPoints: [
+        "脚本先尝试 GitHub 直连，失败后依次尝试 WEBMUX_MIRRORS 中的镜像前缀（默认 https://ghfast.top https://gh-proxy.com，空格分隔），每个来源都有连接、低速和总时限。",
+        "二进制与 SHA256SUMS 必须来自同一来源并通过校验；失败时保留原有二进制。",
+        "镜像是第三方服务，能看到请求者 IP。同源校验只能发现截断和损坏，无法防范同时替换两者的恶意镜像；高保证或离线场景请用 WEBMUX_SHA256 固定摘要。",
+      ],
+      mirrorOff: "只想从 GitHub 下载时，把 WEBMUX_MIRRORS 设为空值：",
+      mirrorDoc: "安装脚本的全部变量",
+    }
+  : {
+      title: "Download and install · WebMux",
+      description:
+        "Download WebMux: Linux and macOS install script, deb / rpm packages, Windows tray and console client, plus file sizes, SHA-256 checksums and upgrade notes.",
+      h1: "Download and install",
+      latest: "Latest release",
+      published: (d: string) => `released ${d}`,
+      changelog: "Changelog",
+      installTitle: "Install methods",
+      nextTitle: "Next steps",
+      next: [
+        { pre: "Keep it running in the background: ", code: "webmux start", mid: ", or ", link: "install it as a user service", href: "/docs/deployment/services/", post: " (Chinese)." },
+        { pre: "Reach it from your phone: join the server and the phone to the same Tailscale network; see ", link: "remote access", href: "/docs/deployment/remote-access/", post: " (Chinese)." },
+        { pre: "Start an agent from your usual terminal: ", code: "webmux run -- claude", mid: ", then ", link: "detach with Ctrl+]", href: "/docs/usage/#从终端启动与附着", post: " (Chinese) and continue on your phone." },
+      ],
+      upgradeTitle: "Upgrading",
+      upgrade:
+        "Run the install script again to upgrade the binary. A running service keeps the old version until you restart it, and restarting ends every terminal session, so let your agents finish first. deb / rpm installs upgrade through apt / dnf; then run systemctl --user restart webmux.",
+      upgradeLink: "Upgrade notes (Chinese)",
+      assetsTitle: "All downloads",
+      assetsSub: (v: string) => `${v} · from GitHub Releases, refreshed at build time`,
+      cols: ["File", "Platform / architecture", "Size", "SHA-256", "Download"],
+      download: "Download",
+      downloadLabel: (name: string) => `Download ${name}`,
+      noHash: "none",
+      showHash: (name: string) => `Full SHA-256 of ${name}`,
+      tableNote: "The SHA-256 column shows the first 8 characters; expand a value to see all of it. Every checksum is in",
+      verify: "Verify the downloads by hand, in the same directory:",
+      mirrorTitle: "Mirrors for mainland China",
+      mirrorIntro:
+        "The install script does not depend on raw.githubusercontent.com. Where GitHub is slow or blocked, fetch the same release asset through the ghfast.top proxy:",
+      mirrorPoints: [
+        "The script tries GitHub first, then each mirror prefix in WEBMUX_MIRRORS (default https://ghfast.top https://gh-proxy.com, space-separated). Every source has connect, low-speed and total time limits.",
+        "The binary and SHA256SUMS must come from the same source and pass verification; on failure the existing binary is kept.",
+        "Mirrors are third-party services and can see the requester's IP address. Same-source verification catches truncation and corruption, not a malicious mirror that replaces both files; for high assurance or offline installs, pin the digest with WEBMUX_SHA256.",
+      ],
+      mirrorOff: "To download from GitHub only, set WEBMUX_MIRRORS to an empty value:",
+      mirrorDoc: "All install script variables (Chinese)",
+    };
+
+const h2 = "m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]";
+---
+
+<Base
+  lang={lang}
+  path="/download/"
+  title={c.title}
+  description={c.description}
+  og="download"
+  active="install"
+  jsonLd={[softwareApplication(lang)]}
+>
+  <section class="container-site pt-10 pb-10 sm:pt-16" aria-labelledby="download-title">
+    <PageBreadcrumb lang={lang} items={[{ label: c.h1 }]} />
+    <h1 id="download-title" class="mt-5 mb-0 text-[36px] leading-[1.15] font-bold tracking-[-0.02em] sm:text-[48px]">{c.h1}</h1>
+    {
+      latest ? (
+        <p class="mt-5 mb-0 flex flex-wrap items-center gap-x-7 gap-y-2 text-[15px]">
+          <span>
+            <strong>{c.latest}</strong> <span class="font-mono">{latest.tag}</span>
+          </span>
+          <span class="text-muted-foreground">{c.published(formatDate(latest.publishedAt, lang))}</span>
+          {sums && <a class="link font-mono text-sm" href={sums.url}>SHA256SUMS</a>}
+          <a class="link" href={l("/changelog/")}>{c.changelog}</a>
+          <a class="link inline-flex items-center gap-1" href={latest.url} rel="noopener">
+            GitHub Release
+            <TablerIcon icon={IconExternalLink} class="size-3.5" />
+            <span class="sr-only">{t.external}</span>
+          </a>
+        </p>
+      ) : (
+        <p class="mt-5 mb-0 text-[15px]">
+          <a class="link" href={releasesUrl} rel="noopener">{t.versionUnavailable}</a>
+        </p>
+      )
+    }
+    {latest && !releaseDataFresh && <p class="mt-2 mb-0 text-sm text-muted-foreground">{t.staleData}</p>}
+  </section>
+
+  <section id="install" class="container-site pb-16 sm:pb-24" aria-labelledby="install-title">
+    <h2 id="install-title" class="sr-only">{c.installTitle}</h2>
+    <div class="grid gap-10 md:grid-cols-12">
+      <div class="min-w-0 md:col-span-8">
+        <InstallGenerator client:visible {...installProps(lang)} tabs={["linux", "windows", "packages", "source"]} />
+      </div>
+      <aside class="self-start rounded-lg border border-band-line bg-band p-5 md:col-span-4" aria-labelledby="next-title">
+        <h3 id="next-title" class="m-0 text-[17px] font-semibold">{c.nextTitle}</h3>
+        <ul class="mt-3 mb-0 flex list-disc flex-col gap-2 pl-5 text-[15px] leading-[1.7]">
+          {
+            c.next.map((n) => (
+              <li>
+                {n.pre}
+                {n.code && <code class="text-sm">{n.code}</code>}
+                {n.mid}
+                <a class="link" href={n.href}>{n.link}</a>
+                {n.post}
+              </li>
+            ))
+          }
+        </ul>
+        <div class="mt-5 border-t border-band-line pt-4 text-[15px] leading-[1.7]">
+          <h3 class="m-0 text-[15px] font-semibold">{c.upgradeTitle}</h3>
+          <p class="mt-1 mb-0 text-muted-foreground">{c.upgrade}</p>
+          <p class="mt-2 mb-0 text-sm">
+            <a class="link" href="/docs/deployment/install-and-upgrade/#升级">{c.upgradeLink}</a>
+          </p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="assets" class="border-y border-band-line bg-band py-16 sm:py-24" aria-labelledby="assets-title">
+    <div class="container-site">
+      <div class="mb-8 flex flex-wrap items-baseline gap-x-4 gap-y-2">
+        <h2 id="assets-title" class={h2}>{c.assetsTitle}</h2>
+        {latest && <p class="m-0 text-sm text-muted-foreground">{c.assetsSub(latest.tag)}</p>}
+      </div>
+      {
+        latest && groups.length > 0 ? (
+          <div class="rounded-lg border bg-page">
+            <Table.Root class="text-sm">
+              <Table.Header>
+                <Table.Row class="hover:bg-transparent">
+                  <Table.Head scope="col" class="px-4">{c.cols[0]}</Table.Head>
+                  <Table.Head scope="col" class="px-4">{c.cols[1]}</Table.Head>
+                  <Table.Head scope="col" class="px-4 text-right">{c.cols[2]}</Table.Head>
+                  <Table.Head scope="col" class="px-4">{c.cols[3]}</Table.Head>
+                  <Table.Head scope="col" class="px-4"><span class="sr-only">{c.cols[4]}</span></Table.Head>
+                </Table.Row>
+              </Table.Header>
+              {groups.map((g) => (
+                <Table.Body>
+                  <Table.Row class="bg-band hover:bg-band">
+                    <Table.Head scope="rowgroup" colspan={5} class="h-9 px-4 text-xs font-semibold text-muted-foreground">
+                      {GROUP_LABELS[g.id][zh ? "zh" : "en"]}
+                    </Table.Head>
+                  </Table.Row>
+                  {g.assets.map((a) => (
+                    <Table.Row>
+                      <Table.Head scope="row" class="px-4 font-mono text-[13px] font-normal">{a.name}</Table.Head>
+                      <Table.Cell class="px-4">{describeAsset(a.name, lang)}</Table.Cell>
+                      <Table.Cell class="px-4 text-right font-mono text-[13px] tabular-nums">{formatSize(a.size)}</Table.Cell>
+                      <Table.Cell class="px-4 font-mono text-[13px] text-muted-foreground">
+                        {a.sha256 ? (
+                          <details class="group">
+                            <summary class="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                              <code>{a.sha256.slice(0, 8)}</code>
+                              <span aria-hidden="true" class="group-open:hidden">…</span>
+                              <span class="sr-only">{c.showHash(a.name)}</span>
+                            </summary>
+                            <code class="block pt-1 text-foreground select-all">{a.sha256}</code>
+                          </details>
+                        ) : (
+                          <span>
+                            <span aria-hidden="true">—</span>
+                            <span class="sr-only">{c.noHash}</span>
+                          </span>
+                        )}
+                      </Table.Cell>
+                      <Table.Cell class="px-4 py-2 text-right">
+                        <Button href={a.url} variant="outline" size="sm" class="text-primary" aria-label={c.downloadLabel(a.name)}>
+                          {c.download}
+                        </Button>
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              ))}
+            </Table.Root>
+          </div>
+        ) : (
+          <p class="m-0">
+            <a class="link" href={releasesUrl} rel="noopener">{t.versionUnavailable}</a>
+          </p>
+        )
+      }
+      <p class="mt-6 mb-3 text-sm text-muted-foreground">
+        {c.tableNote}{" "}
+        {sums ? <a class="link font-mono" href={sums.url}>SHA256SUMS</a> : <span class="font-mono">SHA256SUMS</span>}
+        {zh ? "。" : "."}
+        {" "}{c.verify}
+      </p>
+      <CommandBox client:visible command={verifyCommand} {...box} />
+    </div>
+  </section>
+
+  <section id="mirrors" class="container-site py-16 sm:py-24" aria-labelledby="mirrors-title">
+    <div class="max-w-[760px]">
+      <h2 id="mirrors-title" class={h2}>{c.mirrorTitle}</h2>
+      <p class="mt-4 mb-4 text-[16px] leading-[1.75]">{c.mirrorIntro}</p>
+      <CommandBox client:visible command={mirrorCommand} {...box} />
+      <ul class="mt-5 mb-0 flex list-disc flex-col gap-2 pl-5 text-[16px] leading-[1.75] text-muted-foreground">
+        {c.mirrorPoints.map((p) => <li>{p}</li>)}
+      </ul>
+      <p class="mt-5 mb-3 text-[16px] leading-[1.75]">{c.mirrorOff}</p>
+      <CommandBox client:visible command={mirrorsCommand} {...box} />
+      <p class="mt-4 mb-0 text-sm">
+        <a class="link" href="/docs/deployment/install-and-upgrade/#安装">{c.mirrorDoc}</a>
+      </p>
+    </div>
+    <SecurityNote lang={lang} class="mt-12 max-w-[760px]" />
+  </section>
+</Base>

@@ -1,0 +1,111 @@
+---
+// /compare/ (strategy.md#差异化与对比规则): factual dimensions only, check date and sources.
+import CompareTable from "../components/CompareTable.astro";
+import PageBreadcrumb from "../components/PageBreadcrumb.astro";
+import Base from "../layouts/Base.astro";
+import { CHECKED, DIMENSIONS, TOOLS, WEBMUX } from "../data/compare";
+import { localize, type Lang } from "../lib/i18n";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const zh = lang === "zh-cn";
+
+const guidance = zh
+  ? [
+      ["只需要在服务器上让一个 shell 断线不断", "SSH + tmux 更简单：大多数服务器已具备，无需新服务。"],
+      ["只需要把一个终端临时分享到浏览器", "ttyd 或 gotty 更简单：一条命令即可分享。"],
+      ["只需要在不稳定网络上保持 SSH 式连接", "mosh 更合适：它为漫游与丢包设计。"],
+      ["主要需求是在浏览器里写代码、用完整编辑器", "VS Code Remote Tunnels 或 code-server 更合适。"],
+      ["需要在手机上接管 CLI agent、收到它的提问并在终端与聊天之间切换", "这是 WebMux 设计的场景。"],
+    ]
+  : [
+      ["You only need one shell on a server to survive disconnects", "SSH + tmux is simpler: most servers already have it, no new service required."],
+      ["You only need to share a terminal in a browser for a while", "ttyd or gotty is simpler: one command shares it."],
+      ["You only need an SSH-style connection over flaky networks", "mosh fits better: it is built for roaming and packet loss."],
+      ["Your main need is writing code in a full browser editor", "VS Code Remote Tunnels or code-server fit better."],
+      ["You want to take over CLI agents from your phone, see their questions and switch between terminal and chat", "That is the case WebMux is built for."],
+    ];
+
+const c = zh
+  ? {
+      title: "对比 SSH + tmux、ttyd、mosh · WebMux",
+      description:
+        "按可核实的事实维度对比 WebMux 与 SSH + tmux、ttyd / gotty、mosh、VS Code Remote Tunnels、code-server：断线后会话是否继续、手机 TUI 适配、agent 提问提醒、聊天视图与部署方式，并说明各自适用场景、核对日期与官方来源。",
+      h1: "WebMux 与常见方案对比",
+      lead: "这张表帮你判断适用场景，不评价好坏。只列能核实的事实维度；第三方信息以其官方文档为准，拿不准的格子写“未核实”。",
+      h2Table: "完整对比",
+      h2Guide: "怎么选",
+      h2Rules: "核对方法与来源",
+      rules: `第三方工具的格子按下列官方页面核对于 ${CHECKED}。“未核实”表示官方文档没有说明，不代表不支持；“部分”的含义见格内说明。发现错误请到 GitHub Issues 指出。`,
+      caption: "WebMux 与五种常见方案的完整对比",
+    }
+  : {
+      title: "Compare with SSH + tmux, ttyd, mosh · WebMux",
+      description:
+        "A fact-based comparison of WebMux with SSH + tmux, ttyd / gotty, mosh, VS Code Remote Tunnels and code-server: reconnects, mobile, agent alerts, chat view and setup.",
+      h1: "WebMux compared with common alternatives",
+      lead: "This table is here to help you pick the right tool, not to rank them. It lists only verifiable facts; third-party cells follow each project's official docs, and anything we could not confirm says “Not verified”.",
+      h2Table: "Full comparison",
+      h2Guide: "Which one to choose",
+      h2Rules: "Method and sources",
+      rules: `Third-party cells were checked against the official pages below on ${CHECKED}. “Not verified” means the docs do not say, not that the feature is missing; “Partial” is explained in each cell. Spotted a mistake? Tell us on GitHub Issues.`,
+      caption: "Full comparison of WebMux with five common alternatives",
+    };
+---
+
+<Base lang={lang} path="/compare/" title={c.title} description={c.description} og="compare">
+  <div class="container-site py-16 sm:py-24">
+    <PageBreadcrumb lang={lang} items={[{ label: zh ? "对比" : "Compare" }]} />
+    <h1 class="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">{c.h1}</h1>
+    <p class="mt-4 max-w-2xl text-[17px] leading-[1.75] text-muted-foreground">{c.lead}</p>
+
+    <section class="mt-12" aria-labelledby="table">
+      <h2 id="table" class="mb-6 text-[26px] font-bold sm:text-[30px]">{c.h2Table}</h2>
+      <div class="overflow-x-auto">
+        <CompareTable lang={lang} dimensions={DIMENSIONS} tools={[WEBMUX, ...TOOLS]} caption={c.caption} />
+      </div>
+    </section>
+  </div>
+
+  <section class="border-y border-band-line bg-band py-16 sm:py-24" aria-labelledby="guide">
+    <div class="container-site">
+      <h2 id="guide" class="text-[26px] font-bold sm:text-[30px]">{c.h2Guide}</h2>
+      <dl class="mt-6 grid gap-5 text-base leading-[1.75]">
+        {
+          guidance.map(([need, pick]) => (
+            <div>
+              <dt class="font-bold">{zh ? `如果你${need}` : `If ${need.charAt(0).toLowerCase()}${need.slice(1)}`}</dt>
+              <dd class="m-0 text-muted-foreground">{pick}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="mt-8 text-base">
+        <a class="link" href={localize(lang, "/security/")}>{zh ? "部署前请阅读安全与部署建议" : "Read the security and deployment guide before you deploy"}</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="container-site py-16 sm:py-24" aria-labelledby="rules">
+    <h2 id="rules" class="text-[26px] font-bold sm:text-[30px]">{c.h2Rules}</h2>
+    <p class="mt-4 max-w-2xl text-base leading-[1.75] text-muted-foreground">{c.rules}</p>
+    <ul class="mt-6 grid list-disc gap-2 pl-5 text-base">
+      {
+        [WEBMUX, ...TOOLS].map((tool) => (
+          <li>
+            <span class="font-medium">{tool.name}</span>
+            {": "}
+            {tool.sources.map((s, i) => (
+              <>
+                {i > 0 && ", "}
+                <a class="link" href={s.url} rel="noopener">{s.label}</a>
+              </>
+            ))}
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Base>

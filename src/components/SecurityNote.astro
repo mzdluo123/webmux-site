@@ -1,0 +1,45 @@
+---
+// Safety boundary (pages.md#8-安全与边界): restates the README warning; never collapsed. Uses the
+// shadcn Alert with the warning palette and a text label, not color alone.
+import IconAlertTriangle from "@tabler/icons-svelte/icons/alert-triangle";
+import TablerIcon from "./TablerIcon.astro";
+import * as Alert from "$lib/components/ui/alert/index.js";
+import { localize, type Lang } from "../lib/i18n";
+
+interface Props {
+  lang: Lang;
+  class?: string;
+}
+const { lang, class: className } = Astro.props;
+const zh = lang === "zh-cn";
+---
+
+<Alert.Root
+  class:list={[
+    "rounded-lg border-note-warning-border bg-note-warning-bg px-5 py-4 text-note-warning-fg [&_a]:text-note-warning-fg",
+    className,
+  ]}
+>
+  <TablerIcon icon={IconAlertTriangle} />
+  <Alert.Title class="text-[15px] font-bold">{zh ? "安全边界" : "Safety boundary"}</Alert.Title>
+  <Alert.Description class="text-[15px] leading-[1.7] text-note-warning-fg">
+    {
+      zh ? (
+        <p class="m-0">
+          WebMux 等同于以当前用户身份把 shell 暴露到网络，默认监听 <code>0.0.0.0:7681</code>。仅本机使用请改为{" "}
+          <code>127.0.0.1</code>；远程访问请绑定 Tailscale / WireGuard 等可信 VPN；除非明确使用隧道并接受“Token
+          是唯一入口屏障”的风险，不要开放到公网。它不是进程沙箱，服务重启会结束所有终端会话。{" "}
+          <a class="underline underline-offset-[3px]" href={localize(lang, "/security/")}>阅读安全模型</a>
+        </p>
+      ) : (
+        <p class="m-0">
+          WebMux exposes a shell to the network as your user, listening on <code>0.0.0.0:7681</code> by default. For
+          local use, listen on <code>127.0.0.1</code>; for remote access, bind to a trusted VPN such as Tailscale or
+          WireGuard. Do not expose it to the internet unless you deliberately use a tunnel and accept that the token is
+          the only barrier. It is not a process sandbox, and restarting the service ends every terminal session.{" "}
+          <a class="underline underline-offset-[3px]" href={localize(lang, "/security/")}>Read the security model</a>
+        </p>
+      )
+    }
+  </Alert.Description>
+</Alert.Root>

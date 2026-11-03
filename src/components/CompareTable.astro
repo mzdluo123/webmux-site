@@ -1,0 +1,74 @@
+---
+// Comparison grid: shadcn Table from 640px up, stacked cards below (both rendered, CSS toggled).
+import * as Table from "$lib/components/ui/table/index.js";
+import { t, VERDICT_LABEL, type Dimension, type Tool, type Verdict } from "../data/compare";
+import type { Lang } from "../lib/i18n";
+
+interface Props {
+  lang: Lang;
+  dimensions: Dimension[];
+  tools: Tool[];
+  caption: string;
+}
+const { lang, dimensions, tools, caption } = Astro.props;
+const tone: Record<Verdict, string> = {
+  yes: "text-primary",
+  partial: "text-foreground",
+  no: "text-muted-foreground",
+  unverified: "text-muted-foreground italic",
+};
+---
+
+<div class="hidden sm:block">
+  <Table.Root class="text-[15px]">
+    <caption class="sr-only">{caption}</caption>
+    <Table.Header>
+      <Table.Row>
+        <Table.Head scope="col" class="min-w-40">{lang === "zh-cn" ? "维度" : "Dimension"}</Table.Head>
+        {tools.map((tool) => <Table.Head scope="col" class="min-w-36 font-bold">{tool.name}</Table.Head>)}
+      </Table.Row>
+    </Table.Header>
+    <Table.Body>
+      {
+        dimensions.map((dim) => (
+          <Table.Row>
+            <Table.Head scope="row" class="align-top font-medium whitespace-normal text-foreground">{t(lang, dim)}</Table.Head>
+            {tools.map((tool) => {
+              const c = tool.cells[dim.id];
+              return (
+                <Table.Cell class="align-top whitespace-normal">
+                  <span class:list={["font-bold", tone[c.v]]}>{t(lang, VERDICT_LABEL[c.v])}</span>
+                  <span class="mt-0.5 block text-[13px] leading-snug text-muted-foreground">{t(lang, c)}</span>
+                </Table.Cell>
+              );
+            })}
+          </Table.Row>
+        ))
+      }
+    </Table.Body>
+  </Table.Root>
+</div>
+
+<div class="grid gap-4 sm:hidden">
+  {
+    tools.map((tool) => (
+      <section class="rounded-lg border bg-page p-4">
+        <h3 class="text-[17px] font-bold">{tool.name}</h3>
+        <dl class="mt-2 divide-y">
+          {dimensions.map((dim) => {
+            const c = tool.cells[dim.id];
+            return (
+              <div class="py-2">
+                <dt class="text-sm text-muted-foreground">{t(lang, dim)}</dt>
+                <dd class="m-0">
+                  <span class:list={["font-bold", tone[c.v]]}>{t(lang, VERDICT_LABEL[c.v])}</span>
+                  <span class="text-sm text-muted-foreground"> · {t(lang, c)}</span>
+                </dd>
+              </div>
+            );
+          })}
+        </dl>
+      </section>
+    ))
+  }
+</div>

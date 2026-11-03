@@ -1,0 +1,113 @@
+---
+// Changelog (pages.md#其他页面要点): one section per GitHub Release, newest first, notes rendered
+// from the release Markdown as written upstream; each version also has its own page and the
+// Atom feed at /changelog.xml.
+import IconRss from "@tabler/icons-svelte/icons/rss";
+import { Badge } from "$lib/components/ui/badge/index.js";
+import PageBreadcrumb from "../components/PageBreadcrumb.astro";
+import TablerIcon from "../components/TablerIcon.astro";
+import Base from "../layouts/Base.astro";
+import { localize, UI, type Lang } from "../lib/i18n";
+import { NOTES_CLASS, renderReleaseNotes } from "../lib/release-notes";
+import { formatDate, releaseDataFresh, releases } from "../lib/releases";
+import { REPO_URL } from "../../site.config.mjs";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = UI[lang];
+const l = (p: string) => localize(lang, p);
+const zh = lang === "zh-cn";
+const sorted = [...releases].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+
+const c = zh
+  ? {
+      title: "更新日志 · WebMux",
+      description:
+        "WebMux 每个版本的发布说明：新功能、修复与升级须知，按发布时间倒序排列，每个版本都有独立页面，内容与 GitHub Release 保持一致；可用 Atom 订阅新版本，或到 GitHub Releases 下载对应的二进制与校验文件。",
+      h1: "更新日志",
+      lead: "每个版本的发布说明，内容与 GitHub Release 一致，按发布时间倒序排列。升级前请留意各版本的“升级须知”。",
+      feed: "Atom 订阅",
+      github: "GitHub Releases",
+      toc: "版本列表",
+      prerelease: "预发布",
+      onGithub: "在 GitHub 上查看",
+      download: "下载最新版本",
+    }
+  : {
+      title: "Changelog · WebMux",
+      description:
+        "Release notes for every WebMux version, newest first: features, fixes and upgrade notes, each on its own page. Subscribe via Atom or download from GitHub.",
+      h1: "Changelog",
+      lead: "Release notes for every version, newest first, exactly as published on GitHub Releases, where they are mostly written in Chinese. Check each version's upgrade notes before you upgrade.",
+      feed: "Atom feed",
+      github: "GitHub Releases",
+      toc: "Versions",
+      prerelease: "Pre-release",
+      onGithub: "View on GitHub",
+      download: "Download the latest release",
+    };
+---
+
+<Base lang={lang} path="/changelog/" title={c.title} description={c.description} og="changelog">
+  <section class="container-site pt-10 pb-10 sm:pt-16" aria-labelledby="changelog-title">
+    <PageBreadcrumb lang={lang} items={[{ label: c.h1 }]} />
+    <h1 id="changelog-title" class="mt-5 mb-0 text-[36px] leading-[1.15] font-bold tracking-[-0.02em] sm:text-[48px]">{c.h1}</h1>
+    <p class="mt-5 mb-0 max-w-[720px] text-[17px] leading-[1.75] text-muted-foreground">{c.lead}</p>
+    <p class="mt-4 mb-0 flex flex-wrap items-center gap-x-6 gap-y-2 text-[15px]">
+      <a class="link inline-flex items-center gap-1.5" href="/changelog.xml" type="application/atom+xml">
+        <TablerIcon icon={IconRss} class="size-4" />{c.feed}
+      </a>
+      <a class="link" href={`${REPO_URL}/releases`} rel="noopener">{c.github}<span class="sr-only">{t.external}</span></a>
+      <a class="link" href={l("/download/")}>{c.download}</a>
+    </p>
+    {!releaseDataFresh && sorted.length > 0 && <p class="mt-3 mb-0 text-sm text-muted-foreground">{t.staleData}</p>}
+  </section>
+
+  <div class="container-site pb-16 sm:pb-24">
+    {
+      sorted.length === 0 ? (
+        <p class="m-0 text-[16px]">
+          <a class="link" href={`${REPO_URL}/releases`} rel="noopener">{t.versionUnavailable}</a>
+        </p>
+      ) : (
+        <div class="grid gap-10 md:grid-cols-12">
+          <nav aria-label={c.toc} class="md:col-span-3">
+            <div class="md:sticky md:top-24">
+              <p class="m-0 mb-3 text-sm font-semibold">{c.toc}</p>
+              <ol class="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-sm md:flex-col md:flex-nowrap md:max-h-[calc(100vh-8rem)] md:overflow-y-auto">
+                {sorted.map((r) => (
+                  <li>
+                    <a href={`#${r.tag}`} class="inline-flex min-h-8 items-center font-mono text-muted-foreground no-underline hover:text-foreground hover:underline underline-offset-[3px]">
+                      {r.tag}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </nav>
+          <div class="min-w-0 md:col-span-9">
+            {sorted.map((r, i) => (
+              <article id={r.tag} aria-labelledby={`${r.tag}-title`} class:list={["scroll-mt-24", i > 0 && "mt-12 border-t border-band-line pt-12"]}>
+                <header class="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <h2 id={`${r.tag}-title`} class="m-0 text-[26px] leading-[1.25] font-bold">
+                    <a href={l(`/changelog/${r.tag}/`)} class="text-foreground no-underline hover:underline underline-offset-[3px]">
+                      {r.tag}
+                    </a>
+                  </h2>
+                  <time datetime={r.publishedAt} class="text-[15px] text-muted-foreground">{formatDate(r.publishedAt, lang)}</time>
+                  {r.prerelease && <Badge variant="warning">{c.prerelease}</Badge>}
+                </header>
+                <div class:list={[NOTES_CLASS, "mt-4"]} set:html={renderReleaseNotes(r.body, 3)} />
+                <p class="mt-4 mb-0 text-sm">
+                  <a class="link" href={r.url} rel="noopener">{c.onGithub}<span class="sr-only">{t.external}</span></a>
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      )
+    }
+  </div>
+</Base>

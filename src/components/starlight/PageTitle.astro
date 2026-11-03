@@ -1,0 +1,52 @@
+---
+// Title plus the mirror notice (stack.md#文档镜像): which ref the page is based on, and links to
+// view and edit the source on GitHub. Breadcrumb follows the sidebar group.
+import Default from "@astrojs/starlight/components/PageTitle.astro";
+import * as Breadcrumb from "$lib/components/ui/breadcrumb/index.js";
+import manifest from "../../data/docs-manifest.json";
+import { REPO_URL } from "../../../site.config.mjs";
+
+const route = Astro.locals.starlightRoute;
+const source = route.entry.data.sourcePath;
+const ref = manifest.ref;
+const shortRef = manifest.fallbackToMain ? `main@${manifest.commit.slice(0, 7)}` : ref;
+const group = route.sidebar.find(
+  (entry) => entry.type === "group" && entry.entries.some((e) => e.type === "link" && e.isCurrent),
+);
+const crumbs = [{ href: "/docs/", label: "文档" }];
+const isIndex = route.id === "docs";
+---
+
+{
+  !isIndex && (
+    <Breadcrumb.Root class="not-content mt-4">
+      <Breadcrumb.List class="text-sm">
+        <Breadcrumb.Item>
+          <Breadcrumb.Link href={crumbs[0].href} class="text-muted-foreground no-underline hover:text-foreground">{crumbs[0].label}</Breadcrumb.Link>
+        </Breadcrumb.Item>
+        {group && (
+          <>
+            <Breadcrumb.Separator />
+            <Breadcrumb.Item>{group.label}</Breadcrumb.Item>
+          </>
+        )}
+        <Breadcrumb.Separator />
+        <Breadcrumb.Item>
+          <Breadcrumb.Page>{route.entry.data.title}</Breadcrumb.Page>
+        </Breadcrumb.Item>
+      </Breadcrumb.List>
+    </Breadcrumb.Root>
+  )
+}
+<Default />
+{
+  source && (
+    <p class="not-content mt-3 flex flex-wrap gap-x-4 gap-y-1 border-b border-band-line pb-4 text-sm text-muted-foreground">
+      <span>
+        基于 <code class="font-mono">{shortRef}</code> 的文档
+      </span>
+      <a class="link" href={`${REPO_URL}/blob/${ref}/${source}`} rel="noopener">在 GitHub 上查看</a>
+      <a class="link" href={`${REPO_URL}/edit/main/${source}`} rel="noopener">编辑此页</a>
+    </p>
+  )
+}

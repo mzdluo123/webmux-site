@@ -1,0 +1,818 @@
+{
+  "repo": "mzdluo123/webmux",
+  "ref": "main",
+  "commit": "306d2537757b7c345120e125975c48c4949d51b8",
+  "latestRelease": "v0.10.1",
+  "fallbackToMain": true,
+  "docs": [
+    {
+      "source": "CONTRIBUTING.md",
+      "url": "/docs/contributing/",
+      "titleAnchor": "参与贡献",
+      "sha256": "ce1f8ff93f2ce95f642369ab6badf88648b3f4e69c0da10fbe6c7b3c9d9d805c"
+    },
+    {
+      "source": "SECURITY.md",
+      "url": "/docs/security/",
+      "titleAnchor": "安全策略",
+      "sha256": "ab99922789b9e31889153113d5adcdbf23ad1db4a5044f99eb7507af23014b32"
+    },
+    {
+      "source": "docs/README.md",
+      "url": "/docs/",
+      "titleAnchor": "webmux-文档中心",
+      "sha256": "a1ab3cb8ac9a1046b2e9b4e609607e1d760946f11ed825246884c8b21d5b6bb0"
+    },
+    {
+      "source": "docs/architecture.md",
+      "url": "/docs/architecture/",
+      "titleAnchor": "架构设计",
+      "sha256": "8665d4ba763754a0e61a7d16defddfe38563d1cba065d3a8e8d8a90b7462d654"
+    },
+    {
+      "source": "docs/binary-size.md",
+      "url": "/docs/binary-size/",
+      "titleAnchor": "内嵌二进制体积",
+      "sha256": "b1e08a6d72c48b08550f0df41041beece2e431ee504ead38014bc3b4b72092f5"
+    },
+    {
+      "source": "docs/ci-performance.md",
+      "url": "/docs/ci-performance/",
+      "titleAnchor": "ci-耗时优化与验收",
+      "sha256": "e6514aeb9a8363e2f6d8d09e31b9a2df8c80a8e355b2c53f3aa6d6c83343d619"
+    },
+    {
+      "source": "docs/cli-agents.md",
+      "url": "/docs/cli-agents/",
+      "titleAnchor": "cli-agent-接入",
+      "sha256": "66443fd205ea9b2e2ccd2c1a093ad28bf7d8581feb0735425596690bee956064"
+    },
+    {
+      "source": "docs/cloudflare-tunnel.md",
+      "url": "/docs/cloudflare-tunnel/",
+      "titleAnchor": "cloudflare-named-tunnel-配置指南",
+      "sha256": "8db4bfb4e6275f82a517a4cb7c523cc87759b119750b1d41a3157b69b0b48c95"
+    },
+    {
+      "source": "docs/deployment.md",
+      "url": "/docs/deployment/",
+      "titleAnchor": "部署指南",
+      "sha256": "227771b7735653fe75ee23cf26cf0ecceed6bdde5120b6f9899788a6c7a92c49"
+    },
+    {
+      "source": "docs/deployment/configuration.md",
+      "url": "/docs/deployment/configuration/",
+      "titleAnchor": "配置",
+      "sha256": "4d64f16455738eeabc7f8048048be12a0abc1fa8f6f1650ff498f5d879234d36"
+    },
+    {
+      "source": "docs/deployment/install-and-upgrade.md",
+      "url": "/docs/deployment/install-and-upgrade/",
+      "titleAnchor": "安装与升级",
+      "sha256": "c900d9f7f8afffd757b05b5b824fc0a66cd6b502119b485b1ee72dc1562c2dba"
+    },
+    {
+      "source": "docs/deployment/pwa-and-push.md",
+      "url": "/docs/deployment/pwa-and-push/",
+      "titleAnchor": "安装为应用与手机推送",
+      "sha256": "11c346270c6c4e202a2fcab3b356dee3b0ccd5488dcedf65554fb17312c114e7"
+    },
+    {
+      "source": "docs/deployment/remote-access.md",
+      "url": "/docs/deployment/remote-access/",
+      "titleAnchor": "远程访问与-https",
+      "sha256": "eb384125bf5e0b3806b91c04459c8b42c2d5439b058303c72cec72b5ef4b9aff"
+    },
+    {
+      "source": "docs/deployment/services.md",
+      "url": "/docs/deployment/services/",
+      "titleAnchor": "服务管理与平台差异",
+      "sha256": "77b82a6225d1c5b54d5043bdca055dbc7b08e9da740c9a06dc64bdba68bca9a2"
+    },
+    {
+      "source": "docs/deployment/windows-wsl.md",
+      "url": "/docs/deployment/windows-wsl/",
+      "titleAnchor": "windowswsl部署",
+      "sha256": "6a1d152763b0cffbe6215ac2275922ba2d1a43dbf1deb361465c464575ade38b"
+    },
+    {
+      "source": "docs/design-system.md",
+      "url": "/docs/design-system/",
+      "titleAnchor": "webmux-design-system",
+      "sha256": "caa76944ec0ec9122bb2496f1a7edfb45fa7e667315ea1ccaa3aec263e0151e3"
+    },
+    {
+      "source": "docs/faq.md",
+      "url": "/docs/faq/",
+      "titleAnchor": "常见问题与获取帮助",
+      "sha256": "e7da038f809b1d6258b42573080a0767fb66a49d98e26fbdf636eca85d39aa8e"
+    },
+    {
+      "source": "docs/frontend-architecture.md",
+      "url": "/docs/frontend-architecture/",
+      "titleAnchor": "frontend-architecture-guard",
+      "sha256": "aa36893be19ce0e1e66f1142e9a548dd1413cc0427da29640a9dfb25ce2c50e5"
+    },
+    {
+      "source": "docs/frontend-style.md",
+      "url": "/docs/frontend-style/",
+      "titleAnchor": "前端代码质量基线",
+      "sha256": "333fcb132ea4e25c6349a5170d7236e1d0d514029bbf6e9d5151ee7a212da1b7"
+    },
+    {
+      "source": "docs/go-style.md",
+      "url": "/docs/go-style/",
+      "titleAnchor": "go-代码质量基线",
+      "sha256": "200b4713a6b8388f339008d932a5cab6a979eb5039b53a855176ecb333562170"
+    },
+    {
+      "source": "docs/hybrid-sessions.md",
+      "url": "/docs/hybrid-sessions/",
+      "titleAnchor": "混合会话聊天--终端",
+      "sha256": "7381287d79596fa5cad6c2a17dda81d52bb5233168233b1959adaf83e05e9b80"
+    },
+    {
+      "source": "docs/overview.md",
+      "url": "/docs/overview/",
+      "titleAnchor": "项目介绍",
+      "sha256": "265b61f06a2f5685702d112c67300b82d07331f67da654b4f96d79a21a41ca5e"
+    },
+    {
+      "source": "docs/page-performance.md",
+      "url": "/docs/page-performance/",
+      "titleAnchor": "页面性能与连接稳定性验证",
+      "sha256": "a08f933671d2d351f287578e1674d2f1a5200c35961886bcf71c2bf8bed75e17"
+    },
+    {
+      "source": "docs/performance.md",
+      "url": "/docs/performance/",
+      "titleAnchor": "布局稳定性与-4-cpu-回归",
+      "sha256": "8e713f4f612140e79ac1e96c42bb75f668e9c8acd28a0143930b1da8e059e882"
+    },
+    {
+      "source": "docs/persistence.md",
+      "url": "/docs/persistence/",
+      "titleAnchor": "配置与持久化清单",
+      "sha256": "e556c81b90d4d0fe1546e31bde1d30f55a5900092b07d26d58ad31ee74c22675"
+    },
+    {
+      "source": "docs/protocol.md",
+      "url": "/docs/protocol/",
+      "titleAnchor": "api-与协议",
+      "sha256": "01b5688e67c4191dbea614da20d29c786661c691b69157cef6ca5864ea63952d"
+    },
+    {
+      "source": "docs/protocol/control-json.md",
+      "url": "/docs/protocol/control-json/",
+      "titleAnchor": "控制面-json-契约",
+      "sha256": "ce5c4d79122695813fe628892b0d43c831a64c8f109c14dc95bcef59a2b8bc42"
+    },
+    {
+      "source": "docs/protocol/http-hybrid.md",
+      "url": "/docs/protocol/http-hybrid/",
+      "titleAnchor": "http-与-websocket混合会话",
+      "sha256": "4f18c14908e6e98ce17ccd9897717758926dc4093fb3405cf730de4af63415c8"
+    },
+    {
+      "source": "docs/protocol/http-push.md",
+      "url": "/docs/protocol/http-push/",
+      "titleAnchor": "http-api注意力推送web-push",
+      "sha256": "0fdcbc938d54863d2acc30876b9a540a59f8779abaff8edc6486754c55302579"
+    },
+    {
+      "source": "docs/protocol/http-sessions.md",
+      "url": "/docs/protocol/http-sessions/",
+      "titleAnchor": "http-api会话启动配置与其他",
+      "sha256": "45d054a4a6434f9db6d112d45b10255ea2580853c1f6817a2e8f5268ba79e0cd"
+    },
+    {
+      "source": "docs/protocol/http-tailscale.md",
+      "url": "/docs/protocol/http-tailscale/",
+      "titleAnchor": "http-apitailscale-状态与设置",
+      "sha256": "553c455e1485b7766bac9938ab2f07aa384baea540a45512765ff94972610d40"
+    },
+    {
+      "source": "docs/protocol/http-tunnel.md",
+      "url": "/docs/protocol/http-tunnel/",
+      "titleAnchor": "http-api公网隧道设置",
+      "sha256": "2bac830a3b08fea36ed7f67c6f30030aefd91d49ae9bac24a10931f0fe49a2e3"
+    },
+    {
+      "source": "docs/protocol/http-workspace.md",
+      "url": "/docs/protocol/http-workspace/",
+      "titleAnchor": "http-api仓库与代码工作区",
+      "sha256": "f603650f9dd6632b687a4a497f4063f826379cdc36dc6a12800b31cd33c53b8a"
+    },
+    {
+      "source": "docs/protocol/local-api.md",
+      "url": "/docs/protocol/local-api/",
+      "titleAnchor": "本机-apiunix-套接字",
+      "sha256": "e5fc1fc82a736b99528a56118c1c2994c7081e2bc82731de0daec9ffb8ebcff5"
+    },
+    {
+      "source": "docs/protocol/settings.md",
+      "url": "/docs/protocol/settings/",
+      "titleAnchor": "服务端偏好协议",
+      "sha256": "fc789db37f79d48c8f6721572f3ad954867dd6ad1ee2250e22f80dae43669796"
+    },
+    {
+      "source": "docs/protocol/websocket.md",
+      "url": "/docs/protocol/websocket/",
+      "titleAnchor": "websocket-接口",
+      "sha256": "aea287103a861bd4408c4ff42f19965a284ad5c60fba50765265c1aec55a27e2"
+    },
+    {
+      "source": "docs/specs.md",
+      "url": "/docs/specs/",
+      "titleAnchor": "openspec-规格索引",
+      "sha256": "b77f61c5fa4e8bd72e08a2c3180dd7a6a880965e99cc0f1db12989c342ab3beb"
+    },
+    {
+      "source": "docs/storybook.md",
+      "url": "/docs/storybook/",
+      "titleAnchor": "storybook-与防溢出测试",
+      "sha256": "268557844d336eef59f8cd78468f764030899f40bc7968075b8f31809234cccf"
+    },
+    {
+      "source": "docs/tailscale.md",
+      "url": "/docs/tailscale/",
+      "titleAnchor": "tailscale-serve--funnel-入口",
+      "sha256": "18078c76d2c2287768c473d240ec8b8a665eeb4a2de1058aa45a3057527cf4fe"
+    },
+    {
+      "source": "docs/usage.md",
+      "url": "/docs/usage/",
+      "titleAnchor": "使用指南",
+      "sha256": "d92e7b00968565401be93b9eb529182ab26488b7fa36a5e2a937f3836cb5c6f0"
+    },
+    {
+      "source": "docs/usage/terminal.md",
+      "url": "/docs/usage/terminal/",
+      "titleAnchor": "终端使用",
+      "sha256": "3e00afbcfd8ae7f99c5c5dee751dc21b6b19f245fceda50edc0c5d2d5bcaed19"
+    },
+    {
+      "source": "docs/user-stories.md",
+      "url": "/docs/user-stories/",
+      "titleAnchor": "webmux-user-stories",
+      "sha256": "3f725aded4cc9adc3cc5a81d45f35178f1a6d23a100aad77265b3bdfa2020228"
+    },
+    {
+      "source": "docs/user-stories/access-and-sessions.md",
+      "url": "/docs/user-stories/access-and-sessions/",
+      "titleAnchor": "连接启动与会话总览",
+      "sha256": "ab10488307570f9dfc30a431262cbe8774c81cf3f25f446b9ebfd55ea48e6f8f"
+    },
+    {
+      "source": "docs/user-stories/clients-network-tray.md",
+      "url": "/docs/user-stories/clients-network-tray/",
+      "titleAnchor": "原生客户端隧道与托盘",
+      "sha256": "b1f40c27b68da44326029d4914ecd0dc3abdb254d725ff636e25e7284acf0b18"
+    },
+    {
+      "source": "docs/user-stories/code-and-worktrees.md",
+      "url": "/docs/user-stories/code-and-worktrees/",
+      "titleAnchor": "代码工作区与工作树",
+      "sha256": "31e4d07c3a517e9d01873372e1c1feeb5a239304310f7597ae9c351198ff2bab"
+    },
+    {
+      "source": "docs/user-stories/coverage.md",
+      "url": "/docs/user-stories/coverage/",
+      "titleAnchor": "功能覆盖核对与后续维护",
+      "sha256": "fd2e46830390881194a6975acc2280191549da0a01c969e3eb3cb7bbe7b582d3"
+    },
+    {
+      "source": "docs/user-stories/hybrid-sessions.md",
+      "url": "/docs/user-stories/hybrid-sessions/",
+      "titleAnchor": "混合会话",
+      "sha256": "3429794a3a5268779ef65768d55ca3b67d048839283dc2e4de148b0566641373"
+    },
+    {
+      "source": "docs/user-stories/operations-and-tooling.md",
+      "url": "/docs/user-stories/operations-and-tooling/",
+      "titleAnchor": "配置运行与贡献者工具",
+      "sha256": "c540da910d7c0558d977ab5a95c4f00212dce818e91c8b4d3ef31c5f325e0d56"
+    },
+    {
+      "source": "docs/user-stories/terminal-network.md",
+      "url": "/docs/user-stories/terminal-network/",
+      "titleAnchor": "网络压缩用户故事",
+      "sha256": "21e85e14c7e883f1910834ac8e04b397b03ab19d38c584eab95bb2faa2a54815"
+    },
+    {
+      "source": "docs/user-stories/terminal-splits.md",
+      "url": "/docs/user-stories/terminal-splits/",
+      "titleAnchor": "终端分屏用户故事",
+      "sha256": "5faeb34d745e7df220f92325eb09ccaec91f2fc466e838253f578b43302c8ba6"
+    },
+    {
+      "source": "docs/user-stories/terminal.md",
+      "url": "/docs/user-stories/terminal/",
+      "titleAnchor": "终端输入与移动端",
+      "sha256": "9f033a2f54aad569952b939f00b34083efb6d89bae0a44a0b75788ca9057af08"
+    }
+  ],
+  "skipped": [
+    {
+      "source": "docs/agent-rules.md",
+      "reason": "rule"
+    },
+    {
+      "source": "docs/agent-rules/conventions.md",
+      "reason": "rule"
+    },
+    {
+      "source": "docs/agent-rules/repo-map.md",
+      "reason": "rule"
+    },
+    {
+      "source": "docs/agent-rules/testing.md",
+      "reason": "rule"
+    },
+    {
+      "source": "docs/agent-rules/user-stories-maintenance.md",
+      "reason": "rule"
+    },
+    {
+      "source": "docs/doc-governance.md",
+      "reason": "rule"
+    },
+    {
+      "source": "docs/user-stories/verification-log-2026-10-23-to-26.md",
+      "reason": "rule"
+    },
+    {
+      "source": "docs/user-stories/verification-log-2026-10-27-to-31.md",
+      "reason": "rule"
+    },
+    {
+      "source": "docs/user-stories/verification-log-2026-11.md",
+      "reason": "rule"
+    }
+  ],
+  "images": [
+    {
+      "source": "docs/images/binary-size/after-desktop-dark.png",
+      "url": "/docs/images/binary-size/after-desktop-dark.webp",
+      "sha256": "f223c3ca747685da995a4997ae3a288d2a6bdd6afc27680b6149141937ea7d56"
+    },
+    {
+      "source": "docs/images/binary-size/after-desktop-light.png",
+      "url": "/docs/images/binary-size/after-desktop-light.webp",
+      "sha256": "ce597560d729c90dc9ae20a2a4bf2d03b657c271e42eafcac6d740a4bbb5c421"
+    },
+    {
+      "source": "docs/images/binary-size/after-mobile-dark.png",
+      "url": "/docs/images/binary-size/after-mobile-dark.webp",
+      "sha256": "ba2b302660df8356c0f8f6c7d7be42b29327b27297e41e34f2246ed7e0dc9ec7"
+    },
+    {
+      "source": "docs/images/binary-size/after-mobile-light.png",
+      "url": "/docs/images/binary-size/after-mobile-light.webp",
+      "sha256": "842b16023235b986f2bce1f6180b36feb2474fe90f06bea6997fa2f1c3c24ca0"
+    },
+    {
+      "source": "docs/images/binary-size/before-desktop-dark.png",
+      "url": "/docs/images/binary-size/before-desktop-dark.webp",
+      "sha256": "f132bf6b96f5bc07221ad6f4fc1764cf6c23d58ee98c5f84a59acca2ef1b972d"
+    },
+    {
+      "source": "docs/images/binary-size/before-desktop-light.png",
+      "url": "/docs/images/binary-size/before-desktop-light.webp",
+      "sha256": "2a8b5bd34d1acfa95d63e3f72465107c07c77f8d7e607ffb064adfc66c406d2a"
+    },
+    {
+      "source": "docs/images/binary-size/before-mobile-dark.png",
+      "url": "/docs/images/binary-size/before-mobile-dark.webp",
+      "sha256": "38e5acfda21fb2c392ed20ad8c70c544a5650240e159aa6fcffc411d89ece201"
+    },
+    {
+      "source": "docs/images/binary-size/before-mobile-light.png",
+      "url": "/docs/images/binary-size/before-mobile-light.webp",
+      "sha256": "61135c47ea1ab16609792159a61d17f0ed76d8520ac0b224da519baf0ea25bd4"
+    },
+    {
+      "source": "docs/images/binary-size/storybook-after-dark.png",
+      "url": "/docs/images/binary-size/storybook-after-dark.webp",
+      "sha256": "044cd668f80c05bd14643759396363ad7feed6ab3bf10692fdb676413b7901a6"
+    },
+    {
+      "source": "docs/images/binary-size/storybook-after-light.png",
+      "url": "/docs/images/binary-size/storybook-after-light.webp",
+      "sha256": "7856a7f8e008fba86baa45424f75a2690eb775a1a2d0502cecead49054b8926f"
+    },
+    {
+      "source": "docs/images/binary-size/storybook-before-dark.png",
+      "url": "/docs/images/binary-size/storybook-before-dark.webp",
+      "sha256": "19c3466ad66faa6431b87fc289640d0a6a4b4ccbc2c110f99d7e66d643ce0910"
+    },
+    {
+      "source": "docs/images/binary-size/storybook-before-light.png",
+      "url": "/docs/images/binary-size/storybook-before-light.webp",
+      "sha256": "69e9c7361e6f7d351fbfd1f265a6425737608c97cbb6c214424405458a8a2914"
+    },
+    {
+      "source": "docs/images/design-system/foundations-dark.jpg",
+      "url": "/docs/images/design-system/foundations-dark.webp",
+      "sha256": "1b6aa8dcb9d68abb11d764d72391aa70288c3e54bfa7e14e5dde882e47a7eb68"
+    },
+    {
+      "source": "docs/images/design-system/foundations-light.jpg",
+      "url": "/docs/images/design-system/foundations-light.webp",
+      "sha256": "b14d8cf65d7f312a53b59aef697a3f28a9e4fff49877bfe8b86573cb3883be5f"
+    },
+    {
+      "source": "docs/images/design-system/workspace-before-dark.jpg",
+      "url": "/docs/images/design-system/workspace-before-dark.webp",
+      "sha256": "8d990a5c89430f3a52435255fa0021442cade7a0200fd313f1527fa7db71cfd8"
+    },
+    {
+      "source": "docs/images/design-system/workspace-before-light.jpg",
+      "url": "/docs/images/design-system/workspace-before-light.webp",
+      "sha256": "def24b0e359c77ef6c0ad678fedb2899091b8ebee198a099fca462eb2d94cb43"
+    },
+    {
+      "source": "docs/images/design-system/workspace-before-mobile-dark.jpg",
+      "url": "/docs/images/design-system/workspace-before-mobile-dark.webp",
+      "sha256": "9f48a07899e9c9e9ace11a7d23cdccbc9435f3ffc1acb20bb18414b477306d3e"
+    },
+    {
+      "source": "docs/images/design-system/workspace-before-mobile-light.jpg",
+      "url": "/docs/images/design-system/workspace-before-mobile-light.webp",
+      "sha256": "3ebd0f759644d0eccc6f547a2e201b11b400c14ceab62e15c969930c5cafc5e4"
+    },
+    {
+      "source": "docs/images/design-system/workspace-dark.jpg",
+      "url": "/docs/images/design-system/workspace-dark.webp",
+      "sha256": "9c05c3185df35061e9db156979a0a13ccb450d56862466588ed7ba518179bd5d"
+    },
+    {
+      "source": "docs/images/design-system/workspace-light.jpg",
+      "url": "/docs/images/design-system/workspace-light.webp",
+      "sha256": "91bad5fe5e288a8bc815dd0952e26c847c3a9f697bf11a1725dd03605dd4f5a6"
+    },
+    {
+      "source": "docs/images/design-system/workspace-mobile-dark.jpg",
+      "url": "/docs/images/design-system/workspace-mobile-dark.webp",
+      "sha256": "208abf4daaee8b40756d0f108c46c542e73f6d5c3d490d3556064f59978311d1"
+    },
+    {
+      "source": "docs/images/design-system/workspace-mobile-light.jpg",
+      "url": "/docs/images/design-system/workspace-mobile-light.webp",
+      "sha256": "59349d60cc7320d7e5c44ff27f11c672747b30c2a45afeb299dfb3541509a471"
+    },
+    {
+      "source": "docs/images/mobile-chat.png",
+      "url": "/docs/images/mobile-chat.webp",
+      "sha256": "44b143e4ee953b454670361c01bffc68e7912c9961aff214ce0d5e49a039347c"
+    },
+    {
+      "source": "docs/images/mobile-omp.png",
+      "url": "/docs/images/mobile-omp.webp",
+      "sha256": "90f5662dbe19da94d7295b462ab797e1677666a73581fde4bbafc0a297266325"
+    }
+  ],
+  "linkTargets": {
+    ".github/actions/setup/action.yml": "blob",
+    ".github/scripts/test-linux-packages.sh": "blob",
+    ".github/scripts/windows-installer-smoke.ps1": "blob",
+    ".github/workflows/pullfrog.yml": "blob",
+    ".github/workflows/test.yml": "blob",
+    ".golangci.yml": "blob",
+    ".nvmrc": "blob",
+    "AGENTS.md": "blob",
+    "Makefile": "blob",
+    "baseline/README.md": "blob",
+    "cmd/webmux-windows/main_windows.go": "blob",
+    "cmd/webmux/access.go": "blob",
+    "cmd/webmux/configcmd.go": "blob",
+    "cmd/webmux/configview.go": "blob",
+    "cmd/webmux/configview_test.go": "blob",
+    "cmd/webmux/control.go": "blob",
+    "cmd/webmux/main.go": "blob",
+    "cmd/webmux/sessions.go": "blob",
+    "cmd/webmux/start.go": "blob",
+    "cmd/webmux/tailscalectl.go": "blob",
+    "cmd/webmux/tailscalectl_test.go": "blob",
+    "cmd/webmux/tunnelctl.go": "blob",
+    "cmd/webmux/tunnelsettings_test.go": "blob",
+    "deploy/config.example.toml": "blob",
+    "deploy/linux/nfpm.yaml": "blob",
+    "deploy/linux/webmux.service": "blob",
+    "deploy/windows/webmux.nsi": "blob",
+    "docs/agent-rules.md": "blob",
+    "docs/doc-governance.md": "blob",
+    "docs/images/page-performance": "tree",
+    "docs/user-stories/verification-log-2026-10-23-to-26.md": "blob",
+    "docs/user-stories/verification-log-2026-10-27-to-31.md": "blob",
+    "docs/user-stories/verification-log-2026-11.md": "blob",
+    "install.sh": "blob",
+    "internal/acp": "tree",
+    "internal/agentprofile": "tree",
+    "internal/agentprofile/agents/agents.go": "blob",
+    "internal/agentprofile/agenttest/agenttest.go": "blob",
+    "internal/agentprofile/claudecode/claudecode.go": "blob",
+    "internal/agentprofile/claudecode/registry.go": "blob",
+    "internal/agentprofile/codex/codex.go": "blob",
+    "internal/api/chat.go": "blob",
+    "internal/api/code.go": "blob",
+    "internal/api/compression_test.go": "blob",
+    "internal/api/config.go": "blob",
+    "internal/api/continuity_test.go": "blob",
+    "internal/api/errors.go": "blob",
+    "internal/api/host.go": "blob",
+    "internal/api/launch.go": "blob",
+    "internal/api/local.go": "blob",
+    "internal/api/local_test.go": "blob",
+    "internal/api/public.go": "blob",
+    "internal/api/push.go": "blob",
+    "internal/api/push_test.go": "blob",
+    "internal/api/router.go": "blob",
+    "internal/api/static.go": "blob",
+    "internal/api/static_test.go": "blob",
+    "internal/api/tailscale.go": "blob",
+    "internal/api/tailscale_test.go": "blob",
+    "internal/api/tunnel.go": "blob",
+    "internal/api/tunnel_test.go": "blob",
+    "internal/api/upload.go": "blob",
+    "internal/api/wire_normalizer_test.go": "blob",
+    "internal/api/wire_snapshot_test.go": "blob",
+    "internal/api/workspace.go": "blob",
+    "internal/archtest/agentnames_test.go": "blob",
+    "internal/archtest/agents_size_test.go": "blob",
+    "internal/archtest/arch_test.go": "blob",
+    "internal/archtest/layers_test.go": "blob",
+    "internal/archtest/persistence_inventory.json": "blob",
+    "internal/archtest/persistence_rules_test.go": "blob",
+    "internal/archtest/persistence_scan_test.go": "blob",
+    "internal/archtest/persistence_test.go": "blob",
+    "internal/archtest/testdata/fixture": "tree",
+    "internal/artifacts/artifacts.go": "blob",
+    "internal/attach": "tree",
+    "internal/attach/attach.go": "blob",
+    "internal/attach/probe.go": "blob",
+    "internal/codeview": "tree",
+    "internal/codeview/archive.go": "blob",
+    "internal/codeview/concurrency_test.go": "blob",
+    "internal/codeview/mutate.go": "blob",
+    "internal/config/config.go": "blob",
+    "internal/config/view.go": "blob",
+    "internal/contract": "tree",
+    "internal/contract/chat.go": "blob",
+    "internal/contract/hybrid.go": "blob",
+    "internal/contract/tailscale.go": "blob",
+    "internal/contract/tunnel.go": "blob",
+    "internal/docguard/doc_test.go": "blob",
+    "internal/docguard/links_test.go": "blob",
+    "internal/hub/chat.go": "blob",
+    "internal/hub/hub.go": "blob",
+    "internal/hub/hub_bench_test.go": "blob",
+    "internal/hybrid": "tree",
+    "internal/hybrid/actor.go": "blob",
+    "internal/hybrid/connector.go": "blob",
+    "internal/launch/presets.go": "blob",
+    "internal/launch/store.go": "blob",
+    "internal/launch/types.go": "blob",
+    "internal/push/alert.go": "blob",
+    "internal/runtime": "tree",
+    "internal/service": "tree",
+    "internal/session/attention.go": "blob",
+    "internal/session/command.go": "blob",
+    "internal/session/control.go": "blob",
+    "internal/session/env.go": "blob",
+    "internal/session/io.go": "blob",
+    "internal/session/manager.go": "blob",
+    "internal/session/osc.go": "blob",
+    "internal/session/process_facts.go": "blob",
+    "internal/session/replay_test.go": "blob",
+    "internal/session/replay_unix_test.go": "blob",
+    "internal/session/session.go": "blob",
+    "internal/session/shell.go": "blob",
+    "internal/session/status.go": "blob",
+    "internal/session/strip.go": "blob",
+    "internal/sessioncmd/sessioncmd.go": "blob",
+    "internal/settings/service.go": "blob",
+    "internal/statefile/store.go": "blob",
+    "internal/tailscale": "tree",
+    "internal/tailscalesettings/store.go": "blob",
+    "internal/tray": "tree",
+    "internal/tray/compat.go": "blob",
+    "internal/tray/forward": "tree",
+    "internal/tray/quit.go": "blob",
+    "internal/tray/winui/clipboard.go": "blob",
+    "internal/tray/winui/menu.go": "blob",
+    "internal/tray/winui/singleinstance.go": "blob",
+    "internal/tunnel": "tree",
+    "internal/tunnelsettings/store.go": "blob",
+    "internal/wire/arrays_test.go": "blob",
+    "internal/wire/wire.go": "blob",
+    "internal/workspace/create.go": "blob",
+    "internal/workspace/git.go": "blob",
+    "internal/workspace/registry.go": "blob",
+    "internal/workspace/remove.go": "blob",
+    "internal/workspace/sessions.go": "blob",
+    "internal/wslclient": "tree",
+    "openspec/changes/archive/2026-10-29-govern-config-state/proposal.md": "blob",
+    "openspec/specs/access-link/spec.md": "blob",
+    "openspec/specs/acp-agent-connection/spec.md": "blob",
+    "openspec/specs/acp-connector-availability/spec.md": "blob",
+    "openspec/specs/agent-attention/spec.md": "blob",
+    "openspec/specs/agent-session-identity/spec.md": "blob",
+    "openspec/specs/attention-push/spec.md": "blob",
+    "openspec/specs/chat-prompt-queue/spec.md": "blob",
+    "openspec/specs/chat-view/spec.md": "blob",
+    "openspec/specs/cli-config/spec.md": "blob",
+    "openspec/specs/cli-server-control/spec.md": "blob",
+    "openspec/specs/code-document-preview/spec.md": "blob",
+    "openspec/specs/code-image-preview/spec.md": "blob",
+    "openspec/specs/code-markdown-preview/spec.md": "blob",
+    "openspec/specs/code-popout-window/spec.md": "blob",
+    "openspec/specs/code-tree-drop-upload/spec.md": "blob",
+    "openspec/specs/controller-service-layering/spec.md": "blob",
+    "openspec/specs/effective-configuration/spec.md": "blob",
+    "openspec/specs/frontend-architecture-guard/spec.md": "blob",
+    "openspec/specs/hybrid-agent-profiles/spec.md": "blob",
+    "openspec/specs/hybrid-session-recovery/spec.md": "blob",
+    "openspec/specs/hybrid-sessions/spec.md": "blob",
+    "openspec/specs/launch-configs/spec.md": "blob",
+    "openspec/specs/linux-packages/spec.md": "blob",
+    "openspec/specs/persistence-governance/spec.md": "blob",
+    "openspec/specs/program-status/spec.md": "blob",
+    "openspec/specs/push-notification-client/spec.md": "blob",
+    "openspec/specs/release-distribution/spec.md": "blob",
+    "openspec/specs/repository-registry/spec.md": "blob",
+    "openspec/specs/runtime-tunnel-control/spec.md": "blob",
+    "openspec/specs/server-local-api/spec.md": "blob",
+    "openspec/specs/server-runtime-record/spec.md": "blob",
+    "openspec/specs/server-settings-sync/spec.md": "blob",
+    "openspec/specs/session-artifacts/spec.md": "blob",
+    "openspec/specs/session-launch-environment/spec.md": "blob",
+    "openspec/specs/state-persistence/spec.md": "blob",
+    "openspec/specs/tailscale-exposure/spec.md": "blob",
+    "openspec/specs/tailscale-web-settings/spec.md": "blob",
+    "openspec/specs/terminal-buffer-find/spec.md": "blob",
+    "openspec/specs/terminal-code-references/spec.md": "blob",
+    "openspec/specs/terminal-control/spec.md": "blob",
+    "openspec/specs/terminal-diff-review/spec.md": "blob",
+    "openspec/specs/terminal-draft-persistence/spec.md": "blob",
+    "openspec/specs/terminal-draft-scratch/spec.md": "blob",
+    "openspec/specs/terminal-header/spec.md": "blob",
+    "openspec/specs/terminal-input-composer/spec.md": "blob",
+    "openspec/specs/terminal-quick-commands/spec.md": "blob",
+    "openspec/specs/terminal-session-cli/spec.md": "blob",
+    "openspec/specs/terminal-stream-resume/spec.md": "blob",
+    "openspec/specs/terminal-submission-delivery/spec.md": "blob",
+    "openspec/specs/tunnel-exposure/spec.md": "blob",
+    "openspec/specs/web-tunnel-settings/spec.md": "blob",
+    "openspec/specs/windows-console-client/spec.md": "blob",
+    "openspec/specs/windows-installer/spec.md": "blob",
+    "openspec/specs/windows-tray-access/spec.md": "blob",
+    "openspec/specs/windows-tray-forwarding/spec.md": "blob",
+    "openspec/specs/windows-tray-host/spec.md": "blob",
+    "openspec/specs/windows-tray-push-guidance/spec.md": "blob",
+    "openspec/specs/windows-tray-server-compat/spec.md": "blob",
+    "openspec/specs/windows-tray-tunnel/spec.md": "blob",
+    "openspec/specs/windows-tray-wsl-install/spec.md": "blob",
+    "openspec/specs/workspace-overview/spec.md": "blob",
+    "openspec/specs/workspace-sessions/spec.md": "blob",
+    "openspec/specs/worktree-lifecycle/spec.md": "blob",
+    "openspec/specs/wsl-service-lifecycle/spec.md": "blob",
+    "web/.dependency-cruiser.cjs": "blob",
+    "web/eslint.config.mjs": "blob",
+    "web/index.html": "blob",
+    "web/package.json": "blob",
+    "web/public/apple-touch-icon.png": "blob",
+    "web/public/icon-512.png": "blob",
+    "web/public/icon-maskable.svg": "blob",
+    "web/public/icon.svg": "blob",
+    "web/public/manifest.webmanifest": "blob",
+    "web/public/sw.js": "blob",
+    "web/scripts/embed-assets.ts": "blob",
+    "web/src/App.svelte": "blob",
+    "web/src/artifactPrompt.ts": "blob",
+    "web/src/browser-chrome.ts": "blob",
+    "web/src/capabilities.ts": "blob",
+    "web/src/chatSchemas.ts": "blob",
+    "web/src/code-highlight.ts": "blob",
+    "web/src/code-highlighter.ts": "blob",
+    "web/src/code-language.ts": "blob",
+    "web/src/code-pierre.ts": "blob",
+    "web/src/code-reference.ts": "blob",
+    "web/src/components/ArtifactPromptSetting.svelte": "blob",
+    "web/src/components/Brand.svelte": "blob",
+    "web/src/components/CodeDiffReader.svelte": "blob",
+    "web/src/components/CodeDocumentView.svelte": "blob",
+    "web/src/components/CodeFileActions.svelte": "blob",
+    "web/src/components/CodeFileTree.svelte": "blob",
+    "web/src/components/CodeImageView.svelte": "blob",
+    "web/src/components/CodeMarkdownPreview.svelte": "blob",
+    "web/src/components/CodeNavigator.svelte": "blob",
+    "web/src/components/CodePanel.svelte": "blob",
+    "web/src/components/CodeReader.svelte": "blob",
+    "web/src/components/ConnectorInstallHint.svelte": "blob",
+    "web/src/components/DirectoryPicker.svelte": "blob",
+    "web/src/components/InstallSettings.svelte": "blob",
+    "web/src/components/LaunchConfigDialog.svelte": "blob",
+    "web/src/components/LaunchConfigIcon.svelte": "blob",
+    "web/src/components/LazyDialog.svelte": "blob",
+    "web/src/components/NetworkSettings.svelte": "blob",
+    "web/src/components/NewSessionSheet.svelte": "blob",
+    "web/src/components/PushSettings.svelte": "blob",
+    "web/src/components/QuickCommandDialog.svelte": "blob",
+    "web/src/components/QuickCommandMenu.svelte": "blob",
+    "web/src/components/RecoverableSessions.svelte": "blob",
+    "web/src/components/RemoveWorktreeDialog.svelte": "blob",
+    "web/src/components/RepositoryGroup.svelte": "blob",
+    "web/src/components/RepositorySidebar.svelte": "blob",
+    "web/src/components/ScratchPanel.svelte": "blob",
+    "web/src/components/SessionRow.svelte": "blob",
+    "web/src/components/SessionTerminal.svelte": "blob",
+    "web/src/components/SessionViewControls.svelte": "blob",
+    "web/src/components/SettingsNavigation.svelte": "blob",
+    "web/src/components/SoftKeys.svelte": "blob",
+    "web/src/components/SplitSessionDialog.svelte": "blob",
+    "web/src/components/TailscaleConfiguration.svelte": "blob",
+    "web/src/components/TailscaleSettings.svelte": "blob",
+    "web/src/components/TerminalFindBar.svelte": "blob",
+    "web/src/components/TerminalHeader.svelte": "blob",
+    "web/src/components/TerminalInputComposer.svelte": "blob",
+    "web/src/components/TerminalShortcuts.svelte": "blob",
+    "web/src/components/TerminalSplitMenu.svelte": "blob",
+    "web/src/components/TerminalViewport.svelte": "blob",
+    "web/src/components/TokenHelp.svelte": "blob",
+    "web/src/components/WorkspaceGroup.svelte": "blob",
+    "web/src/components/WorktreeCreateFields.svelte": "blob",
+    "web/src/components/chat": "tree",
+    "web/src/components/codePopout.ts": "blob",
+    "web/src/draftStorage.ts": "blob",
+    "web/src/homeWorktrees.ts": "blob",
+    "web/src/hooks/hybrid.svelte.ts": "blob",
+    "web/src/hooks/terminal-graphics-anchor.ts": "blob",
+    "web/src/hooks/terminal-graphics.ts": "blob",
+    "web/src/hooks/terminal-socket.svelte.ts": "blob",
+    "web/src/hooks/terminal.svelte.ts": "blob",
+    "web/src/hooks/touch.ts": "blob",
+    "web/src/hooks/tunnel-settings.svelte.ts": "blob",
+    "web/src/hooks/upload.svelte.ts": "blob",
+    "web/src/hooks/viewport.svelte.ts": "blob",
+    "web/src/icons/lobehub/README.md": "blob",
+    "web/src/install.svelte.ts": "blob",
+    "web/src/kitty-graphics.ts": "blob",
+    "web/src/launchPreviews.svelte.ts": "blob",
+    "web/src/markdown-link.ts": "blob",
+    "web/src/markdown-slug.ts": "blob",
+    "web/src/pages/SessionList.svelte": "blob",
+    "web/src/pages/Settings.svelte": "blob",
+    "web/src/pages/TailscaleSettingsPage.svelte": "blob",
+    "web/src/pages/Terminal.svelte": "blob",
+    "web/src/pages/TunnelSettingsPage.svelte": "blob",
+    "web/src/push.ts": "blob",
+    "web/src/quickCommands.svelte.ts": "blob",
+    "web/src/quickCommands.ts": "blob",
+    "web/src/schemas.ts": "blob",
+    "web/src/session-list.ts": "blob",
+    "web/src/session-location.ts": "blob",
+    "web/src/settings-intent.ts": "blob",
+    "web/src/settings.svelte.ts": "blob",
+    "web/src/terminal-draft.svelte.ts": "blob",
+    "web/src/terminal-layout.ts": "blob",
+    "web/src/terminal-search.ts": "blob",
+    "web/src/terminalClipboard.ts": "blob",
+    "web/src/theme.ts": "blob",
+    "web/src/touchInput.ts": "blob",
+    "web/src/ws.ts": "blob",
+    "web/stories/ScratchNotes.stories.ts": "blob",
+    "web/test/architecture.test.ts": "blob",
+    "web/test/browser/BrowserChrome.test.ts": "blob",
+    "web/test/browser/InstallSettings.test.ts": "blob",
+    "web/test/browser/NewSessionSheet.test.ts": "blob",
+    "web/test/browser/PushSettings.test.ts": "blob",
+    "web/test/browser/ScratchPanel.test.ts": "blob",
+    "web/test/browser/SettingsNavigation.test.ts": "blob",
+    "web/test/browser/TerminalGraphics.test.ts": "blob",
+    "web/test/browser/TerminalReplay.test.ts": "blob",
+    "web/test/e2e/browser-chrome.spec.ts": "blob",
+    "web/test/e2e/frontend-quality.spec.ts": "blob",
+    "web/test/e2e/global-setup.mjs": "blob",
+    "web/test/e2e/hybrid.spec.ts": "blob",
+    "web/test/e2e/push.spec.ts": "blob",
+    "web/test/e2e/repository-scope.spec.ts": "blob",
+    "web/test/e2e/session-creation.spec.ts": "blob",
+    "web/test/e2e/settings-sync.spec.ts": "blob",
+    "web/test/e2e/shortcuts.spec.ts": "blob",
+    "web/test/e2e/split-background.spec.ts": "blob",
+    "web/test/e2e/split-quick-commands.spec.ts": "blob",
+    "web/test/e2e/splits.spec.ts": "blob",
+    "web/test/e2e/terminal.spec.ts": "blob",
+    "web/test/e2e/tunnel-settings.spec.ts": "blob",
+    "web/test/e2e/upload.spec.ts": "blob",
+    "web/test/e2e/workspace-discovery.spec.ts": "blob",
+    "web/test/fixtures/kitty-scroll-demo.mjs": "blob",
+    "web/test/fixtures/kitty-scroll.ts": "blob",
+    "web/test/kitty-graphics.test.ts": "blob",
+    "web/test/terminal-search.test.ts": "blob",
+    "web/test/wire-contract.test.ts": "blob",
+    "web/test/wireArrays.test.ts": "blob",
+    "web/tsconfig.test.json": "blob"
+  }
+}

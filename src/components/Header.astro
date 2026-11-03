@@ -1,0 +1,85 @@
+---
+// Site header (design.md#页头与-hero, ux.md#导航模型), shared by marketing pages and the docs.
+// Wide screens show the inline nav; below 900px a shadcn Sheet menu takes over. Without JS the
+// inline nav wraps instead of collapsing, so every link stays reachable.
+import IconBrandGithub from "@tabler/icons-svelte/icons/brand-github";
+import TablerIcon from "./TablerIcon.astro";
+import { Button } from "$lib/components/ui/button/index.js";
+import MobileNav from "$lib/components/site/MobileNav.svelte";
+import ThemeMenu from "$lib/components/site/ThemeMenu.svelte";
+import Logo from "./Logo.astro";
+import { localize, UI, type Lang } from "../lib/i18n";
+import { stars } from "../lib/releases";
+import { REPO_URL } from "../../site.config.mjs";
+
+interface Props {
+  lang: Lang;
+  /** Locale-neutral path of the current page, for the language switch. */
+  path: string;
+  active?: "story" | "install" | "docs" | "faq";
+  /** Target of the "install" CTA: the on-page section on the home page. */
+  installHref?: string;
+  /** Pages without a counterpart in the other language switch to its home page. */
+  altPath?: string;
+}
+const { lang, path, active, installHref, altPath } = Astro.props;
+const t = UI[lang];
+const other: Lang = lang === "en" ? "zh-cn" : "en";
+const home = localize(lang, "/");
+const nav = [
+  { id: "story", href: `${home}#story`, label: t.nav.story },
+  { id: "install", href: localize(lang, "/download/"), label: t.nav.install },
+  { id: "docs", href: "/docs/", label: t.nav.docs },
+  { id: "faq", href: localize(lang, "/faq/"), label: t.nav.faq },
+] as const;
+const links = nav.map((n) => ({ href: n.href, label: n.label, current: active === n.id }));
+const switchHref = localize(other, altPath ?? path);
+const aux = [
+  { href: REPO_URL, label: stars ? `${t.github} · ★ ${stars}` : t.github },
+  { href: switchHref, label: t.switchLangLabel },
+];
+const linkClass = "inline-flex min-h-9 items-center gap-1.5 text-[15px] text-foreground no-underline hover:underline underline-offset-[3px]";
+---
+
+<header class="sticky top-0 z-20 bg-page/95 backdrop-blur supports-[backdrop-filter]:bg-page/85">
+  <div class="container-site flex h-14 items-center gap-3 sm:h-[72px] min-[900px]:gap-8 not-in-[.js]:h-auto not-in-[.js]:flex-wrap not-in-[.js]:py-2">
+    <a href={home} class="mr-auto inline-flex shrink-0 min-[900px]:mr-0" aria-label="WebMux"><Logo height={26} /></a>
+    <nav aria-label={t.navLabel} class="hidden flex-1 items-center justify-between gap-6 min-[900px]:flex not-in-[.js]:flex not-in-[.js]:flex-wrap">
+      <ul class="m-0 flex list-none flex-wrap items-center gap-6 p-0">
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href} class:list={[linkClass, active === item.id && "font-semibold"]} aria-current={active === item.id ? "page" : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <ul class="m-0 flex list-none items-center gap-5 p-0">
+        <li>
+          <a href={REPO_URL} rel="noopener" class:list={[linkClass, "text-muted-foreground"]}>
+            <TablerIcon icon={IconBrandGithub} class="size-[18px]" />
+            {t.github}
+            {stars ? <span class="rounded-sm border px-1.5 text-xs leading-[18px]">{stars}<span class="sr-only">{t.starsSuffix}</span></span> : null}
+          </a>
+        </li>
+        <li>
+          <a href={switchHref} lang={other === "en" ? "en" : "zh-CN"} hreflang={other === "en" ? "en" : "zh-CN"} class:list={[linkClass, "text-muted-foreground"]}>
+            {t.switchLang}<span class="sr-only"> {t.switchLangLabel}</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <slot name="search" />
+    <div class="hidden items-center gap-1 min-[900px]:flex not-in-[.js]:hidden">
+      <ThemeMenu client:idle labels={t.theme} />
+    </div>
+    <Button href={installHref ?? localize(lang, "/download/")} class="wm-control h-10 rounded-md px-3 text-sm font-semibold sm:px-4 sm:text-[15px]">
+      {t.installCta}
+    </Button>
+    <div class="min-[900px]:hidden not-in-[.js]:hidden">
+      <MobileNav client:media="(max-width: 899.98px)" links={links} aux={aux} label={t.menu} title={t.navLabel} theme={t.theme} />
+    </div>
+  </div>
+</header>

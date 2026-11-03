@@ -1,0 +1,315 @@
+---
+// Windows (WSL) landing page (pages.md#其他页面要点): prerequisites, installer and tray, console
+// client, upgrade / uninstall and troubleshooting entries. Facts: docs/deployment/windows-wsl.md
+// and docs/usage.md#在-windows-终端中使用 in mzdluo123/webmux; downloads from build-time release data.
+import { Button } from "$lib/components/ui/button/index.js";
+import CommandBox from "$lib/components/site/CommandBox.svelte";
+import PageBreadcrumb from "../components/PageBreadcrumb.astro";
+import SecurityNote from "../components/SecurityNote.astro";
+import Base from "../layouts/Base.astro";
+import { localize, UI, type Lang } from "../lib/i18n";
+import { describeAsset, findAsset, formatSize, latest, releaseDataFresh } from "../lib/releases";
+import { REPO_URL } from "../../site.config.mjs";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = UI[lang];
+const l = (p: string) => localize(lang, p);
+const zh = lang === "zh-cn";
+const box = { copyLabel: t.copy, copiedLabel: t.copied, failedLabel: t.copyFailed };
+const doc = "/docs/deployment/windows-wsl/";
+const cliDoc = "/docs/usage/#在-windows-终端中使用";
+
+const downloads = [
+  /^webmux-setup-windows-amd64\.exe$/,
+  /^webmux-setup-windows-arm64\.exe$/,
+  /^webmux-tray-windows-amd64\.exe$/,
+  /^webmux-tray-windows-arm64\.exe$/,
+  /^webmux-windows-amd64\.exe$/,
+  /^webmux-windows-arm64\.exe$/,
+]
+  .map((re) => findAsset(re))
+  .filter((a) => a !== undefined);
+const hasSetup = downloads.some((a) => a.name.startsWith("webmux-setup-"));
+
+const c = zh
+  ? {
+      title: "Windows（WSL） · WebMux",
+      description:
+        "在 Windows 上通过 WSL 2 运行 WebMux：安装程序与托盘负责安装、启动和远程访问，控制台客户端在 PowerShell 与 Windows Terminal 里启动并附着会话；本页还列出前置条件、升级与卸载方法，以及常见故障的排查入口。",
+      crumb: "Windows（WSL）",
+      h1: "在 Windows 上通过 WSL 2 运行 WebMux",
+      lead:
+        "WebMux 不原生运行在 Windows 上，而是运行在 WSL 2 发行版中。Windows 侧的托盘程序负责安装、启动、监控和停止它；控制台客户端让你在 PowerShell / Windows Terminal 里启动 agent、附着会话。手机和浏览器照常通过 WebMux 访问同一批会话。",
+      prereqTitle: "前置条件",
+      prereq: [
+        "Windows 10 22H2 及以上或 Windows 11（amd64 / arm64），无需管理员权限。",
+        "从 Microsoft Store 安装的 WSL 2：托盘依赖 wsl.exe 的 --version、--exec、--cd 与 WSL_UTF8，系统自带的旧版 WSL 不支持。在 PowerShell 中执行 wsl --update 可升级。",
+        "至少一个已安装的发行版。没有发行版时，托盘状态行提示“未检测到 WSL 发行版”。",
+      ],
+      downloadTitle: "下载",
+      downloadLead: (v: string) => `以下文件来自 ${v}，按 Windows 的架构选择 amd64 或 arm64。`,
+      noSetup: (v: string) =>
+        `${v} 未附带安装程序；可以直接运行托盘程序（放到固定位置后双击），之后的步骤相同。`,
+      download: "下载",
+      downloadLabel: (name: string) => `下载 ${name}`,
+      allDownloads: "全部下载与 SHA-256",
+      trayTitle: "安装程序与托盘能做什么",
+      installer: [
+        ["只为当前用户安装", "不需要管理员；默认目录 %LOCALAPPDATA%\\Programs\\WebMux\\，创建开始菜单“WebMux”并在“应用和功能”中登记卸载项。"],
+        ["登录 Windows 后启动托盘", "“开机后自动启动 WebMux”默认勾选，写入与托盘菜单“登录时自动启动”相同的启动项。"],
+        ["预置同架构的服务端", "安装包把 Linux 服务端放进托盘的下载缓存；安装程序本身不访问 WSL，首次使用在托盘菜单选择“安装 WSL 中的 webmux”。"],
+        ["未签名", "Windows SmartScreen 可能拦截，选择“更多信息 → 仍要运行”。架构不符时安装程序提示应下载的安装包并退出，不写任何文件。"],
+      ],
+      tray: [
+        ["安装 / 升级 WSL 中的 webmux", "取得与托盘同版本、与发行版架构匹配的 Linux 二进制，SHA-256 与发布构建时写入托盘的摘要一致才使用；GitHub 无响应时依次改用 ghfast.top、gh-proxy.com 镜像。托盘从不在后台自动安装。"],
+        ["启动、停止与重启", "托盘托管（在发行版中运行 webmux serve）或 systemd 用户服务，默认自动选择；意外退出时通知并按退避重启。"],
+        ["状态与诊断", "菜单状态行显示运行状态、两侧版本差异与 localhost 转发问题；手动在 WSL 里启动的实例显示为“外部实例”，托盘不会停止它。"],
+        ["远程访问", "NAT 网络模式下，可在“远程访问”子菜单勾选 Windows 主机地址（Tailscale 地址置顶）转发给 WebMux；只在服务健康且配置了 token 时启用，随托盘退出而停止。"],
+        ["公网隧道（Cloudflare）", "不重启、不影响会话即可开启或关闭；每次开启前确认风险，并要求至少 43 字符的 WebMux Token。"],
+        ["复制 Token 与链接", "点击时才从 WSL 读取 token，剪贴板内容不进入 Windows 剪贴板历史与云剪贴板，60 秒后若未变化自动清空。"],
+      ],
+      installerHead: "安装程序",
+      trayHead: "托盘",
+      cliTitle: "控制台客户端",
+      cliLead:
+        "webmux-windows-<arch>.exe 在 PowerShell / Windows Terminal 中提供 run、attach、ls、open、status 与 version，会话运行在 WSL 中的 WebMux 里。建议放入 PATH 并重命名为 webmux.exe：",
+      cliCommand:
+        "webmux run -- claude        # 在当前目录创建会话并附着；Ctrl+] 分离\nwebmux ls                   # 列出会话\nwebmux attach <ID>          # 回到会话，同一个进程接着跑\nwebmux open <ID> --browser  # 打开不含 Token 的会话链接",
+      cliPoints: [
+        "每条连接经 wsl.exe --exec webmux bridge 访问本机 API，不需要 Token，也不依赖 WSL 的 localhost 转发或网络模式。",
+        "服务需已在 WSL 中运行（托盘或 webmux serve）；客户端不会自动启动服务。",
+        "未指定 --cwd 时把当前目录换算为 WSL 路径（C:\\work → /mnt/c/work）；网络共享等无法换算的路径请用 --cwd 指定。",
+        "附着时 Ctrl+C 发送给会话，Ctrl+] 分离；推荐 Windows Terminal。",
+        "Windows 环境变量不会复制到 WSL，只发送 --env 显式列出的变量。PowerShell 会再处理一次引号，需要字面传递 $、; 等字符时用单引号。",
+      ],
+      cliDoc: "控制台客户端完整说明",
+      upgradeTitle: "升级与卸载",
+      upgrade: [
+        "升级托盘：直接运行新版本安装程序。它先让正在运行的托盘按“仅退出托盘”退出（WebMux 与会话不受影响），替换文件后再启动新托盘。",
+        "升级 WSL 中的 webmux：在托盘菜单选择“安装 / 升级 WSL 中的 webmux”。正在运行的旧进程继续运行，重启后才生效；重启会结束所有终端会话，先让 agent 告一段落。",
+        "卸载：在“应用和功能”中卸载 WebMux。卸载会关闭托盘并删除程序、快捷方式与预置的服务端，保留托盘设置（%APPDATA%\\WebMux）、托盘日志（%LOCALAPPDATA%\\WebMux）和 WSL 中的 webmux；正在运行的 WebMux 不会停止，需要时在 WSL 中执行 webmux stop。",
+      ],
+      silent: "静默安装与卸载使用 /S（选项取默认值，含登录启动）：",
+      troubleTitle: "常见故障",
+      troubleNote: "",
+      trouble: [
+        ["托盘提示“未检测到 WSL 发行版”", `${doc}#前置条件`],
+        ["WSL 里运行正常，Windows 却打不开 localhost 链接", `${doc}#localhost-转发诊断`],
+        ["手机访问不到 WSL 里的 WebMux", `${doc}#远程访问`],
+        ["托盘启动的 WebMux 找不到 agent 命令", "/docs/deployment/services/#agent-的-path"],
+        ["复制 Token 与剪贴板行为", `${doc}#token-与剪贴板`],
+        ["控制台客户端的目录换算与引号", cliDoc],
+      ],
+      fullDoc: "Windows（WSL）部署完整文档",
+    }
+  : {
+      title: "Windows (WSL) · WebMux",
+      description:
+        "Run WebMux on Windows through WSL 2: the installer and tray handle setup, start-up and remote access; the console client attaches sessions from PowerShell.",
+      crumb: "Windows (WSL)",
+      h1: "Run WebMux on Windows with WSL 2",
+      lead:
+        "WebMux does not run natively on Windows; it runs inside a WSL 2 distribution. On the Windows side, the tray app installs, starts, monitors and stops it, and the console client lets you start agents and attach to sessions from PowerShell or Windows Terminal. Phones and browsers reach the same sessions through WebMux as usual. The installer and tray menus are in Chinese, so menu items below are quoted as they appear, with an English gloss.",
+      prereqTitle: "Prerequisites",
+      prereq: [
+        "Windows 10 22H2 or later, or Windows 11 (amd64 / arm64). No administrator rights needed.",
+        "WSL 2 from the Microsoft Store: the tray relies on wsl.exe --version, --exec, --cd and WSL_UTF8, which the older built-in WSL lacks. Run wsl --update in PowerShell to upgrade.",
+        "At least one installed distribution. Without one, the tray status line shows “未检测到 WSL 发行版” (no WSL distribution detected).",
+      ],
+      downloadTitle: "Downloads",
+      downloadLead: (v: string) => `These files come from ${v}. Pick amd64 or arm64 to match your Windows architecture.`,
+      noSetup: (v: string) =>
+        `${v} ships no installer. Run the tray app directly (keep the exe in a fixed location and double-click it); the remaining steps are the same.`,
+      download: "Download",
+      downloadLabel: (name: string) => `Download ${name}`,
+      allDownloads: "All downloads with SHA-256",
+      trayTitle: "What the installer and tray do",
+      installer: [
+        ["Installs for the current user", "No administrator rights. Default folder %LOCALAPPDATA%\\Programs\\WebMux\\, with a “WebMux” Start menu entry and an uninstall entry in Apps & features."],
+        ["Starts the tray when you sign in", "“开机后自动启动 WebMux” (start WebMux at sign-in) is checked by default and writes the same startup entry as the tray's “登录时自动启动” (start at login) option."],
+        ["Bundles the matching server", "The installer places the Linux server for your architecture in the tray's download cache. It never touches WSL itself; on first use, choose “安装 WSL 中的 webmux” (install webmux in WSL) in the tray menu."],
+        ["Unsigned", "Windows SmartScreen may block it; choose “More info → Run anyway”. On an architecture mismatch the installer names the right package and exits without writing any files."],
+      ],
+      tray: [
+        ["Installs or upgrades webmux in WSL", "Fetches the Linux binary matching the tray version and the distribution's architecture, and uses it only if its SHA-256 matches the digest built into the tray. Falls back to the ghfast.top and gh-proxy.com mirrors when GitHub does not respond. It never installs in the background."],
+        ["Start, stop and restart", "Either tray-managed (running webmux serve in the distribution) or as a systemd user service, chosen automatically by default. Unexpected exits trigger a notification and a back-off restart."],
+        ["Status and diagnostics", "The menu status line shows whether WebMux is running, version mismatches and localhost forwarding problems. Instances you start by hand inside WSL appear as external, and the tray never stops them."],
+        ["Remote access", "In the default NAT networking mode, the “远程访问” (remote access) submenu can forward a Windows host address (Tailscale addresses first) to WebMux. Forwarding needs a healthy service with a token and stops when the tray exits."],
+        ["Public tunnel (Cloudflare)", "Turns on or off without a restart and without touching sessions. Each time, the tray asks you to confirm the risk and requires a WebMux token of at least 43 characters."],
+        ["Copy token and links", "The token is read from WSL only when you click. Copies stay out of Windows clipboard history and cloud clipboard, and are cleared after 60 seconds if unchanged."],
+      ],
+      installerHead: "Installer",
+      trayHead: "Tray",
+      cliTitle: "Console client",
+      cliLead:
+        "webmux-windows-<arch>.exe brings run, attach, ls, open, status and version to PowerShell and Windows Terminal; the sessions run in WebMux inside WSL. Put it on your PATH and rename it to webmux.exe:",
+      cliCommand:
+        "webmux run -- claude        # create a session here and attach; Ctrl+] detaches\nwebmux ls                   # list sessions\nwebmux attach <ID>          # rejoin the same running process\nwebmux open <ID> --browser  # open the session link (no token in it)",
+      cliPoints: [
+        "Each connection goes through wsl.exe --exec webmux bridge to the local API, so no token is needed and WSL localhost forwarding or networking mode does not matter.",
+        "The service must already be running in WSL (tray or webmux serve); the client does not start it.",
+        "Without --cwd, the current directory is translated to a WSL path (C:\\work → /mnt/c/work). For paths that cannot be translated, such as network shares, pass --cwd.",
+        "While attached, Ctrl+C goes to the session and Ctrl+] detaches. Windows Terminal is recommended.",
+        "Windows environment variables are not copied into WSL; only variables you list with --env are sent. PowerShell re-parses quotes, so use single quotes to pass $, ; and similar characters literally.",
+      ],
+      cliDoc: "Console client reference (Chinese)",
+      upgradeTitle: "Upgrade and uninstall",
+      upgrade: [
+        "Upgrade the tray: run the new installer. It asks the running tray to quit as with “仅退出托盘” (quit tray only), so WebMux and its sessions keep running, then replaces the files and starts the new tray.",
+        "Upgrade webmux in WSL: choose “安装 / 升级 WSL 中的 webmux” (install / upgrade webmux in WSL) in the tray menu. The running process keeps the old version until it restarts, and restarting ends every terminal session, so let your agents finish first.",
+        "Uninstall: remove WebMux in Apps & features. This closes the tray and deletes the program, shortcuts and bundled server, but keeps tray settings (%APPDATA%\\WebMux), tray logs (%LOCALAPPDATA%\\WebMux) and webmux inside WSL. A running WebMux is not stopped; run webmux stop in WSL if needed.",
+      ],
+      silent: "Silent install and uninstall use /S (default options, including start at sign-in):",
+      troubleTitle: "Troubleshooting",
+      troubleNote: "These guides are in Chinese.",
+      trouble: [
+        ["The tray reports “未检测到 WSL 发行版” (no WSL distribution detected)", `${doc}#前置条件`],
+        ["WebMux works in WSL but the localhost link fails on Windows", `${doc}#localhost-转发诊断`],
+        ["Your phone cannot reach WebMux running in WSL", `${doc}#远程访问`],
+        ["WebMux started by the tray cannot find an agent command", "/docs/deployment/services/#agent-的-path"],
+        ["How copying the token and the clipboard behave", `${doc}#token-与剪贴板`],
+        ["Console client path translation and quoting", cliDoc],
+      ],
+      fullDoc: "Full Windows (WSL) deployment guide (Chinese)",
+    };
+
+const h2 = "m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]";
+const body = "text-[16px] leading-[1.75]";
+---
+
+<Base lang={lang} path="/windows/" title={c.title} description={c.description} og="windows" active="install">
+  <section class="container-site pt-10 pb-12 sm:pt-16 sm:pb-16" aria-labelledby="windows-title">
+    <PageBreadcrumb lang={lang} items={[{ label: c.crumb }]} />
+    <h1 id="windows-title" class="mt-5 mb-0 max-w-[880px] text-[36px] leading-[1.15] font-bold tracking-[-0.02em] sm:text-[48px]">
+      {c.h1}
+    </h1>
+    <p class="mt-5 mb-0 max-w-[720px] text-[17px] leading-[1.75] text-muted-foreground">{c.lead}</p>
+  </section>
+
+  <section class="container-site pb-16 sm:pb-24" aria-labelledby="prereq-title">
+    <div class="grid gap-10 md:grid-cols-12">
+      <div class="md:col-span-6">
+        <h2 id="prereq-title" class={h2}>{c.prereqTitle}</h2>
+        <ul class:list={["mt-5 mb-0 flex list-disc flex-col gap-2 pl-5", body]}>
+          {c.prereq.map((p) => <li>{p}</li>)}
+        </ul>
+      </div>
+      <div class="md:col-span-6" id="downloads">
+        <h2 class={h2}>{c.downloadTitle}</h2>
+        {
+          latest && downloads.length > 0 ? (
+            <>
+              <p class:list={["mt-5 mb-4 text-muted-foreground", body]}>{c.downloadLead(latest.tag)}</p>
+              {!hasSetup && <p class:list={["mt-0 mb-4", body]}>{c.noSetup(latest.tag)}</p>}
+              <ul class="m-0 flex list-none flex-col divide-y divide-band-line rounded-lg border p-0">
+                {downloads.map((a) => (
+                  <li class="flex flex-wrap items-center gap-x-4 gap-y-1 px-4 py-3">
+                    <div class="min-w-0 flex-1">
+                      <p class="m-0 font-mono text-[13px] break-all">{a.name}</p>
+                      <p class="m-0 text-sm text-muted-foreground">
+                        {describeAsset(a.name, lang)} · {formatSize(a.size)}
+                      </p>
+                    </div>
+                    <Button href={a.url} variant="outline" size="sm" class="text-primary" aria-label={c.downloadLabel(a.name)}>
+                      {c.download}
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+              {!releaseDataFresh && <p class="mt-3 mb-0 text-sm text-muted-foreground">{t.staleData}</p>}
+            </>
+          ) : (
+            <p class:list={["mt-5 mb-0", body]}>
+              <a class="link" href={`${REPO_URL}/releases`} rel="noopener">{t.versionUnavailable}</a>
+            </p>
+          )
+        }
+        <p class="mt-4 mb-0 text-sm"><a class="link" href={`${l("/download/")}#assets`}>{c.allDownloads}</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-band-line bg-band py-16 sm:py-24" aria-labelledby="tray-title">
+    <div class="container-site">
+      <h2 id="tray-title" class={h2}>{c.trayTitle}</h2>
+      <div class="mt-8 grid gap-10 md:grid-cols-12">
+        <div class="min-w-0 [overflow-wrap:anywhere] md:col-span-4">
+          <h3 class="m-0 text-xl font-semibold">{c.installerHead}</h3>
+          <dl class="mt-4 mb-0 flex flex-col gap-5">
+            {
+              c.installer.map(([dt, dd]) => (
+                <div>
+                  <dt class="text-[17px] font-semibold">{dt}</dt>
+                  <dd class="m-0 mt-1 text-[15px] leading-[1.7] text-muted-foreground">{dd}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+        <div class="min-w-0 [overflow-wrap:anywhere] md:col-span-8">
+          <h3 class="m-0 text-xl font-semibold">{c.trayHead}</h3>
+          <dl class="mt-4 mb-0 grid gap-x-10 gap-y-5 sm:grid-cols-2">
+            {
+              c.tray.map(([dt, dd]) => (
+                <div>
+                  <dt class="text-[17px] font-semibold">{dt}</dt>
+                  <dd class="m-0 mt-1 text-[15px] leading-[1.7] text-muted-foreground">{dd}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-site py-16 sm:py-24" aria-labelledby="cli-title">
+    <div class="max-w-[760px]">
+      <h2 id="cli-title" class={h2}>{c.cliTitle}</h2>
+      <p class:list={["mt-5 mb-4", body]}>{c.cliLead}</p>
+      <CommandBox client:visible command={c.cliCommand} {...box} />
+      <ul class:list={["mt-5 mb-0 flex list-disc flex-col gap-2 pl-5 text-muted-foreground", body]}>
+        {c.cliPoints.map((p) => <li>{p}</li>)}
+      </ul>
+      <p class="mt-4 mb-0 text-sm"><a class="link" href={cliDoc}>{c.cliDoc}</a></p>
+    </div>
+  </section>
+
+  <section class="border-y border-band-line bg-band py-16 sm:py-24" aria-labelledby="upgrade-title">
+    <div class="container-site grid gap-10 md:grid-cols-12">
+      <div class="md:col-span-7">
+        <h2 id="upgrade-title" class={h2}>{c.upgradeTitle}</h2>
+        <ul class:list={["mt-5 mb-0 flex list-disc flex-col gap-3 pl-5", body]}>
+          {c.upgrade.map((p) => <li>{p}</li>)}
+        </ul>
+        <p class:list={["mt-5 mb-3", body]}>{c.silent}</p>
+        <CommandBox
+          client:visible
+          command={'webmux-setup-windows-amd64.exe /S\n"%LOCALAPPDATA%\\Programs\\WebMux\\uninstall.exe" /S'}
+          {...box}
+        />
+      </div>
+      <div class="md:col-span-5" id="troubleshooting">
+        <h2 class={h2}>{c.troubleTitle}</h2>
+        {c.troubleNote && <p class="mt-3 mb-0 text-sm text-muted-foreground">{c.troubleNote}</p>}
+        <ul class="mt-5 mb-0 flex list-none flex-col gap-3 p-0 text-[16px] leading-[1.6]">
+          {
+            c.trouble.map(([label, href]) => (
+              <li>
+                <a class="link" href={href}>{label}</a>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-6 mb-0 text-sm"><a class="link" href={doc}>{c.fullDoc}</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-site py-16 sm:py-24" aria-label={zh ? "安全边界" : "Safety boundary"}>
+    <SecurityNote lang={lang} class="max-w-[760px]" />
+  </section>
+</Base>

@@ -1,0 +1,244 @@
+---
+// Licenses and privacy (pages.md#全站框架 footer "法律" column, design.md#字体): WebMux and bundled
+// asset licenses, trademark notice, and what the site does (not) collect (#privacy).
+import PageBreadcrumb from "../components/PageBreadcrumb.astro";
+import Base from "../layouts/Base.astro";
+import { localize, UI, type Lang } from "../lib/i18n";
+import { REPO_URL, SITE_REPO_URL } from "../../site.config.mjs";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = UI[lang];
+const zh = lang === "zh-cn";
+// Same switch as HeadCommon.astro: the beacon is only emitted when the token is configured.
+const analytics = Boolean(import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN);
+
+type Item = { name: string; license: string; use: string; links: { label: string; href: string; external?: boolean }[] };
+const c = zh
+  ? {
+      title: "许可与隐私 · WebMux",
+      description:
+        "WebMux 以 MIT 许可开源。本页列出官网使用的字体（Inter、Maple Mono，OFL）与图标（LobeHub、Tabler，MIT）的许可和商标声明，并说明本站的隐私做法：不用 Cookie、不设账号、不加载跟踪脚本，字体与图标全部自托管。",
+      h1: "许可与隐私",
+      licensesTitle: "许可",
+      webmux: {
+        title: "WebMux",
+        body: "WebMux 的源代码以 MIT 许可发布，可以自由使用、修改和再分发，需保留版权与许可声明。本站的源代码同样公开。",
+        links: [
+          { label: "MIT 许可全文", href: "/licenses/webmux-MIT.txt" },
+          { label: "WebMux 源代码", href: REPO_URL, external: true },
+          { label: "官网源代码", href: SITE_REPO_URL, external: true },
+        ],
+      },
+      assetsTitle: "字体与图标",
+      assetsLead: "以下资源随本站自托管分发，不从第三方服务加载。",
+      items: [
+        {
+          name: "Inter",
+          license: "SIL Open Font License 1.1",
+          use: "拉丁字母的界面与正文字体（子集）。",
+          links: [{ label: "OFL 全文", href: "/licenses/OFL-Inter.txt" }],
+        },
+        {
+          name: "Maple Mono NF CN",
+          license: "SIL Open Font License 1.1",
+          use: "命令、路径与代码字体；只保留拉丁字形，中日韩文字使用系统字体。",
+          links: [
+            { label: "OFL 全文", href: "/licenses/OFL-MapleMono.txt" },
+            { label: "字体说明", href: "/licenses/fonts-NOTICE.txt" },
+          ],
+        },
+        {
+          name: "Lobe Icons（LobeHub）",
+          license: "MIT",
+          use: "“支持的 agent”中的单色 CLI 品牌图标，未经修改。",
+          links: [
+            { label: "MIT 许可全文", href: "/licenses/lobe-icons-MIT.txt" },
+            { label: "lobehub/lobe-icons", href: "https://github.com/lobehub/lobe-icons", external: true },
+          ],
+        },
+        {
+          name: "Tabler Icons",
+          license: "MIT",
+          use: "界面图标，构建时内联为 SVG。",
+          links: [{ label: "tabler/tabler-icons", href: "https://github.com/tabler/tabler-icons", external: true }],
+        },
+      ] as Item[],
+      codeNote:
+        "页面中的交互组件基于 Astro、Starlight、Svelte、bits-ui、shadcn-svelte、Tailwind CSS 与 Pagefind 构建，它们均以 MIT 许可发布。",
+      trademarkTitle: "商标声明",
+      trademark: [
+        "WebMux 是开源项目，与 Anthropic、OpenAI、Google 等 agent 厂商无隶属关系，也未获得它们的认可或背书。",
+        "Claude Code、Codex、Gemini CLI、Cursor、GitHub Copilot、OpenCode、Qwen、Kimi、CodeBuddy 等名称与图标归其各自所有者；本站使用它们只为说明兼容性。",
+      ],
+      privacyTitle: "隐私",
+      privacy: [
+        "本站不设置 Cookie，没有账号或登录，也不加载广告与跟踪脚本。",
+        "主题偏好（浅色、深色或跟随系统）只保存在你浏览器的 localStorage 中，不会发送给任何服务器。",
+        "字体、图标、图片与文档搜索索引都由本站提供；文档搜索在你的浏览器里本地完成，搜索词不会发送出去。",
+        "本站托管在 Cloudflare 上。和任何网站一样，托管方在处理请求时会接触到你的 IP 地址等请求信息。",
+        "下载链接指向 GitHub Releases，点击后由 GitHub 提供文件；GitHub 与可选的国内镜像（如 ghfast.top）按各自的政策处理请求。",
+      ],
+      analyticsOn:
+        "本站启用了 Cloudflare Web Analytics 统计访问量：它不使用 Cookie、不做跨站追踪，只提供汇总数据。除它（static.cloudflareinsights.com）之外，本站不向第三方 CDN 或服务发起请求。",
+      analyticsOff:
+        "当前构建没有启用任何访问统计，也不向第三方 CDN 请求资源。如果以后启用统计，只会使用 Cloudflare Web Analytics：不使用 Cookie，只提供汇总数据，并在本节注明。",
+      product:
+        "以上只涉及本站。WebMux 软件运行在你自己的机器上，它的安全模型与部署建议见",
+      productLink: "安全与部署建议",
+      contact: "对许可或隐私有疑问，请在 GitHub 提交 Issue。",
+      contactLink: "提交 Issue",
+    }
+  : {
+      title: "Licenses and privacy · WebMux",
+      description:
+        "WebMux is MIT licensed. See the licenses of the fonts and icons this site uses, the trademark notice, and how this site works without cookies or tracking.",
+      h1: "Licenses and privacy",
+      licensesTitle: "Licenses",
+      webmux: {
+        title: "WebMux",
+        body: "WebMux source code is released under the MIT license: you may use, modify and redistribute it as long as the copyright and license notice are kept. The source of this site is public too.",
+        links: [
+          { label: "MIT license text", href: "/licenses/webmux-MIT.txt" },
+          { label: "WebMux source code", href: REPO_URL, external: true },
+          { label: "Website source code", href: SITE_REPO_URL, external: true },
+        ],
+      },
+      assetsTitle: "Fonts and icons",
+      assetsLead: "These assets are self-hosted with the site; nothing is loaded from third-party services.",
+      items: [
+        {
+          name: "Inter",
+          license: "SIL Open Font License 1.1",
+          use: "Latin interface and body text (subset).",
+          links: [{ label: "OFL text", href: "/licenses/OFL-Inter.txt" }],
+        },
+        {
+          name: "Maple Mono NF CN",
+          license: "SIL Open Font License 1.1",
+          use: "Commands, paths and code. Only Latin glyphs are kept; CJK text uses system fonts.",
+          links: [
+            { label: "OFL text", href: "/licenses/OFL-MapleMono.txt" },
+            { label: "Font notice", href: "/licenses/fonts-NOTICE.txt" },
+          ],
+        },
+        {
+          name: "Lobe Icons (LobeHub)",
+          license: "MIT",
+          use: "Unmodified monochrome CLI brand icons in the supported agents list.",
+          links: [
+            { label: "MIT license text", href: "/licenses/lobe-icons-MIT.txt" },
+            { label: "lobehub/lobe-icons", href: "https://github.com/lobehub/lobe-icons", external: true },
+          ],
+        },
+        {
+          name: "Tabler Icons",
+          license: "MIT",
+          use: "Interface icons, inlined as SVG at build time.",
+          links: [{ label: "tabler/tabler-icons", href: "https://github.com/tabler/tabler-icons", external: true }],
+        },
+      ] as Item[],
+      codeNote:
+        "Interactive parts of the site are built with Astro, Starlight, Svelte, bits-ui, shadcn-svelte, Tailwind CSS and Pagefind, all released under the MIT license.",
+      trademarkTitle: "Trademarks",
+      trademark: [
+        "WebMux is an independent open-source project. It is not affiliated with, endorsed or sponsored by Anthropic, OpenAI, Google or other agent vendors.",
+        "Claude Code, Codex, Gemini CLI, Cursor, GitHub Copilot, OpenCode, Qwen, Kimi, CodeBuddy and other names and icons belong to their respective owners and appear here only to describe compatibility.",
+      ],
+      privacyTitle: "Privacy",
+      privacy: [
+        "This site sets no cookies, has no accounts or sign-in, and loads no advertising or tracking scripts.",
+        "Your theme preference (light, dark or system) is stored only in your browser's localStorage and is never sent to a server.",
+        "Fonts, icons, images and the docs search index are served by this site. Docs search runs locally in your browser; search terms are not sent anywhere.",
+        "The site is hosted on Cloudflare. As with any website, the host handles request information such as your IP address while serving pages.",
+        "Download links point to GitHub Releases, which serves the files; GitHub and the optional mirrors for mainland China (such as ghfast.top) handle requests under their own policies.",
+      ],
+      analyticsOn:
+        "This site uses Cloudflare Web Analytics to count visits. It sets no cookies, does no cross-site tracking and reports only aggregated data. Apart from it (static.cloudflareinsights.com), the site makes no requests to third-party CDNs or services.",
+      analyticsOff:
+        "This build has no visitor analytics and requests nothing from third-party CDNs. If analytics are enabled later, they will be Cloudflare Web Analytics only: no cookies, aggregated data, and noted in this section.",
+      product:
+        "All of the above is about this website. The WebMux software runs on your own machines; for its security model and deployment advice, see",
+      productLink: "security and deployment",
+      contact: "Questions about licensing or privacy? Open an issue on GitHub.",
+      contactLink: "Open an issue",
+    };
+
+const h2 = "m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]";
+const body = "text-[16px] leading-[1.75]";
+---
+
+<Base lang={lang} path="/licenses/" title={c.title} description={c.description} og="licenses">
+  <section class="container-site pt-10 pb-12 sm:pt-16" aria-labelledby="licenses-title">
+    <PageBreadcrumb lang={lang} items={[{ label: c.h1 }]} />
+    <h1 id="licenses-title" class="mt-5 mb-0 text-[36px] leading-[1.15] font-bold tracking-[-0.02em] sm:text-[48px]">{c.h1}</h1>
+  </section>
+
+  <section id="licenses" class="container-site scroll-mt-24 pb-16 sm:pb-24" aria-labelledby="licenses-h2">
+    <div class="max-w-[760px]">
+      <h2 id="licenses-h2" class={h2}>{c.licensesTitle}</h2>
+      <h3 class="mt-8 mb-0 text-xl font-semibold">{c.webmux.title} <span class="text-base font-normal text-muted-foreground">· MIT</span></h3>
+      <p class:list={["mt-2 mb-0", body]}>{c.webmux.body}</p>
+      <p class="mt-3 mb-0 flex flex-wrap gap-x-5 gap-y-1 text-[15px]">
+        {
+          c.webmux.links.map((x) => (
+            <a class="link" href={x.href} rel={x.external ? "noopener" : undefined}>
+              {x.label}
+              {x.external && <span class="sr-only">{t.external}</span>}
+            </a>
+          ))
+        }
+      </p>
+
+      <h3 class="mt-10 mb-0 text-xl font-semibold">{c.assetsTitle}</h3>
+      <p class:list={["mt-2 mb-0 text-muted-foreground", body]}>{c.assetsLead}</p>
+      <dl class="mt-5 mb-0 flex flex-col divide-y divide-band-line border-y border-band-line">
+        {
+          c.items.map((item) => (
+            <div class="grid gap-1 py-4 sm:grid-cols-[200px_minmax(0,1fr)] sm:gap-6">
+              <dt class="font-semibold">
+                {item.name}
+                <span class="block text-sm font-normal text-muted-foreground">{item.license}</span>
+              </dt>
+              <dd class="m-0 text-[15px] leading-[1.7]">
+                {item.use}
+                <span class="mt-1 flex flex-wrap gap-x-5 gap-y-1">
+                  {item.links.map((x) => (
+                    <a class="link" href={x.href} rel={x.external ? "noopener" : undefined}>
+                      {x.label}
+                      {x.external && <span class="sr-only">{t.external}</span>}
+                    </a>
+                  ))}
+                </span>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="mt-4 mb-0 text-[15px] leading-[1.7] text-muted-foreground">{c.codeNote}</p>
+
+      <h3 class="mt-10 mb-0 text-xl font-semibold">{c.trademarkTitle}</h3>
+      {c.trademark.map((p) => <p class:list={["mt-2 mb-0", body]}>{p}</p>)}
+    </div>
+  </section>
+
+  <section id="privacy" class="scroll-mt-24 border-y border-band-line bg-band py-16 sm:py-24" aria-labelledby="privacy-title">
+    <div class="container-site">
+      <div class="max-w-[760px]">
+        <h2 id="privacy-title" class={h2}>{c.privacyTitle}</h2>
+        <ul class:list={["mt-6 mb-0 flex list-disc flex-col gap-2 pl-5", body]}>
+          {c.privacy.map((p) => <li>{p}</li>)}
+          <li>{analytics ? c.analyticsOn : c.analyticsOff}</li>
+        </ul>
+        <p class:list={["mt-6 mb-0", body]}>
+          {c.product} <a class="link" href={localize(lang, "/security/")}>{c.productLink}</a>{zh ? "。" : "."}
+        </p>
+        <p class:list={["mt-3 mb-0", body]}>
+          {c.contact} <a class="link" href={`${SITE_REPO_URL}/issues`} rel="noopener">{c.contactLink}<span class="sr-only">{t.external}</span></a>
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>

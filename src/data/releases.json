@@ -1,0 +1,1460 @@
+{
+  "fetched": true,
+  "stars": 13,
+  "latest": {
+    "tag": "v0.10.1",
+    "name": "WebMux v0.10.1",
+    "publishedAt": "2026-11-02T04:55:35Z",
+    "prerelease": false,
+    "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.10.1",
+    "body": "## What's Changed\n* fix(web): 统一会话创建入口与默认行为 by @myot233 in https://github.com/mzdluo123/webmux/pull/244\n\n\n**Full Changelog**: https://github.com/mzdluo123/webmux/compare/v0.10.0...v0.10.1",
+    "assets": [
+      {
+        "name": "install.sh",
+        "size": 5689,
+        "sha256": "7326f6aa9830b339b3d899b7dac0a1645413c0710523ed3379265fe256c98a6d",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/install.sh"
+      },
+      {
+        "name": "SHA256SUMS",
+        "size": 793,
+        "sha256": "caecd934418b639fcc3eb98ccfe7e90c2e127dd4b4a2c6a4a0598a4bc661e504",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/SHA256SUMS"
+      },
+      {
+        "name": "webmux-darwin-amd64",
+        "size": 20643472,
+        "sha256": "40be6ea9b61f9e3224dabce8e79f35c27f28b798ff6a15b1a7045293f60e65cf",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/webmux-darwin-amd64"
+      },
+      {
+        "name": "webmux-darwin-arm64",
+        "size": 19689826,
+        "sha256": "3beb1685bc1ce6c1d41139a7b5f55665e02f85cc41cb1f1e72a8d0077264c2ba",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/webmux-darwin-arm64"
+      },
+      {
+        "name": "webmux-linux-amd64",
+        "size": 20353186,
+        "sha256": "6ca0c509f754509a4474cf2b9a7040041172bbd23422b8dd06521833601e89ae",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/webmux-linux-amd64"
+      },
+      {
+        "name": "webmux-linux-arm64",
+        "size": 19398818,
+        "sha256": "3e0e3e183cd68a21d77fd3ead4a85e5fbf172853bdf4982ef7902c977220f850",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/webmux-linux-arm64"
+      },
+      {
+        "name": "webmux-tray-windows-amd64.exe",
+        "size": 8043008,
+        "sha256": "5effaef85c4bf1fd239d0ddab99016111731fce159457d2ad8e89b025c9a31d0",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/webmux-tray-windows-amd64.exe"
+      },
+      {
+        "name": "webmux-tray-windows-arm64.exe",
+        "size": 7330816,
+        "sha256": "aaea92537d663f36b5367010b511e2c3af46136d222fe6b5fbb1ca34cd3c4869",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/webmux-tray-windows-arm64.exe"
+      },
+      {
+        "name": "webmux-windows-amd64.exe",
+        "size": 6912000,
+        "sha256": "9b8cdeec63ef219ed95d192f8e744ef349f4acf1274a95eb302ee277c890e339",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/webmux-windows-amd64.exe"
+      },
+      {
+        "name": "webmux-windows-arm64.exe",
+        "size": 6279680,
+        "sha256": "aaf5dc3989cbb07d5707594b90c536c35969a74cc1e6da05074669fe21988b66",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/webmux-windows-arm64.exe"
+      }
+    ]
+  },
+  "releases": [
+    {
+      "tag": "v0.10.1",
+      "name": "WebMux v0.10.1",
+      "publishedAt": "2026-11-02T04:55:35Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.10.1",
+      "body": "## What's Changed\n* fix(web): 统一会话创建入口与默认行为 by @myot233 in https://github.com/mzdluo123/webmux/pull/244\n\n\n**Full Changelog**: https://github.com/mzdluo123/webmux/compare/v0.10.0...v0.10.1",
+      "assets": [
+        {
+          "name": "install.sh",
+          "size": 5689,
+          "sha256": "7326f6aa9830b339b3d899b7dac0a1645413c0710523ed3379265fe256c98a6d",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/install.sh"
+        },
+        {
+          "name": "SHA256SUMS",
+          "size": 793,
+          "sha256": "caecd934418b639fcc3eb98ccfe7e90c2e127dd4b4a2c6a4a0598a4bc661e504",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 20643472,
+          "sha256": "40be6ea9b61f9e3224dabce8e79f35c27f28b798ff6a15b1a7045293f60e65cf",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 19689826,
+          "sha256": "3beb1685bc1ce6c1d41139a7b5f55665e02f85cc41cb1f1e72a8d0077264c2ba",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 20353186,
+          "sha256": "6ca0c509f754509a4474cf2b9a7040041172bbd23422b8dd06521833601e89ae",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 19398818,
+          "sha256": "3e0e3e183cd68a21d77fd3ead4a85e5fbf172853bdf4982ef7902c977220f850",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/webmux-linux-arm64"
+        },
+        {
+          "name": "webmux-tray-windows-amd64.exe",
+          "size": 8043008,
+          "sha256": "5effaef85c4bf1fd239d0ddab99016111731fce159457d2ad8e89b025c9a31d0",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/webmux-tray-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-tray-windows-arm64.exe",
+          "size": 7330816,
+          "sha256": "aaea92537d663f36b5367010b511e2c3af46136d222fe6b5fbb1ca34cd3c4869",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/webmux-tray-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-windows-amd64.exe",
+          "size": 6912000,
+          "sha256": "9b8cdeec63ef219ed95d192f8e744ef349f4acf1274a95eb302ee277c890e339",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/webmux-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-windows-arm64.exe",
+          "size": 6279680,
+          "sha256": "aaf5dc3989cbb07d5707594b90c536c35969a74cc1e6da05074669fe21988b66",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.1/webmux-windows-arm64.exe"
+        }
+      ]
+    },
+    {
+      "tag": "v0.10.0",
+      "name": "WebMux v0.10.0",
+      "publishedAt": "2026-11-01T16:49:16Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.10.0",
+      "body": "## 更新内容\n\nv0.10.0 新增 Codex CLI 混合模式、资源管理器文件操作与九款 CLI 启动配置；独立代码窗口改为独立实例；终端重绘风暴与会话恢复闪屏得到修复。\n\n### 新功能\n\n- 混合模式支持 Codex CLI，并检查第三方 ACP 连接器是否已安装（#217）。\n- 代码资源管理器右键菜单支持上传、下载、ZIP、重命名、复制、移动与删除；复制与 ZIP 限 100 MiB / 10000 项，递归删除遇 `.git` 或嵌套仓库会拒绝（#224）。\n- 启动配置补齐九款 CLI 及其品牌图标，图标在本地打包（#219）。\n- 独立代码窗口改为在 iframe 中运行独立实例，弹出和收回时保留完整阅读状态（#237）。\n- 统一 WebMux Logo 与应用图标（#218）。\n- 聊天视图提供快捷指令入口，指令插入消息输入框。\n\n### 终端\n\n- 调整尺寸引起的重绘风暴改为按帧合并输出，并消除整屏重新测量（#240）。\n- 同步输出与回放期间，终端文字与 Kitty 图片在同一帧切换，会话恢复时不再闪屏（#239，#241）。\n- 重连期间重新显示“正在恢复…”提示（#232）。\n- 锁定终端尺寸后保持网格并显示滚动条（#221）。\n- 输出队列按积压字节限制，PTY reader 发布输出后让出调度，持续或突发的小块输出不再误断开慢客户端。\n\n### 修复\n\n- 慢速 Git 发现不再误报超时，并保留上次快照（#233）。\n- 长按结束的点击不再误选弹出面板中的操作（#225）。\n- 首页默认恢复输出预览（#216）。\n- 独立代码窗口中 diff 行号范围选择失效（#215）。\n- 托盘“远程访问”子菜单不再出现重复的远程 URL。\n\n### 内部\n\n- agent 的 ACP / 终端差异收拢到适配器接口（#230）；前端路由匹配与懒加载组件抽出（#242）；隧道设置去重（#235）。\n- CI 提速，并消除偶发失败的测试（#231，#243）。\n\n## 升级须知\n\n- 替换二进制后需重启服务；重启会结束当前所有终端会话，混合会话可从首页“可恢复”分组恢复。\n- 新安装不再预置 Gemini CLI 启动配置（上游已停止服务个人账号）。已有 `launch-configs.json` 不会被改写。\n\n完整变更：[v0.9.1...v0.10.0](https://github.com/mzdluo123/webmux/compare/v0.9.1...v0.10.0)。\n\n## 验证\n\n- 发布提交：`f1d2579`，tag `v0.10.0`。\n- [Release 工作流](https://github.com/mzdluo123/webmux/actions/runs/41327919109)：Go race 与跨平台构建通过。\n- 下载全部 9 项载荷后与 SHA256SUMS 逐项比对通过；Linux amd64 二进制运行输出 `webmux 0.10.0`；`install.sh` 语法检查通过。\n",
+      "assets": [
+        {
+          "name": "install.sh",
+          "size": 5689,
+          "sha256": "7326f6aa9830b339b3d899b7dac0a1645413c0710523ed3379265fe256c98a6d",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.0/install.sh"
+        },
+        {
+          "name": "SHA256SUMS",
+          "size": 793,
+          "sha256": "5acc5632a68e153b456971a614a028c1402f5c94c8d7aede3a970c432de479d4",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.0/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 20647552,
+          "sha256": "94136509479a197c0bb89d419e3c7986050c363579461db0f15f9d561dff234f",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.0/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 19689810,
+          "sha256": "b6ba55c2beba44efcb23e10135dadf19c00e52b4198962e498c8d80684ca0ffc",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.0/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 20353186,
+          "sha256": "cb21fc3a2b77f157fbd8d1b19ca866c094287b0b327edae367f6fdb2c364882e",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.0/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 19398818,
+          "sha256": "6c4ddfe9732c7dde5549df2e71c73d337b1de20be8c4bf9d5675cbbcad1e1a27",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.0/webmux-linux-arm64"
+        },
+        {
+          "name": "webmux-tray-windows-amd64.exe",
+          "size": 8043008,
+          "sha256": "fe7757d4c7d2113f29ff8b26384ae55ae9e83c7e0c51752a7d341e46ae272fe8",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.0/webmux-tray-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-tray-windows-arm64.exe",
+          "size": 7330816,
+          "sha256": "21ae6088b9b625e073b5d7e0f159a154c46f1bc84c630f63cb46b1191fec91c1",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.0/webmux-tray-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-windows-amd64.exe",
+          "size": 6912000,
+          "sha256": "88a9cbfef9c4680d4719bb79e3734a59b1017386d6fe653bb5f46ead28a56046",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.0/webmux-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-windows-arm64.exe",
+          "size": 6279680,
+          "sha256": "957a35a0e1629bb158ec2db3f66e309c94c2045e74f6348ae1ace24e92ff17d4",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.10.0/webmux-windows-arm64.exe"
+        }
+      ]
+    },
+    {
+      "tag": "v0.9.1",
+      "name": "WebMux v0.9.1",
+      "publishedAt": "2026-10-31T04:34:25Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.9.1",
+      "body": "## 更新内容\n\nv0.9.1 修复终端逐字回显和 AI / 日志流式输出一顿一顿的问题（#214）。\n\n- 取消服务端输出合并时固定的 50 ms 等待，有输出即可发送，只合并当前已排队的字节。\n- 保留 64 KiB 合并上限、控制消息顺序、慢客户端保护和退出前排空。\n- 新增真实 PTY / WebSocket 逐字回显延迟回归，以及 14 万字节连续输出的完整性与退出顺序回归。\n\n高频小块输出会增加 WebSocket / TLS 帧数与封装开销，实际流量增幅取决于每块大小和输出频率；终端内容字节数不变。\n\n## 升级须知\n\n- 替换二进制后需重启服务；重启会结束当前所有终端会话，混合会话可从首页“可恢复”分组恢复。\n\n## 验证\n\n- 发布提交：`664c1586e625a41d8956886bccdd1710894fd08e`，tag `v0.9.1`。\n- [主分支 Test 工作流](https://github.com/mzdluo123/webmux/actions/runs/41168227968)：全部检查通过，覆盖 Linux / macOS Go race、桌面 / 手机 E2E、Vitest、Storybook、性能、格式与构建检查。\n- [Release 工作流](https://github.com/mzdluo123/webmux/actions/runs/41168796778)：Go race、跨平台构建、SHA256SUMS 与 Linux 版本号校验通过，8 个二进制、安装脚本及校验清单均已上传。\n- 发布后复核：9 项载荷的 GitHub 上传摘要与 SHA256SUMS 一致；另从 GitHub 下载 macOS arm64 二进制、安装脚本及清单，独立校验 SHA-256。macOS arm64 二进制运行返回 `webmux 0.9.1`，安装脚本语法检查通过。\n\n完整变更：[v0.9.0...v0.9.1](https://github.com/mzdluo123/webmux/compare/v0.9.0...v0.9.1)。\n",
+      "assets": [
+        {
+          "name": "install.sh",
+          "size": 5689,
+          "sha256": "7326f6aa9830b339b3d899b7dac0a1645413c0710523ed3379265fe256c98a6d",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.1/install.sh"
+        },
+        {
+          "name": "SHA256SUMS",
+          "size": 793,
+          "sha256": "117ed2ef9c69f0ef42cf96a5e50d079c4207f2379ea4a0def0de93c6bed18e2b",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.1/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 20218528,
+          "sha256": "5ea48458c0d2d9d75769172e7e1e63ab554f447b8b03eaae7e167fb1ad569545",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.1/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 19302866,
+          "sha256": "de84c9180805fd377413fc8865ebc01de1bbc60113c826ce830bbb0d0e3c718f",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.1/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 19931298,
+          "sha256": "a9fe0a049e848b8f004476d44aac09c08ca90ec2130a9cb8149c6d09d0813d4e",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.1/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 18940066,
+          "sha256": "96355d69ffaaa5e1ccd7a33a91fe586b3bc701742c8324d70ac1a9d4d356c1f5",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.1/webmux-linux-arm64"
+        },
+        {
+          "name": "webmux-tray-windows-amd64.exe",
+          "size": 8045056,
+          "sha256": "20c0521b3c483f4c3c3b920d3f9ff2890058d153afbfcc386455c2218bcdab52",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.1/webmux-tray-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-tray-windows-arm64.exe",
+          "size": 7332352,
+          "sha256": "88a2a295bf75521bf60bca4f5e78593fa86bcdef54f79d0e31df759ef3215bd6",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.1/webmux-tray-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-windows-amd64.exe",
+          "size": 6910976,
+          "sha256": "0deaf3f059ed904a532627980555014a166621436d95766273376a77d541ff13",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.1/webmux-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-windows-arm64.exe",
+          "size": 6279168,
+          "sha256": "6fe38d9f7ed2788f2a560b3d9f9954c2ddc5af7f346773eb2199c97476e44d62",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.1/webmux-windows-arm64.exe"
+        }
+      ]
+    },
+    {
+      "tag": "v0.9.0",
+      "name": "WebMux v0.9.0",
+      "publishedAt": "2026-10-30T17:07:46Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.9.0",
+      "body": "## 更新内容\n\nv0.9.0 新增会话交互物临时文件夹（上传与 agent 产物的统一落点，可在代码栏查看，并可一键插入使用说明提示词），强化代码工作区的 Markdown 预览并新增 HTML / 表格 / JSON / PDF 预览，软键栏支持 Shift 修饰键，终端新增快捷键参考。\n\n### 会话临时文件夹\n\n- 每个会话拥有一个交互物临时文件夹 `$TMPDIR/webmux-artifacts-<uid>-<实例摘要>/<会话ID>`，首次需要时创建，权限 0700；路径已被符号链接、他人目录或共享权限目录占用时拒绝使用且不改动它（#213）。\n- 代码栏导航顶部新增“工作区 | 临时文件夹”切换，可浏览、搜索、预览和下载其中文件；临时文件夹没有“修改”与 Diff（#213）。\n- ⚡ 快捷指令菜单顶部固定“插入临时文件夹提示词”，把说明临时文件夹用法的提示词（含真实路径）插入终端或草稿，不自动回车；模板可在“设置 → 快捷指令”中编辑、恢复默认并跨设备同步（新设置键 `artifactPrompt`）（#213）。\n- 新接口 `POST /api/sessions/{id}/artifacts` 返回文件夹路径（#213）。\n\n### 代码工作区\n\n- Markdown 预览：相对链接在代码面板内打开文件或定位目录，标题锚点与“目录”，工作区相对图片懒加载，围栏代码块语法高亮；文件预览与聊天消息使用独立的净化规则（#210）。\n- 新增 HTML（隔离静态渲染）、CSV/TSV 表格、JSON 与 PDF 预览（#210）；修复 PDF 页码框输入时被滚动覆盖的问题（#212）。\n\n### 终端与界面\n\n- 软键栏新增 Shift：点按一次性生效，长按约 0.5 秒锁定；支持 Shift+Tab、Shift+方向键等组合（#206）。\n- 终端右上角新增“快捷键”参考面板，说明键位、平台差异与生效范围（#207）。\n- 聊天输入框下方的会话选项统一收为图标控件，横向滚动不再挤压输入框（#205）。\n\n### 文档\n\n- 文档单行宽度守卫收紧至 300 显示列，并对超长段落做语义改写（#211）。\n\n## 升级须知\n\n- 替换二进制后需重启服务；重启会结束当前所有终端会话，混合会话可从首页“可恢复”分组恢复。\n- **上传文件位置变化**：上传改存到会话临时文件夹的 `uploads/`，同名文件追加 ` (2)` 等序号。升级前留在草稿或待发送聊天附件中的旧 `webmux-upload-*` 路径会被拒绝，需要重新上传。\n- **上传文件随会话清理**：普通会话移除后其临时文件夹（含上传文件）随之删除；混合会话保留到删除其可恢复记录为止；服务启动时清扫不再属于任何可恢复会话的文件夹。以前上传文件会保留到服务停止。\n- `artifactPrompt` 为 `null`（使用内置模板）时不写入 `settings.json`。若保存过自定义模板，回退到旧版本前请在设置页点击“恢复默认”，否则旧版本会把设置文件判为损坏（503）。\n\n## 验证\n\n- 发布提交：`3ca88de72073c270577e00cd4cad48e4addebc74`，tag `v0.9.0`。\n- [主分支 Test 工作流](https://github.com/mzdluo123/webmux/actions/runs/41093913925)：全部检查通过。首次运行中 macOS E2E 分片因与本次变更无关的 `split-background.spec.ts` 偶发失败（重试通过，CI 视 flaky 为失败），重跑失败分片后通过；本地对该用例重复 40 次全部通过。\n- 本地在发布提交上运行 `make check` 与完整 `make test`：Go race、Vitest 单元 544 / 浏览器 375、Storybook 332、E2E 255（27 跳过）、性能 16 全部通过。\n",
+      "assets": [
+        {
+          "name": "install.sh",
+          "size": 5689,
+          "sha256": "7326f6aa9830b339b3d899b7dac0a1645413c0710523ed3379265fe256c98a6d",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.0/install.sh"
+        },
+        {
+          "name": "SHA256SUMS",
+          "size": 793,
+          "sha256": "b753598abae7802d3eae1b4ce86a7603eb7d5d899045acf773a687e9313405a5",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.0/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 20218528,
+          "sha256": "fdf1d68f727317cc38a49f948d5bc684e9324d0c50a8c7ad36af30c03596dafd",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.0/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 19302866,
+          "sha256": "aeab7b1d5e84d4292cc3b7edbf8f22acbd22cce91b9d4acc49f2f0d787c875a3",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.0/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 19931298,
+          "sha256": "d2de7b47287cf06938b413e7253442f068e6897dec854d24471abb737700022c",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.0/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 18940066,
+          "sha256": "d4008a1af1f39986d336c823936077c793cb92403fa639cf985c8428cc613cee",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.0/webmux-linux-arm64"
+        },
+        {
+          "name": "webmux-tray-windows-amd64.exe",
+          "size": 8045056,
+          "sha256": "8f1191faab49ca6853e40b4a1319348ac13901255d9f5738756b07a50dd1818d",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.0/webmux-tray-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-tray-windows-arm64.exe",
+          "size": 7332352,
+          "sha256": "7916552019069acd5a76abd5dc2b075a11f9050bcedf06c728de52fe90592e53",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.0/webmux-tray-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-windows-amd64.exe",
+          "size": 6910976,
+          "sha256": "7fa7bd13dcf97266c0fea013a0c01f2d6d39553853e3bbbafbe028d59ba949ad",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.0/webmux-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-windows-arm64.exe",
+          "size": 6279168,
+          "sha256": "b13cddfbc957a1343c9e0505f088572531a7270d700d16d1f250ae677cd4526e",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.9.0/webmux-windows-arm64.exe"
+        }
+      ]
+    },
+    {
+      "tag": "v0.8.0",
+      "name": "WebMux v0.8.0",
+      "publishedAt": "2026-10-29T04:50:50Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.8.0",
+      "body": "## 更新内容\n\nv0.8.0 增加 ACP 混合会话（同一段 OpenCode / omp 对话在聊天视图与原生 TUI 之间切换）、聊天附件、tmux 风格终端分屏和锁定终端尺寸，并收紧启动配置校验、修复会话迁移后回放与状态轮询加锁问题。\n\n### 混合会话（聊天 ↔ 终端）\n\n- 新增 ACP 混合会话：OpenCode 与 omp 的同一段对话可以在原生 TUI 与聊天视图之间来回切换，webmux 会话 ID 不变，历史由 agent 自己保存。会话页头部用“聊天 | 终端”控件切换，正在执行的回合先中断再切换，失败自动回到原来的一端（#181、#187、#190）。\n- 聊天视图支持多设备共享队列、插话、权限请求与表单、空闲休眠（`chatIdleSleepMinutes`，默认 30 分钟）和重启后从首页“可恢复”分组恢复；CLI `ls` 显示所在端，`attach` 在聊天端时被动分离或拒绝。\n- 聊天端可选择权限模式（每次询问 / 自动批准），默认自动批准（#181）。点击上下文用量环可查看 Token 使用详情（#181）。\n- 切到终端时一直显示进度，直到新 TUI 在本页输出第一屏，切换窗格淡入；“减少动态效果”下不播放动画（#192）。\n- 聊天视图支持上传文件与图片（选择、拖放、粘贴），上传中可取消（#194、#197）；agent 声明相应能力时，图片以 ACP `image` 块、其他文件以 `resource` 块直接发送，能力不足时退回为服务器路径并提示（#196、#198）。\n- 新安装首次启动预置的启动配置默认自动批准（Claude Code、Codex CLI、Gemini CLI、Open Code、omp），其中 Open Code 与 omp 默认开启混合模式；已有 `launch-configs.json` 不会被改写（#191）。\n\n### 终端与界面\n\n- 支持 tmux 风格分屏：同一页面左右/上下嵌套最多 8 个窗格，拖动调整比例，Ctrl+B 前缀切换、放大和关闭窗格；布局保存在本机，窄于 768px 时一次显示一个窗格（#199）。\n- 终端菜单新增“锁定尺寸”：移动端弹出软键盘或地址栏变化时不再改变 PTY 行列，避免 TUI 重绘卡顿（#184、#185）。\n- 软键栏增加 `#` 和 `!` 按键（#182、#183）。\n- 会话卡片在当前标签页打开终端，修饰键点击保留浏览器默认行为；会话页顶栏、首页会话卡片信息行和聊天输入框焦点样式重新整理，大字号窄卡片不再横向溢出。\n- 创建 worktree 时“起始提交”显示 commit 标题，并标明本地/远程分支（#200）。\n\n### 可靠性与修复\n\n- 修复 `MoveClients` 之后浏览器请求回放会吞掉“已迁移”消息、连接停在无输出状态的问题；状态轮询读取 `/proc` 时不再持有 `Manager` 锁；关闭服务时等待状态与伴随进程协程退出（#201）。\n- `DELETE /api/sessions/{id}` 按错误类型返回 404 / 409 / 400 / 503 / 500，不再一律 404（#201）。\n- macOS 上读取进程可执行文件路径恒为空的问题已修复（#187）。\n- 修复若干不稳定测试；文档与 spec 增加单行长度守卫（#193、#195）。\n\n## 升级须知\n\n- 替换二进制后需重启服务；重启会结束当前所有终端会话，仓库登记与磁盘工作树保留。混合会话在重启后标记为已中断，可从首页“可恢复”分组恢复到聊天或终端（排队消息不保留）。\n- **启动时校验更严格**：`listen` 端口无效（如 `:99999`），或 `allowed_origins` 中有不是精确小写 `scheme://host[:port]` 形式的条目（带路径、末尾斜杠、默认端口、大写字母或缺少 scheme）时，服务直接启动失败。这些条目在旧版本中本来就无法匹配、请求会被 403 拒绝；升级前请先修正配置（#201）。\n- 新增状态文件 `hybrid-sessions.json`（及其锁），只保存会话对应关系、命令快照与状态，不含环境变量值、消息或 token；损坏时只禁用混合会话，普通会话不受影响。\n- 启动配置的 `hybrid` 字段只在勾选时写入，文件仍为版本 `2`。回退到旧版本前先取消所有混合勾选，否则旧版本会报告启动配置文件损坏。\n- 新安装的预置 agent 配置带有自动批准参数（如 `--dangerously-skip-permissions`、`--dangerously-bypass-approvals-and-sandbox`、`--yolo`），agent 执行命令不再逐条确认；需要逐条确认时在“设置 → 启动配置”中删除这些参数。\n\n## 验证\n\n- 发布提交：`27b88ac4b1215431ca8032151e03a7681700f3a5`，tag `v0.8.0`。\n- [主分支 Test 工作流](https://github.com/mzdluo123/webmux/actions/runs/40818861278)：全部检查（Go race、Vitest、Storybook、性能、Ubuntu 与 macOS E2E 分片）和最终汇总通过。发布前修复了 `TestFakeAgentProfiles` 在 CI 上偶发失败的测试竞态（只改测试）。\n- 本地 `make check`（构建、类型、格式、文档守卫、Oxlint、前端架构守卫、Go 架构守卫、`go vet`、golangci-lint）与 `make test-fast`（Go race 全部包、479 个单元、326 个浏览器用例）通过。\n- 本地 `make release VERSION=0.8.0`：8 个 Linux、macOS、Windows 产物的架构和 `SHA256SUMS` 校验通过，Linux 二进制报告 `webmux 0.8.0`；`allowed_origins` 带末尾斜杠时启动失败并给出原因。\n- [Release 工作流](https://github.com/mzdluo123/webmux/actions/runs/40819544698)：前端构建、Go race、全部产物、SHA256 校验和版本检查通过。\n- 已重新下载线上全部文件并通过 `SHA256SUMS`；线上 Linux 二进制版本、源码修订号与 `CGO_ENABLED=0` 正确。隔离实例冒烟：未认证 401、创建会话并读到输出预览、删除会话、首页静态资源；新状态目录预置 6 条启动配置，Open Code 与 omp 为混合模式。\n- 混合会话的真实 agent 验收（omp 18.13.2、OpenCode 2.1.4）在 #187 中完成；本次发布未重复真实 agent、Windows 实机托盘和 iOS/Android 真机手工验收。\n\n## 下载\n\n| 文件                                    | 用途                            |\n| --------------------------------------- | ------------------------------- |\n| `install.sh`                            | Linux/macOS 一键安装脚本        |\n| `webmux-linux-{amd64,arm64}`            | Linux 服务端，也用于 WSL 2      |\n| `webmux-darwin-{amd64,arm64}`           | macOS 服务端                    |\n| `webmux-windows-{amd64,arm64}.exe`      | Windows 控制台客户端            |\n| `webmux-tray-windows-{amd64,arm64}.exe` | Windows 托盘，管理 WSL 中的服务 |\n| `SHA256SUMS`                            | 全部文件的 SHA256 校验值        |\n\n## What's Changed\n* feat(web): 软键栏增加 # 和 ! 按键 by @pullfrog[bot] in https://github.com/mzdluo123/webmux/pull/183\n* docs(openspec): 归档 add-program-status-signals by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/188\n* feat(web): 增加锁定终端尺寸选项 (#184) by @pullfrog[bot] in https://github.com/mzdluo123/webmux/pull/185\n* feat: ACP 混合会话——聊天视图与原生 TUI 之间切换 (#181) by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/187\n* fix(hybrid): 修正 #187 合入后 main 上的不稳定测试与两处状态发布时序 (#181) by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/190\n* feat(launch): 预置 agent 配置默认自动批准，OpenCode 与 omp 默认混合模式 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/191\n* feat(web): 切到终端时显示进度直到新 TUI 首屏输出，切换窗格淡入 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/192\n* docs: 为文档与 spec 增加单行长度守卫 by @pullfrog[bot] in https://github.com/mzdluo123/webmux/pull/195\n* feat(web): 聊天模式支持上传文件与图片并插入路径 (#194) by @pullfrog[bot] in https://github.com/mzdluo123/webmux/pull/197\n* feat(hybrid): 聊天附件以 ACP 图片/嵌入资源块发送 by @pullfrog[bot] in https://github.com/mzdluo123/webmux/pull/198\n* fix(web): show commit titles for worktree starting points by @myot233 in https://github.com/mzdluo123/webmux/pull/200\n* feat(web): 支持 tmux 风格的终端分屏 by @myot233 in https://github.com/mzdluo123/webmux/pull/199\n* fix: address code quality scan findings (session replay, error mapping, config validation, a11y) by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/201\n\n**Full Changelog**: https://github.com/mzdluo123/webmux/compare/v0.7.3...v0.8.0\n",
+      "assets": [
+        {
+          "name": "install.sh",
+          "size": 5689,
+          "sha256": "7326f6aa9830b339b3d899b7dac0a1645413c0710523ed3379265fe256c98a6d",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.8.0/install.sh"
+        },
+        {
+          "name": "SHA256SUMS",
+          "size": 793,
+          "sha256": "1ef221dbd2c208519254e9912e5e5ec47f28c11a72e410d1b26683f77aed83d3",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.8.0/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 17903824,
+          "sha256": "992d19a702e762d56be08ca64ed0cda91ebedc8ab269091b134e78242ba059d3",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.8.0/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 16974162,
+          "sha256": "21b2d914166777906af957824204c19db79c345d1cbc94c8bd03a257d9a43581",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.8.0/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 17617058,
+          "sha256": "d5272e8f9041f80b24c1164ce414214fbac1754728fcd62f1c4b754edd17d75e",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.8.0/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 16580770,
+          "sha256": "5f9fb43ae98d73305240d7334367c426192a5b37ec6bffcdcbc208b11b95e8b9",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.8.0/webmux-linux-arm64"
+        },
+        {
+          "name": "webmux-tray-windows-amd64.exe",
+          "size": 8045056,
+          "sha256": "f08a8257cbeb7bc383efb4c9ffe107701babdd99cff85faf4fea4b0d39640adb",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.8.0/webmux-tray-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-tray-windows-arm64.exe",
+          "size": 7332352,
+          "sha256": "028257bf119dffe1f43101dd8eb7dc61b1762b1046f9ab12803ef27efd08ca9a",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.8.0/webmux-tray-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-windows-amd64.exe",
+          "size": 6910976,
+          "sha256": "f6e3eab83a1613edc72ac7e9f5b92ab320a7ee251315caf72c977760f9a345a1",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.8.0/webmux-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-windows-arm64.exe",
+          "size": 6279168,
+          "sha256": "4e6d2394b79b6fde7f97937c148db6fb37765b0685cb5c7eac708d3c2207a0b3",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.8.0/webmux-windows-arm64.exe"
+        }
+      ]
+    },
+    {
+      "tag": "v0.7.3",
+      "name": "WebMux v0.7.3",
+      "publishedAt": "2026-10-27T13:58:59Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.7.3",
+      "body": "## 升级注意\n\n- `webmux run --launch-config` / `--config-id` 现在按**配置名称**选择（区分大小写），不再接受配置 ID（#176）。\n- `webmux run -- COMMAND`（Linux/macOS）现在默认**继承调用方 shell 的环境**，`--env` 覆盖同名值；终端身份变量、`WEBMUX_SESSION_ID`、`PWD`/`OLDPWD` 不继承。Windows 客户端与启动配置不受影响（#180）。\n\n## What's Changed\n* fix: 给出 Tailscale 所有权未知时的精确恢复命令 (#174) by @pullfrog[bot] in https://github.com/mzdluo123/webmux/pull/178\n* feat(cli): webmux run 按名称选择启动配置 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/176\n* feat(tray): 将所有复制链接收拢到单一菜单 (#177) by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/179\n* feat(cli): webmux run 默认继承调用方环境 (#175) by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/180\n\n\n**Full Changelog**: https://github.com/mzdluo123/webmux/compare/v0.7.2...v0.7.3\n",
+      "assets": [
+        {
+          "name": "install.sh",
+          "size": 5689,
+          "sha256": "7326f6aa9830b339b3d899b7dac0a1645413c0710523ed3379265fe256c98a6d",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.3/install.sh"
+        },
+        {
+          "name": "SHA256SUMS",
+          "size": 793,
+          "sha256": "b59d25a3a133f1f96de040356ae6ca16e1446f8de6168ca3b145c9ec2481753b",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.3/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 16913920,
+          "sha256": "b9f0c5ba005038150061f2ca4d6d54b40a1744a5fd555ddd9ad657396f4f819b",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.3/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 16067378,
+          "sha256": "31bb7448c2ee0d836cc20a17c3a88a43cd8a8cdd9b168c133cf132ec3aabc77b",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.3/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 16654498,
+          "sha256": "a8fb1653c1c4123b1c507f39238989aa175bf862f18b5be0b7a5f9f717699c06",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.3/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 15794338,
+          "sha256": "b6529ef8352ac27750617830e997432bf01c68a0514d97101da5f5278d6a6b63",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.3/webmux-linux-arm64"
+        },
+        {
+          "name": "webmux-tray-windows-amd64.exe",
+          "size": 8042496,
+          "sha256": "1f4d2b3340da7a8823cf8c231937165e8b5cad1282a0280a426e7faf8137e851",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.3/webmux-tray-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-tray-windows-arm64.exe",
+          "size": 7330816,
+          "sha256": "c1096f2460422aae990c231e3140e37d3291b985ea5dcab4ccffc7c0038a00ba",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.3/webmux-tray-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-windows-amd64.exe",
+          "size": 6907392,
+          "sha256": "3dadd6efa232ba6f8e03244ef717937432471ece5a50dddc668faf299c1af330",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.3/webmux-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-windows-arm64.exe",
+          "size": 6276096,
+          "sha256": "3a6cc511f77f66ad62f63d516d248d610374428bc347b10e22294300fbe99a7b",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.3/webmux-windows-arm64.exe"
+        }
+      ]
+    },
+    {
+      "tag": "v0.7.2",
+      "name": "WebMux v0.7.2",
+      "publishedAt": "2026-10-27T12:03:41Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.7.2",
+      "body": "## 更新内容\n\nv0.7.2 是小版本更新：新增 `webmux start` 后台启动；所有已授权的 HTTPS 入口都可以开启推送；终端支持用 Ctrl+C 复制选中内容。\n\n### CLI\n\n- 新增 `webmux start`：没有 systemd/launchd 时也能在后台运行，启动命令立即返回，并打印 PID、本机地址和日志路径。日志默认写到 `<state_dir>/webmux.log`。服务已在运行时重复执行不会再启动一份，可用 `webmux stop` / `webmux status` 停止和查看（#164、#172）。\n\n### 推送\n\n- 只要页面来自已授权的 HTTPS 入口，就可以开启推送，包括 Tailscale Serve/Funnel、Cloudflare Named Tunnel，以及 `allowed_origins` 里配置的 HTTPS 地址。如果反向代理在非 443 端口上转发、并去掉了 Host 里的端口号，通知链接会按配置的端口生成。本机回环地址仍可开启；Quick Tunnel 和非本机的普通 HTTP 地址仍不支持，并会说明原因（#154、#173）。\n\n### 终端\n\n- 有选中内容时按 Ctrl+C 复制选区，没有选中时照常发送 SIGINT，与 Windows Terminal 一致（#170、#171）。\n\n### 升级说明\n\n替换二进制后需要重启服务。重启会结束当前所有终端会话，仓库登记和磁盘上的工作树会保留。\n",
+      "assets": [
+        {
+          "name": "install.sh",
+          "size": 5689,
+          "sha256": "7326f6aa9830b339b3d899b7dac0a1645413c0710523ed3379265fe256c98a6d",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.2/install.sh"
+        },
+        {
+          "name": "SHA256SUMS",
+          "size": 793,
+          "sha256": "df362f10ca361ea60774d36392f21781ee8a1be5dd240375a08deeedfcce1eaa",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.2/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 16905680,
+          "sha256": "950ef59cb711e88509364b6139348437ee774db1c934bf583cb26fb4e42b22ee",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.2/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 16050818,
+          "sha256": "28884640a5f0a55c238159f47eeef555d68cf177ab1e9f1e2a8f976d992414b3",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.2/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 16650402,
+          "sha256": "06bbf4d7ba3abb8807e3923afdd836d6437b25c53401b9667c6b58997dff36cb",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.2/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 15794338,
+          "sha256": "054bea71c5ef468dca3aaf58cadb83668924a1741efc4393e9abd8dcadbb0837",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.2/webmux-linux-arm64"
+        },
+        {
+          "name": "webmux-tray-windows-amd64.exe",
+          "size": 8044544,
+          "sha256": "3a3f87592454725df9e7797ea84a1e42882748a690e18f21e9a0b18b790d5d42",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.2/webmux-tray-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-tray-windows-arm64.exe",
+          "size": 7332352,
+          "sha256": "9b68387ca0f18dbbb9e4a376c88caee279c77734aa5a27966b83b98013e3d47f",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.2/webmux-tray-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-windows-amd64.exe",
+          "size": 6899200,
+          "sha256": "9c7160ac75a4b20f4a87b47f5cffd7a87f48ac8c83d271030d2c4bc3fa3589a1",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.2/webmux-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-windows-arm64.exe",
+          "size": 6267904,
+          "sha256": "f7948f5a04955d76a64fb7f880c1130d68a7078c6205e40f976dc7e0ed1624d4",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.2/webmux-windows-arm64.exe"
+        }
+      ]
+    },
+    {
+      "tag": "v0.7.1",
+      "name": "WebMux v0.7.1",
+      "publishedAt": "2026-10-27T10:07:34Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.7.1",
+      "body": "## 更新内容\n\nv0.7.1 是小版本更新：增加一键安装脚本与 CLI 使用 Web 端启动配置，改进 PWA 前台重连、安装入口与浏览器标签页运行指示，并修复 Home Screen 应用中设置导航遮挡顶栏的问题。\n\n### 安装与 CLI\n\n- 新增 POSIX `install.sh` 一键安装脚本，作为 Release 资产发布，不依赖 `raw.githubusercontent.com`：支持 Linux/macOS 的 amd64/arm64，先直连 GitHub，失败后按 `WEBMUX_MIRRORS` 回退镜像；二进制与同源 `SHA256SUMS` 校验通过才原子替换，失败保留旧文件；可用 `WEBMUX_VERSION`、`WEBMUX_INSTALL_DIR`、`WEBMUX_SHA256` 固定版本、目录与摘要。脚本只安装二进制，不修改配置、服务或 shell（#163、#166）。\n- `webmux run --launch-config ID`（别名 `--config-id`）直接使用 Web 端保存的启动配置，argv 与环境变量由服务端解析；与 `--` 后命令、`--env` 互斥，空 ID 和冲突别名在创建会话前拒绝（#168）。\n- 会话环境统一终端身份：移除宿主终端/多路复用器（Kitty、tmux、Warp、iTerm、WezTerm、Ghostty、Windows Terminal 等）变量，默认设置 `TERM=xterm-256color`、`COLORTERM=truecolor`、`TERM_PROGRAM=webmux`、`TERM_PROGRAM_VERSION` 与 `WEBMUX_SESSION_ID`；显式启动环境仍可覆盖（#168）。\n\n### Web 与 PWA\n\n- 健康的终端连接回到前台时先探测并保留，不再无条件重连；设置页新增“安装应用”分区，显示安装状态与非安全上下文提示；manifest 增加 `id`/`lang`，推送授权只请求一次（#161、#165）。\n- 当前终端或首页任一会话处于运行中时，浏览器标签页标题加 `▶` 前缀并播放本地生成的 favicon 动画；等待、空闲、退出时恢复静态图标，`prefers-reduced-motion` 下保持静态（#162、#167）。\n- Home Screen 应用中设置页吸顶分区导航按实际顶栏高度定位，不再遮挡顶栏（#157、#159）。\n\n### 升级说明\n\n替换二进制后需重启服务；重启会结束现有终端会话，仓库登记与磁盘工作树保留。\n",
+      "assets": [
+        {
+          "name": "install.sh",
+          "size": 5689,
+          "sha256": "7326f6aa9830b339b3d899b7dac0a1645413c0710523ed3379265fe256c98a6d",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.1/install.sh"
+        },
+        {
+          "name": "SHA256SUMS",
+          "size": 793,
+          "sha256": "a26fc1b48ab88fa72ca6edd3dab2145d9532354035ea7de9f7dceab5712bc697",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.1/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 16889136,
+          "sha256": "bcbae242060ffc7fcaab0be55755fd8ba178ac349db9fd4461fdf91942737db4",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.1/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 16034146,
+          "sha256": "7c4bdd653c6aefd0a0971316acb6fc60f4d3426370ea81bf2d588c9d111d62fc",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.1/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 16629922,
+          "sha256": "3f4d0abc279ee22706cea0b7725e6002c42fdba0c4024c82a1bc8dddd40de2e3",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.1/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 15728802,
+          "sha256": "4b99e3d516d135a4e298dad8ca9905600a6420b09cf930e2da137b1186609399",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.1/webmux-linux-arm64"
+        },
+        {
+          "name": "webmux-tray-windows-amd64.exe",
+          "size": 8044544,
+          "sha256": "d450e8cbcb41914227816c77748f979740994a380493dad3fb96602cc2cbee92",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.1/webmux-tray-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-tray-windows-arm64.exe",
+          "size": 7332352,
+          "sha256": "420ab22b75aadcbbc30fbaeafad10df204ee4501ce0276c2a425b01c6d389dcd",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.1/webmux-tray-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-windows-amd64.exe",
+          "size": 6899200,
+          "sha256": "1461b57d8ff4d1f65e16b48607d45acda544b7d61edeac9633d78611308b10c8",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.1/webmux-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-windows-arm64.exe",
+          "size": 6267904,
+          "sha256": "676787d33cfeb1acd333c1fd9c231b5b7bffd7d7d3938a6628e2423b27e01b5a",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.1/webmux-windows-arm64.exe"
+        }
+      ]
+    },
+    {
+      "tag": "v0.7.0",
+      "name": "WebMux v0.7.0",
+      "publishedAt": "2026-10-27T02:28:48Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.7.0",
+      "body": "## 更新内容\n\nv0.7.0 增加 Tailscale Serve / Funnel 托管、跨设备服务端偏好同步、统一配置与状态持久化，并修复原生附着、响应契约和浏览器失败路径问题。\n\n### Tailscale 安全入口\n\n- 支持检测 Tailscale 状态，并通过配置文件或设置页创建、切换和关闭 Serve / Funnel HTTPS 入口；保存后立即生效，无需重启或结束终端会话（#144、#145）。\n- 支持 Linux/macOS、WSL 原生 Tailscale 和显式选择的 Windows 主机 provider；Windows provider 要求 WSL mirrored 网络，自动模式不会代管 Windows 节点。\n- 按精确端口和目标记录所有权，启动时对账，退出或切换时只移除本实例入口，不执行全局 reset；端口冲突、状态损坏或目标不明时失败关闭。\n- Host / Origin 按 Cloudflare 与 Tailscale 来源及端口独立授权。Funnel 默认关闭，开启前需要风险确认；状态接口不返回 token、其他入口目标或原始 CLI 输出。\n\n### 跨设备偏好与配置诊断\n\n- 新增服务端偏好存储及 REST / WebSocket 同步：主题、终端字号、输出预览、代码阅读、快捷指令、主页工作树和软键盘偏好可在桌面与手机间即时同步（#119、#146、#147）。\n- 更新带修订号并原子提交，冲突返回 409；客户端按操作意图重读并最多重放一次，断线通过快照恢复，慢客户端不会阻塞其他连接。\n- `webmux config show` 默认只读显示磁盘配置，`--live` 显示运行进程的已验证内存快照、字段来源、实例和存储健康；凭据只显示是否配置，磁盘与活进程诊断不相互回退。\n\n### 持久化与可靠性\n\n- 统一 JSON 存储的权限、跨进程生命周期锁、严格有界解码、原子替换和目录同步；损坏文件保留并按领域隔离，提交结果不确定时冻结写入，不广播虚构成功。\n- 新增全平台持久化清单守卫，核对存储描述符、文件写入入口、锁和文档，防止新增状态文件绕过统一治理。\n- 原生 `run` / `attach` 在退出或分离前取消并等待输入、输出和尺寸协程，不再遗留 stdin 读取或误关持久会话；Unix 处理信号中断重试，Windows 使用可取消同步读取。\n- 必填响应数组和映射稳定编码为 `[]` / `{}`，并增加 Go wire 快照到前端 Zod 的契约测试；推送存储失败记录内部原因，同时保持固定、脱敏的客户端错误。\n- 改进中途 401 恢复、上传 413/500/中断后的重试、重复提交防护、列表断线恢复、代码标签键盘导航、路由焦点、深色首屏和 reduced-motion 行为（#149、#152）。\n\n### 工程与本地测试\n\n- 新增 Go / 前端质量基线，CI 固定运行 golangci-lint、全仓 vet、类型感知 Oxlint、Svelte 推荐规则、严格索引和测试目录类型检查（#148、#150）。\n- 新增 `make test-fast`（Go race + Vitest 单元/组件），`make test` 保持完整门禁；本地 E2E 默认最多 2 个 worker，可用 `WEBMUX_E2E_WORKERS` 和 `GO_TEST_PARALLEL` 调整（#151、#153）。\n- E2E 与性能套件共用一次预构建运行时；CI 保持原有分片和 worker 配置，并缓存 Playwright 的 Linux 系统依赖、忽略等待同轮运行产物时的失败 API 响应。\n\n## 升级须知\n\n- 替换服务端二进制并重启后生效；服务重启会结束当前 PTY 会话，请先处理正在运行的任务。\n- **先停止全部旧实例并备份配置与状态目录。** 新旧版本不得共用同一状态目录并发运行；锁文件统一为完整数据文件名加 `.lock`。\n- `tunnel.json` 改为 `tunnel-settings.json`，Tailscale 所有权记录改为 `tailscale-ownership.json`。旧 `tailscale.json` 会阻止启动：先核实或撤销旧版本创建的外部入口，不要直接删除记录后遗忘仍存在的入口。\n- `launch-configs.json` 仅接受版本 2；版本 1 文件会保留并使启动配置不可用。升级前用旧版本保存为 v2，或备份后重建。\n- 旧浏览器偏好不会自动上传；首次使用时在设置页重新确认。Token、Web Push 身份、草稿和最近目录仍保留在本机，不纳入跨设备同步。\n- Serve 仅 tailnet 可达；Funnel 会公开到互联网。公网入口仍要求 WebMux token，链接与 token 泄露等同于命令执行权限。Windows 实机托盘、真实公网 Funnel、Linux/macOS 原生 Tailscale 和 iOS/Android 真机未做本次手工验收。\n\n## 验证\n\n- 发布提交：`b43fc684eac930687c4889c2d4c2c93d5ed5e09a`，tag `v0.7.0`。\n- [主分支 Test 工作流](https://github.com/mzdluo123/webmux/actions/runs/40437842851)：全部检查和最终汇总通过。合并后首轮发现设置页/快照契约交叉集成问题及一项 Go 测试 lint，已修复并在最终提交重新完整验证。\n- 本地 `make check`、`make test-fast`（421 个单元、264 个浏览器用例）和完整桌面/Pixel 7 Chromium E2E（194 通过、20 按平台条件跳过）通过；8 个 Linux、macOS、Windows 产物的架构、SHA256 和托盘内嵌服务端摘要检查通过，Linux 二进制报告 `webmux 0.7.0`。\n- 隔离实例手工验收：认证与 Origin 拒绝、磁盘/实时配置诊断、REST/WebSocket、PTY 输入输出、重连回放、退出清理、原生 `run`/`attach` 分离后继续运行、服务定义 dry-run。\n- 桌面与 Pixel 7 双客户端偏好双向同步、重启持久化、409/非法请求、损坏设置文件保留与 503 降级均通过；偏好损坏时真实终端创建、命令、回放和退出仍可用。\n- 真实 WSL2 mirrored + Windows Tailscale Serve 10000：设置页应用、HTTPS 页面、认证、Origin、WebSocket、状态脱敏和精确清理通过；既有 443/8444 入口保持不变。Funnel 风险确认与取消通过，未创建真实公网 Funnel。\n- 上传 413、500、网络中断后第四次重试成功；深色首屏、reduced-motion、中途 401 恢复、路由焦点、代码标签方向键/Home/End、桌面/移动布局手工验收通过。\n- Release 工作流：[构建与发布全部通过](https://github.com/mzdluo123/webmux/actions/runs/40438363353)，包括前端构建、Go race、全部 8 个产物、SHA256 校验和版本检查。\n- 已重新下载线上全部 8 个文件并通过 `SHA256SUMS`；线上 Linux 二进制的版本、源码修订号与 `CGO_ENABLED=0` 正确，认证、WebSocket、PTY 和重连冒烟再次通过。\n\n## 下载\n\n| 文件                                    | 用途                            |\n| --------------------------------------- | ------------------------------- |\n| `webmux-linux-{amd64,arm64}`            | Linux 服务端，也用于 WSL 2      |\n| `webmux-darwin-{amd64,arm64}`           | macOS 服务端                    |\n| `webmux-windows-{amd64,arm64}.exe`      | Windows 控制台客户端            |\n| `webmux-tray-windows-{amd64,arm64}.exe` | Windows 托盘，管理 WSL 中的服务 |\n| `SHA256SUMS`                            | 全部 8 个文件的 SHA256 校验值   |\n\n完整变更：https://github.com/mzdluo123/webmux/compare/v0.6.0...v0.7.0\n",
+      "assets": [
+        {
+          "name": "SHA256SUMS",
+          "size": 716,
+          "sha256": "46515ca6d67187e5fc9c1c30203f04143517a4723b2b0eae529e2cc625513706",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.0/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 16872592,
+          "sha256": "188a82cf9c6254cbcb67e858fb4c63394c0cb3119b1c64d2c3b504460a4b8860",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.0/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 16017474,
+          "sha256": "8356400e8ca7cc58ed0b41b4fedf55ba578bb37cc28cf1f29721103bfbf35204",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.0/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 16613538,
+          "sha256": "a15602b9885fe8c702eeec839f2eda7ac12479fc4fd575dde3830cc004b8db63",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.0/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 15728802,
+          "sha256": "5d46c884f8d043b2f31841c3c1efc5f18c1116cb3e901852baa0fef87b35e9d8",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.0/webmux-linux-arm64"
+        },
+        {
+          "name": "webmux-tray-windows-amd64.exe",
+          "size": 8044544,
+          "sha256": "6696e4ae42aac65470d095be9da3b901dc6cabc5d175b1936a14547c10449d29",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.0/webmux-tray-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-tray-windows-arm64.exe",
+          "size": 7332352,
+          "sha256": "28ae1dcab229add76f7c40950477d89ff148c9292e8dcb9b92fa3a03b51cf169",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.0/webmux-tray-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-windows-amd64.exe",
+          "size": 6896128,
+          "sha256": "1188881764a947a46b5a48f57d45d7598d9c6f42e480d17d7eb78e7a498995c5",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.0/webmux-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-windows-arm64.exe",
+          "size": 6264320,
+          "sha256": "9acb3dc50d468bb367093e9922811d644024e7f02a311b3034f2c29537951840",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.7.0/webmux-windows-arm64.exe"
+        }
+      ]
+    },
+    {
+      "tag": "v0.6.0",
+      "name": "WebMux v0.6.0",
+      "publishedAt": "2026-10-26T11:08:08Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.6.0",
+      "body": "## 更新内容\n\nv0.6.0 增加终端图片、程序主动状态报告、按需文件树、Markdown 预览和启动配置级预览，并改进首次启动与移动端交互。\n\n### 终端图片与 agent 状态\n\n- 支持 Kitty 图形协议的直接传输：PNG、RGB、RGBA、分块传输、裁剪、放置与删除；图片跟随终端滚动，普通屏幕与备用屏幕隔离，并限制解码和画布资源。修复 omp 重绘、局部文字擦除和历史回放导致图片丢失的问题（#130、#140）。\n- 新安装预置的 omp 启动配置包含 `PI_FORCE_IMAGE_PROTOCOL=kitty`。已有启动配置不会被覆盖，需要时可自行添加这个环境变量。\n- 支持 OSC 7501 程序状态报告和服务端探测应答，无浏览器附着时也能应答。按程序状态、Warp 事件、普通通知和响铃的来源优先级合并提醒，减少结构化 agent 的误报；新增默认开启的 `program_status` 配置（#143）。\n- 改进截断历史的安全回放与重绘，修复 Android 收起键盘后触摸终端意外重新弹出键盘的问题。\n\n### 代码工作区与会话总览\n\n- 文件导航改为类似 VS Code 的按需文件树，支持展开、折叠、分页加载和当前文件定位（#126）。\n- 代码语法高亮按需加载；新增经过清洗的 Markdown 预览，预览中的外部图片与资源不自动加载。\n- 启动配置支持独立的预览行数和跳过末尾行数，未设置时沿用浏览器的全局预览（#139）。\n- 启动配置支持本地打包的 agent 图标；旧配置可以自动匹配图标（#137）。\n- 普通浏览器点击会话行时在新标签页打开终端，首页继续接收更新；主屏幕应用继续使用应用内导航（#136）。\n- 终端字体下限降为 8px（#135）。\n\n### 首次启动与工程支持\n\n- 默认配置文件缺失时，首次启动自动创建私有配置并保存随机 Token；已有配置不自动改写（#131）。\n- 新安装首次创建启动配置时，提供 Shell、Claude Code、Codex CLI、Gemini CLI、Open Code 和 omp 的可编辑配置。\n- 新增文档与规格的行数、体积和目录结构检查，协议与用户故事文档按主题拆分（#142）。\n\n## 升级须知\n\n- 替换服务端二进制并重启后生效；服务重启会结束当前 PTY 会话，请先处理正在运行的任务。\n- `launch-configs.json` 的当前写入格式为版本 2，兼容读取版本 1；已有启动配置和用户删除后的空配置均不会被重新预置。\n- OSC 7501 状态默认启用，可用 `program_status = false` 关闭。agent 在阻塞状态被强制结束、且 shell 未发送 `OSC 133;A` 时，状态可能持续显示等待，详见使用指南。\n- Kitty 图形暂不支持文件/共享内存传输、动画、Unicode 占位符和相对父放置。\n\n## 验证\n\n- 发布提交：`7b7a37569372a8ecb5a9f5a4dc7549730bb06cde`，tag `v0.6.0`。\n- [主分支 Test 工作流](https://github.com/mzdluo123/webmux/actions/runs/40310251012)：全部检查和最终汇总通过；首轮有两项 Chromium 安装超时，重跑未完成项后通过。\n- 本地预发布构建：8 个 Linux、macOS、Windows 产物的架构、SHA256 和托盘内嵌服务端摘要检查通过，Linux 二进制报告 `webmux 0.6.0`，示例配置校验通过。\n- 使用发布二进制启动隔离实例：认证、Origin 拒绝、内嵌页面与脚本、WebSocket、PTY 输入输出、断线重连、历史回放、退出与清理冒烟通过；终端与提醒的桌面/Pixel 7 Chromium E2E 为 25 项通过、3 项按平台条件跳过。\n- Release 工作流：[构建与发布全部通过](https://github.com/mzdluo123/webmux/actions/runs/40312285383)，包括前端构建、Go race、全部 8 个产物、SHA256 校验和版本检查。\n- 已重新下载线上全部 8 个文件并通过 `SHA256SUMS`；线上 Linux 二进制的版本、源码修订号与 `CGO_ENABLED=0` 正确，认证、WebSocket、PTY 和重连冒烟再次通过。\n- 未进行 Windows 实机托盘交互或 iOS/Android 真机验收；手机测试使用 Chromium 设备模拟。\n\n## 下载\n\n| 文件                                    | 用途                            |\n| --------------------------------------- | ------------------------------- |\n| `webmux-linux-{amd64,arm64}`            | Linux 服务端，也用于 WSL 2      |\n| `webmux-darwin-{amd64,arm64}`           | macOS 服务端                    |\n| `webmux-windows-{amd64,arm64}.exe`      | Windows 控制台客户端            |\n| `webmux-tray-windows-{amd64,arm64}.exe` | Windows 托盘，管理 WSL 中的服务 |\n| `SHA256SUMS`                            | 全部 8 个文件的 SHA256 校验值   |\n\n完整变更：https://github.com/mzdluo123/webmux/compare/v0.5.0...v0.6.0\n",
+      "assets": [
+        {
+          "name": "SHA256SUMS",
+          "size": 716,
+          "sha256": "f620b58a2bdd7f6c480421a3994c90dd0f2bb751fba988c62a0d4c65d578bf86",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.6.0/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 16345328,
+          "sha256": "f1890b704a9a134411c8c48eeb689c0527d6fe96b09ce061d7232804ad00755f",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.6.0/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 15576898,
+          "sha256": "aafc8a00295bb129ce59c2135e5e0ead9b31fede236efb5d9b46753456eb5d20",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.6.0/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 16097442,
+          "sha256": "e94cae3f11497b6135a6445a607d76db5a1b60a6696599afa449f1b88c30d612",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.6.0/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 15270050,
+          "sha256": "ba697e9772239eef43e4bd056123b9fdaea0c23945d3ab2ab6df7079fc29540d",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.6.0/webmux-linux-arm64"
+        },
+        {
+          "name": "webmux-tray-windows-amd64.exe",
+          "size": 8040448,
+          "sha256": "7d9a25e327a952a702b8df65e6862e5acf765ea414f1afdcc768d82650b93d7a",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.6.0/webmux-tray-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-tray-windows-arm64.exe",
+          "size": 7328256,
+          "sha256": "ab83bbc8c21980a69bd8c81342df5be7da841623cbf1864c8802eb2d33062255",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.6.0/webmux-tray-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-windows-amd64.exe",
+          "size": 6887936,
+          "sha256": "8c93a2d468188aa3d3730702c9a33bb50c3c8e4a2befaca37e6fd8d7efaabf10",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.6.0/webmux-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-windows-arm64.exe",
+          "size": 6256640,
+          "sha256": "778c5497b9485839ee96c55578013ca5c937a44f7f482ebdc19d8082636826a9",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.6.0/webmux-windows-arm64.exe"
+        }
+      ]
+    },
+    {
+      "tag": "v0.5.0",
+      "name": "WebMux v0.5.0",
+      "publishedAt": "2026-10-25T10:35:13Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.5.0",
+      "body": "## 更新内容\n\n本版本把启动方式统一为用户自定义的启动配置，移除内置启动预设；新增终端输出查找、网页端公网隧道设置（持久化、无需重启）、代码工作区图片预览与下载，以及响应式设置分区导航。终端与代码工作区在窄屏上更紧凑。后端完成控制器 / 服务分层重构，并由架构测试与线上 JSON 快照约束。\n\n### ⚠ 升级须知\n\n- **移除内置启动预设**：不再提供 Shell、Claude Code、Codex CLI、omp 等内置预设，TOML 中的 `[[presets]]` 与 `shell` 不再生效（旧配置仍可加载，这两项被忽略）。请在“设置 → 启动配置”中保存需要的命令；新安装没有任何启动配置，也可在新建会话时“手动填写”一次性命令。\n- **API 不兼容**：删除 `GET /api/presets`；`POST /api/sessions` 不再接受 `preset` / `args`，传入会返回 400（`unknown field \"preset\"`），请改用完整 argv 的 `cmd` 或 `configId`；`SessionInfo` 去掉 `preset` 字段；`webmux config show --json` 不再输出 `presets`。\n- **客户端需一起升级**：v0.4.0 及更早版本的 `webmux run` 与 Windows 控制台客户端会发送 `preset` 字段，连接 v0.5.0 服务端时创建会话会失败（400）。请同时更新服务端与各客户端二进制。\n- **隧道配置来源**：在网页“设置 → 公网访问”第一次保存后，配置写入 `<state_dir>/tunnel.json` 并优先于 TOML `[tunnel]`；`--tunnel` / `--tunnel=false` 只覆盖本次启动。“恢复配置文件设置”会删除网页配置并关闭隧道。\n\n### 自定义启动配置\n\n- 新建会话的“启动命令”分为“预先输入”（选择已保存的配置，显示名称、命令和环境变量数量）与“手动填写”（一次性命令，不写入服务端）两个 Tab，切换时保留各自输入，并记住上次成功使用的选择。\n- 启动配置新增“加载 ~/.bashrc”选项：勾选后以交互式 Bash 包装原命令，从 `~/.bashrc` 获取 PATH 与环境变量；再次编辑时显示原命令，不会重复包裹。\n- “启动位置”改为 Tab，仓库与工作树改用主题一致的下拉框。\n\n### 查找终端输出\n\n- 终端菜单“查找终端输出”或 `Ctrl+Shift+F`（macOS `⌘F`）打开查找；支持区分大小写、全词、正则，`Enter` / `Shift+Enter` 导航，`Esc` 关闭。查找输入不会发送到 PTY。\n- 范围是浏览器 xterm 当前保留的缓冲（普通终端最多 10000 行，全屏程序仅当前屏幕）；服务端历史已截断时会提示。\n\n### 网页端公网隧道设置\n\n- 新增“设置 → 公网访问”（`/settings/tunnel`）：选择 Quick Tunnel 或填写 Named Tunnel 凭据与主机名，保存并启用，无需重启、不结束会话。开关与配置跨重启保留。\n- 凭据只写不读；启用前确认风险，并要求 WebMux 登录 Token 至少 43 字符。存储损坏或锁冲突时保持本地服务可用且公网关闭；关闭操作即使无法落盘也会立即撤销公网访问。\n- 新增 `GET /api/tunnel`、`PUT /api/tunnel/settings`、`PUT /api/tunnel/enabled`、`DELETE /api/tunnel/settings`；Windows 托盘的隧道开关与网页设置共享同一持久化状态。\n\n### 代码工作区\n\n- 预览 PNG、JPEG、GIF、WebP、AVIF、BMP、ICO 图片（适应窗口、1:1、缩放、拖动，手机双指缩放），并可按原始字节下载文件（#108）。\n- Diff 根据宽度自动切换并排 / 统一布局，“完整文件”合并为一个菜单；引用来源按选中行自动推断（#114）。\n- 工具栏与标签栏合并；窄屏把文档栏收进代码菜单（#112）。\n\n### 界面与性能\n\n- 设置页新增分区导航：桌面在左侧，手机为顶部横向吸顶导航，支持键盘、地址片段直达与前进后退。\n- 窄于 640px 时终端顶栏只保留常用操作，全屏、上传、滚动到最新移入菜单；翻看历史时出现“回到最新”按钮。iPhone 主屏幕 Web App 不再显示无效的全屏入口（#112）。\n- 设置与管理表单按需加载，会话输出更新时保持列表顺序稳定，大量会话下筛选更流畅（#121）。\n\n### 架构与工程\n\n- 后端按控制器 / 服务 / 共享层分层，`internal/archtest` 以规则 R0–R10 强制约束；所有 REST / WebSocket JSON 由 `internal/contract` 类型定义，并以线上快照测试固定（#117）。\n- 服务端内部消息编码失败时以关闭码 `1011` 仅断开当前连接，会话继续运行。\n- 前端新增架构守卫 `pnpm --dir web check:arch`（设计系统规则、依赖层级、重复代码、未用导出），基线已清零（#118）。\n- 状态文件统一原子写入；托盘、服务与运行时记录现在也会 fsync 文件与目录（#115）。\n- CI：E2E 分片复用同一份构建，整体时长缩短（#109、#113、#116）。\n\n## 验证\n\n- 发布提交：`651687bdfca3b84ad8a33524e5070833f067167c`，tag `v0.5.0`。\n- 发布提交上的 [Test 工作流](https://github.com/mzdluo123/webmux/actions/runs/40184914943)全部通过。\n- [Release 工作流](https://github.com/mzdluo123/webmux/actions/runs/40185202125)通过：前端构建、Go race 测试、`CGO_ENABLED=0` 下全部 8 个产物构建，`SHA256SUMS` 校验与版本检查。\n- 本地冒烟：含 `shell` / `[[presets]]` 的旧 TOML 可正常启动；`GET /api/presets` 返回 404；带 `preset` 的创建请求返回 400，仅带 `cmd` 的请求返回 201。\n- 未在 Windows 实机上验证托盘发布产物，也未在 iOS / Android 真机上验证本版本的窄屏布局与终端查找。\n\n## 下载\n\n| 文件                                    | 用途                                                          |\n| --------------------------------------- | ------------------------------------------------------------- |\n| `webmux-linux-{amd64,arm64}`            | Linux 服务端（也用于 WSL 2）                                  |\n| `webmux-darwin-{amd64,arm64}`           | macOS 服务端                                                  |\n| `webmux-tray-windows-{amd64,arm64}.exe` | Windows 托盘，管理 WSL 中的 WebMux                            |\n| `webmux-windows-{amd64,arm64}.exe`      | Windows 控制台客户端（建议改名为 `webmux.exe` 并放入 `PATH`） |\n| `SHA256SUMS`                            | 全部 8 个文件的 SHA256 校验值                                 |\n\n**完整变更**：https://github.com/mzdluo123/webmux/compare/v0.4.0...v0.5.0\n",
+      "assets": [
+        {
+          "name": "SHA256SUMS",
+          "size": 716,
+          "sha256": "f0afa2a534c5ac1566a26488b040b6f98eccd0d741bd00cb961c4a9250faf721",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.5.0/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 15885712,
+          "sha256": "73710b48abf001cd9aba5915e3d09b6c7ad55a4fee7437a63e2eb46f46d52b62",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.5.0/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 15097186,
+          "sha256": "c62ea9ed358588347c3e1145366882184157aebce78dc5d195a45303934fc928",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.5.0/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 15634594,
+          "sha256": "f029653b3fde8177709448bd9020df767c3d549a08bbedc0a9238f31cda02ee0",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.5.0/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 14811298,
+          "sha256": "a9f1a042b9a38a7a47bd941842f4c49124adbaedfa3410725b4d75a96f2c263e",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.5.0/webmux-linux-arm64"
+        },
+        {
+          "name": "webmux-tray-windows-amd64.exe",
+          "size": 8039936,
+          "sha256": "d7ab5905798a85c9b9959844ea89df66977efafd37810103df6cd72be4916121",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.5.0/webmux-tray-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-tray-windows-arm64.exe",
+          "size": 7328256,
+          "sha256": "50c7b7efe8678bcdd01e037f8f2e1aaeeb67ad4a5780a891315d95a583204e57",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.5.0/webmux-tray-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-windows-amd64.exe",
+          "size": 6884864,
+          "sha256": "f6accac2dce349f4191d785c8d440ad62a116703e1a670c5d182d1cbd56af356",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.5.0/webmux-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-windows-arm64.exe",
+          "size": 6254592,
+          "sha256": "bc37b99e01f8859331a154aee88bfa053d83aa32b5d08006949d828f1365587b",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.5.0/webmux-windows-arm64.exe"
+        }
+      ]
+    },
+    {
+      "tag": "v0.4.0",
+      "name": "WebMux v0.4.0",
+      "publishedAt": "2026-10-24T07:30:07Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.4.0",
+      "body": "## 更新内容\n\n本版本加入服务端启动配置和多条暂存，设置页可查看公网隧道的运行状态，并提供 Named Tunnel 配置指引。默认监听地址改为 `0.0.0.0:7681`：未配置 token 且监听地址不是 loopback 时，每次启动自动生成强 token。原生终端附着会把本地终端的明暗配色报告给会话，Claude Code 与 Codex CLI 预设也会加载 `~/.bashrc`。\n\n### ⚠ 升级须知\n\n- **默认监听所有接口，并自动生成 token**：默认 `listen` 从 `127.0.0.1:7681` 改为 `0.0.0.0:7681`。未配置 `token` 且监听地址不是 loopback（包括默认值）时，每次启动生成 256 位随机 token，并在终端打印带 `#token=` 的本地链接；以 systemd / launchd 运行时该链接会写入 journal 或日志，且每次重启更换。需要固定 token 时，请执行 `webmux config init`（`webmux service install` 初始化的配置已带 token）。只有仅监听 loopback 且未启用隧道时，空 token 才表示不认证。正在运行的实例可通过 `webmux status --json --reveal-token` 读取当前 token。配置中显式写了 `listen` 的用户不受默认值变化影响。\n- **agent 预设改为经交互式 bash 启动**：默认 `claude`、`codex` 预设与 omp 一样以 `bash -ic 'exec <agent> \"$@\"' <agent>` 启动。配置中已声明 `[[presets]]` 的用户需要手动修改对应 `cmd`；已保存的启动配置是命令副本，不会随之改变。\n\n### 启动配置（#103）\n\n- 设置页新增“启动配置”：把“名称 + 完整命令 + 环境变量”保存在服务端，换浏览器或设备后仍可使用；可从内置预设填入命令，名称默认取预设标签。环境变量值默认遮挡，列表与新建会话页只显示变量个数。\n- 新建会话页并列显示内置预设与已保存配置，一次性命令收在“临时命令（不保存）”中；上次选择从 `lastPreset` 自动迁移为 `lastLaunch`。\n- 新增 `/api/launch-configs` 增删改查接口：列表只返回 `envNames`，变量值经 `GET /api/launch-configs/{id}` 读取。`POST /api/sessions` 新增 `configId`，与 `preset`/`cmd`/`args`/`env` 互斥。\n- 配置保存在 `<state_dir>/launch-configs.json`（0600，原子写入），由独立文件锁保护；文件损坏或被同一状态目录的另一实例占用时，该功能返回 503 并在设置页显示原因与路径，内置预设与临时命令照常可用。\n\n### 草稿与暂存（#98）\n\n- 同一会话可保留多条暂存，分别编辑、排序、取用和删除，与当前草稿互不覆盖；暂存面板以图标操作，显示条数、字符数及满额原因。\n- 界面图标统一为本地打包的 Iconify（tabler）图标。\n\n### 公网隧道（#101、#104）\n\n- 设置页区分 Quick / Named Tunnel，按步骤说明创建隧道、获取隧道 token、发布应用、写入配置和重启验证，明确根 token 与隧道 token 的区别及 43 字符要求；新增 [Named Tunnel 配置指南](https://github.com/mzdluo123/webmux/blob/main/docs/cloudflare-tunnel.md)。\n- 设置页按运行时状态显示隧道未启用、启动中、已就绪或异常停止；就绪时区分 Quick / Named 并显示公网地址。\n\n### 终端与原生附着\n\n- **同步本地终端配色**：程序已开启明暗报告（DEC 2031）时，`webmux attach` / `run` 在取得控制后向本地终端查询背景色（OSC 11），按亮度向会话发送 `CSI ? 997 ; 1|2 n`，查询应答本身不写入会话。之前从浏览器切到原生终端后，程序会沿用其他设备的配色。分离时关闭本地终端的 2031 模式。本地终端不应答 OSC 11 时不发送报告；Windows Terminal 不支持 2031，附着期间切换主题后需重新附着或按 Enter 重新取得控制。\n- **agent 预设加载 `~/.bashrc`**：Claude Code、Codex CLI 预设经交互式 bash 启动，`~/.bashrc` 中的环境变量与 `PATH` 对 agent 可见，追加参数原样传入。\n\n### 其他\n\n- 登录页的共享 Token 右侧新增问号提示，说明 token 的用途、生成方式、配置路径和启动参数覆盖（#107）。\n- 移除工作区底部的两条提示（#102）。\n- Node.js 升级到 26.12.1，文档改为直接安装 pnpm（#105）。\n- OpenSpec 规格同步并归档全部 14 个变更（#106）。\n\n## 验证\n\n- 发布提交：`c352ae862c9c9c1270c2563a1ca6a32bd737c547`，tag `v0.4.0`。\n- [Release 工作流](https://github.com/mzdluo123/webmux/actions/runs/40074163115)通过：前端构建、Go race 测试，以及 `CGO_ENABLED=0` 下 Linux / macOS 服务端和 Windows 控制台 / 托盘的 amd64、arm64 构建；`SHA256SUMS` 校验与版本检查均通过。\n- 在发布提交上，[Test 工作流](https://github.com/mzdluo123/webmux/actions/runs/40073458685)全部通过：格式与构建、Ubuntu Go race、Vitest 单元与浏览器测试、Storybook、Ubuntu / macOS E2E，以及 CLS 和 4 倍 CPU 降速检查。首次运行中 `push.spec.ts` 的 Service Worker 通知用例在 chromium-mobile 上未显示通知（重试通过，按 `failOnFlakyTests` 记为失败），重跑失败的作业后全部通过。\n- 未在 Windows 实机上验证本版本的托盘发布产物；原生附着的配色同步只用模拟终端与 PTY 冒烟测试验证，未在各终端实机上逐一验证。\n\n## 下载\n\n| 文件                                    | 用途                                                          |\n| --------------------------------------- | ------------------------------------------------------------- |\n| `webmux-linux-{amd64,arm64}`            | Linux 服务端（也用于 WSL 2）                                  |\n| `webmux-darwin-{amd64,arm64}`           | macOS 服务端                                                  |\n| `webmux-tray-windows-{amd64,arm64}.exe` | Windows 托盘，管理 WSL 中的 WebMux                            |\n| `webmux-windows-{amd64,arm64}.exe`      | Windows 控制台客户端（建议改名为 `webmux.exe` 并放入 `PATH`） |\n| `SHA256SUMS`                            | 全部 8 个文件的 SHA256 校验值                                 |\n\n**完整变更**：https://github.com/mzdluo123/webmux/compare/v0.3.0...v0.4.0\n",
+      "assets": [
+        {
+          "name": "SHA256SUMS",
+          "size": 716,
+          "sha256": "5e3acea225c4e785e6bc9d2d92415420352e86e16739708d0e63eee5ed17ded3",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.4.0/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 15549536,
+          "sha256": "e9556a09126fc21ad126ab72ab79a810faa0c24013e2b8d8179cd363ae80c689",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.4.0/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 14791410,
+          "sha256": "0c59321517a82c46fc921bde0c46537effa0a4ec391c53df3ca7c866bd31632c",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.4.0/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 15311010,
+          "sha256": "3a6767cf932bf74ac259f7a12da3bcc2738cf2f0f6c91ec36c9e6a8d9512e163",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.4.0/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 14549154,
+          "sha256": "59e5bd91eaa3c16dba42bcb749b2381940d6085523cead9bac5780e41476983e",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.4.0/webmux-linux-arm64"
+        },
+        {
+          "name": "webmux-tray-windows-amd64.exe",
+          "size": 8021504,
+          "sha256": "8a1faa639096223961a8e742ca9d6ed925bfc9423fad0f2398edd8bcf570b8e5",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.4.0/webmux-tray-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-tray-windows-arm64.exe",
+          "size": 7310336,
+          "sha256": "5df2a0511e7c0a0722c6a9b2b1bae249eafc0e8a4ed640c2820adf8d7fda8ad8",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.4.0/webmux-tray-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-windows-amd64.exe",
+          "size": 6876672,
+          "sha256": "8484ae6be0bb0b6a62bae1675768e4afb5cd954086ce548c07fc60683d14ce62",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.4.0/webmux-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-windows-arm64.exe",
+          "size": 6246912,
+          "sha256": "8f7f74d176013aa8f9d4960c7e65a1623755725298d6bbdc95d579ce6cbe1353",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.4.0/webmux-windows-arm64.exe"
+        }
+      ]
+    },
+    {
+      "tag": "v0.3.0",
+      "name": "WebMux v0.3.0",
+      "publishedAt": "2026-10-22T16:04:45Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.3.0",
+      "body": "## 更新内容\n\n本版本加入注意力提醒的 Web Push 推送：会话需要处理时，即使页面已关闭或手机已锁屏也能收到通知。同时主页区分 Shell 报告目录与会话归属，Windows 托盘检查 WSL 中 webmux 的兼容性与版本对应，并修复多项 iOS 体验问题。\n\n### 通知推送（Web Push）\n\n- **注意力推送**（#88）：设备开启推送后，会话需要处理时收到系统通知，页面关闭或手机锁屏后依然有效。页面须从 Cloudflare Named Tunnel 域名（`https://<tunnel.hostname>`）或回环地址打开；Quick Tunnel 返回 `409 quick_tunnel`，VPN / 局域网地址等其他来源不能订阅。\n- 加密（RFC 8291 `aes128gcm`）和 VAPID（RFC 8292）只使用 Go 标准库，无新增依赖。VAPID 密钥和最多 32 个订阅保存在 `<state_dir>/push.json`（0600）；推送服务返回 404 / 410 时删除订阅。日志只记录订阅 ID 和推送服务主机，不记录 endpoint。\n- 去重：首次快照中已存在的提醒不推送，spinner 输出、来源变化和重连不会重复推送；内部订阅落后重连后，期间产生的提醒只推送一次。\n- 新增配置段 `[push]`：`enabled`、`subject`、`ttl_seconds`、`kinds`（`bell` 默认关闭）和 `include_title`。`/local/v1/status` 与 `webmux status --json` 新增可选的 `push` 字段，契约仍为 v1。\n- 设置页新增“通知推送”卡片：前置条件不满足时逐项提示（非安全上下文、iOS 未从主屏幕打开、Quick Tunnel、配置未启用、权限被拒等）。Chrome 改用静默权限提示时，卡片说明在地址栏铃铛处允许通知。\n- 测试通知一次发送到所有已订阅设备，并报告设备数、成功数、移除数和错误；未开启推送的浏览器也能发送，便于在桌面上检查手机后台的显示效果。\n- Windows 托盘在隧道项下显示“手机推送”状态和已订阅设备数；“手机推送设置说明…”按是否配置 Named Tunnel 给出设置步骤，不包含 Token。\n\n### 会话与代码查看\n\n- **Shell 报告目录**（#89）：解析 shell 通过 OSC 7 报告的当前目录，在会话行中与启动目录分开显示，远端主机的报告带“远端”标记；会话仍按启动目录归属到仓库 / 工作树。`SessionInfo` 新增可空字段 `reportedCwd`。`docs/usage.md` 提供可自行启用的 bash / zsh 片段，WebMux 不改写 shell rc。\n- 会话菜单可复制 Shell 报告目录（无报告时复制启动目录）。\n- 代码导航新增“按路径打开”：相对路径以 Shell 报告目录（无报告时用启动目录）为基点，由新增的 `GET /api/sessions/{id}/code/locate` 在服务端解析符号链接，只打开代码工作区根内的路径；目录会跳转到文件树。\n- **omp 预设加载 `~/.bashrc`**（#91）：默认 omp 预设改为 `bash -ic 'exec omp \"$@\"' omp`，`~/.bashrc` 中的环境变量对 omp 可见，参数边界、进程组和退出码保持不变。配置中已声明 `[[presets]]` 的用户需要手动修改 omp 的 `cmd`，或执行 `webmux config init --force` 重新生成。\n\n### Windows（WSL）托盘\n\n- **版本兼容检查**（#96）：托盘执行 `webmux version --json`，先按控制契约判断兼容，再按版本号判断对应，并在菜单状态行指出较旧的一方，例如 `托盘 0.3.0 · WSL 0.2.0（WSL 较旧）`。正在运行的实例与已安装文件版本不同时，提示重启后生效（重启会结束所有会话）。\n- WSL 中的 webmux 较新且为正式发布版本时，菜单提供“下载托盘 <版本>”，打开对应的 Release 页面。\n- 契约不兼容的实例仍可启动和停止：托盘按 Windows 侧可达性跟踪，不会误判失败或自动重启，状态行显示“运行中（不兼容，功能受限）”。\n- 新增 `webmux version --json`，输出 `{\"v\":1,\"version\":\"…\",\"contract\":1}`，不读取配置；`webmux version` 的文本输出不变。旧版 webmux 不支持 `--json` 时，托盘回退解析文本并视为契约 v1。\n\n### iOS 与移动端\n\n- 点击方向键等软键不再收起 iOS 键盘（#94）。\n- 添加到主屏幕的 iPhone 应用中，主页和设置页顶栏不再被状态栏和 iOS 26 的边缘模糊遮挡。\n\n### 其他\n\n- 项目以 MIT 许可证发布。\n- 仓库要求随功能变更维护 [User Stories](https://github.com/mzdluo123/webmux/blob/main/docs/user-stories.md)（#92）。\n- 4 倍 CPU 降速下的交互延迟阈值从 200 ms 放宽到 300 ms，避免共享 runner 的性能波动导致检查失败。\n\n## 验证\n\n- 发布提交：`ff726f04b52577b0ff8531372a5a5838b2b77e2f`，tag `v0.3.0`。\n- [Release 工作流](https://github.com/mzdluo123/webmux/actions/runs/39810177392)通过：前端构建、Go race 测试，以及 `CGO_ENABLED=0` 下 Linux / macOS 服务端和 Windows 控制台 / 托盘的 amd64、arm64 构建；构建时确认两个托盘都内嵌了 Linux 服务端摘要。`SHA256SUMS` 校验与版本检查均通过。\n- 在发布提交上，[Test 工作流](https://github.com/mzdluo123/webmux/actions/runs/39808175891)全部通过：格式与构建、Ubuntu Go race、Vitest 单元与浏览器测试、Storybook、Ubuntu / macOS E2E，以及 CLS 和 4 倍 CPU 降速检查。\n- 未在 Windows 实机上验证本版本的托盘发布产物；CI 无法覆盖推送经 APNs / FCM 的实际送达。\n\n## 下载\n\n| 文件                                    | 用途                                                          |\n| --------------------------------------- | ------------------------------------------------------------- |\n| `webmux-linux-{amd64,arm64}`            | Linux 服务端（也用于 WSL 2）                                  |\n| `webmux-darwin-{amd64,arm64}`           | macOS 服务端                                                  |\n| `webmux-tray-windows-{amd64,arm64}.exe` | Windows 托盘，管理 WSL 中的 WebMux                            |\n| `webmux-windows-{amd64,arm64}.exe`      | Windows 控制台客户端（建议改名为 `webmux.exe` 并放入 `PATH`） |\n| `SHA256SUMS`                            | 全部 8 个文件的 SHA256 校验值                                 |\n\n手机推送的配置步骤见[部署指南](https://github.com/mzdluo123/webmux/blob/main/docs/deployment.md#手机推送web-push)。\n\n**完整变更**：https://github.com/mzdluo123/webmux/compare/v0.2.0...v0.3.0\n",
+      "assets": [
+        {
+          "name": "SHA256SUMS",
+          "size": 716,
+          "sha256": "1ab954c7da59a7c68909da61bae7c90975ca28745915e9ad164faa789d724f92",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.3.0/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 15471056,
+          "sha256": "fa430b8879f112e8dbe6457168bef7f477c70ce1d761c8fd3e2ee8e6dd5a46d2",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.3.0/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 14724674,
+          "sha256": "242dd944f6839363c422545cf344f9d3e0591d3bf739d9f35bc87242a37b0c51",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.3.0/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 15233186,
+          "sha256": "39c2b5e52e76ac2fbea6ff11e15485515270ee2bba9d5faef13d9a75422491b0",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.3.0/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 14418082,
+          "sha256": "396c56716c1aea1509823c87ee2f5f7ee7ea036045ac75ddbb4540a6e780281b",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.3.0/webmux-linux-arm64"
+        },
+        {
+          "name": "webmux-tray-windows-amd64.exe",
+          "size": 8021504,
+          "sha256": "99920a9d3f2dbf056fff92d9f153af0dbe50e4b3d2249462eed257ce6d17137e",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.3.0/webmux-tray-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-tray-windows-arm64.exe",
+          "size": 7310336,
+          "sha256": "cb37262347470c5869f001c080698de235cc7fd918cb2270facf82d4a0dfc620",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.3.0/webmux-tray-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-windows-amd64.exe",
+          "size": 6868480,
+          "sha256": "8de8c66a32f4dd9b36853bca7ca0dd451a7a4a2089c2e74f334b1aecc92ef800",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.3.0/webmux-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-windows-arm64.exe",
+          "size": 6239744,
+          "sha256": "122255876260028ec0c008d87196c09fdb5828124d4295a85120021dc10e7bcd",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.3.0/webmux-windows-arm64.exe"
+        }
+      ]
+    },
+    {
+      "tag": "v0.2.0",
+      "name": "WebMux v0.2.0",
+      "publishedAt": "2026-10-22T01:10:03Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.2.0",
+      "body": "## 更新内容\n\n本版本加入 Windows（WSL）支持：WebMux 运行在 WSL 2 中，Windows 端提供托盘程序和控制台客户端。同时引入客户端 / 服务端架构，新增原生终端附着和用户级服务管理。\n\n### Windows（WSL）\n\n- **托盘程序** `webmux-tray-windows-{amd64,arm64}.exe`（#82）：在 WSL 2 中启动、监控和停止 WebMux，支持托盘托管与 systemd 两种启动方式；托盘托管的服务意外退出后自动重启（10 分钟内最多 5 次）。支持选择发行版、登录时自动启动，并保证同一用户只运行一个实例，无需管理员权限。\n- **托盘安装 / 升级 WSL 中的 webmux**：托盘下载与自身同版本、匹配发行版架构的 Linux 二进制（GitHub 无响应时改用镜像），SHA-256 必须与发布构建时写入托盘的摘要一致才会安装，不会静默自动安装。\n- **访问入口**：托盘可以打开 WebMux，也可以复制本机、远程、公网链接或 Token。配置了 Token 时，复制的链接带 `#token=`，不进入剪贴板历史和云同步，60 秒后自动清除；通知只显示不含 Token 的地址。\n- **远程访问**：WSL NAT 模式下，托盘可以把选定的主机地址（Tailscale 地址优先）转发到 WSL 中的服务，并保留 Host / Origin 校验。Cloudflare 公网隧道可在运行中开关，开启前需要确认，无需重启服务。\n- **控制台客户端** `webmux-windows-{amd64,arm64}.exe`（#84）：在 PowerShell / Windows Terminal 中执行 `run`、`attach`、`ls`、`open`、`status`。客户端经 `wsl.exe --exec webmux bridge` 访问服务，无需 Token，不依赖 WSL 的 localhost 转发或网络模式；当前目录自动换算为 WSL 路径。\n- 托盘启动的服务会把 `~/.local/bin` 等目录加入 `PATH`，修复 claude / codex / omp 会话报“找不到可执行文件”的问题。\n\n### 命令行与本机 API\n\n- **客户端 / 服务端架构**（#83）：服务除 TCP 外还监听一个 0600 权限的 Unix 套接字，按对端 UID 认证，并提供 `/local/v1/status`、`shutdown`、`token`、`tunnel`。会话内的进程可以创建、列出、附着会话，但不能停止服务、读取 Token 或控制隧道。\n- 新增子命令 `serve`、`status`、`stop`、`bridge` 和 `config path|show|validate|check|init`。`status` / `stop` 支持版本化 JSON 输出，`serve` 支持 `--log-file`。\n- **原生终端附着**（#85）：`webmux run -- <命令>` 在当前目录创建会话并附着，`webmux attach <ID>` 接续会话，`ls` / `open` 查找会话和链接。`Ctrl+]` 分离后会话继续运行，可在浏览器或手机上接管。\n- 附着修复：浏览器取得控制后，原生终端的自动应答不再抢回控制，只有按 Enter 才会重新接管。在 modifyOtherKeys、kitty 键盘协议和 Windows Terminal win32-input-mode 编码下，也能识别 Enter 和 `Ctrl+]`。\n- **用户级服务**（#86）：`webmux service install|status|logs|start|stop|restart|uninstall` 以当前用户安装 systemd --user 或 launchd 服务，无需 sudo。`--dry-run` 可预览服务文件，`--force` 可更新服务定义；卸载时保留配置、日志和状态目录。\n\n### 文档\n\n- README 新增设计理念（第一级别的 WSL 支持、低侵入性、融入现有终端 agent 工作流、高性能低占用）和 Windows（WSL）快速开始。\n- 新增 [User Stories](https://github.com/mzdluo123/webmux/blob/main/docs/user-stories.md)，按功能列出用户目的和验收要点（#87）。\n\n## 验证\n\n- 发布提交：`1a182519ef3ad28177d88f33197b4312f48e05f0`，tag `v0.2.0`。\n- [Release 工作流](https://github.com/mzdluo123/webmux/actions/runs/39703740957)通过：前端构建、Go race 测试，以及 `CGO_ENABLED=0` 下 Linux / macOS 服务端和 Windows 控制台 / 托盘的 amd64、arm64 构建。`SHA256SUMS` 校验与版本检查均通过。\n- 下载已发布的 `webmux-linux-amd64` 后验证：`SHA256SUMS` 校验通过，版本为 `0.2.0`；认证请求返回 200，未认证返回 401，非法 Origin 写请求返回 403，创建 shell 会话返回 201；`webmux status` 和 `webmux ls` 经本机套接字正确显示实例和会话。`webmux-tray-windows-amd64.exe` 内嵌的 Linux 服务端摘要与 `SHA256SUMS` 一致。\n- 在发布提交上，[Test 工作流](https://github.com/mzdluo123/webmux/actions/runs/39703707884)中的格式与构建、Ubuntu Go race、Vitest 单元与浏览器测试、Storybook、Ubuntu / macOS E2E 全部通过。“CLS 和 4 倍 CPU 降速”检查中，桌面端 create-and-type 的交互延迟为 248 ms，超过 200 ms 阈值；相同前端代码在 `77ab858` 上为 168 ms 并通过，因此判定为 runner 性能波动。\n- 未在 Windows 实机上验证托盘和控制台客户端。\n\n## 下载\n\n| 文件                                    | 用途                                |\n| --------------------------------------- | ----------------------------------- |\n| `webmux-linux-{amd64,arm64}`            | Linux 服务端（也用于 WSL 2）        |\n| `webmux-darwin-{amd64,arm64}`           | macOS 服务端                        |\n| `webmux-tray-windows-{amd64,arm64}.exe` | Windows 托盘，管理 WSL 中的 WebMux  |\n| `webmux-windows-{amd64,arm64}.exe`      | Windows 控制台客户端（建议改名为 `webmux.exe` 并放入 `PATH`） |\n| `SHA256SUMS`                            | 全部 8 个文件的 SHA256 校验值       |\n\nWindows 安装步骤见 [README](https://github.com/mzdluo123/webmux#windowswsl) 和[部署指南](https://github.com/mzdluo123/webmux/blob/main/docs/deployment.md#windowswsl)。\n\n**完整变更**：https://github.com/mzdluo123/webmux/compare/v0.1.10...v0.2.0\n",
+      "assets": [
+        {
+          "name": "SHA256SUMS",
+          "size": 716,
+          "sha256": "9dcea9e66994c2fdae10d5b2d338485ecc8bc938d9252514bb2d5914af0ebfd4",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.2.0/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 15333120,
+          "sha256": "52fb2903129305c4df8db1cc439b86aeb1c581076facebf6907d2a6cd03950e0",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.2.0/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 14606322,
+          "sha256": "c606adc7199dc603f4c4a82b7def0fdf94d0a5022896d07e820100efa2cd9e5f",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.2.0/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 15098018,
+          "sha256": "ce3a54b33fdb7dbef2bc5a4833869e799f93890778205b1c6136acec0edfd060",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.2.0/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 14287010,
+          "sha256": "df68a741c463168ada330c00d12061781d0ebc789d9052c13616671e14991c74",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.2.0/webmux-linux-arm64"
+        },
+        {
+          "name": "webmux-tray-windows-amd64.exe",
+          "size": 7988736,
+          "sha256": "5ae7febfa019fa3f2f1707d20c482affdef2082e4d8ea949a24272081e5f3837",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.2.0/webmux-tray-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-tray-windows-arm64.exe",
+          "size": 7282688,
+          "sha256": "f6c5d2e34b36708d7726ce44d0b9513c618d2cc2f3723a73fdc88e92cecac6ad",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.2.0/webmux-tray-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-windows-amd64.exe",
+          "size": 6867968,
+          "sha256": "db458368b8de307b2340bba594bb94444bf602fe68253e2bb11e79876e0d8a1c",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.2.0/webmux-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-windows-arm64.exe",
+          "size": 6239232,
+          "sha256": "f5049b749336477f93a8061df495db28a1bfedd8ef824a26dcd7c85344e55b6a",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.2.0/webmux-windows-arm64.exe"
+        }
+      ]
+    },
+    {
+      "tag": "v0.1.10",
+      "name": "v0.1.10",
+      "publishedAt": "2026-10-21T08:39:24Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.1.10",
+      "body": "## 更新内容\n\n### 新功能\n\n- 代码工作区可弹出到独立窗口：顶栏“刷新全部”右侧新增按钮，把整个代码工作区连同已打开的标签移到单独窗口，引用发送和变化检测照常工作，收起主窗口代码栏也不影响；关闭窗口或点“收回”即回到原位。Chrome / Edge 在 HTTPS 或 localhost 下使用置顶画中画窗口，HTTP 访问、Safari、Firefox 使用普通弹出窗口；手机和平板不显示该按钮。\n- 通过 Cloudflare Tunnel 远程访问，支持带 Token 的登录链接和二维码（#63）。\n\n### 界面与交互\n\n- 移动端工作区和代码页的常用按钮从 44px 缩小到 36px，同屏可显示更多内容。\n- 会话卡片的状态、连接与时间紧凑排列，不再按固定列分散。\n- 顶栏连接状态和主机名紧贴操作按钮，状态变化不再引起布局跳动。\n- 终端程序可感知页面的浅色/深色主题切换（DEC 2031）；移除终端下方的黑色条带；worktree 的“启动会话”按钮更易识别。\n\n### 稳定性\n\n- 稳定终端相关检查，加快新建会话表单的打开速度（#81）。\n\n## 验证\n\n- 发布提交：`27dbd12586c09505545fa3916d2104f6ebd20b34`，tag `v0.1.10`。\n- 在该提交的独立源码目录运行冻结依赖安装，交叉构建 Linux/macOS 的 amd64、arm64 二进制，`CGO_ENABLED=0`；Svelte/TypeScript 检查零错误、零警告。\n- Linux amd64 发布产物启动验证通过：版本为 `0.1.10`，357 个内嵌资源通过 HTTP 逐字节校验；认证健康检查返回 200，未认证返回 401，非法 Origin 写请求返回 403。\n- [GitHub Actions 全部通过](https://github.com/mzdluo123/webmux/actions/runs/39570181899)：格式与构建、Ubuntu Go race、Vitest 单元与浏览器测试、Storybook、Ubuntu/macOS E2E，以及 CLS 和 4 倍 CPU 降速测试。\n- 四个二进制均通过 `SHA256SUMS` 校验。\n\n## 下载\n\n下载对应系统和架构的二进制，赋予执行权限后运行。`SHA256SUMS` 提供四个平台文件的 SHA256 校验值。\n\n**完整变更**：https://github.com/mzdluo123/webmux/compare/v0.1.9...v0.1.10\n",
+      "assets": [
+        {
+          "name": "SHA256SUMS",
+          "size": 342,
+          "sha256": "684f0c334c8b410b8ce1ac04f1b63c39fadefee6f712d217f8d9e82c8667d32c",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.10/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 13711856,
+          "sha256": "7113f078773339477260b003cee7a61716d12c385548d1622087b4f1d935311e",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.10/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 13038418,
+          "sha256": "139133baf89c58388d5f788c853bbe2ff0e6c567ab709bf141242bdc59840d9c",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.10/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 13504672,
+          "sha256": "613dd8d76db61c33304003d846438ea49076865e022a2870f78e0e7444d70b72",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.10/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 12845216,
+          "sha256": "cfd3678e50e7b506ce037d5c84c1d41583a3780416567a25795d1fbc5ef1d2ee",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.10/webmux-linux-arm64"
+        }
+      ]
+    },
+    {
+      "tag": "v0.1.9",
+      "name": "v0.1.9",
+      "publishedAt": "2026-10-21T03:17:31Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.1.9",
+      "body": "## 更新内容\n\n### 工作区与代码查看\n\n- 支持选择哪些 worktree 显示在首页，简化工作区与会话层级；收紧工具栏，改善窄屏和大字体下的操作可达性（#62、#65、#77）。\n- 代码差异支持语法高亮、并排与统一视图，并完善空差异和文本选择提示（#73）。\n- 统一界面设计、控件和反馈状态，在线状态显示服务端主机名（#66、#75）。\n\n### 稳定性与性能\n\n- 改善大量终端输出、进程与仓库负载下的会话响应，限制预览重复处理和输入排队时间，减少进程与 Git 查询开销（#64）。\n- 修复无人值守的 `sleep` 被误判为等待输入的问题，覆盖 Linux 和 macOS（#61）。\n- 减少页面布局跳动，限制启动时可选仓库查询的等待时间，改善慢设备上的创建反馈；增加桌面/移动端 4 倍 CPU 降速回归验证（#79）。\n- 压缩内嵌前端资源，中文字体改用系统字体，保留打包的拉丁字母、终端符号和图标字体；四个平台的可执行文件约为 11.7–12.5 MB，较 v0.1.8 的约 37.6–38.3 MB 明显缩小（#80）。\n- 更新 CodeMirror，采用 Oxfmt/Oxlint，并复用构建、并行隔离测试以改善 CI 耗时（#42、#74、#78）。\n\n## 验证\n\n- 发布提交：`a8a6aed601b6d4a7721596d79753c1455293ef74`，tag `v0.1.9`。\n- 使用 Go 1.26.1、Node.js 24.22.0 和 pnpm 12.11.2，从该提交的独立源码目录运行冻结依赖安装，交叉构建 Linux/macOS 的 amd64、arm64 二进制，`CGO_ENABLED=0`；Svelte/TypeScript 检查零错误、零警告。\n- macOS arm64 发布产物启动验证通过：版本为 `0.1.9`，全部 357 个内嵌资源通过 HTTP 逐字节校验；健康检查和认证会话列表返回 200，未认证返回 401，非法 Origin 写请求返回 403，服务正常退出。\n- [GitHub Actions 全部通过](https://github.com/mzdluo123/webmux/actions/runs/39537222984)：格式与构建、Ubuntu Go race、Vitest 单元与浏览器测试、Storybook、Ubuntu/macOS E2E，以及 CLS 和 4 倍 CPU 降速测试；独立源码目录的本地 Go race 全套测试也通过。\n- 四个二进制均通过 `SHA256SUMS` 校验。\n\n## 下载\n\n下载对应系统和架构的二进制，赋予执行权限后运行。`SHA256SUMS` 提供四个平台文件的 SHA256 校验值。\n\n**完整变更**：https://github.com/mzdluo123/webmux/compare/v0.1.8...v0.1.9\n",
+      "assets": [
+        {
+          "name": "SHA256SUMS",
+          "size": 342,
+          "sha256": "feb4cae117c6bb66009ec66b35d7b4078db18d657eac2c6b94acd05215259d12",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.9/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 12465824,
+          "sha256": "981b9448fd067be47ab51a38b3a2d85ca228a80acc96d2b79a9ff60c2ebd4be0",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.9/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 11873490,
+          "sha256": "dff1c5f950b35dfe1508ed0ca41578f184c26de2b39fff4061dce2ec02d92edd",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.9/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 12304546,
+          "sha256": "56fce45ac26d2d7922b8d1696a1f05139d8200def9d6cb2ca1f2ac94dc7417cb",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.9/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 11731106,
+          "sha256": "33ff2e94b469c37a499a276fabc02a9435823f87bb59d40d7d55672a875801df",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.9/webmux-linux-arm64"
+        }
+      ]
+    },
+    {
+      "tag": "v0.1.8",
+      "name": "v0.1.8",
+      "publishedAt": "2026-10-20T15:05:41Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.1.8",
+      "body": "## 更新内容\n\n### 工作区与移动端\n\n- 新增会话实时搜索，支持按会话标题、目录、仓库名称和分支查找；提供全部、运行中、等待中和已退出状态筛选，并显示数量（#59）。\n- 搜索时自动展开匹配的仓库，提供无匹配结果提示和清除筛选入口（#59）。\n- 调整会话卡片、终端输出预览和状态展示；增大触控区域，改善窄屏及大字体下的布局（#59）。\n\n### 终端与构建\n\n- 升级 xterm.js 至 6.0.0，同步升级 fit 和 WebGL 插件；适配触摸滚动，保留 Alt/Option 方向键导航行为，并调整 WebGL 资源释放顺序（#51）。\n- 升级 Vite 至 8.3.4、Svelte 插件至 7.3.1，保留 Chrome/Edge 107、Firefox 104 和 Safari 16 的构建目标（#56）。\n- 拆分并行 CI 任务，保留 macOS Go race 与 E2E 覆盖；改善主题切换回归测试的稳定性。\n\n## 验证\n\n- 发布提交：`f89f407897e444e0df07e38e95a789070be9e1e6`（tag `v0.1.8`）。\n- GitHub Actions 全部通过：格式与构建、Go race、Vitest 单元与浏览器测试、Storybook，以及 Ubuntu/macOS E2E。\n- 使用 Go 1.26.1、Node.js 24.22.0、pnpm 12.11.2，从 tag 独立构建 Linux/macOS 的 amd64、arm64 二进制；Svelte/TypeScript 检查零错误、零警告。\n- macOS arm64 发布产物启动验证通过：版本为 `0.1.8`，内嵌网页及入口 JS/CSS 返回 200，已认证健康检查返回 200，会话列表 API 未认证返回 401、认证后返回 200。\n\n## 下载\n\n选择对应操作系统和架构的二进制，赋予执行权限后运行。`SHA256SUMS` 包含四个二进制文件的 SHA256 校验值。\n\n**完整变更**：https://github.com/mzdluo123/webmux/compare/v0.1.7...v0.1.8\n",
+      "assets": [
+        {
+          "name": "SHA256SUMS",
+          "size": 342,
+          "sha256": "adb9cdcce95a7295c2344019de77c6cd46b3860e8d969caa985e474318c315c2",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.8/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 38326704,
+          "sha256": "1f496c284830fb2e68683f70ace483e43db33be2943105a86c3755e5138e9807",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.8/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 37965266,
+          "sha256": "d4b71197e2efe0dcf996856223f29f8379bccacfd9026d2881c800acbfae6ec7",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.8/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 38166690,
+          "sha256": "8d95b3c589fc42ea7a3c56a51946b6f1960226ab532acb9ffbcd5f7646fe1d95",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.8/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 37552290,
+          "sha256": "49f61a2884f71876bb6b0a86946fe062628f56fd3f681676b2df08a6431224a3",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.8/webmux-linux-arm64"
+        }
+      ]
+    },
+    {
+      "tag": "v0.1.7",
+      "name": "v0.1.7",
+      "publishedAt": "2026-10-20T11:47:00Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.1.7",
+      "body": "## 更新内容\n\n### 新功能\n\n- 手机输入与恢复可信化：提交确认、草稿本机保存、断线后增量续接，并引入会话控制端，只有控制端调整 PTY 尺寸，其他客户端按控制端的网格观看（#37）。\n- 引入 Storybook 及 UI 溢出回归测试（#40）。\n- 新增持久终端产品能力基线测量工具 `cmd/baseline`（#39）。\n\n### 修复与安全加固\n\n- API 拒绝不受信任的请求 Host（#25）。\n- 终端输入超出 WebSocket 发送预算时明确拒绝并提示；resize/resync 控制帧按类型合并，在队列恢复后重试，不会丢失（#33）。\n- 终端渲染积压时自动恢复（#36）；慢客户端反复重连时退避（#34）。\n- 代码引用中的 shell 元字符正确加引号（#29）。\n- 限制预览解析的资源占用：重复指令工作量（#26）、组合字符数量（#27）；丢弃未使用的超链接元数据（#28）。\n- 限制 Git 输出捕获大小（#32）；代码查看在校验根目录前先获取预算（#30）。\n\n### 性能\n\n- 进程树分类改为线性遍历（#31）；缓存内嵌静态资源的响应表示（#35）。\n\n### 依赖与构建\n\n- **从源码构建需要 Go 1.26+**（golang.org/x/sys v0.49.0，#54）；发布的二进制不受影响。\n- Go：BurntSushi/toml v1.6.0、coder/websocket v1.8.15。\n- 前端：TypeScript 6.0.3、zod 4.6.7、cn 0.5.0、svelte-check 4.7.7、vitest 5.0.5、playwright 1.64.1。\n\n## 验证\n\n- 发布提交：9b492ca960b779e2dd7b27af8a1afb414bb760cc。\n- GitHub Actions Test：Ubuntu、macOS 均通过。\n- 从该提交独立构建 Linux/macOS 的 amd64、arm64 二进制。\n- Linux amd64 发布产物启动验证通过，版本为 0.1.7；内嵌网页返回 HTTP 200，会话列表 API 未认证返回 401、认证后返回 200。\n- 本次发布未执行 iOS/Android 真机验收。\n\n## 下载\n\n选择对应操作系统和架构的二进制，赋予执行权限后运行。SHA256SUMS 包含四个二进制文件的 SHA256 校验值。\n\n**完整变更**：https://github.com/mzdluo123/webmux/compare/v0.1.6...v0.1.7\n",
+      "assets": [
+        {
+          "name": "SHA256SUMS",
+          "size": 342,
+          "sha256": "79fd7b103e1463485b89f44ef3da888c98cacafc371a15f73b62e2e6ffe27cfa",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.7/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 38854928,
+          "sha256": "3f06b647a645178942315521aa3b6875958cbf783b2b609a5d08862fddf3acbd",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.7/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 38435698,
+          "sha256": "2f0940c89f447727656083697f806a21ed1edef38ed50390ffdbb7d1eb20c94a",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.7/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 38662304,
+          "sha256": "fb4f0cff9ad70c423bce70aa6777bd1bf07706517e8e8474e88eb236feeca37a",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.7/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 38011040,
+          "sha256": "c7ba30ee722586956eb71b4cd89dd243069288c09fe17d472aa7334008854cc3",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.7/webmux-linux-arm64"
+        }
+      ]
+    },
+    {
+      "tag": "v0.1.6",
+      "name": "v0.1.6",
+      "publishedAt": "2026-10-19T14:00:45Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.1.6",
+      "body": "## 更新内容\n\n- 新增终端快捷命令功能（#10）。\n- 修复 iOS 输入法提交空格、数字和标点时输入丢失，以及组合输入期间的抖动（#9）。\n- 改进 agent 等待关注状态：通过终端侧信号保持通知状态，后续输出不会清除，实际用户输入或相关生命周期信号才会清除（#8）。\n- 调整浏览器测试对亚像素间隙及 resize 期间滚动手势的处理。\n\n## 验证\n\n- 发布提交：949ec3bbde1835199bb1f88b6c2318db0be25fb3。\n- GitHub Actions Test：Ubuntu、macOS 均通过。\n- 从该提交独立构建 Linux/macOS 的 amd64、arm64 二进制。\n- Linux amd64 发布产物启动验证通过，版本为 0.1.6；内嵌网页及会话列表 API 返回 HTTP 200。\n- 本次发布未执行 iOS/Android 真机验收。\n\n## 下载\n\n选择对应操作系统和架构的二进制，赋予执行权限后运行。SHA256SUMS 包含四个二进制文件的 SHA256 校验值。\n\n**完整变更**：https://github.com/mzdluo123/webmux/compare/v0.1.5...v0.1.6\n",
+      "assets": [
+        {
+          "name": "SHA256SUMS",
+          "size": 342,
+          "sha256": "641c7bde40f826b23af5189e6021f7e3b4b139087be6110cf5adc5fb1691b286",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.6/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 38742592,
+          "sha256": "04f5beb7f0ad2e6dc55080b9c41ae6fdb417907da995cc2cb5ffdbe2162bbe52",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.6/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 38334882,
+          "sha256": "911ec22d80e5ad62022b2e685a1388c18af4c3b2a8ca3c405f28e9246dd0d57e",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.6/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 38551712,
+          "sha256": "b7ac778588a1f49baa1ed4eb9c339c4c874f1b0b3cece3d58314040ee542fb85",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.6/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 37879968,
+          "sha256": "d9d486729a1b4988606f16476745fcfbfe33977d2fac9e97bb940d46accf37bb",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.6/webmux-linux-arm64"
+        }
+      ]
+    },
+    {
+      "tag": "v0.1.5",
+      "name": "v0.1.5",
+      "publishedAt": "2026-10-15T12:23:18Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.1.5",
+      "body": "## 更新内容\n\n### 修复：平板上虚拟键盘意外弹出\n连接手写笔、键盘套或开启桌面模式的平板，浏览器会把主指针报告为“精确指针”，此前被当作桌面设备处理：进入终端即自动聚焦并弹出键盘，软键栏和 `⌨` 按钮也被隐藏。\n\n现在只要设备带触摸屏，就按触摸设备处理：\n- **只有点击软键栏的 `⌨` 才会唤起虚拟键盘**。进入终端、轻点终端、开启草稿、关闭粘贴 / 复制 / 字体弹窗、读取剪贴板失败、上传完成都不再自动聚焦输入。\n- 软键栏在所有带触摸屏的设备上默认显示。\n- 手写笔点击终端与手指一致：可滑动、捏合、长按选择，不会弹出键盘。\n\n桌面鼠标操作不变，进入终端仍自动聚焦。\n\n### 文档\n- README 重写为项目首页；原设计文档拆分为 `docs/` 下的使用指南、部署指南、架构设计与 API 协议，新增 `CONTRIBUTING.md` 与 `SECURITY.md`。\n\n## 使用与升级注意\n\n- 带触摸屏的笔记本电脑也会显示软键栏，且用鼠标进入终端时不再自动聚焦，需先点击一次终端。\n- 重启 WebMux 会结束现有终端会话；升级前请保存工作。仅替换磁盘上的二进制不会让正在运行的进程加载新版本。\n- 仍须部署在 loopback 或可信 VPN 上；所有 API 与 WebSocket 均受 Token 和 Origin 检查保护。\n\n## 下载\n\n提供 Linux / macOS 的 amd64、arm64 独立可执行文件，均禁用 CGO，内嵌匹配版本前端。下载对应平台附件后使用 `SHA256SUMS` 校验完整性。\n\n## 验证\n\n- [GitHub Actions](https://github.com/mzdluo123/webmux/actions/runs/38732806643) 在 Ubuntu 与 macOS 上均通过：格式检查、Go race、前端单元与 Chromium 组件测试及完整 E2E。\n- 新增 E2E 回归：模拟主指针为精确指针的触摸平板，验证创建会话、从列表进入、手写笔点击、关闭弹窗后均不聚焦输入，仅点击 `⌨` 后聚焦；修复前该用例失败。\n- Linux amd64 附件实际运行：`webmux version` 输出 `0.1.5`，内嵌前端页面可访问且包含新的触摸屏样式，未带 Token 的 API 返回 401、带 Token 返回 200。\n- 所有附件的构建元数据指向发布提交 `2cad924`，工作区无未提交修改，CGO 禁用。\n- 平板行为已由维护者在真实设备上确认；macOS 与 Linux ARM64 附件为交叉编译产物，未在对应平台运行本次附件。\n",
+      "assets": [
+        {
+          "name": "SHA256SUMS",
+          "size": 342,
+          "sha256": "472a0df2ad1ab7ab08057026bf1ad7875176f4e06966100c6b39f57cf59c4c1c",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.5/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 38701264,
+          "sha256": "b30a6f29238adc9cd12e3a48544ad722fbee62c75b50562ea7a6d2552bd9f880",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.5/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 38284994,
+          "sha256": "b672ba28f1031a78d474a71df693b5f41d3e50c24578be96b2cfed6c8f37f199",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.5/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 38506656,
+          "sha256": "0c53e3b0cc923526ba838ab28a5f59ea8b99d069b17fd445829667b475820440",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.5/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 37814432,
+          "sha256": "ef5891c9123bc1407968e9e979920c65c9df5be0d465ceec1c9d1201cb5341ef",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.5/webmux-linux-arm64"
+        }
+      ]
+    },
+    {
+      "tag": "v0.1.4",
+      "name": "v0.1.4",
+      "publishedAt": "2026-10-15T11:19:23Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.1.4",
+      "body": "## 更新内容\n\n### 草稿模式\n- 终端顶栏新增“草稿”：左列上下分割为终端与多行草稿面板，可拖动手柄调整高度，同一终端实例通过正常 fit/resize 更新 PTY。\n- 只有点击“发送”才提交：先完整粘贴正文，成功后在 bracketed paste 之外追加一次 Enter；框内 Enter 只换行，输入法组合期间禁用发送。粘贴与 Enter 均被本地连接接受后才清空并关闭草稿；失败或部分成功保留正文且不自动补发。\n- 草稿与模式按会话隔离，仅保存在当前页面内存，刷新、关闭页面或认证失效会丢失。\n- 开启草稿后，代码位置引用、上传路径与剪贴板文本进入草稿，而非直接输入终端。\n\n### 终端与移动端\n- 终端程序的 OSC 52 复制写入浏览器剪贴板；不可用时回退到复制文本框。回放历史（重新进入、刷新、重连）不再重复触发复制。\n- 长文本复制 / 粘贴对话框限制在视口内滚动显示。\n- 轻点、滑动或缩放终端不再唤起键盘，需输入时点击软键栏 `⌨`；软键栏在触摸设备默认显示为单行横向滚动，菜单可“强制显示底部工具栏”。\n\n### 代码工作区\n- 桌面导航面板可拖动或用方向键调整宽度；打开文件或 Diff 不再自动收起导航。\n- 修改列表使用彩色 Git 状态图标，只显示文件名，完整路径见悬停提示。\n\n### 会话列表\n- 会话行按状态着色背景（运行中、可能在等你、空闲、已退出），浅色与深色主题各用对应终端调色板。\n\n### 其他\n- 修复 xterm 在待执行视口帧前被销毁时抛错。\n- 前端拆分触摸手势、上传与代码导航模块，行为不变。\n\n## 使用与升级注意\n\n- 草稿“发送”会追加回车；目标程序未启用 bracketed paste 时，正文中的换行也可能触发提交。\n- 重启 WebMux 会结束现有终端会话；升级前请保存工作。仅替换磁盘上的二进制不会让正在运行的进程加载新版本。\n- 仍须部署在 loopback 或可信 VPN 上；所有 API 与 WebSocket 均受 Token 和 Origin 检查保护。\n\n## 下载\n\n提供 Linux / macOS 的 amd64、arm64 独立可执行文件，均禁用 CGO，内嵌匹配版本前端。下载对应平台附件后使用 `SHA256SUMS` 校验完整性。\n\n## 验证\n\n- [GitHub Actions](https://github.com/mzdluo123/webmux/actions/runs/38725110432) 在 Ubuntu 与 macOS 上均通过：格式检查、Go race、前端单元与 Chromium 组件测试及完整 E2E。\n- 本地 Linux 同样通过：`go vet`、Go race、前端单元 41 项 / 组件 41 项、E2E 79 项通过（9 项按设计跳过）。\n- Linux amd64 附件实际运行：`webmux version` 输出 `0.1.4`，内嵌前端页面可访问，未带 Token 的 API 返回 401、带 Token 返回 200。\n- 所有附件的构建元数据指向发布提交 `64a4e24`，工作区无未提交修改，CGO 禁用。\n- macOS 与 Linux ARM64 附件为交叉编译产物，未在对应平台运行本次附件。\n",
+      "assets": [
+        {
+          "name": "SHA256SUMS",
+          "size": 342,
+          "sha256": "0bec5237521eb070a9ad7b10a35e1049f789b108cbbbb9c2dd505e15d7079b30",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.4/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 38697168,
+          "sha256": "9da3bd6277fba903f775092ffbd5c9b6c51772502ead2ca96c6959564ea18ef7",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.4/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 38284994,
+          "sha256": "0b739c5d7c69997b643a5eb8c57382ef7861ee1c1901ee179a503d54b4e16c24",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.4/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 38506656,
+          "sha256": "9f04e92601461e9c495af8da0ec80cbd05e4c73ec8323d63dc8a3df79fba05dd",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.4/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 37814432,
+          "sha256": "2bd9c8088044e660c455b2b726c58c3d5f5f7d33f5687223f76a2b745a88f14d",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.4/webmux-linux-arm64"
+        }
+      ]
+    },
+    {
+      "tag": "v0.1.3",
+      "name": "v0.1.3",
+      "publishedAt": "2026-10-15T05:39:20Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.1.3",
+      "body": "## 更新内容\n\n### 终端代码工作区\n- 在终端旁浏览工作区文件与 Git 修改，浏览器内计算 Diff；支持展开折叠上下文、查看旧侧 / 新侧完整文件，并把 `路径:行号` 位置引用插入终端（不自动回车）。\n- Diff 行号栏拆为旧 / 新两列并右对齐，删除行与新增行不再错位；“引用来源”决定引用使用哪一侧版本与行号。\n- 移动视图更紧凑：文件标签只显示文件名（悬停可见完整路径），文档路径与 Diff 控件合并为可换行的单行区域，查找 / 跳转行改为图标按钮；路径过长时从开头省略并保持左对齐。\n- 查找栏与跳转行面板改用 shadcn 组件：支持区分大小写、全词、正则、上一个 / 下一个、选中全部匹配；跳转行支持 `N`、`+N`、`-N`、`N%`、`行:列`。\n- 新增行号栏显示开关，选择保存在当前浏览器。\n- 夜间模式：行号栏改用主题色，语法高亮新增与终端一致的 GitHub Dark 配色；切换主题即时生效。\n\n### 稳定性\n- 移动端触摸：点击代码行后点右侧 ＋ 发送位置；终端恢复滚动，并新增“滚动到最新位置”按钮。\n- 上传完成后等待前台重连与回放结束再插入路径，支持取消，插入失败如实提示。\n- 修复会话预览在缩窄后再增高时可能因虚假历史偏移导致的崩溃。\n- 从终端返回会话列表时正确释放本页监听器，列表重新挂载后恢复操作，不刷新整页、不结束会话。\n- 前端自托管 Inter、Noto Sans SC 与 Maple Mono 字体，不再依赖外部字体服务。\n\n## 使用与升级注意\n\n- 代码工作区只读浏览，不修改工作区文件；Diff 中“跳转行”按代码区行序定位，而非左侧显示的 Git 行号。\n- 重启 WebMux 会结束现有终端会话；升级前请保存工作。仅替换磁盘上的二进制不会让正在运行的进程加载新版本。\n- 仍须部署在 loopback 或可信 VPN 上；所有 API 与 WebSocket 均受 Token 和 Origin 检查保护。\n\n## 下载\n\n提供 Linux / macOS 的 amd64、arm64 独立可执行文件，均禁用 CGO，内嵌匹配版本前端。下载对应平台附件后使用 `SHA256SUMS` 校验完整性。\n\n## 验证\n\n- [GitHub Actions](https://github.com/mzdluo123/webmux/actions/runs/38687106747) 在 Ubuntu 与 macOS 上均通过：格式检查、Go race、前端单元 37 项 / Chromium 组件 33 项及完整 E2E。\n- Linux amd64 附件实际运行：`webmux version` 输出 `0.1.3`，内嵌前端页面可访问，未带 Token 的 API 返回 401、带 Token 返回 200。\n- 所有附件的构建元数据指向发布提交 `9720225`，工作区无未提交修改，CGO 禁用。\n- macOS 与 Linux ARM64 附件为交叉编译产物，未在对应平台运行本次附件。\n",
+      "assets": [
+        {
+          "name": "SHA256SUMS",
+          "size": 342,
+          "sha256": "756043fc21b7d82791f09aab51bcb6d97cc85b21179632e0260a9f550c58c1b9",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.3/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 38672592,
+          "sha256": "8888619dff5f12394a3f01a584f55f66b992970c751292387bfb5ab4edf8e102",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.3/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 38251970,
+          "sha256": "306fa75b31eeee90e6528840aefd5f756a2c66b75b762115f1667b4f198b225d",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.3/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 38477984,
+          "sha256": "0e30ae00c52eaea4d182e085e8129be4eee7ed3d5ec65769ede2ec533a55e2e1",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.3/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 37814432,
+          "sha256": "f519fe6b012ef31d5ded1f2a5086c814b407c4ac59261d59848adcfd1a20efc9",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.3/webmux-linux-arm64"
+        }
+      ]
+    },
+    {
+      "tag": "v0.1.2",
+      "name": "v0.1.2",
+      "publishedAt": "2026-10-14T16:07:17Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.1.2",
+      "body": "## 更新内容\n\n- 新增前端设置页，可调整会话预览显示行数和跳过末尾行数；默认显示 10 行、跳过末尾 1 行。设置保存在当前浏览器，提供效果示例和恢复默认。\n- 终端顶栏新增上传按钮，支持选择文件、拖入文件、桌面粘贴剪贴板文件或图片。上传时显示百分比和进度条，支持取消，完成后自动隐藏进度。\n- 上传成功后将服务器绝对路径粘贴到当前终端；文件名经过 shell 引号保护，不自动按回车。普通文本粘贴保留 xterm 的 bracketed paste 行为，支持原生 Ctrl+V / Cmd+V 与 Ctrl+Shift+V。\n- 上传文件流式写入系统临时目录中的独立 `webmux-upload-*` 子目录，不写入工作区、不覆盖同名文件；失败、取消或会话退出时清理未完成文件。\n\n## 使用与升级注意\n\n- 单文件上限 100 MiB，上传期限 5 分钟。目录 / 文件权限为 0700 / 0600；成功文件保留供终端使用，由用户或系统临时目录策略清理，不自动随会话关闭删除。\n- 剪贴板权限和可读取的文件类型取决于浏览器与操作系统；读取权限不足时可使用原生粘贴、上传按钮或拖拽。\n- 预览 JSON 字段仍为 `preview`，服务端最多提供当前屏幕底部 100 条非空行，由浏览器按本地设置裁剪；前后端请一起升级。附件已内嵌匹配版本前端。\n- 重启 WebMux 会结束现有终端会话；升级前请保存工作。仅替换磁盘上的二进制不会让正在运行的进程加载新版本。\n- 仍须部署在 loopback 或可信 VPN 上；上传接口与其他 API 一样受 Token 和 Origin 检查保护。\n\n## 下载\n\n提供 Linux / macOS 的 amd64、arm64 独立可执行文件，均禁用 CGO。下载对应平台附件后使用 `SHA256SUMS` 校验完整性。\n\n## 验证\n\n- Linux 下全量 Go race tests 通过；前端单元测试 25 项、Chromium 组件测试 22 项通过。\n- 桌面 / Pixel 7 Chromium E2E 共 31 项通过、5 项按平台跳过，覆盖文件选择、拖拽、剪贴板图片 / 文件、普通文本粘贴和路径输入。\n- [GitHub Actions](https://github.com/mzdluo123/webmux/actions/runs/38593995164) 在 Ubuntu 与 macOS 上均通过：格式检查、Go race、前端单元 / Chromium 组件及完整 E2E 测试。\n- 真实浏览器限速上传 2 MiB 文件，约 16 秒完成，观察到实际进度变化并核对了完整文件内容。\n- 本次 Linux amd64 发布二进制实际运行验证了版本号、内嵌设置页与 HTTP 认证；所有附件的构建元数据均指向发布提交，CGO 禁用。\n- macOS 与 Linux ARM64 附件为交叉编译产物，未在对应平台运行本次附件。\n",
+      "assets": [
+        {
+          "name": "SHA256SUMS",
+          "size": 342,
+          "sha256": "ec5f632586903e2b58ffb750a155313c225a7d24016fac3b1c56b409c9bd01b2",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.2/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 9592176,
+          "sha256": "1b560f54501c14dc0c4eb05cbf9fd5b3c9e9830d7a79ed26b51546d16f2474a8",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.2/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 8981506,
+          "sha256": "fc1d6864d91a769c68a9bc7b459695854f94cb84e76ce2dd96ee3af2042ce441",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.2/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 9408672,
+          "sha256": "5e0ebd7aa6ffefa66d31ffef124f6821f5820b12c21a2e81f9494fb1fe1930ea",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.2/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 8781984,
+          "sha256": "0eed748094fa8fc4f1dacd5cd19902197bb682d606ed5bac0837c1cddf4190fe",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.2/webmux-linux-arm64"
+        }
+      ]
+    },
+    {
+      "tag": "v0.1.1",
+      "name": "v0.1.1",
+      "publishedAt": "2026-10-14T14:26:10Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.1.1",
+      "body": "## 更新内容\n\n- 工作区界面统一使用 shadcn 组件：仓库分组、单层工作树卡片和会话列表行，减少嵌套边框。\n- 会话行扩大点击范围，终端返回按钮使用 Tabler 图标；菜单操作保持独立。\n- 已有本地分支改为可搜索、可滚动列表，保留占用限制和目标路径联动。\n- 终端预览固定显示三行，依据当前屏幕底部三条非空行生成，正确处理光标重绘、擦行、清屏、主/备用屏幕切换和尺寸变化；不再把被覆盖的状态栏当作新增输出。\n- 原始 PTY 输出、终端回放和输入协议不变；预览解析不向 PTY 发送输入或设备查询响应。\n\n## 升级注意\n\n- 会话 JSON 的 `lastLine` 已替换为 `preview`，前后端必须一起升级；附件中的二进制已内嵌匹配版本的前端。\n- 重启 WebMux 会结束现有终端会话，升级前请保存工作。仅替换磁盘可执行文件不会使正在运行的进程加载新版本。\n- 从源码构建需要 Go 1.24+；运行二进制不需要 Go 或 Node.js。\n\n## 下载\n\n提供 Linux / macOS 的 amd64、arm64 独立可执行文件，均禁用 CGO。下载对应平台文件后，使用 `SHA256SUMS` 校验完整性。\n\n## 验证\n\n- Linux 环境下全量 Go race tests 通过。\n- 前端单元测试 22 项、浏览器组件测试 22 项通过；桌面/移动端 E2E 共 25 项通过、3 项跳过。\n- 真实 PTY 状态栏重绘后的预览与浏览器 xterm 屏幕一致，并验证了备用屏幕切换、恢复和清屏。\n- macOS 与 Linux ARM64 为交叉编译产物，未在对应平台运行验证。\n",
+      "assets": [
+        {
+          "name": "SHA256SUMS",
+          "size": 342,
+          "sha256": "24c9a9e5484bbfe5545c6161ff4f53a844ec03328b3afe6d10cccc11d8b994dc",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.1/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 9533776,
+          "sha256": "0d2caae0023cf576e27148ebbf07b6606aeabd077f7575f9a7c619c80ae0b13d",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.1/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 8930914,
+          "sha256": "c0e62305560348cbf740fc50c6a750b38330a389c5f75219d175f6befa30a5fd",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.1/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 9351328,
+          "sha256": "e14af33aa8ace932ac793f0a6f17cd497513f65c4fdc8113ace48491c5bd5d80",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.1/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 8781984,
+          "sha256": "6c64ebd8978ab186aa98bb64b46e244b465eb6d248717ec65d83be708cb24a29",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.1/webmux-linux-arm64"
+        }
+      ]
+    },
+    {
+      "tag": "v0.1.0",
+      "name": "v0.1.0",
+      "publishedAt": "2026-10-14T13:05:17Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.1.0",
+      "body": "首个发布，对应提交 `3c8dd18`。\n\n单用户、可重连的 Web 终端。浏览器断开不会结束服务端 PTY；服务重启会结束会话。命令以服务用户身份运行，不是沙箱。不要暴露到公网；默认只监听 `127.0.0.1:7681`。\n\n## 资产\n\n`CGO_ENABLED=0` 静态二进制，运行端不需要 Node.js 或 Go。\n\n| 文件 | 平台 |\n| --- | --- |\n| `webmux-linux-amd64` | Linux x86_64 |\n| `webmux-linux-arm64` | Linux arm64 |\n| `webmux-darwin-amd64` | macOS Intel |\n| `webmux-darwin-arm64` | macOS Apple Silicon |\n\n用 `SHA256SUMS` 校验。\n\n```sh\nchmod +x webmux-linux-amd64\n./webmux-linux-amd64 version\n./webmux-linux-amd64 --listen 127.0.0.1:7681\n```\n\n## 包含\n\n- 持久 PTY、有界回放、共享 token 与 Origin 检查、WebSocket 重连\n- 会话列表，shell / claude / codex / omp 预设与自定义启动命令\n- 仓库清单与 git worktree 管理\n- 桌面与移动端终端（触控滚动、软键）\n- Linux 与 macOS（amd64 / arm64）进程探测与清理\n- systemd 用户服务与 launchd 示例\n\n安装与配置见仓库 README。\n",
+      "assets": [
+        {
+          "name": "SHA256SUMS",
+          "size": 342,
+          "sha256": "86a9c14d62c9437537aac9a44a00fc3b8c6a35655f916a0beeded3a3575a49b2",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.0/SHA256SUMS"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 9182784,
+          "sha256": "7fb93b6fb2adced87990026f3751bef753b998258b2839092a0ba086acadc674",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.0/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 8577154,
+          "sha256": "675c643335198a281af5cb50f5ec9e3ecc8a52d5d36ea1a58f70e2b0716445a9",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.0/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 9007264,
+          "sha256": "f895be8f885582bf2a88f1199df5e010a5bab391015ed9cd26897042576b90aa",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.0/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 8388768,
+          "sha256": "4d731bd675ab6651a6c54af33d4fe7c73a8a454a103228901712d03e41a5d538",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.1.0/webmux-linux-arm64"
+        }
+      ]
+    }
+  ]
+}

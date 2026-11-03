@@ -1,0 +1,35 @@
+{
+  "extends": ["html-validate:document"],
+  "rules": {
+    "no-inline-style": "off",
+    "attribute-boolean-style": "off",
+    "attribute-empty-style": "off",
+    "no-trailing-whitespace": "off",
+    "long-title": [
+      "error",
+      {
+        "maxlength": 60
+      }
+    ],
+    "no-redundant-role": "off",
+    "prefer-native-element": "off",
+    "valid-id": [
+      "error",
+      {
+        "relaxed": true
+      }
+    ],
+    "heading-level": [
+      "error",
+      {
+        "minInitialRank": "h2"
+      }
+    ],
+    "unique-landmark": "off",
+    "no-raw-characters": "off",
+    "element-permitted-content": "off",
+    "no-dup-id": "error",
+    "missing-doctype": "error",
+    "require-sri": "off"
+  }
+}

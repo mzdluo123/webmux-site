@@ -1,0 +1,11 @@
+---
+import ChangelogRelease from "../../../../views/ChangelogRelease.astro";
+import { releases } from "../../../../lib/releases";
+
+export function getStaticPaths() {
+  return releases.map((r) => ({ params: { tag: r.tag } }));
+}
+const { tag } = Astro.params;
+---
+
+<ChangelogRelease lang="en" tag={tag} />
