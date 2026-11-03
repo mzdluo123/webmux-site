@@ -25,48 +25,55 @@ const urls = [...pages(dist)]
 
 const server = await serve();
 const base = `http://127.0.0.1:${server.address().port}`;
-const browser = await chromium.launch();
+// CI runners ship Google Chrome; using it skips a Playwright browser download.
+const browser = await chromium.launch(process.env.CI ? { channel: "chrome" } : {});
 const failures = [];
 const runs = [
-  { name: "light-1280", viewport: { width: 1280, height: 900 }, colorScheme: "light" },
-  { name: "dark-390", viewport: { width: 390, height: 844 }, colorScheme: "dark" },
+  { name: "light-1280", viewport: { width: 1280, height: 900 }, colorScheme: "light", axe: true },
+  { name: "dark-390", viewport: { width: 390, height: 844 }, colorScheme: "dark", axe: true },
+  { name: "320px", viewport: { width: 320, height: 700 }, colorScheme: "light", axe: false },
 ];
+const WORKERS = Number(process.env.A11Y_WORKERS ?? 4);
 
-for (const run of runs) {
-  const context = await browser.newContext({
-    viewport: run.viewport,
-    colorScheme: run.colorScheme,
-  });
-  const page = await context.newPage();
-  for (const url of urls) {
-    await page.goto(base + url, { waitUntil: "load" });
-    const result = await new AxeBuilder({ page })
-      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
-      // Starlight's search button shows a keyboard hint (⌘K) next to its label; upstream component.
-      .exclude("button[data-open-modal]")
-      .analyze();
-    for (const v of result.violations.filter(
-      (v) => v.impact === "serious" || v.impact === "critical",
-    )) {
-      failures.push(
-        `${run.name} ${url}: ${v.id} (${v.impact}) ${v.nodes
-          .slice(0, 3)
-          .map((n) => n.target.join(" "))
-          .join(" | ")}`,
-      );
-    }
+async function check(page, run, url) {
+  await page.goto(base + url, { waitUntil: "load" });
+  if (!run.axe) {
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    );
+    if (overflow > 1) failures.push(`320px ${url}: horizontal overflow ${overflow}px`);
+    return;
   }
-  await context.close();
+  const result = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+    // Starlight's search button shows a keyboard hint (⌘K) next to its label; upstream component.
+    .exclude("button[data-open-modal]")
+    .analyze();
+  for (const v of result.violations.filter(
+    (v) => v.impact === "serious" || v.impact === "critical",
+  )) {
+    failures.push(
+      `${run.name} ${url}: ${v.id} (${v.impact}) ${v.nodes
+        .slice(0, 3)
+        .map((n) => n.target.join(" "))
+        .join(" | ")}`,
+    );
+  }
 }
 
-const narrow = await browser.newContext({ viewport: { width: 320, height: 700 } });
-const page = await narrow.newPage();
-for (const url of urls) {
-  await page.goto(base + url, { waitUntil: "load" });
-  const overflow = await page.evaluate(
-    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+for (const run of runs) {
+  const queue = [...urls];
+  await Promise.all(
+    Array.from({ length: WORKERS }, async () => {
+      const context = await browser.newContext({
+        viewport: run.viewport,
+        colorScheme: run.colorScheme,
+      });
+      const page = await context.newPage();
+      for (let url = queue.shift(); url; url = queue.shift()) await check(page, run, url);
+      await context.close();
+    }),
   );
-  if (overflow > 1) failures.push(`320px ${url}: horizontal overflow ${overflow}px`);
 }
 await browser.close();
 server.close();

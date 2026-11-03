@@ -53,6 +53,12 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Cache mzdluo123/webmux clone
+        uses: actions/cache@v6
+        with:
+          path: .cache/webmux.git
+          key: webmux-git-${{ hashFiles('src/data/docs-manifest.json') }}
+          restore-keys: webmux-git-
       - name: Sync from mzdluo123/webmux
         run: pnpm sync
         env:
@@ -91,6 +97,12 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Cache mzdluo123/webmux clone
+        uses: actions/cache@v6
+        with:
+          path: .cache/webmux.git
+          key: webmux-git-${{ hashFiles('src/data/docs-manifest.json') }}
+          restore-keys: webmux-git-
       - name: Docs mirror matches its manifest
         run: pnpm sync:check
       - name: Format
@@ -105,14 +117,6 @@ jobs:
         run: pnpm test:links
       - name: HTML validation
         run: pnpm test:html
-      - name: Install Chromium
-        run: pnpm exec playwright install --with-deps chromium
-      - name: Accessibility (axe) and 320px overflow
-        run: pnpm test:a11y
-      - name: Lighthouse budgets
-        run: pnpm test:lighthouse
-        env:
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
       - uses: actions/upload-artifact@v7
         with:
           name: dist
@@ -120,9 +124,48 @@ jobs:
           include-hidden-files: true
           retention-days: 7
 
+  a11y:
+    name: Accessibility
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist
+      - name: axe on every page + 320px overflow (system Chrome)
+        run: pnpm test:a11y
+
+  lighthouse:
+    name: Lighthouse budgets
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist
+      - run: pnpm test:lighthouse
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
   deploy:
     name: Deploy to Cloudflare Workers
-    needs: build
+    needs: [build, a11y, lighthouse]
     if: ${{ !failure() && !cancelled() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     environment:
@@ -143,6 +186,7 @@ jobs:
       - name: wrangler deploy
         id: deploy
         run: |
+          set -o pipefail
           pnpm exec wrangler deploy 2>&1 | tee deploy.log
           echo "url=$(grep -Eo 'https://[a-z0-9.-]+\.workers\.dev' deploy.log | head -n1)" >> "$GITHUB_OUTPUT"
         env:
@@ -151,7 +195,7 @@ jobs:
 
   preview:
     name: Preview upload
-    needs: build
+    needs: [build, a11y, lighthouse]
     if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     permissions:
@@ -171,6 +215,7 @@ jobs:
       - name: wrangler versions upload
         id: upload
         run: |
+          set -o pipefail
           pnpm exec wrangler versions upload --preview-alias "pr-${{ github.event.pull_request.number }}" 2>&1 | tee upload.log
           echo "url=$(grep -Eo 'https://pr-[a-z0-9.-]+\.workers\.dev' upload.log | head -n1)" >> "$GITHUB_OUTPUT"
         env:
