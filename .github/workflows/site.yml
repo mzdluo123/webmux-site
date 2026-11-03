@@ -127,8 +127,8 @@ jobs:
   a11y:
     name: Accessibility
     needs: build
-    # Explicit condition: the default success() also fails when the upstream sync job was skipped.
-    if: ${{ needs.build.result == 'success' }}
+    # A status function is required: otherwise success() is implied and fails when sync was skipped.
+    if: ${{ !cancelled() && needs.build.result == 'success' }}
     runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
@@ -148,8 +148,8 @@ jobs:
   lighthouse:
     name: Lighthouse budgets
     needs: build
-    # Explicit condition: the default success() also fails when the upstream sync job was skipped.
-    if: ${{ needs.build.result == 'success' }}
+    # A status function is required: otherwise success() is implied and fails when sync was skipped.
+    if: ${{ !cancelled() && needs.build.result == 'success' }}
     runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
@@ -170,7 +170,7 @@ jobs:
   deploy:
     name: Deploy to Cloudflare Workers
     needs: [build, a11y, lighthouse]
-    if: ${{ needs.build.result == 'success' && needs.a11y.result == 'success' && needs.lighthouse.result == 'success' && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
+    if: ${{ !cancelled() && needs.build.result == 'success' && needs.a11y.result == 'success' && needs.lighthouse.result == 'success' && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-26.04
     environment:
       name: production
@@ -200,7 +200,7 @@ jobs:
   preview:
     name: Preview upload
     needs: [build, a11y, lighthouse]
-    if: ${{ needs.a11y.result == 'success' && needs.lighthouse.result == 'success' && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+    if: ${{ !cancelled() && needs.a11y.result == 'success' && needs.lighthouse.result == 'success' && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-26.04
     permissions:
       pull-requests: write
