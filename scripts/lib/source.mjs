@@ -37,7 +37,9 @@ export function openSourceRepo() {
       stdio: "inherit",
     });
   } else {
-    git(dir, ["fetch", "--prune", "--tags", "origin", "+refs/heads/*:refs/heads/*"]);
+    // Tags are force-updated too: upstream has moved a release tag before, and a plain --tags
+    // fetch then fails with "would clobber existing tag" on the cached clone.
+    git(dir, ["fetch", "--prune", "origin", "+refs/heads/*:refs/heads/*", "+refs/tags/*:refs/tags/*"]);
   }
   return { dir, local: false };
 }
