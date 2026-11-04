@@ -2,118 +2,342 @@
   "fetched": true,
   "stars": 14,
   "latest": {
-    "tag": "v0.11.0",
-    "name": "WebMux v0.11.0",
-    "publishedAt": "2026-11-03T13:23:00Z",
+    "tag": "v0.11.2",
+    "name": "WebMux v0.11.2",
+    "publishedAt": "2026-11-04T03:10:20Z",
     "prerelease": false,
-    "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.11.0",
-    "body": "## What's Changed\n* feat(update): 安装版自动更新与发布签名 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/260\n* feat(update): 开发版更新通道 add-dev-update-channel by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/266\n* fix(web): 锁定与观察者模式只保留一条终端滚动条 (#238) by @pullfrog[bot] in https://github.com/mzdluo123/webmux/pull/277\n* feat(hybrid): Qoder 与 QoderCN 混合模式接入 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/276\n* feat(hybrid): 聊天端在会话卡片与会话页头部显示当前 agent by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/272\n* docs: 新增官网建设指南并选定“叙事长卷”视觉方向 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/265\n* feat(tray,config): 默认监听 127.0.0.1:7681 并在托盘新增允许局域网访问开关 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/275\n* feat: 创建 worktree 时刷新上游基线 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/274\n* feat(hybrid): 新增 Antigravity CLI (agy) ACP 混合模式支持 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/273\n* feat(web): 聊天端会话卡片显示一行当前工作细节 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/271\n* feat(hybrid): 聊天端会话标题随 agent 上报即时更新，首条消息作临时标题 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/270\n* feat(web): 键盘按钮唤起软键盘时保持终端尺寸 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/269\n* feat(tray): 统一远程访问链接，“公网访问”子菜单一键开启 Tailscale by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/267\n\n\n**Full Changelog**: https://github.com/mzdluo123/webmux/compare/v0.10.2...v0.11.0",
+    "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.11.2",
+    "body": "## What's Changed\n* feat(terminal): 回放不受 60fps 限制，并在未压缩连接上强制压缩 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/285\n* feat(web): 重新设计手机终端顶栏 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/286\n* fix(web): 终端顶部提示悬浮显示，不再改变终端尺寸 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/287\n* test(hybrid): TestCodexExternalWriter 先等会话 ID 再解引用 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/288\n\n\n**Full Changelog**: https://github.com/mzdluo123/webmux/compare/v0.11.1...v0.11.2",
     "assets": [
       {
         "name": "install.sh",
         "size": 8606,
         "sha256": "421d3541894e3bfe8634e831e9767494700981870ee7b2f309516903581714c3",
-        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.0/install.sh"
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/install.sh"
       },
       {
         "name": "SHA256SUMS",
         "size": 1358,
-        "sha256": "11e967fac62590e93cf3e0c02d10661494430fe4028562890c20a842c67ba902",
-        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.0/SHA256SUMS"
+        "sha256": "393635fa202fbec8c40c3a76f1190cef38f9f16d1489bce5fc3e81eb5d3a42cf",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/SHA256SUMS"
       },
       {
         "name": "SHA256SUMS.minisig",
         "size": 291,
-        "sha256": "10c512ad7f002af94c75c5f56d99bd30d5f77c13e6d5a24659e821a3166e72e2",
-        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.0/SHA256SUMS.minisig"
+        "sha256": "3a2c49e4fb835db599c71c365585eab6834912a7641769233f5928022087e28c",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/SHA256SUMS.minisig"
       },
       {
-        "name": "webmux-0.11.0-1.aarch64.rpm",
-        "size": 15291622,
-        "sha256": "0e28ff3ec40dd77754c92060d4aa45167852026cd1adfa94f24e732c54128c73",
-        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.0/webmux-0.11.0-1.aarch64.rpm"
+        "name": "webmux-0.11.2-1.aarch64.rpm",
+        "size": 15320125,
+        "sha256": "676d28d75f2d3166b76108ba84a19c2292faa6c73001452f09c8c2a10a4f882c",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-0.11.2-1.aarch64.rpm"
       },
       {
-        "name": "webmux-0.11.0-1.x86_64.rpm",
-        "size": 15790883,
-        "sha256": "b8b3a77eb9ae4d7cc7a0cb82a45e9b0d79789cae2c396c273f27b0c9aea16e1c",
-        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.0/webmux-0.11.0-1.x86_64.rpm"
+        "name": "webmux-0.11.2-1.x86_64.rpm",
+        "size": 15820111,
+        "sha256": "8bf9f315764d851de00bb86bb6871af0875d20163c98d52fbe051a2815be96c1",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-0.11.2-1.x86_64.rpm"
       },
       {
         "name": "webmux-darwin-amd64",
-        "size": 24231312,
-        "sha256": "ec8101973331dce09a8b1ec2f12c14a0d51af3696b84acb3398af6bec05bdeab",
-        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.0/webmux-darwin-amd64"
+        "size": 24272560,
+        "sha256": "5257b304e1e13852ab0f787f6c6eb90f805b6744efd9e520fcd55ce3c6c5e94d",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-darwin-amd64"
       },
       {
         "name": "webmux-darwin-arm64",
-        "size": 23260274,
-        "sha256": "342a44dd397fab8ac38b801b858502e2561db662e8ca537a1d65da3026870910",
-        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.0/webmux-darwin-arm64"
+        "size": 23310114,
+        "sha256": "00f54c590f281d3562f86a63c916b76625bbcd8ec456d74ae3002f7f507a7075",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-darwin-arm64"
       },
       {
         "name": "webmux-linux-amd64",
-        "size": 23937186,
-        "sha256": "dd94533a27a5f4e18286986ffc5cc792194cb6aa20cafa74ff7457a0a56ac115",
-        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.0/webmux-linux-amd64"
+        "size": 23986338,
+        "sha256": "6a9cbe4eef8c72e81294ecc397d66648123c31949b371377b0b59303df2b7cfc",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-linux-amd64"
       },
       {
         "name": "webmux-linux-arm64",
         "size": 22872226,
-        "sha256": "1f261104aacf9a97efa736f6d369ae4399d5b36e66b2da7ceca3be96cedb4573",
-        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.0/webmux-linux-arm64"
+        "sha256": "eeb74afdf35096c5e61112b672f6365a9bf14afe80781a590828197e8470bc8f",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-linux-arm64"
       },
       {
         "name": "webmux-setup-windows-amd64.exe",
-        "size": 17098001,
-        "sha256": "9218def4f4d9f837413d6cdc84d2ca79c02013570acbb4d8c7c0e3ecb93c2827",
-        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.0/webmux-setup-windows-amd64.exe"
+        "size": 17126482,
+        "sha256": "1ab9af707090c23e0706b1560a052fb3669e7dbaa0a1dd17878cb7c64cea41b8",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-setup-windows-amd64.exe"
       },
       {
         "name": "webmux-setup-windows-arm64.exe",
-        "size": 15846372,
-        "sha256": "6de12b523b21c5da6ce9b603f913e3f26d65451f008641bf2700e1bf2e90130a",
-        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.0/webmux-setup-windows-arm64.exe"
+        "size": 15873177,
+        "sha256": "a8ae05ae51c4e94554447ad24c879ab854abab2aa6d0772e92747ac43305c44a",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-setup-windows-arm64.exe"
       },
       {
         "name": "webmux-tray-windows-amd64.exe",
         "size": 8280064,
-        "sha256": "eed0e9c8bd439fabe67b527e22b2455129b8ce54fb048cbc4bc2fd8df9b79b09",
-        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.0/webmux-tray-windows-amd64.exe"
+        "sha256": "e23a8e030b076b57627242798f71a25cbd3c7da24b19edcba3d8cf1dc301930d",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-tray-windows-amd64.exe"
       },
       {
         "name": "webmux-tray-windows-arm64.exe",
         "size": 7542784,
-        "sha256": "09d3629030a44a636b322d2653fe4e605494dda9fb8e8fe42b71e9c64a02f78f",
-        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.0/webmux-tray-windows-arm64.exe"
+        "sha256": "9dc40d9db55dbed45a522544076c95344f1ceb18fd7c592f22d7cbe3e5cf5818",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-tray-windows-arm64.exe"
       },
       {
         "name": "webmux-windows-amd64.exe",
         "size": 6915584,
-        "sha256": "f98adea483219f971d6d139571f1ce6bd007af5993020604be0b28b5dcc4b2a4",
-        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.0/webmux-windows-amd64.exe"
+        "sha256": "b48db4e95e61d0e465c3eb72af2dae00e11a19b3e538cdd6650708457468e05b",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-windows-amd64.exe"
       },
       {
         "name": "webmux-windows-arm64.exe",
         "size": 6282752,
-        "sha256": "6e49b50653b7bbe7b74c9b0b9a9acec5736da78a10591708856e950e59e9e526",
-        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.0/webmux-windows-arm64.exe"
+        "sha256": "b30007d2debf96843024a8ecad71d082bbd7ef569b001ac7e0fe305dbcb8c150",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-windows-arm64.exe"
       },
       {
-        "name": "webmux_0.11.0-1_amd64.deb",
-        "size": 15809334,
-        "sha256": "147786577d8d3e421c1d8a45c41b2da3856f20e6f26ba73e335aed88ff3f91a6",
-        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.0/webmux_0.11.0-1_amd64.deb"
+        "name": "webmux_0.11.2-1_amd64.deb",
+        "size": 15838406,
+        "sha256": "d77231bf962ccd64e5c0e5c90c625746f0a54db3683dc4a49659538154d5f531",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux_0.11.2-1_amd64.deb"
       },
       {
-        "name": "webmux_0.11.0-1_arm64.deb",
-        "size": 15323636,
-        "sha256": "93ef07226822a8190d901397a2ac91bb32845da8272470dda31bb12d05ac3aa1",
-        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.0/webmux_0.11.0-1_arm64.deb"
+        "name": "webmux_0.11.2-1_arm64.deb",
+        "size": 15351940,
+        "sha256": "e42819f1d06735c2cd9551595449a5d84130bf972794fd3116d8122b936f1678",
+        "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux_0.11.2-1_arm64.deb"
       }
     ]
   },
   "releases": [
+    {
+      "tag": "v0.11.2",
+      "name": "WebMux v0.11.2",
+      "publishedAt": "2026-11-04T03:10:20Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.11.2",
+      "body": "## What's Changed\n* feat(terminal): 回放不受 60fps 限制，并在未压缩连接上强制压缩 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/285\n* feat(web): 重新设计手机终端顶栏 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/286\n* fix(web): 终端顶部提示悬浮显示，不再改变终端尺寸 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/287\n* test(hybrid): TestCodexExternalWriter 先等会话 ID 再解引用 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/288\n\n\n**Full Changelog**: https://github.com/mzdluo123/webmux/compare/v0.11.1...v0.11.2",
+      "assets": [
+        {
+          "name": "install.sh",
+          "size": 8606,
+          "sha256": "421d3541894e3bfe8634e831e9767494700981870ee7b2f309516903581714c3",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/install.sh"
+        },
+        {
+          "name": "SHA256SUMS",
+          "size": 1358,
+          "sha256": "393635fa202fbec8c40c3a76f1190cef38f9f16d1489bce5fc3e81eb5d3a42cf",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/SHA256SUMS"
+        },
+        {
+          "name": "SHA256SUMS.minisig",
+          "size": 291,
+          "sha256": "3a2c49e4fb835db599c71c365585eab6834912a7641769233f5928022087e28c",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/SHA256SUMS.minisig"
+        },
+        {
+          "name": "webmux-0.11.2-1.aarch64.rpm",
+          "size": 15320125,
+          "sha256": "676d28d75f2d3166b76108ba84a19c2292faa6c73001452f09c8c2a10a4f882c",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-0.11.2-1.aarch64.rpm"
+        },
+        {
+          "name": "webmux-0.11.2-1.x86_64.rpm",
+          "size": 15820111,
+          "sha256": "8bf9f315764d851de00bb86bb6871af0875d20163c98d52fbe051a2815be96c1",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-0.11.2-1.x86_64.rpm"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 24272560,
+          "sha256": "5257b304e1e13852ab0f787f6c6eb90f805b6744efd9e520fcd55ce3c6c5e94d",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 23310114,
+          "sha256": "00f54c590f281d3562f86a63c916b76625bbcd8ec456d74ae3002f7f507a7075",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 23986338,
+          "sha256": "6a9cbe4eef8c72e81294ecc397d66648123c31949b371377b0b59303df2b7cfc",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 22872226,
+          "sha256": "eeb74afdf35096c5e61112b672f6365a9bf14afe80781a590828197e8470bc8f",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-linux-arm64"
+        },
+        {
+          "name": "webmux-setup-windows-amd64.exe",
+          "size": 17126482,
+          "sha256": "1ab9af707090c23e0706b1560a052fb3669e7dbaa0a1dd17878cb7c64cea41b8",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-setup-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-setup-windows-arm64.exe",
+          "size": 15873177,
+          "sha256": "a8ae05ae51c4e94554447ad24c879ab854abab2aa6d0772e92747ac43305c44a",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-setup-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-tray-windows-amd64.exe",
+          "size": 8280064,
+          "sha256": "e23a8e030b076b57627242798f71a25cbd3c7da24b19edcba3d8cf1dc301930d",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-tray-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-tray-windows-arm64.exe",
+          "size": 7542784,
+          "sha256": "9dc40d9db55dbed45a522544076c95344f1ceb18fd7c592f22d7cbe3e5cf5818",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-tray-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-windows-amd64.exe",
+          "size": 6915584,
+          "sha256": "b48db4e95e61d0e465c3eb72af2dae00e11a19b3e538cdd6650708457468e05b",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-windows-arm64.exe",
+          "size": 6282752,
+          "sha256": "b30007d2debf96843024a8ecad71d082bbd7ef569b001ac7e0fe305dbcb8c150",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux-windows-arm64.exe"
+        },
+        {
+          "name": "webmux_0.11.2-1_amd64.deb",
+          "size": 15838406,
+          "sha256": "d77231bf962ccd64e5c0e5c90c625746f0a54db3683dc4a49659538154d5f531",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux_0.11.2-1_amd64.deb"
+        },
+        {
+          "name": "webmux_0.11.2-1_arm64.deb",
+          "size": 15351940,
+          "sha256": "e42819f1d06735c2cd9551595449a5d84130bf972794fd3116d8122b936f1678",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.2/webmux_0.11.2-1_arm64.deb"
+        }
+      ]
+    },
+    {
+      "tag": "v0.11.1",
+      "name": "WebMux v0.11.1",
+      "publishedAt": "2026-11-03T14:41:32Z",
+      "prerelease": false,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/v0.11.1",
+      "body": "## What's Changed\n* feat(web): 返回首页时先渲染缓存的会话列表并后台刷新 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/281\n* fix(web): 应用内链接走 history 导航，避免 iOS PWA 从设置返回白屏 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/280\n* 强制删除 worktree 无需输入路径 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/282\n* feat(web): 手机端默认启用实时连接压缩 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/279\n* feat(launch): 在设置页支持一键补回系统启动预设 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/278\n* docs: 补充系统预设补回说明与混合预设列表 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/283\n* ci(release): 发版前强制跑完整 Test 工作流 by @mzdluo123 in https://github.com/mzdluo123/webmux/pull/284\n\n\n**Full Changelog**: https://github.com/mzdluo123/webmux/compare/v0.11.0...v0.11.1",
+      "assets": [
+        {
+          "name": "install.sh",
+          "size": 8606,
+          "sha256": "421d3541894e3bfe8634e831e9767494700981870ee7b2f309516903581714c3",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.1/install.sh"
+        },
+        {
+          "name": "SHA256SUMS",
+          "size": 1358,
+          "sha256": "f750f6b319e7352a074e1f38d6cc79e6cfa0fd3560ccf7e80901a94cbce5402f",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.1/SHA256SUMS"
+        },
+        {
+          "name": "SHA256SUMS.minisig",
+          "size": 291,
+          "sha256": "5c2c9ecfc083b805e95f6ef01831d1c3b8c7eb7e4b5e217dfb06ef2cb1765c8b",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.1/SHA256SUMS.minisig"
+        },
+        {
+          "name": "webmux-0.11.1-1.aarch64.rpm",
+          "size": 15313408,
+          "sha256": "fdd21a31915b7b852ca4b8b3dea186b8364013be0b2b0720bae6329bc71c5fcd",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.1/webmux-0.11.1-1.aarch64.rpm"
+        },
+        {
+          "name": "webmux-0.11.1-1.x86_64.rpm",
+          "size": 15813310,
+          "sha256": "63cb72fcfc3a621d575b4496e077ab7863345e2d7fabcc418ef331ee37904147",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.1/webmux-0.11.1-1.x86_64.rpm"
+        },
+        {
+          "name": "webmux-darwin-amd64",
+          "size": 24268464,
+          "sha256": "523fb2ed88fc8506dd61670aab1d60095b89c63f6c2a8706b75516f6425ff914",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.1/webmux-darwin-amd64"
+        },
+        {
+          "name": "webmux-darwin-arm64",
+          "size": 23293586,
+          "sha256": "2c862f3ef213c7dee4e70589664aec2e9f49eb6ea49de2c84a2282b0a2047fc4",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.1/webmux-darwin-arm64"
+        },
+        {
+          "name": "webmux-linux-amd64",
+          "size": 23974050,
+          "sha256": "de61cba7a182dbbd4a97aff09c65fbf4d12c596b4551205b25c38b3b8d716973",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.1/webmux-linux-amd64"
+        },
+        {
+          "name": "webmux-linux-arm64",
+          "size": 22872226,
+          "sha256": "647f1e845b054d79fabfea5a397dbbac8a6c881545f2c8b08f5712f4cbaaec34",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.1/webmux-linux-arm64"
+        },
+        {
+          "name": "webmux-setup-windows-amd64.exe",
+          "size": 17118967,
+          "sha256": "4df16020570628a4e518700d79dbdb0915c804eff4c8f42750e070e6ba3c182e",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.1/webmux-setup-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-setup-windows-arm64.exe",
+          "size": 15865237,
+          "sha256": "1bd494afb3fb072b360d426bd71c7e858534cfdc99ad4496cb1ab87fb2cb2b23",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.1/webmux-setup-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-tray-windows-amd64.exe",
+          "size": 8280064,
+          "sha256": "a641d18ec9cb8c67435f01af5efc8defd9820b27060181fb141edc7dc13d7219",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.1/webmux-tray-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-tray-windows-arm64.exe",
+          "size": 7542784,
+          "sha256": "04c4794dfa148a3f245d48bf6f05a7a884085ffbf058da86ef1c60641b9b9b13",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.1/webmux-tray-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-windows-amd64.exe",
+          "size": 6915584,
+          "sha256": "415e2ee60a23f36d557a670bd018083dd77174b1a33b8a470438ac0fb4572e24",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.1/webmux-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-windows-arm64.exe",
+          "size": 6282752,
+          "sha256": "ce78945e9c3d389f91500f99aba853cd3aaa1138b997a1f13c77bb2bf5676271",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.1/webmux-windows-arm64.exe"
+        },
+        {
+          "name": "webmux_0.11.1-1_amd64.deb",
+          "size": 15829854,
+          "sha256": "ecace160f52efbd4272d4567c20caaaeecee600c60f3a0168e7e6458abdcfc57",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.1/webmux_0.11.1-1_amd64.deb"
+        },
+        {
+          "name": "webmux_0.11.1-1_arm64.deb",
+          "size": 15344084,
+          "sha256": "a032603ec7e624f445d81169309d09ab7bbe714db3629e63185a2784cf2dba3f",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/v0.11.1/webmux_0.11.1-1_arm64.deb"
+        }
+      ]
+    },
     {
       "tag": "v0.11.0",
       "name": "WebMux v0.11.0",

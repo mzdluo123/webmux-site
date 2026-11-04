@@ -62,18 +62,30 @@ export const LIMITS: Record<string, Text[]> = {
       en: "Verified with Codex CLI 0.165.0 and codex-acp 2.3.0; Codex refuses to open a session held by the Codex app, an IDE or an outside terminal.",
     },
   ],
-  "gemini-cli": [
+  "antigravity-cli": [
     {
-      zh: "自 2026-06-18 起已停止为免费个人账号及 Google AI Pro/Ultra 处理请求，个人 Google 登录不可用；该入口面向付费 Gemini API Key 或仍在支持期内的 Gemini Code Assist Standard/Enterprise 认证用户。",
-      en: "Since 2026-06-18 Gemini CLI no longer serves free personal accounts or Google AI Pro/Ultra, so personal Google sign-in does not work; the preset is for paid Gemini API keys or Gemini Code Assist Standard/Enterprise users still within support.",
+      zh: "预置参数 --dangerously-skip-permissions 会自动批准工具调用；需要逐次授权时在设置页移除。",
+      en: "The preset --dangerously-skip-permissions auto-approves tool calls; remove it in settings if you want to approve each step.",
     },
     {
-      zh: "WebMux 不承诺账号套餐或额度可用；个人账号用户可按公告迁移到 Antigravity CLI，并自行保存启动配置。",
-      en: "WebMux makes no promise about plans or quotas; personal-account users can migrate to Antigravity CLI per Google's notice and save their own launch configuration.",
+      zh: "混合会话不能使用让两端看到不同会话库的参数 --project 与 --new-project；已验证版本为 Antigravity CLI 1.4.12。",
+      en: "Hybrid sessions cannot use --project or --new-project, which make the two sides see different session stores; verified with Antigravity CLI 1.4.12.",
     },
     {
-      zh: "预置参数 --yolo 会自动批准工具调用；需要逐次授权时在设置页移除。",
-      en: "The preset --yolo auto-approves tool calls; remove it in settings if you want to approve each step.",
+      zh: "旧版安装仍可能保留 Gemini CLI 配置（gemini --yolo），但 Gemini CLI 已停止为个人 Google 账号处理请求；新安装默认预置改为 Antigravity CLI。",
+      en: "Older installs may still carry a Gemini CLI configuration (gemini --yolo), but Gemini CLI no longer serves personal Google accounts; fresh installs now preset Antigravity CLI instead.",
+    },
+  ],
+  qoder: [
+    {
+      zh: "混合会话使用内置的 --acp 标志启动 ACP，无需额外连接器；预置参数 --dangerously-skip-permissions 会自动批准工具调用。",
+      en: "Hybrid sessions start ACP with the built-in --acp flag, so no extra connector is needed; the preset --dangerously-skip-permissions auto-approves tool calls.",
+    },
+  ],
+  qodercn: [
+    {
+      zh: "混合会话使用内置的 --acp 标志启动 ACP，无需额外连接器；预置参数 --dangerously-skip-permissions 会自动批准工具调用。",
+      en: "Hybrid sessions start ACP with the built-in --acp flag, so no extra connector is needed; the preset --dangerously-skip-permissions auto-approves tool calls.",
     },
   ],
   "cursor-cli": [

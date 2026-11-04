@@ -25,7 +25,7 @@ const topologies = zh
         listen: "127.0.0.1:7681",
         who: "只在运行 WebMux 的这台电脑上用浏览器或 webmux attach 操作会话。",
         token: "仅监听 loopback 且未启用隧道时，空 token 表示不认证；仍建议保留首次启动生成的 256 位 Token。",
-        dont: ["保留默认的 0.0.0.0:7681 却以为只有本机能访问。", "在同一台机器上与不可信的其他用户共用该端口。"],
+        dont: ["把监听地址改成 0.0.0.0:7681 却以为只有本机能访问。", "在同一台机器上与不可信的其他用户共用该端口。"],
         doc: ["配置", "deployment/configuration/"],
       },
       {
@@ -62,7 +62,7 @@ const topologies = zh
         listen: "127.0.0.1:7681",
         who: "You only use sessions on the machine running WebMux, in a browser or with webmux attach.",
         token: "When listening on loopback only with no tunnel, an empty token means no authentication; we still recommend keeping the 256-bit token generated on first start.",
-        dont: ["Keep the default 0.0.0.0:7681 and assume only this machine can reach it.", "Share the port with untrusted users on the same machine."],
+        dont: ["Change the listen address to 0.0.0.0:7681 and assume only this machine can reach it.", "Share the port with untrusted users on the same machine."],
         doc: ["Configuration", "deployment/configuration/"],
       },
       {
@@ -126,7 +126,7 @@ const c = zh
 
 const model = zh
   ? [
-      "默认监听所有接口 0.0.0.0:7681；仅本机使用请设为 127.0.0.1:7681，远程访问建议绑定可信 VPN 地址，并用防火墙限制可访问的接口。",
+      "默认仅监听本机 127.0.0.1:7681。需要局域网访问时才改为 0.0.0.0:7681（或在 Windows 托盘勾选“允许局域网访问”），远程访问建议使用 Tailscale Serve 或绑定可信 VPN 地址，并用防火墙限制可访问的接口。",
       "首次启动生成 0600 配置文件和持久化的 256 位 Token，可用 webmux status --json --reveal-token 查看。",
       "所有 API 与 WebSocket 都需要认证（启用 token 时），token 以常量时间比较；带 Origin 的请求必须同源或位于 allowed_origins 中。",
       "Token 不进入请求 URL：HTTP 使用 Bearer 头，WebSocket 使用子协议；终端输入输出不会写入日志，配置接口不返回 token。",
@@ -135,7 +135,7 @@ const model = zh
       "只有最新发布版本会接收安全修复。",
     ]
   : [
-      "By default it listens on every interface at 0.0.0.0:7681. For local use set 127.0.0.1:7681; for remote use bind to a trusted VPN address and restrict reachable interfaces with a firewall.",
+      "By default it listens on 127.0.0.1:7681 only. Switch to 0.0.0.0:7681 (or tick “allow LAN access” in the Windows tray) only when you need LAN access; for remote use prefer Tailscale Serve or a trusted VPN address, and restrict reachable interfaces with a firewall.",
       "The first start creates a 0600 configuration file and a persistent 256-bit token; show it with webmux status --json --reveal-token.",
       "Every API and WebSocket requires authentication (when a token is set), compared in constant time; requests with an Origin must be same-origin or listed in allowed_origins.",
       "The token never appears in request URLs: HTTP uses a Bearer header and WebSocket a subprotocol. Terminal input and output are never logged, and the configuration API never returns the token.",

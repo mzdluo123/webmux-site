@@ -16,10 +16,12 @@
     name: string;
     url: string;
   }
+  const DEFAULT_RUN = "webmux";
   let {
     lang,
     version,
     installUrl,
+    devInstallUrl,
     mirrorPrefix,
     packages,
     windowsSetup,
@@ -31,6 +33,7 @@
     version?: string;
     installUrl: string;
     mirrorPrefix: string;
+    devInstallUrl: string;
     packages: AssetLink[];
     windowsSetup?: AssetLink;
     windowsTray?: AssetLink;
@@ -50,6 +53,7 @@
 
   let tab = $state("linux");
   let mirror = $state(false);
+  let dev = $state(false);
   let pinned = $state("");
   let dir = $state("");
 
@@ -61,9 +65,10 @@
   });
 
   const installCommand = $derived.by(() => {
-    const url = `${mirror ? mirrorPrefix : ""}${installUrl}`;
+    const url = `${mirror ? mirrorPrefix : ""}${dev ? devInstallUrl : installUrl}`;
     const env = [
-      pinned.trim() && `WEBMUX_VERSION=${pinned.trim().replace(/[^0-9A-Za-z.\-]/g, "")}`,
+      dev && "WEBMUX_CHANNEL=dev",
+      !dev && pinned.trim() && `WEBMUX_VERSION=${pinned.trim().replace(/[^0-9A-Za-z.\-]/g, "")}`,
       dir.trim() && `WEBMUX_INSTALL_DIR="${dir.trim().replace(/["`\\]/g, "")}"`,
     ].filter(Boolean);
     return env.length ? `curl -fsSL ${url} \\\n  | ${env.join(" ")} sh` : `curl -fsSL ${url} | sh`;
@@ -123,6 +128,13 @@
                 <p class="m-0 text-[13px] text-muted-foreground">{c.options.mirrorNote}</p>
               </div>
             </div>
+            <div class="flex items-start gap-3">
+              <Switch id={`dev-${lang}`} bind:checked={dev} class="mt-0.5" />
+              <div class="flex flex-col gap-1">
+                <Label for={`dev-${lang}`} class="text-sm">{c.options.dev}</Label>
+                <p class="m-0 text-[13px] text-muted-foreground">{c.options.devNote}</p>
+              </div>
+            </div>
             <div class="grid gap-3 sm:grid-cols-2">
               <div class="flex flex-col gap-1.5">
                 <Label for={`pin-${lang}`} class="text-sm">{c.options.version}</Label>
@@ -130,6 +142,7 @@
                   id={`pin-${lang}`}
                   bind:value={pinned}
                   placeholder={version ?? "0.10.1"}
+                  disabled={dev}
                   inputmode="decimal"
                   autocomplete="off"
                 />
@@ -149,7 +162,7 @@
       </li>
       <li class="flex flex-col gap-3">
         <p class={step}><strong>{c.linux.s2}</strong> {c.linux.s2d}</p>
-        <CommandBox command="webmux --listen 127.0.0.1:7681" {...box} />
+        <CommandBox command={DEFAULT_RUN} {...box} />
       </li>
       <li>
         <p class={step}>

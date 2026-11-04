@@ -2,8 +2,6 @@
 // Home page, prototype C "叙事长卷" (docs/website/pages.md#首页区块, design.md#选定方向叙事长卷).
 import { Badge } from "$lib/components/ui/badge/index.js";
 import { Button } from "$lib/components/ui/button/index.js";
-import CommandBox from "$lib/components/site/CommandBox.svelte";
-import InstallGenerator from "$lib/components/site/InstallGenerator.svelte";
 import Shot from "../components/Shot.astro";
 import SecurityNote from "../components/SecurityNote.astro";
 import CompareSummary from "../components/CompareSummary.astro";
@@ -12,9 +10,9 @@ import Base from "../layouts/Base.astro";
 import { AGENTS, agentIcon } from "../data/agents";
 import { homeFaq } from "../data/faq";
 import { localize, UI, type Lang } from "../lib/i18n";
-import { installProps, softwareApplication } from "../lib/install";
+import { softwareApplication } from "../lib/install";
 import { latest, serverSizeMB, version } from "../lib/releases";
-import { INSTALL_URL, REPO_URL } from "../../site.config.mjs";
+import { REPO_URL } from "../../site.config.mjs";
 
 interface Props {
   lang: Lang;
@@ -58,7 +56,7 @@ const c = zh
       whySub: `一个约 ${size} MB 的单二进制，把终端会话放在服务端。`,
       why: [
         ["断线不断会话", "锁屏、换网、关标签页都不影响；重连只补发缺失的输出。", "/docs/architecture/"],
-        ["原样运行你的 agent", "Claude Code、Codex、omp 等九款 CLI 预置即用，跑在真实 PTY 里。", "/docs/cli-agents/"],
+        ["原样运行你的 agent", "Claude Code、Codex、omp 等十一款 CLI 预置即用，跑在真实 PTY 里。", "/docs/cli-agents/"],
         ["TUI ↔ 聊天一键切换", "同一段对话，电脑上用 TUI，手机上用聊天视图，历史完整保留。", "/docs/hybrid-sessions/"],
         ["它在等你时会告诉你", "识别 agent 的提问与授权请求：总览标记、标签页提示、锁屏推送。", "/docs/deployment/pwa-and-push/"],
         ["写代码的工作台", "分屏、草稿模式、资源管理器与 Diff、多格式预览、Git worktree、终端里显示图片。", "/docs/usage/terminal/"],
@@ -78,22 +76,28 @@ const c = zh
         ["terminal-splits/after-desktop-light.jpg", "terminal-splits/after-desktop-dark.jpg", "终端分屏 + 草稿：最多 8 个窗格，Ctrl+B 前缀操作"],
         ["kitty-graphics/after-desktop-light.png", "kitty-graphics/after-desktop-dark.png", "终端图形：Kitty 图形协议，agent 可直接显示图片"],
         ["file-explorer/after-desktop-light.png", "file-explorer/after-desktop-dark.png", "资源管理器：上传、下载、重命名、移动文件"],
-        ["cli-agents/after-desktop-light.png", "cli-agents/after-desktop-dark.png", "启动配置：预置九款 CLI agent，可自由编辑"],
+        ["cli-agents/after-desktop-light.png", "cli-agents/after-desktop-dark.png", "启动配置：预置十一款 CLI agent，可自由编辑"],
       ],
       hybridEyebrow: "混合会话",
       hybridTitle: "同一段对话，电脑上用 TUI，手机上用聊天视图。",
       hybridBody:
-        "OpenCode、omp、Codex CLI 与 Claude Code 可以在终端与聊天视图之间切换，历史完整保留；聊天端支持附件、权限请求作答与 Token 用量。Codex CLI 与 Claude Code 的聊天端需要另装第三方 ACP 连接器（codex-acp、claude-agent-acp），它们不是 WebMux 或 agent 厂商的官方组件。",
+        "OpenCode、omp、Codex CLI、Claude Code、Antigravity CLI、Qoder 与 QoderCN 可以在终端与聊天视图之间切换，历史完整保留；聊天端支持附件、权限请求作答与 Token 用量。Codex CLI 与 Claude Code 的聊天端需要另装第三方 ACP 连接器（codex-acp、claude-agent-acp），它们不是 WebMux 或 agent 厂商的官方组件。",
       hybridLink: "混合会话文档",
-      agentsTitle: "预置九款 CLI agent",
+      agentsTitle: "预置十一款 CLI agent",
       agentsSub: "外加 Shell 与 omp。图标只用于说明兼容性，各商标归其所有者。",
       agentsLink: "查看兼容矩阵",
       installTitle: "两分钟装好",
+      installBtn: "下载与安装",
+      platforms: [
+        ["Linux / macOS", "一行脚本自动识别系统与架构，校验 SHA-256 后装到 ~/.local/bin，不需要 sudo；也有 deb / rpm 包与手动下载。"],
+        ["Windows（WSL 2）", "运行安装程序即可：自带托盘与同架构的 Linux 服务端，在托盘菜单里一键装进 WSL；安装托盘不需要管理员权限。"],
+        ["正式版与开发版", "默认安装最新正式版；也可切换到开发版通道，并开启自动更新（deb / rpm 与 Windows 安装版托盘）。"],
+      ],
       compareTitle: "和你现在用的方案比",
       faqTitle: "常见问题",
       faqMore: "查看全部问题",
       finalTitle: "开源、MIT、单二进制。",
-      finalBody: "复制命令装好它，或者先到 GitHub 看看源码。",
+      finalBody: "下载安装，或者先到 GitHub 看看源码。",
       finalGithub: "在 GitHub 上查看",
     }
   : {
@@ -128,7 +132,7 @@ const c = zh
       whySub: `A single binary of about ${size} MB that keeps terminal sessions on the server.`,
       why: [
         ["Sessions survive disconnects", "Lock the phone, switch networks, close the tab. Reconnecting replays only the output you missed.", "/docs/architecture/"],
-        ["Your agents, unmodified", "Nine CLIs including Claude Code, Codex and omp come preconfigured and run in a real PTY.", "/docs/cli-agents/"],
+        ["Your agents, unmodified", "Eleven CLIs including Claude Code, Codex and omp come preconfigured and run in a real PTY.", "/docs/cli-agents/"],
         ["TUI ↔ chat in one tap", "One conversation: TUI on the desktop, chat view on the phone, full history kept.", "/docs/hybrid-sessions/"],
         ["It tells you when it’s waiting", "Questions and permission requests are detected: overview badges, tab hints, lock-screen push.", "/docs/deployment/pwa-and-push/"],
         ["A workbench for code", "Splits, drafts, file explorer and diffs, multi-format preview, Git worktrees, images in the terminal.", "/docs/usage/terminal/"],
@@ -148,27 +152,31 @@ const c = zh
         ["terminal-splits/after-desktop-light.jpg", "terminal-splits/after-desktop-dark.jpg", "Splits and drafts: up to 8 panes, Ctrl+B prefix"],
         ["kitty-graphics/after-desktop-light.png", "kitty-graphics/after-desktop-dark.png", "Terminal graphics: the Kitty protocol lets agents show images"],
         ["file-explorer/after-desktop-light.png", "file-explorer/after-desktop-dark.png", "File explorer: upload, download, rename and move files"],
-        ["cli-agents/after-desktop-light.png", "cli-agents/after-desktop-dark.png", "Launch configs: nine CLI agents preconfigured, all editable"],
+        ["cli-agents/after-desktop-light.png", "cli-agents/after-desktop-dark.png", "Launch configs: eleven CLI agents preconfigured, all editable"],
       ],
       hybridEyebrow: "Hybrid sessions",
       hybridTitle: "One conversation: TUI on the desktop, chat on the phone.",
       hybridBody:
-        "OpenCode, omp, Codex CLI and Claude Code switch between the terminal and a chat view with the full history kept; the chat side handles attachments, permission prompts and token usage. The chat side of Codex CLI and Claude Code needs a third-party ACP connector (codex-acp, claude-agent-acp), which is not an official component of WebMux or the agent vendors.",
+        "OpenCode, omp, Codex CLI, Claude Code, Antigravity CLI, Qoder and QoderCN switch between the terminal and a chat view with the full history kept; the chat side handles attachments, permission prompts and token usage. The chat side of Codex CLI and Claude Code needs a third-party ACP connector (codex-acp, claude-agent-acp), which is not an official component of WebMux or the agent vendors.",
       hybridLink: "Hybrid session docs (Chinese)",
-      agentsTitle: "Nine CLI agents, preconfigured",
+      agentsTitle: "Eleven CLI agents, preconfigured",
       agentsSub: "Plus Shell and omp. Icons only indicate compatibility; trademarks belong to their owners.",
       agentsLink: "See the compatibility matrix",
       installTitle: "Installed in two minutes",
+      installBtn: "Download and install",
+      platforms: [
+        ["Linux / macOS", "A one-line script detects your system and architecture, verifies SHA-256 and installs to ~/.local/bin without sudo. deb / rpm packages and manual downloads are available too."],
+        ["Windows (WSL 2)", "Run the installer: it brings the tray app and the matching Linux server, which the tray installs into WSL in one click. No administrator rights are needed to install the tray."],
+        ["Stable and dev builds", "The latest stable release by default; switch to the dev channel when you want it, and turn on auto-update (deb / rpm and the installed Windows tray)."],
+      ],
       compareTitle: "Compared with what you use today",
       faqTitle: "FAQ",
       faqMore: "See all questions",
       finalTitle: "Open source, MIT, one binary.",
-      finalBody: "Copy the command to install it, or read the source on GitHub first.",
+      finalBody: "Download and install it, or read the source on GitHub first.",
       finalGithub: "View on GitHub",
     };
 
-const installCmd = `curl -fsSL ${INSTALL_URL} | sh`;
-const box = { copyLabel: t.copyInstall, copiedLabel: t.copied, failedLabel: t.copyFailed };
 const storyShots = [
   { name: "desktop-overview.png" },
   { names: ["mobile-omp.png", "mobile-chat.png"] },
@@ -195,7 +203,9 @@ const faq = homeFaq(lang);
     </h1>
     <p class="mt-6 mb-0 max-w-[640px] text-[17px] leading-[1.65] text-muted-foreground sm:text-xl">{c.sub}</p>
     <div class="mt-8 flex max-w-[640px] flex-col gap-3">
-      <CommandBox client:visible command={installCmd} variant="hero" {...box} />
+      <div>
+        <Button href={l("/download/")} size="lg" class="wm-control h-12 px-6 text-base font-semibold">{c.installBtn}</Button>
+      </div>
       <p class="m-0 text-sm text-muted-foreground">
         {latest ? <a class="link text-muted-foreground" href={l("/changelog/")}>{latest.tag}</a> : t.versionUnavailable} · {c.meta}
       </p>
@@ -330,8 +340,18 @@ const faq = homeFaq(lang);
   <section id="install" class="border-y border-band-line bg-band py-16 sm:py-24" aria-labelledby="install-title">
     <div class="container-site">
       <h2 id="install-title" class="m-0 mb-8 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{c.installTitle}</h2>
-      <div class="max-w-[760px]">
-        <InstallGenerator client:visible {...installProps(lang)} tabs={["linux", "windows", "packages", "manual"]} />
+      <ul class="m-0 grid list-none gap-4 p-0 md:grid-cols-3">
+        {
+          c.platforms.map(([name, body]) => (
+            <li class="flex flex-col gap-2 rounded-lg border bg-page p-5">
+              <h3 class="m-0 text-[17px] font-semibold">{name}</h3>
+              <p class="m-0 text-[15px] leading-[1.7] text-muted-foreground">{body}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="mt-6">
+        <Button href={l("/download/")} class="wm-control h-11 px-5 text-[15px] font-semibold">{c.installBtn}</Button>
       </div>
       <SecurityNote lang={lang} class="mt-10 max-w-[760px]" />
     </div>
@@ -360,11 +380,9 @@ const faq = homeFaq(lang);
   <section class="container-site py-16 sm:py-24" aria-labelledby="final-title">
     <h2 id="final-title" class="m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{c.finalTitle}</h2>
     <p class="mt-3 mb-6 text-muted-foreground">{c.finalBody}</p>
-    <div class="flex max-w-[640px] flex-col gap-4">
-      <CommandBox client:visible command={installCmd} variant="hero" {...box} />
-      <div>
-        <Button href={REPO_URL} variant="outline" class="wm-control h-10 px-4 text-[15px]" rel="noopener">{c.finalGithub}</Button>
-      </div>
+    <div class="flex flex-wrap gap-3">
+      <Button href={l("/download/")} class="wm-control h-11 px-5 text-[15px] font-semibold">{c.installBtn}</Button>
+      <Button href={REPO_URL} variant="outline" class="wm-control h-11 px-5 text-[15px]" rel="noopener">{c.finalGithub}</Button>
     </div>
   </section>
 </Base>

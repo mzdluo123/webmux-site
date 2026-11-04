@@ -22,15 +22,15 @@ ${latest ? `\nLatest release: ${latest.tag} (${latest.publishedAt.slice(0, 10)})
 
 \`\`\`sh
 curl -fsSL ${INSTALL_URL} | sh
-webmux --listen 127.0.0.1:7681
+webmux
 \`\`\`
 
 Then open http://127.0.0.1:7681 and click “New session”. Downloads and checksums: ${abs("/download/")}
 
 ## Safety boundary
 
-- WebMux exposes a shell to the network as the current user; default listen address is 0.0.0.0:7681.
-- For local use listen on 127.0.0.1; for remote access bind to a trusted VPN (Tailscale / WireGuard).
+- WebMux exposes a shell to the network as the current user; it listens on 127.0.0.1:7681 only by default.
+- To reach it from other devices use a trusted VPN (Tailscale / WireGuard) or Tailscale Serve, and restrict interfaces with a firewall.
 - Do not expose it to the public internet unless you use the tunnel mode and accept that the token is the only barrier.
 - It is not a process sandbox. Restarting the service ends all terminal sessions.
 - Security model: ${abs("/security/")}

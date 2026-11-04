@@ -4,3 +4,5 @@
 /install.sh  https://github.com/mzdluo123/webmux/releases/latest/download/install.sh  302
 /releases    https://github.com/mzdluo123/webmux/releases  302
 /github      https://github.com/mzdluo123/webmux  302
+/agents/gemini-cli/     /agents/     301
+/en/agents/gemini-cli/  /en/agents/  301

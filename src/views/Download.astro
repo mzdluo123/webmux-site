@@ -58,7 +58,7 @@ const c = zh
       ],
       upgradeTitle: "升级提示",
       upgrade:
-        "重复执行安装脚本即升级二进制；正在运行的服务需手动重启才会加载新版本，重启会结束所有终端会话，先让 agent 告一段落。deb / rpm 由 apt / dnf 升级，之后执行 systemctl --user restart webmux。",
+        "重复执行安装脚本即升级二进制；正在运行的服务需手动重启才会加载新版本，重启会结束所有终端会话，先让 agent 告一段落。deb / rpm 带自动更新定时器，也可由 apt / dnf 升级，之后执行 systemctl --user restart webmux；安装版 Windows 托盘可开启自动更新，并在菜单中切换正式版 / 开发版通道。",
       upgradeLink: "升级说明",
       assetsTitle: "全部下载",
       assetsSub: (v: string) => `${v} · 数据来自 GitHub Releases，构建时自动更新`,
@@ -97,7 +97,7 @@ const c = zh
       ],
       upgradeTitle: "Upgrading",
       upgrade:
-        "Run the install script again to upgrade the binary. A running service keeps the old version until you restart it, and restarting ends every terminal session, so let your agents finish first. deb / rpm installs upgrade through apt / dnf; then run systemctl --user restart webmux.",
+        "Run the install script again to upgrade the binary. A running service keeps the old version until you restart it, and restarting ends every terminal session, so let your agents finish first. deb / rpm packages ship an auto-update timer and can also be upgraded through apt / dnf; then run systemctl --user restart webmux. The installed Windows tray can auto-update and switch between the stable and dev channels from its menu.",
       upgradeLink: "Upgrade notes (Chinese)",
       assetsTitle: "All downloads",
       assetsSub: (v: string) => `${v} · from GitHub Releases, refreshed at build time`,

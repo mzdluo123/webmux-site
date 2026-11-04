@@ -26,16 +26,16 @@ const zh = lang === "zh-cn";
     {
       zh ? (
         <p class="m-0">
-          WebMux 等同于以当前用户身份把 shell 暴露到网络，默认监听 <code>0.0.0.0:7681</code>。仅本机使用请改为{" "}
-          <code>127.0.0.1</code>；远程访问请绑定 Tailscale / WireGuard 等可信 VPN；除非明确使用隧道并接受“Token
+          WebMux 等同于以当前用户身份把 shell 暴露到网络，默认仅监听本机 <code>127.0.0.1:7681</code>。让局域网或其他设备访问
+          （如 <code>0.0.0.0</code>）时，请绑定 Tailscale / WireGuard 等可信 VPN 并配合防火墙；除非明确使用隧道并接受“Token
           是唯一入口屏障”的风险，不要开放到公网。它不是进程沙箱，服务重启会结束所有终端会话。{" "}
           <a class="underline underline-offset-[3px]" href={localize(lang, "/security/")}>阅读安全模型</a>
         </p>
       ) : (
         <p class="m-0">
-          WebMux exposes a shell to the network as your user, listening on <code>0.0.0.0:7681</code> by default. For
-          local use, listen on <code>127.0.0.1</code>; for remote access, bind to a trusted VPN such as Tailscale or
-          WireGuard. Do not expose it to the internet unless you deliberately use a tunnel and accept that the token is
+          WebMux exposes a shell to the network as your user and listens only on <code>127.0.0.1:7681</code> by default.
+          If you open it to your LAN or other devices (for example <code>0.0.0.0</code>), bind to a trusted VPN such as Tailscale or
+          WireGuard and use a firewall. Do not expose it to the internet unless you deliberately use a tunnel and accept that the token is
           the only barrier. It is not a process sandbox, and restarting the service ends every terminal session.{" "}
           <a class="underline underline-offset-[3px]" href={localize(lang, "/security/")}>Read the security model</a>
         </p>

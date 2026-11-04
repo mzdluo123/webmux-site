@@ -38,12 +38,12 @@ function items(lang: Lang): Record<string, FaqItem> {
         {
           id: "is-it-safe",
           q: "WebMux 安全吗？",
-          a: `WebMux 以启动服务的系统用户身份执行任意命令，等同于把一个 shell 暴露到网络上；它不是进程沙箱，也不提供多用户隔离。安全依赖网络隔离：仅本机使用请监听 <code>127.0.0.1:7681</code>，远程访问绑定 Tailscale / WireGuard 等可信 VPN，并使用随机 token（首次启动会生成 256 位 Token）。不要直接暴露到公网；确需公网访问时只用受控隧道，此时 Token 是唯一入口屏障。详见 <a href="${localize(lang, "/security/")}">安全与部署建议</a>。`,
+          a: `WebMux 以启动服务的系统用户身份执行任意命令，等同于把一个 shell 暴露到网络上；它不是进程沙箱，也不提供多用户隔离。安全依赖网络隔离：默认只监听本机 <code>127.0.0.1:7681</code>，需要远程访问时开启 Tailscale Serve，或绑定 Tailscale / WireGuard 等可信 VPN，并使用随机 token（首次启动会生成 256 位 Token）。不要直接暴露到公网；确需公网访问时只用受控隧道，此时 Token 是唯一入口屏障。详见 <a href="${localize(lang, "/security/")}">安全与部署建议</a>。`,
         },
         {
           id: "windows",
           q: "Windows 能用吗？",
-          a: `能，但服务不原生运行在 Windows 上，而是运行在 WSL 2 发行版中。需要 Windows 10 22H2 及以上或 Windows 11，以及从 Microsoft Store 安装的 WSL 2；托盘程序负责安装 / 升级、启动、监控和远程访问转发，无需管理员权限，<code>webmux.exe</code> 可在 PowerShell / Windows Terminal 中 <code>run</code> / <code>attach</code> WSL 里的会话。详见 <a href="${d("deployment/windows-wsl/")}">Windows（WSL）部署</a>。`,
+          a: `能，但服务不原生运行在 Windows 上，而是运行在 WSL 2 发行版中。需要 Windows 10 22H2 及以上或 Windows 11，以及从 Microsoft Store 安装的 WSL 2；托盘程序负责安装 / 升级（安装版可开启自动更新）、启动、监控，并提供“允许局域网访问”开关与转发。安装托盘不需要管理员权限，仅在安装程序可选地添加防火墙规则时弹出一次管理员确认；<code>webmux.exe</code> 可在 PowerShell / Windows Terminal 中 <code>run</code> / <code>attach</code> WSL 里的会话。详见 <a href="${d("deployment/windows-wsl/")}">Windows（WSL）部署</a>。`,
         },
         {
           id: "license-and-cost",
@@ -110,12 +110,12 @@ function items(lang: Lang): Record<string, FaqItem> {
         {
           id: "is-it-safe",
           q: "Is WebMux safe?",
-          a: `WebMux runs arbitrary commands as the user who started the service, which amounts to exposing a shell to the network. It is not a process sandbox and offers no multi-user isolation. Safety relies on network isolation: listen on <code>127.0.0.1:7681</code> for local use, bind to a trusted VPN such as Tailscale or WireGuard for remote use, and use a random token (the first start generates a 256-bit one). Do not expose it directly to the internet; if you must, use a controlled tunnel only, and accept that the token is then the only barrier. See <a href="${localize(lang, "/security/")}">security and deployment</a>.`,
+          a: `WebMux runs arbitrary commands as the user who started the service, which amounts to exposing a shell to the network. It is not a process sandbox and offers no multi-user isolation. Safety relies on network isolation: by default it listens on <code>127.0.0.1:7681</code> only; for remote use turn on Tailscale Serve or bind to a trusted VPN such as Tailscale or WireGuard, and use a random token (the first start generates a 256-bit one). Do not expose it directly to the internet; if you must, use a controlled tunnel only, and accept that the token is then the only barrier. See <a href="${localize(lang, "/security/")}">security and deployment</a>.`,
         },
         {
           id: "windows",
           q: "Does it work on Windows?",
-          a: `Yes, but the service does not run natively on Windows: it runs inside a WSL 2 distribution. You need Windows 10 22H2 or later or Windows 11, plus WSL 2 from the Microsoft Store. The tray app installs and upgrades WebMux, starts and monitors it and forwards remote access, without administrator rights; <code>webmux.exe</code> can <code>run</code> / <code>attach</code> WSL sessions from PowerShell or Windows Terminal. See <a href="${d("deployment/windows-wsl/")}">Windows (WSL) deployment</a>${cn}.`,
+          a: `Yes, but the service does not run natively on Windows: it runs inside a WSL 2 distribution. You need Windows 10 22H2 or later or Windows 11, plus WSL 2 from the Microsoft Store. The tray app installs and upgrades WebMux (the installed tray can auto-update), starts and monitors it, and offers an “allow LAN access” switch with forwarding. Installing the tray needs no administrator rights; the only prompt is one optional administrator confirmation when the installer adds a firewall rule. <code>webmux.exe</code> can <code>run</code> / <code>attach</code> WSL sessions from PowerShell or Windows Terminal. See <a href="${d("deployment/windows-wsl/")}">Windows (WSL) deployment</a>${cn}.`,
         },
         {
           id: "license-and-cost",

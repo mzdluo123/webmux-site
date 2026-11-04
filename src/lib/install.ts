@@ -1,4 +1,4 @@
-import { INSTALL_URL, MIRROR_PREFIX, REPO_URL, SITE_URL } from "../../site.config.mjs";
+import { DEV_INSTALL_URL, INSTALL_URL, MIRROR_PREFIX, REPO_URL, SITE_URL } from "../../site.config.mjs";
 import { localize, type Lang } from "./i18n";
 import { findAsset, latest, version } from "./releases";
 
@@ -10,6 +10,7 @@ export function installProps(lang: Lang) {
     lang,
     version,
     installUrl: INSTALL_URL,
+    devInstallUrl: DEV_INSTALL_URL,
     mirrorPrefix: MIRROR_PREFIX,
     packages: (latest?.assets ?? [])
       .filter((a) => /\.(deb|rpm)$/.test(a.name))
