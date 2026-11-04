@@ -97,7 +97,7 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
   - 发送或答复后清除；
   - 状态取 running/waiting/idle；
   - 现有 Web Push 照常推送，不新增通道；
-  - 首页卡片标出所在端（终端、聊天、聊天·休眠、切换中），聊天端以最新 agent 消息（最多三行）代替终端预览，回合进行中另起一行显示当前工作（当前工具调用标题，或无标题时按种类与首个位置，或进行中的计划步骤；回合结束即消失），分组与排序不变。
+  - 首页卡片标出所在端（终端、聊天、聊天·休眠、切换中），聊天端以最新 agent 消息（最多三行）代替终端预览，回合进行中另起一行显示当前工作（本轮当前或最近完成的工具调用标题，或无标题时按种类与首个位置，或进行中的计划步骤；回合结束即消失），分组与排序不变。
 - **US-Q10 异常与登录**：作为使用者，我希望 agent 进程意外退出或需要登录时得到确定的结果，以便知道下一步怎么做。
   验收要点：
   - TUI 自行退出（含 `/exit` 与崩溃）时会话标记为已中断，保留最后终端输出并提供恢复到聊天或终端，不自动切换；
@@ -112,8 +112,9 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
   - 设置页可修改，默认 30、0 为不休眠，网页修改立即生效并在设备间同步。
 - **US-Q12 关闭后恢复**：作为使用者，我希望关闭或因重启中断的混合会话之后还能接着聊，以便服务重启不再意味着失去 agent 对话。
   验收要点：
-  - 关闭混合会话把记录标为已关闭，服务启动时把活动记录改为已中断并结束 PID 与启动标识都匹配的残留进程组；
-  - 首页底部“可恢复”分组默认折叠并显示数量，卡片优先显示持久化的当前会话标题（旧记录没有标题时回退到创建名称）、agent、目录、所在端、状态、时间与“上一轮可能未完成”“排队消息已丢失”提示，可恢复到聊天或终端（沿用原 ID）、确认后移除；
+  - 归档（关闭）混合会话把记录标为已关闭，记录保存会话最近的仓库/工作树关联，服务启动时把活动记录改为已中断并结束 PID 与启动标识都匹配的残留进程组；
+  - 已归档记录显示在首页所属工作树活动会话下方的“已归档”中：旧记录按目录归入包含它的工作树，无匹配时进入直接会话；默认折叠并显示数量与已中断条数，每次显示最近 5 条；
+  - 每条记录优先显示持久化的当前会话标题（旧记录没有标题时回退到创建名称）、agent、所在端、状态、时间与“上一轮可能未完成”“排队消息已丢失”提示，可恢复到聊天或终端（沿用原 ID），在更多菜单中确认后删除记录；
   - 原 agent 会话不存在时列出同目录候选，启动配置已删除时确认后不带环境变量恢复；
   - Claude 记录沿用 `claudecode` 档案与通用候选/外部占用错误，恢复聊天后重应用 model/effort 并保留实际 mode，注册记录不可读不伪造无外部写者保证；
   - 记录不含环境变量值、消息、注册记录正文或 token，存储不可用时只禁用混合会话。
@@ -152,7 +153,7 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
 - **US-Q17 识别聊天端 agent**：作为同时开着多个聊天会话的使用者，我希望在首页和聊天页都能一眼看出每个会话由哪个 agent 承接，以便不用切到终端或凭标题猜测。
   验收要点：
   - 混合会话的 `hybrid` 对象带档案声明的显示名 `agentTitle` 与品牌图标键 `agentIcon`（属于启动配置图标目录），列表快照、列表事件与单个会话信息一致；前端不内置 agent 名称；
-  - 首页处于聊天端或切换中（含休眠）的卡片以 agent 单色品牌小图标替换通用聊天图标，元信息行形如“OpenCode · 聊天 · 2 个设备已连接”；终端端卡片不变；
+  - 首页混合会话卡片（聊天端、切换中、休眠与终端端，含“恢复到终端”后）以 agent 单色品牌小图标替换通用聊天/终端图标，元信息行形如“OpenCode · 聊天 · 2 个设备已连接”或“OpenCode · 终端 · 后台会话”；
   - 会话页显示聊天视图时，头部在标题后、状态点前显示低强调的图标与名称；窄屏（小于 640px）只显示图标，可访问名称与悬停提示均为“Agent：<名称>”，空间不足时先截断标题；
   - 标识只用于展示，不可聚焦或点击；切到终端视图后隐藏；浏览器不认识的图标键只显示名称，不用其他图标代替。
 
@@ -163,5 +164,6 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
 - [Claude Code 适配器](../../internal/agentprofile/claudecode/claudecode.go)、[Claude 注册记录](../../internal/agentprofile/claudecode/registry.go)、[Antigravity CLI 适配器](../../internal/agentprofile/agy/agy.go)
 - [会话外壳与伴随进程](../../internal/session/shell.go)、[进程事实](../../internal/session/process_facts.go)、[聊天接口](../../internal/api/chat.go)、[聊天通道](../../internal/hub/chat.go)
 - [启动配置](../../internal/launch/types.go)、[聊天视图](../../web/src/components/chat/)、[会话页](../../web/src/pages/Terminal.svelte)
-- [可恢复分组](../../web/src/components/RecoverableSessions.svelte)、[安装提示](../../web/src/components/ConnectorInstallHint.svelte)、[原生附着](../../internal/attach/attach.go)、[使用说明](../hybrid-sessions.md)、[协议](../protocol/http-hybrid.md)、[端到端测试](../../web/test/e2e/hybrid.spec.ts)。
+- [已归档记录](../../web/src/components/ArchivedSessions.svelte)、[归位规则](../../web/src/archived.ts)、[安装提示](../../web/src/components/ConnectorInstallHint.svelte)、[原生附着](../../internal/attach/attach.go)
+- [使用说明](../hybrid-sessions.md)、[协议](../protocol/http-hybrid.md)、[端到端测试](../../web/test/e2e/hybrid.spec.ts)。
 - [会话卡片](../../web/src/components/SessionRow.svelte)、[会话页头部](../../web/src/components/TerminalHeader.svelte)、[品牌图标](../../web/src/components/LaunchConfigIcon.svelte)、[图标一致性测试](../../internal/launch/presets_test.go)。

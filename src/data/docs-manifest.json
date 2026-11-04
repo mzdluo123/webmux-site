@@ -1,8 +1,8 @@
 {
   "repo": "mzdluo123/webmux",
-  "ref": "v0.11.0",
-  "commit": "e8ab57fa40930b353c2fd71dfa2da510e469d13e",
-  "latestRelease": "v0.11.0",
+  "ref": "v0.11.3",
+  "commit": "2d8c53a1e4c012e207d695899c4dd23d70a267dd",
+  "latestRelease": "v0.11.3",
   "fallbackToMain": false,
   "docs": [
     {
@@ -69,7 +69,7 @@
       "source": "docs/deployment/install-and-upgrade.md",
       "url": "/docs/deployment/install-and-upgrade/",
       "titleAnchor": "安装与升级",
-      "sha256": "46b55ac5719e4de389b775b07d1541e59ea3364a445a4d0b02aa85e5c36c4820"
+      "sha256": "b1d6ac6f1864cedf417fa883bae7ce575e0afd807401d9b508481a039a210153"
     },
     {
       "source": "docs/deployment/pwa-and-push.md",
@@ -111,7 +111,7 @@
       "source": "docs/faq.md",
       "url": "/docs/faq/",
       "titleAnchor": "常见问题与获取帮助",
-      "sha256": "e7da038f809b1d6258b42573080a0767fb66a49d98e26fbdf636eca85d39aa8e"
+      "sha256": "1fbec70394b5ec29c158dd995d8de19c590bd0bb50fd342cf812fa3e684037bc"
     },
     {
       "source": "docs/frontend-architecture.md",
@@ -135,13 +135,13 @@
       "source": "docs/hybrid-sessions.md",
       "url": "/docs/hybrid-sessions/",
       "titleAnchor": "混合会话聊天--终端",
-      "sha256": "cf7186809ddabe54c6ef251d44e5a990d60643dfb61110709ddde8125b35767c"
+      "sha256": "45441a600d99e1a4ac46a1721f0354ef39e0ef47a7b20621f428c1ac81f438af"
     },
     {
       "source": "docs/overview.md",
       "url": "/docs/overview/",
       "titleAnchor": "项目介绍",
-      "sha256": "ceef78efc3087105bf842bb0e1d6772bb745945e8bea65a978f861d1fc7da9c3"
+      "sha256": "45233c797e6d4a4b3768267ed40022cb7b2bc8174516d7d7decd315975a04760"
     },
     {
       "source": "docs/page-performance.md",
@@ -177,7 +177,7 @@
       "source": "docs/protocol/http-hybrid.md",
       "url": "/docs/protocol/http-hybrid/",
       "titleAnchor": "http-与-websocket混合会话",
-      "sha256": "547ffd20b49f5bd071ff200210da03360f9d0a192105c740ed22768bf31d515c"
+      "sha256": "1df7e3f1b5c6cdfa27799da32967189008c72a25621411e70159ca63bb068692"
     },
     {
       "source": "docs/protocol/http-push.md",
@@ -207,7 +207,7 @@
       "source": "docs/protocol/http-workspace.md",
       "url": "/docs/protocol/http-workspace/",
       "titleAnchor": "http-api仓库与代码工作区",
-      "sha256": "86ef79183a4d6abba2e24aabdbd0aa67294d87a096bd3028d32e3e29375c433e"
+      "sha256": "bee09541761f9c2f41fdecbfb16d9e1c2cbfbff077a7c3215d2573a41a4debf1"
     },
     {
       "source": "docs/protocol/local-api.md",
@@ -219,19 +219,19 @@
       "source": "docs/protocol/settings.md",
       "url": "/docs/protocol/settings/",
       "titleAnchor": "服务端偏好协议",
-      "sha256": "fc789db37f79d48c8f6721572f3ad954867dd6ad1ee2250e22f80dae43669796"
+      "sha256": "ad404a2c61a6928e1665ed0f25d40f3a86912afca40f545c024325468f9ba641"
     },
     {
       "source": "docs/protocol/websocket.md",
       "url": "/docs/protocol/websocket/",
       "titleAnchor": "websocket-接口",
-      "sha256": "aea287103a861bd4408c4ff42f19965a284ad5c60fba50765265c1aec55a27e2"
+      "sha256": "f3e4db9039b1af8c486f16d5b57a158a891e32a2ad0f607e22b03e31501b0a9a"
     },
     {
       "source": "docs/specs.md",
       "url": "/docs/specs/",
       "titleAnchor": "openspec-规格索引",
-      "sha256": "ae948d662e6e957a22babff13efe00699cd7e1f850b8d62a6e6fdbb08b4991dd"
+      "sha256": "663f62587717d4a8436414b4c631422cdf2d87864a1d4020734b88000676cbe4"
     },
     {
       "source": "docs/storybook.md",
@@ -249,7 +249,7 @@
       "source": "docs/usage.md",
       "url": "/docs/usage/",
       "titleAnchor": "使用指南",
-      "sha256": "e267bd41f0561f56588790654afb9818add20ad97c4a5c19859cbfd992f4ba7a"
+      "sha256": "c33fd0a0f3b19aa66f8577709c796ad5c72f2e1f1ca84b361075c4c6ad130075"
     },
     {
       "source": "docs/usage/mobile.md",
@@ -261,25 +261,25 @@
       "source": "docs/usage/terminal.md",
       "url": "/docs/usage/terminal/",
       "titleAnchor": "终端使用",
-      "sha256": "3e00afbcfd8ae7f99c5c5dee751dc21b6b19f245fceda50edc0c5d2d5bcaed19"
+      "sha256": "bafe466adc03584284b4d97742b4b6604cd0c321031f8219f111d4ca9a87c3b3"
     },
     {
       "source": "docs/usage/worktrees.md",
       "url": "/docs/usage/worktrees/",
       "titleAnchor": "仓库与-worktree",
-      "sha256": "b9400dbd907658895985508291f667ea3f93296af2ffc9e6fef4078452823df6"
+      "sha256": "50587046d339e8221e3fe8d405257e78aa0d9dbb111cdf10f5791d1603c631be"
     },
     {
       "source": "docs/user-stories.md",
       "url": "/docs/user-stories/",
       "titleAnchor": "webmux-user-stories",
-      "sha256": "794eef48171df52023066415293e80a3f42923b401f4d5c539b35379de528d3e"
+      "sha256": "06124fc4668802f502f01823dd7412c493b19f84218aab5e110fc5982408a39c"
     },
     {
       "source": "docs/user-stories/access-and-sessions.md",
       "url": "/docs/user-stories/access-and-sessions/",
       "titleAnchor": "连接启动与会话总览",
-      "sha256": "1d48bdcb289bec5b84477d03f5d40a594f5c37d2dd6eefebd6d1e43eb2a5f182"
+      "sha256": "6c9feb14b2437e11d8ad67dfc3062ebb8fd5969823b78dfba8cc2be88d2d1535"
     },
     {
       "source": "docs/user-stories/clients-network-tray.md",
@@ -291,31 +291,31 @@
       "source": "docs/user-stories/code-and-worktrees.md",
       "url": "/docs/user-stories/code-and-worktrees/",
       "titleAnchor": "代码工作区与工作树",
-      "sha256": "2a9de535ebe369277f5bfd08653157ed736617aacbda5299563d5ca84cfe9fff"
+      "sha256": "53196756fcb6eff83a70b2964a175dbec6a3e90bd9e73c1712e4a03d1cba1e6a"
     },
     {
       "source": "docs/user-stories/coverage.md",
       "url": "/docs/user-stories/coverage/",
       "titleAnchor": "功能覆盖核对与后续维护",
-      "sha256": "b7ac48d13c5605e614e16c19e5fb72c0b3bd349d34f6f5f3f497ff50af8bad45"
+      "sha256": "9142793222be2d86cf8de6ce5fedba03ff0d1b8a6a71568cbc60021854b1d933"
     },
     {
       "source": "docs/user-stories/hybrid-sessions.md",
       "url": "/docs/user-stories/hybrid-sessions/",
       "titleAnchor": "混合会话",
-      "sha256": "11fe9ab6e3c279503d2b1bb0f5df0969a7fce99f2317b7dcf44ec07ac4c50a0c"
+      "sha256": "7711655a3617ac7a9ef369fa75aa8278088986c2edbf6b2408c4ce4ca4e20495"
     },
     {
       "source": "docs/user-stories/operations-and-tooling.md",
       "url": "/docs/user-stories/operations-and-tooling/",
       "titleAnchor": "配置运行与贡献者工具",
-      "sha256": "9065620939ce5b88bd215d89666ce9cdc51a04bd97022e2fa753eff778746675"
+      "sha256": "52229cd790bd7fbf5dbc5e6fd313291ae34822f604fd37fda6511ff88058d040"
     },
     {
       "source": "docs/user-stories/terminal-network.md",
       "url": "/docs/user-stories/terminal-network/",
       "titleAnchor": "网络压缩用户故事",
-      "sha256": "21e85e14c7e883f1910834ac8e04b397b03ab19d38c584eab95bb2faa2a54815"
+      "sha256": "a7df4570ff6a4e07d2f840449a611dfb554e0f39c20da9b488f867edcdf33aca"
     },
     {
       "source": "docs/user-stories/terminal-splits.md",
@@ -327,7 +327,7 @@
       "source": "docs/user-stories/terminal.md",
       "url": "/docs/user-stories/terminal/",
       "titleAnchor": "终端输入与移动端",
-      "sha256": "ba5844ea211b93b3971fa7df7feda0679e6897d4320b54dc9d1e3e93a5c63a59"
+      "sha256": "e3a925932e2bc9a0470c199ee573c7c50f3dc14e594492956472459fd22c4fef"
     },
     {
       "source": "docs/website.md",
@@ -842,6 +842,7 @@
     "web/public/sw.js": "blob",
     "web/scripts/embed-assets.ts": "blob",
     "web/src/App.svelte": "blob",
+    "web/src/archived.ts": "blob",
     "web/src/artifactPrompt.ts": "blob",
     "web/src/browser-chrome.ts": "blob",
     "web/src/capabilities.ts": "blob",
@@ -851,6 +852,7 @@
     "web/src/code-language.ts": "blob",
     "web/src/code-pierre.ts": "blob",
     "web/src/code-reference.ts": "blob",
+    "web/src/components/ArchivedSessions.svelte": "blob",
     "web/src/components/ArtifactPromptSetting.svelte": "blob",
     "web/src/components/Brand.svelte": "blob",
     "web/src/components/CodeDiffReader.svelte": "blob",
@@ -867,6 +869,7 @@
     "web/src/components/InstallSettings.svelte": "blob",
     "web/src/components/LaunchConfigDialog.svelte": "blob",
     "web/src/components/LaunchConfigIcon.svelte": "blob",
+    "web/src/components/LaunchPresetMenu.svelte": "blob",
     "web/src/components/LazyDialog.svelte": "blob",
     "web/src/components/NetworkSettings.svelte": "blob",
     "web/src/components/NewSessionSheet.svelte": "blob",
@@ -874,7 +877,6 @@
     "web/src/components/PushSettings.svelte": "blob",
     "web/src/components/QuickCommandDialog.svelte": "blob",
     "web/src/components/QuickCommandMenu.svelte": "blob",
-    "web/src/components/RecoverableSessions.svelte": "blob",
     "web/src/components/RemoveWorktreeDialog.svelte": "blob",
     "web/src/components/RepositoryGroup.svelte": "blob",
     "web/src/components/RepositorySidebar.svelte": "blob",

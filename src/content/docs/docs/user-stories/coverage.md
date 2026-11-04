@@ -22,7 +22,7 @@ sourcePath: "docs/user-stories/coverage.md"
 | 聊天端关注、推送、首条消息临时标题与首页混合卡片                                                    | US-Q09；US-Q02；US-C02                              |
 | 聊天端 agent 标识：卡片与会话页头部的品牌图标和显示名                                               | US-Q17                                              |
 | 混合会话异常、自动重连、Claude 现有认证复用与登录引导、空闲休眠                                     | US-Q10–US-Q11；US-D09                               |
-| 混合会话记录、可恢复分组、恢复、Claude 配置重应用与移除                                             | US-Q12；US-D10；US-L10                              |
+| 混合会话记录、工作树内已归档记录、恢复、Claude 配置重应用与删除记录                                 | US-Q12；US-D10；US-L10                              |
 | `run --launch-config`、`attach` 与 `ls` 对混合会话的行为                                            | US-Q13；US-M01；US-M03；US-M05                      |
 | 聊天端选择、拖放或粘贴文件，上传进度、取消与待发送附件                                              | US-Q14；US-E04–US-E07                               |
 | 首页导航、紧凑/预览、详情、分组、按需表单、增量更新、排序、搜索、筛选与空状态                       | US-C01–US-C05                                       |
@@ -47,7 +47,7 @@ sourcePath: "docs/user-stories/coverage.md"
 | 快捷指令菜单、编辑、排序、删除、跨设备同步与临时文件夹提示词                                        | US-G01–US-G06                                       |
 | 软键、主动键盘、键盘弹出时保持尺寸、触摸/笔、选词、滚动、捏合、视口、主屏幕与裁切图标、窄屏紧凑顶栏 | US-H01–US-H08                                       |
 | 安装应用入口、安装状态、非安全上下文提示与 Web App Manifest                                         | US-H09；US-K10                                      |
-| 实时连接 permessage-deflate 按设备开关、静态资源构建期 brotli/gzip 预压缩与编码协商                 | US-H10；US-H11                                      |
+| 实时连接 permessage-deflate 按设备开关（手机默认开启）、静态资源构建期 brotli/gzip 预压缩与编码协商 | US-H10；US-H11                                      |
 | 代码根目录、边界、文件导航、路径搜索与分页                                                          | US-I01–US-I04；US-I11                               |
 | 启动目录、Shell 报告目录、远端标记与复制目录                                                        | US-C04；US-C10                                      |
 | 会话链接当前标签页打开（US-C11 已退役）                                                             | US-C14                                              |
