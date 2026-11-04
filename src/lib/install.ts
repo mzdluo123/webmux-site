@@ -1,4 +1,10 @@
-import { DEV_INSTALL_URL, INSTALL_URL, MIRROR_PREFIX, REPO_URL, SITE_URL } from "../../site.config.mjs";
+import {
+  DEV_INSTALL_URL,
+  INSTALL_URL,
+  MIRROR_PREFIX,
+  REPO_URL,
+  SITE_URL,
+} from "../../site.config.mjs";
 import { localize, type Lang } from "./i18n";
 import { findAsset, latest, version } from "./releases";
 
