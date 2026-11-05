@@ -3,7 +3,7 @@
 import CompareTable from "../components/CompareTable.astro";
 import PageBreadcrumb from "../components/PageBreadcrumb.astro";
 import Base from "../layouts/Base.astro";
-import { CHECKED, DIMENSIONS, TOOLS, WEBMUX } from "../data/compare";
+import { CHECKED, DIMENSIONS, GROUPS, TOOLS, WEBMUX } from "../data/compare";
 import { localize, type Lang } from "../lib/i18n";
 
 interface Props {
@@ -15,56 +15,91 @@ const zh = lang === "zh-cn";
 const guidance = zh
   ? [
       ["只需要在服务器上让一个 shell 断线不断", "SSH + tmux 更简单：大多数服务器已具备，无需新服务。"],
+      ["已经在用 Zellij，只想在浏览器里接上同一会话", "Zellij 自带的 Web 客户端更简单。"],
       ["只需要把一个终端临时分享到浏览器", "ttyd 或 gotty 更简单：一条命令即可分享。"],
+      ["只想临时与他人协作共享一个终端", "sshx 更简单：一条命令生成链接（经 sshx.io 中转）。"],
       ["只需要在不稳定网络上保持 SSH 式连接", "mosh 更合适：它为漫游与丢包设计。"],
-      ["主要需求是在浏览器里写代码、用完整编辑器", "VS Code Remote Tunnels 或 code-server 更合适。"],
-      ["需要在手机上接管 CLI agent、收到它的提问并在终端与聊天之间切换", "这是 WebMux 设计的场景。"],
+      ["只用 Claude Code，且已有 claude.ai 付费订阅", "Claude Code Remote Control 更简单：内置一条命令，手机上用 Claude App 接续。"],
+      ["主要用 Claude Code、Codex，想要原生手机 App 和一键允许 / 拒绝", "Happy 更合适：原生 App、端到端加密，中转也可自托管。"],
+      ["不需要 agent 跑在自己的机器上，只想交给云端完成后看 Diff、开 PR", "OpenAI Codex cloud 更合适。"],
+      ["主要需求是在浏览器里写代码、用完整编辑器", "VS Code Remote Tunnels 或 code-server 更合适；也可以与 WebMux 并用：编辑器改代码，WebMux 跑 agent。"],
+      [
+        "要在自己的服务器上同时跑多款 CLI agent，手机上收到它的提问、在终端与聊天之间切换，并在终端旁审 Diff、预览开发服务器",
+        "这是 WebMux 设计的场景。",
+      ],
     ]
   : [
       ["You only need one shell on a server to survive disconnects", "SSH + tmux is simpler: most servers already have it, no new service required."],
+      ["You already use Zellij and just want the same sessions in a browser", "Zellij's built-in web client is simpler."],
       ["You only need to share a terminal in a browser for a while", "ttyd or gotty is simpler: one command shares it."],
+      ["You only want to share a terminal with other people for a while", "sshx is simpler: one command gives you a link (relayed via sshx.io)."],
       ["You only need an SSH-style connection over flaky networks", "mosh fits better: it is built for roaming and packet loss."],
-      ["Your main need is writing code in a full browser editor", "VS Code Remote Tunnels or code-server fit better."],
-      ["You want to take over CLI agents from your phone, see their questions and switch between terminal and chat", "That is the case WebMux is built for."],
+      ["You only use Claude Code and already have a paid claude.ai plan", "Claude Code Remote Control is simpler: one built-in command, continue in the Claude app."],
+      ["You mainly run Claude Code or Codex and want a native phone app with Allow / Deny", "Happy fits better: native app, end-to-end encryption, and the relay can be self-hosted."],
+      ["You don't need the agent on your own machine and just want a diff and a PR from the cloud", "OpenAI Codex cloud fits better."],
+      ["Your main need is writing code in a full browser editor", "VS Code Remote Tunnels or code-server fit better; you can also pair one with WebMux: the editor for code, WebMux for agents."],
+      [
+        "You want several CLI agents on your own server, their questions on your phone, terminal ↔ chat, and diffs and dev-server previews beside the terminal",
+        "That is the case WebMux is built for.",
+      ],
     ];
 
 const c = zh
   ? {
-      title: "对比 SSH + tmux、ttyd、mosh · WebMux",
+      title: "对比 tmux、ttyd、Happy、Claude Code Remote Control · WebMux",
       description:
-        "按可核实的事实维度对比 WebMux 与 SSH + tmux、ttyd / gotty、mosh、VS Code Remote Tunnels、code-server：断线后会话是否继续、手机 TUI 适配、agent 提问提醒、聊天视图与部署方式，并说明各自适用场景、核对日期与官方来源。",
+        "按可核实的事实维度对比 WebMux 与 SSH + tmux、ttyd / gotty、mosh、Zellij、sshx、Happy、Claude Code Remote Control、OpenAI Codex cloud、VS Code Remote Tunnels、code-server：断线续接、手机适配、agent 提醒、聊天视图、端口预览、自托管与许可，并给出各自适用场景、核对日期与官方来源。",
       h1: "WebMux 与常见方案对比",
-      lead: "这张表帮你判断适用场景，不评价好坏。只列能核实的事实维度；第三方信息以其官方文档为准，拿不准的格子写“未核实”。",
+      lead: "这些表帮你判断适用场景，不评价好坏。只列能核实的事实维度；第三方信息以其官方文档为准，拿不准的格子写“未核实”。WebMux 一列按 v0.12.0 核对。",
       h2Table: "完整对比",
+      tableNote: "按方案类型分为三张表，每张表的第一列都是 WebMux。",
       h2Guide: "怎么选",
       h2Rules: "核对方法与来源",
       rules: `第三方工具的格子按下列官方页面核对于 ${CHECKED}。“未核实”表示官方文档没有说明，不代表不支持；“部分”的含义见格内说明。发现错误请到 GitHub Issues 指出。`,
-      caption: "WebMux 与五种常见方案的完整对比",
+      caption: "WebMux 与常见方案的完整对比",
     }
   : {
-      title: "Compare with SSH + tmux, ttyd, mosh · WebMux",
+      title: "WebMux vs tmux, ttyd, Happy and Remote Control",
       description:
-        "A fact-based comparison of WebMux with SSH + tmux, ttyd / gotty, mosh, VS Code Remote Tunnels and code-server: reconnects, mobile, agent alerts, chat view and setup.",
+        "A fact-based comparison of WebMux with SSH + tmux, ttyd, mosh, Zellij, sshx, Happy, Claude Code Remote Control, Codex cloud, VS Code Tunnels and code-server.",
       h1: "WebMux compared with common alternatives",
-      lead: "This table is here to help you pick the right tool, not to rank them. It lists only verifiable facts; third-party cells follow each project's official docs, and anything we could not confirm says “Not verified”.",
+      lead: "These tables are here to help you pick the right tool, not to rank them. They list only verifiable facts; third-party cells follow each project's official docs, and anything we could not confirm says “Not verified”. WebMux cells reflect v0.12.0.",
       h2Table: "Full comparison",
+      tableNote: "Grouped by kind of tool into three tables; WebMux is the first column of each.",
       h2Guide: "Which one to choose",
       h2Rules: "Method and sources",
       rules: `Third-party cells were checked against the official pages below on ${CHECKED}. “Not verified” means the docs do not say, not that the feature is missing; “Partial” is explained in each cell. Spotted a mistake? Tell us on GitHub Issues.`,
-      caption: "Full comparison of WebMux with five common alternatives",
+      caption: "Full comparison of WebMux with common alternatives",
     };
 ---
 
-<Base lang={lang} path="/compare/" title={c.title} description={c.description} og="compare">
+<Base lang={lang} path="/compare/" title={c.title} description={c.description} og="compare" active="compare">
   <div class="container-site py-16 sm:py-24">
     <PageBreadcrumb lang={lang} items={[{ label: zh ? "对比" : "Compare" }]} />
     <h1 class="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">{c.h1}</h1>
     <p class="mt-4 max-w-2xl text-[17px] leading-[1.75] text-muted-foreground">{c.lead}</p>
 
     <section class="mt-12" aria-labelledby="table">
-      <h2 id="table" class="mb-6 text-[26px] font-bold sm:text-[30px]">{c.h2Table}</h2>
-      <div class="overflow-x-auto">
-        <CompareTable lang={lang} dimensions={DIMENSIONS} tools={[WEBMUX, ...TOOLS]} caption={c.caption} />
+      <h2 id="table" class="mb-2 text-[26px] font-bold sm:text-[30px]">{c.h2Table}</h2>
+      <p class="mt-0 mb-8 text-muted-foreground">{c.tableNote}</p>
+      <div class="grid gap-14">
+        {
+          GROUPS.map((g, i) => (
+            <section aria-labelledby={`group-${g.id}`}>
+              <h3 id={`group-${g.id}`} class="m-0 text-xl font-bold">{zh ? g.zh : g.en}</h3>
+              <p class="mt-1 mb-4 text-[15px] text-muted-foreground">{zh ? g.leadZh : g.leadEn}</p>
+              <div class="overflow-x-auto">
+                <CompareTable
+                  lang={lang}
+                  dimensions={DIMENSIONS}
+                  tools={[WEBMUX, ...TOOLS.filter((x) => x.group === g.id)]}
+                  caption={`${c.caption}: ${zh ? g.zh : g.en}`}
+                  omitFirstOnMobile={i > 0}
+                />
+              </div>
+            </section>
+          ))
+        }
       </div>
     </section>
   </div>
@@ -83,6 +118,8 @@ const c = zh
         }
       </dl>
       <p class="mt-8 text-base">
+        <a class="link" href={localize(lang, "/use-cases/")}>{zh ? "看看 WebMux 的使用场景" : "See WebMux use cases"}</a>
+        {" · "}
         <a class="link" href={localize(lang, "/security/")}>{zh ? "部署前请阅读安全与部署建议" : "Read the security and deployment guide before you deploy"}</a>
       </p>
     </div>

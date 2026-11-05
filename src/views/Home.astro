@@ -7,7 +7,12 @@ import SecurityNote from "../components/SecurityNote.astro";
 import CompareSummary from "../components/CompareSummary.astro";
 import FaqList from "../components/FaqList.astro";
 import Base from "../layouts/Base.astro";
+import IconArrowRight from "@tabler/icons-svelte/icons/arrow-right";
+import TablerIcon from "../components/TablerIcon.astro";
 import { AGENTS, agentIcon } from "../data/agents";
+import { useCases } from "../data/use-cases";
+import { recent } from "../data/features";
+import PortForwardIllo from "../components/PortForwardIllo.astro";
 import { homeFaq } from "../data/faq";
 import { localize, UI, type Lang } from "../lib/i18n";
 import { softwareApplication } from "../lib/install";
@@ -62,6 +67,36 @@ const c = zh
         ["写代码的工作台", "分屏、草稿模式、资源管理器与 Diff、多格式预览、Git worktree、终端里显示图片。", "/docs/usage/terminal/"],
         ["轻到可以忘了它", "单二进制、空闲约 13 MB 内存，无需 root、tmux 或数据库；Windows 经 WSL 2 一等支持。", "/docs/overview/"],
       ],
+      stats: [
+        [`${size} MB`, "单个二进制，前端已内嵌"],
+        ["13 MB", "空闲常驻内存"],
+        ["2 MiB", "每会话回放缓冲，重连只补缺口"],
+        ["11", "预置 CLI agent"],
+        ["7", "支持 TUI ↔ 聊天互切"],
+        ["0", "需要的 root、tmux 与数据库"],
+      ],
+      statsLabel: "关键数字",
+      howTitle: "它怎么工作",
+      howSub: "进程留在你的服务器上，设备只是来来去去的窗口。",
+      howDevices: { title: "你的设备", items: ["电脑浏览器", "手机 / 平板（PWA）", "本机终端 webmux attach"] },
+      howServer: { title: "WebMux（你的服务器）", items: ["持有 PTY，断线不断", "回放缓冲与提醒识别", "代码面板与端口转发"] },
+      howProcs: { title: "真实进程", items: ["Claude Code、Codex、omp…", "Shell 与脚本", "pnpm dev 等开发服务器"] },
+      howLinkA: "HTTPS · Tailscale / VPN / 隧道",
+      howLinkB: "原样 PTY 字节",
+      howNote: "关掉标签页、锁屏、换网络都只断开窗口；服务重启才会结束终端会话。默认只监听本机，远程访问请放在可信 VPN 之后。",
+      howDoc: "架构设计",
+      webdevEyebrow: "远程 Web 开发",
+      webdevTitle: "代码在服务器上跑，页面在你的浏览器里看。",
+      webdevBody: "开发服务器开始监听，终端上方就提示端口；一键经 /forward/{端口}/ 打开，HMR 照常工作。不开新端口，也不用配 SSH 端口转发，经 Tailscale 时手机上也能看。",
+      webdevPoints: ["分屏：一边 agent，一边 pnpm dev", "每个功能一个 Git worktree", "在终端旁审 Diff，行号发回 agent", "拖拽上传素材，产物打包 ZIP 下载"],
+      webdevLink: "看完整的远程 Web 开发场景",
+      webdevDoc: "端口转发预览文档",
+      newTitle: "v0.12 带来了什么",
+      newMore: "查看全部新功能",
+      allFeatures: "查看全部功能与最近加入的新功能",
+      casesTitle: "用在哪里",
+      casesSub: "从远程服务器上的 Web 开发，到通勤路上接管 agent。",
+      casesMore: "查看全部使用场景",
       galleryTitle: "界面一览",
       gallerySub: "全部是真实界面截图，来自 WebMux 仓库。",
       gallery: [
@@ -138,6 +173,36 @@ const c = zh
         ["A workbench for code", "Splits, drafts, file explorer and diffs, multi-format preview, Git worktrees, images in the terminal.", "/docs/usage/terminal/"],
         ["Light enough to forget", "One binary, about 13 MB of memory when idle, no root, tmux or database; first-class on Windows via WSL 2.", "/docs/overview/"],
       ],
+      stats: [
+        [`${size} MB`, "one binary, frontend included"],
+        ["13 MB", "memory when idle"],
+        ["2 MiB", "replay buffer per session; reconnects fill only the gap"],
+        ["11", "CLI agents preconfigured"],
+        ["7", "agents with TUI ↔ chat"],
+        ["0", "root, tmux or databases needed"],
+      ],
+      statsLabel: "Key numbers",
+      howTitle: "How it works",
+      howSub: "Processes stay on your server; devices are windows that come and go.",
+      howDevices: { title: "Your devices", items: ["Desktop browser", "Phone / tablet (PWA)", "Local terminal: webmux attach"] },
+      howServer: { title: "WebMux (your server)", items: ["Holds the PTY through disconnects", "Replay buffer and alert detection", "Code panel and port forwarding"] },
+      howProcs: { title: "Real processes", items: ["Claude Code, Codex, omp…", "Shells and scripts", "Dev servers such as pnpm dev"] },
+      howLinkA: "HTTPS · Tailscale / VPN / tunnel",
+      howLinkB: "raw PTY bytes",
+      howNote: "Closing the tab, locking the phone or switching networks only closes a window; a service restart is what ends terminal sessions. It listens on localhost by default; keep remote access behind a trusted VPN.",
+      howDoc: "Architecture (Chinese)",
+      webdevEyebrow: "Remote web development",
+      webdevTitle: "The code runs on the server; the page opens in your browser.",
+      webdevBody: "When a dev server starts listening, a banner offers the port above the terminal; one click opens it at /forward/{port}/ with HMR working. No new port and no SSH tunnel, and over Tailscale it opens on your phone too.",
+      webdevPoints: ["Splits: the agent on one side, pnpm dev on the other", "One Git worktree per feature", "Review diffs beside the terminal, send line numbers back", "Drag in assets, download output as a ZIP"],
+      webdevLink: "See the full remote web development use case",
+      webdevDoc: "Port forwarding docs (Chinese)",
+      newTitle: "What v0.12 brings",
+      newMore: "See all new features",
+      allFeatures: "See every feature and what was added recently",
+      casesTitle: "Where it fits",
+      casesSub: "From web development on a remote server to taking over an agent on your commute.",
+      casesMore: "See all use cases",
       galleryTitle: "A look inside",
       gallerySub: "Every image is a real screenshot from the WebMux repository.",
       gallery: [
@@ -183,6 +248,9 @@ const storyShots = [
   { name: "desktop-diff.png" },
 ];
 const faq = homeFaq(lang);
+const cases = useCases(lang).slice(0, 6);
+const news = recent(lang).slice(0, 4);
+const howCols = [c.howDevices, c.howServer, c.howProcs] as const;
 ---
 
 <Base
@@ -213,6 +281,16 @@ const faq = homeFaq(lang);
     <div class="mt-12">
       <Shot name="hero.jpg" eager sizes="(max-width: 1088px) 100vw, 1040px" widths={[640, 828, 1040, 1600, 2080]} />
     </div>
+    <dl aria-label={c.statsLabel} class="m-0 mt-12 grid grid-cols-2 gap-x-6 gap-y-6 border-t border-band-line pt-8 sm:grid-cols-3 lg:grid-cols-6">
+      {
+        c.stats.map(([value, label]) => (
+          <div class="flex flex-col-reverse gap-1">
+            <dt class="text-[13px] leading-snug text-muted-foreground">{label}</dt>
+            <dd class="m-0 font-mono text-[28px] leading-none font-semibold tracking-tight">{value}</dd>
+          </div>
+        ))
+      }
+    </dl>
   </section>
 
   <!-- 2. Three-step story -->
@@ -247,8 +325,44 @@ const faq = homeFaq(lang);
     </div>
   </section>
 
+  <!-- 2b. How it works -->
+  <section class="container-site py-16 sm:py-24" aria-labelledby="how-title">
+    <h2 id="how-title" class="m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{c.howTitle}</h2>
+    <p class="mt-3 mb-10 text-muted-foreground">{c.howSub}</p>
+    <ol class="m-0 grid list-none items-stretch gap-3 p-0 md:grid-cols-[1fr_auto_1.15fr_auto_1fr]">
+      {
+        howCols.map(({ title, items }, i) => (
+          <>
+            {i > 0 && (
+              <li aria-hidden="true" class="flex items-center justify-center gap-2 py-1 text-center font-mono text-[12px] text-muted-foreground md:flex-col md:px-1">
+                <span class="md:hidden">↓</span>
+                <span class="max-w-[9rem]">{i === 1 ? c.howLinkA : c.howLinkB}</span>
+                <span class="hidden text-lg md:inline">⇄</span>
+              </li>
+            )}
+            <li class:list={["rounded-lg border p-5", i === 1 ? "border-primary bg-band" : "bg-page"]}>
+              <h3 class="m-0 text-[17px] font-semibold">{title}</h3>
+              <ul class="m-0 mt-3 grid list-none gap-2 p-0 text-[15px] text-muted-foreground">
+                {items.map((x) => (
+                  <li class="flex gap-2">
+                    <span aria-hidden="true" class:list={["mt-[9px] size-1.5 shrink-0 rounded-full", i === 1 ? "bg-primary" : "bg-muted-foreground/60"]} />
+                    {x}
+                  </li>
+                ))}
+              </ul>
+            </li>
+          </>
+        ))
+      }
+    </ol>
+    <p class="mt-6 mb-0 max-w-3xl text-[15px] leading-[1.7] text-muted-foreground">
+      {c.howNote} <a class="link" href="/docs/architecture/">{c.howDoc}</a>
+    </p>
+  </section>
+
   <!-- 3. Six reasons -->
-  <section class="container-site py-16 sm:py-24" aria-labelledby="why-title">
+  <section class="border-y border-band-line bg-band py-16 sm:py-24" aria-labelledby="why-title">
+    <div class="container-site">
     <div class="grid gap-8 md:grid-cols-12 md:gap-10">
       <div class="md:col-span-4">
         <h2 id="why-title" class="m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{c.whyTitle}</h2>
@@ -267,6 +381,78 @@ const faq = homeFaq(lang);
         }
       </dl>
     </div>
+    <p class="mt-8 mb-0 text-[15px]">
+      <a class="link inline-flex items-center gap-1" href={l("/features/")}>{c.allFeatures}<TablerIcon icon={IconArrowRight} class="size-4" /></a>
+    </p>
+    </div>
+  </section>
+
+  <!-- 3a. Remote web development spotlight -->
+  <section class="container-site py-16 sm:py-24" aria-labelledby="webdev-title">
+    <div class="grid items-center gap-10 md:grid-cols-12">
+      <div class="min-w-0 md:col-span-6">
+        <p class="m-0 mb-3 font-mono text-[13px] text-primary">{c.webdevEyebrow}</p>
+        <h2 id="webdev-title" class="m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{c.webdevTitle}</h2>
+        <p class="mt-4 mb-0 text-[17px] leading-[1.75] text-muted-foreground">{c.webdevBody}</p>
+        <ul class="mt-5 grid list-disc gap-1.5 pl-5 text-[15px] leading-[1.7]">
+          {c.webdevPoints.map((x) => <li>{x}</li>)}
+        </ul>
+        <p class="mt-5 mb-0 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+          <a class="link inline-flex items-center gap-1" href={l("/use-cases/#remote-web-dev")}>{c.webdevLink}<TablerIcon icon={IconArrowRight} class="size-4" /></a>
+          <a class="link" href="/docs/usage/port-forwarding/">{c.webdevDoc}</a>
+        </p>
+      </div>
+      <div class="min-w-0 md:col-span-6">
+        <PortForwardIllo lang={lang} />
+      </div>
+    </div>
+  </section>
+
+  <!-- 3b. Use cases -->
+  <section class="border-y border-band-line bg-band py-16 sm:py-24" aria-labelledby="cases-title">
+    <div class="container-site">
+    <h2 id="cases-title" class="m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{c.casesTitle}</h2>
+    <p class="mt-3 mb-8 text-muted-foreground">{c.casesSub}</p>
+    <ul class="m-0 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        cases.map((u, i) => (
+          <li class:list={[i === 0 && "sm:col-span-2 lg:col-span-1"]}>
+            <a
+              href={l(`/use-cases/#${u.id}`)}
+              class="flex h-full flex-col gap-2 rounded-lg border bg-page p-5 text-foreground no-underline hover:border-primary"
+            >
+              <span class="font-mono text-[12px] text-primary">{u.who}</span>
+              <span class="text-[17px] leading-[1.45] font-semibold">{u.title}</span>
+              <span class="text-[14px] leading-[1.65] text-muted-foreground">{u.uses.slice(0, 4).join(" · ")}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="mt-6 mb-0 text-[15px]">
+      <a class="link inline-flex items-center gap-1" href={l("/use-cases/")}>{c.casesMore}<TablerIcon icon={IconArrowRight} class="size-4" /></a>
+    </p>
+    </div>
+  </section>
+
+  <!-- 3c. What's new -->
+  <section class="container-site py-16 sm:py-24" aria-labelledby="new-title">
+    <h2 id="new-title" class="m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{c.newTitle}</h2>
+    <ul class="m-0 mt-8 grid list-none gap-x-10 gap-y-7 p-0 sm:grid-cols-2">
+      {
+        news.map((f) => (
+          <li>
+            <h3 class="m-0 text-[17px] font-semibold">
+              {f.href ? <a href={f.href} class="text-foreground no-underline hover:underline underline-offset-[3px]">{f.title}</a> : f.title}
+            </h3>
+            <p class="m-0 mt-1 text-[15px] leading-[1.7] text-muted-foreground">{f.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="mt-8 mb-0 text-[15px]">
+      <a class="link inline-flex items-center gap-1" href={l("/features/#new")}>{c.newMore}<TablerIcon icon={IconArrowRight} class="size-4" /></a>
+    </p>
   </section>
 
   <!-- 4. Gallery -->

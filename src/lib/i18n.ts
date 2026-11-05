@@ -13,7 +13,15 @@ export const UI = {
   "zh-cn": {
     skip: "跳到主要内容",
     navLabel: "主导航",
-    nav: { story: "它怎么工作", install: "安装", docs: "文档", faq: "常见问题" },
+    nav: {
+      story: "它怎么工作",
+      features: "功能",
+      useCases: "使用场景",
+      compare: "对比",
+      install: "安装",
+      docs: "文档",
+      faq: "常见问题",
+    },
     github: "GitHub",
     starsSuffix: " 个 star",
     installCta: "安装 WebMux",
@@ -29,6 +37,8 @@ export const UI = {
     footerNav: "站点地图",
     footerMore: {
       download: "下载与安装",
+      features: "功能",
+      useCases: "使用场景",
       compare: "对比",
       faq: "常见问题",
       windows: "Windows（WSL）",
@@ -48,7 +58,15 @@ export const UI = {
   en: {
     skip: "Skip to main content",
     navLabel: "Main",
-    nav: { story: "How it works", install: "Install", docs: "Docs", faq: "FAQ" },
+    nav: {
+      story: "How it works",
+      features: "Features",
+      useCases: "Use cases",
+      compare: "Compare",
+      install: "Install",
+      docs: "Docs",
+      faq: "FAQ",
+    },
     github: "GitHub",
     starsSuffix: " stars",
     installCta: "Install WebMux",
@@ -64,6 +82,8 @@ export const UI = {
     footerNav: "Site map",
     footerMore: {
       download: "Download",
+      features: "Features",
+      useCases: "Use cases",
       compare: "Compare",
       faq: "FAQ",
       windows: "Windows (WSL)",

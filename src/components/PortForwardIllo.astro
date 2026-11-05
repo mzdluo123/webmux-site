@@ -1,0 +1,45 @@
+---
+// Port forwarding illustration (not a screenshot): the detected-port banner above a dev server,
+// wording from docs/usage/port-forwarding.md. Swap for a real screenshot once docs/images ships one.
+import type { Lang } from "../lib/i18n";
+
+interface Props {
+  lang: Lang;
+  class?: string;
+}
+const { lang, class: className } = Astro.props;
+const zh = lang === "zh-cn";
+const c = zh
+  ? {
+      label: "示意图：开发服务器监听端口后，终端上方出现端口转发提示",
+      caption: "示意图（非截图），文案取自端口转发文档。",
+      banner: "检测到端口 5173（node）正在监听",
+      actions: ["转发并打开", "转发", "忽略"],
+    }
+  : {
+      label: "Illustration: after the dev server starts listening, a port forwarding banner appears above the terminal",
+      caption: "Illustration, not a screenshot; wording from the port forwarding docs.",
+      banner: "Port 5173 (node) is listening",
+      actions: ["Forward and open", "Forward", "Ignore"],
+    };
+---
+
+<figure class:list={["m-0", className]}>
+  <div role="img" aria-label={c.label} class="overflow-hidden rounded-lg border bg-page font-mono text-[13px] leading-[1.6] shadow-sm">
+    <div class="flex items-center gap-1.5 border-b px-3 py-2" aria-hidden="true">
+      <span class="size-2.5 rounded-full bg-muted-foreground/40"></span>
+      <span class="size-2.5 rounded-full bg-muted-foreground/40"></span>
+      <span class="size-2.5 rounded-full bg-muted-foreground/40"></span>
+      <span class="ml-2 text-xs text-muted-foreground">pnpm dev · ~/shop.worktrees/checkout</span>
+    </div>
+    <div class="flex flex-wrap items-center gap-2 border-b bg-band px-3 py-2 font-sans text-[13px]" aria-hidden="true">
+      <span class="mr-auto font-medium">{c.banner}</span>
+      {c.actions.map((a, i) => <span class:list={["rounded-md border px-2 py-0.5", i === 0 && "border-primary bg-primary text-primary-foreground"]}>{a}</span>)}
+    </div>
+    <pre class="m-0 px-3 py-3 break-all whitespace-pre-wrap" aria-hidden="true"><span class="text-muted-foreground">$</span> pnpm vite --base /forward/5173/
+<span class="text-primary">VITE</span> ready in 412 ms
+➜  Local:   http://localhost:5173/forward/5173/
+<span class="text-muted-foreground">→ https://your-host/forward/5173/</span></pre>
+  </div>
+  <figcaption class="mt-2 text-sm text-muted-foreground">{c.caption}</figcaption>
+</figure>
