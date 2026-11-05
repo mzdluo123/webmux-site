@@ -13,6 +13,7 @@ import IconWorldWww from "@tabler/icons-svelte/icons/world-www";
 import { Badge } from "$lib/components/ui/badge/index.js";
 import { Button } from "$lib/components/ui/button/index.js";
 import PageBreadcrumb from "../components/PageBreadcrumb.astro";
+import PortForwardIllo from "../components/PortForwardIllo.astro";
 import Shot from "../components/Shot.astro";
 import TablerIcon from "../components/TablerIcon.astro";
 import Base from "../layouts/Base.astro";
@@ -49,10 +50,6 @@ const c = zh
       lead: "会话放在服务端，浏览器、手机和本机终端只是附着上去。下面是它最常见的用法，每一步都对应仓库文档中已有的功能。",
       jump: "跳到场景",
       featuredEyebrow: "重点场景",
-      illoLabel: "示意图：开发服务器监听端口后，终端上方出现端口转发提示",
-      illoCaption: "示意图（非截图），文案取自端口转发文档。",
-      bannerText: "检测到端口 5173（node）正在监听",
-      bannerActions: ["转发并打开", "转发", "忽略"],
       viteTitle: "使用绝对路径的框架（如 Vite、Next.js）",
       viteBody: "在转发设置中改为“保留前缀”，再把 base 设为转发前缀；只用相对路径的服务无需改动。",
       uses: "用到的功能",
@@ -71,10 +68,6 @@ const c = zh
       lead: "Sessions live on the server; browsers, phones and local terminals attach to them. These are the most common ways to use it, and every step maps to a feature documented in the repository.",
       jump: "Jump to a use case",
       featuredEyebrow: "Featured",
-      illoLabel: "Illustration: after the dev server starts listening, a port forwarding banner appears above the terminal",
-      illoCaption: "Illustration, not a screenshot; wording from the port forwarding docs.",
-      bannerText: "Port 5173 (node) is listening",
-      bannerActions: ["Forward and open", "Forward", "Ignore"],
       viteTitle: "Frameworks with absolute paths (Vite, Next.js)",
       viteBody: "Switch the forward to “keep prefix” and set the base to the forward prefix; servers that only use relative paths need no change.",
       uses: "Features used",
@@ -132,25 +125,7 @@ const c = zh
         </ol>
       </div>
       <div class="flex min-w-0 flex-col gap-6 md:col-span-6">
-        <figure class="m-0">
-          <div role="img" aria-label={c.illoLabel} class="overflow-hidden rounded-lg border bg-page font-mono text-[13px] leading-[1.6] shadow-sm">
-            <div class="flex items-center gap-1.5 border-b px-3 py-2" aria-hidden="true">
-              <span class="size-2.5 rounded-full bg-muted-foreground/40"></span>
-              <span class="size-2.5 rounded-full bg-muted-foreground/40"></span>
-              <span class="size-2.5 rounded-full bg-muted-foreground/40"></span>
-              <span class="ml-2 text-xs text-muted-foreground">pnpm dev · ~/shop.worktrees/checkout</span>
-            </div>
-            <div class="flex flex-wrap items-center gap-2 border-b bg-band px-3 py-2 font-sans text-[13px]" aria-hidden="true">
-              <span class="mr-auto font-medium">{c.bannerText}</span>
-              {c.bannerActions.map((a, i) => <span class:list={["rounded-md border px-2 py-0.5", i === 0 && "border-primary bg-primary text-primary-foreground"]}>{a}</span>)}
-            </div>
-            <pre class="m-0 px-3 py-3 break-all whitespace-pre-wrap" aria-hidden="true"><span class="text-muted-foreground">$</span> pnpm vite --base /forward/5173/
-<span class="text-primary">VITE</span> ready in 412 ms
-➜  Local:   http://localhost:5173/forward/5173/
-<span class="text-muted-foreground">→ https://your-host/forward/5173/</span></pre>
-          </div>
-          <figcaption class="mt-2 text-sm text-muted-foreground">{c.illoCaption}</figcaption>
-        </figure>
+        <PortForwardIllo lang={lang} />
         <div class="rounded-lg border bg-page p-4">
           <h3 class="m-0 text-[15px] font-semibold">{c.viteTitle}</h3>
           <p class="mt-1 mb-3 text-[15px] leading-[1.7] text-muted-foreground">{c.viteBody}</p>
