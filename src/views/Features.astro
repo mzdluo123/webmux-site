@@ -25,8 +25,9 @@ const c = zh
       lead: "从持久终端到代码审阅，WebMux 把在远端跑 agent 需要的东西放进一个单二进制。",
       h2New: "最近加入",
       newLead: "上次网站更新以来的主要变化。",
-      dev: "开发版",
-      devNote: "“开发版”功能已在 main 分支与开发版通道提供，将随下一个正式版发布。",
+      since: (v: string) => `${v} 新增`,
+      devNote: "完整变更见",
+      changelog: "更新日志",
       jump: "功能分组",
       final: "看看它在真实场景里怎么用",
       useCases: "使用场景",
@@ -40,8 +41,9 @@ const c = zh
       lead: "From a persistent terminal to code review, WebMux puts what you need to run agents remotely into one binary.",
       h2New: "Recently added",
       newLead: "The main changes since the site was last updated.",
-      dev: "dev builds",
-      devNote: "“dev builds” features are on main and the dev channel and ship in the next stable release.",
+      since: (v: string) => `New in ${v}`,
+      devNote: "Full list of changes:",
+      changelog: "changelog",
       jump: "Feature groups",
       final: "See how it works in real situations",
       useCases: "Use cases",
@@ -83,14 +85,14 @@ const shots: Record<string, { name: string; dark?: string }> = {
                 ) : (
                   f.title
                 )}
-                {f.dev && <Badge variant="outline" class="text-[11px]">{c.dev}</Badge>}
+                {f.since && <Badge variant="outline" class="text-[11px]">{c.since(f.since)}</Badge>}
               </h3>
               <p class="m-0 text-[15px] leading-[1.7] text-muted-foreground">{f.body}</p>
             </li>
           ))
         }
       </ul>
-      <p class="mt-6 mb-0 text-sm text-muted-foreground">{c.devNote} <a class="link" href={l("/download/")}>{c.install}</a></p>
+      <p class="mt-6 mb-0 text-sm text-muted-foreground">{c.devNote} <a class="link" href={l("/changelog/")}>{c.changelog}</a></p>
     </div>
   </section>
 
@@ -115,7 +117,7 @@ const shots: Record<string, { name: string; dark?: string }> = {
                   ) : (
                     f.title
                   )}
-                  {f.dev && <Badge variant="outline" class="text-[11px]">{c.dev}</Badge>}
+                  {f.since && <Badge variant="outline" class="text-[11px]">{c.since(f.since)}</Badge>}
                 </dt>
                 <dd class="m-0 mt-1 text-[15px] leading-[1.7] text-muted-foreground">{f.body}</dd>
               </div>

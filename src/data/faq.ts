@@ -1,5 +1,5 @@
 // FAQ copy. Sources (mzdluo123/webmux origin/main, checked 2026-11-03): docs/faq.md 常见问题,
-// docs/usage/port-forwarding.md (main, 2026-11-05), README.md, SECURITY.md, docs/overview.md, docs/deployment/{remote-access,windows-wsl}.md,
+// docs/usage/port-forwarding.md (v0.12.0, 2026-11-05), README.md, SECURITY.md, docs/overview.md, docs/deployment/{remote-access,windows-wsl}.md,
 // docs/persistence.md, LICENSE (MIT). "No telemetry" checked by searching the Go/web sources.
 import type { Lang } from "../lib/i18n";
 import { localize } from "../lib/i18n";
@@ -24,7 +24,7 @@ function items(lang: Lang): Record<string, FaqItem> {
         {
           id: "dev-server-preview",
           q: "在远程服务器上开发 Web 应用，怎么预览开发服务器？",
-          a: `开发版起，WebMux 提供端口转发预览：会话里的开发服务器开始监听后，终端上方会提示端口，一键经 <code>/forward/{端口}/</code> 在浏览器打开，HMR WebSocket 照常工作，不需要新开端口或配置 SSH 端口转发。Vite、Next.js 等使用绝对路径的框架需改为“保留前缀”并设置 base（如 <code>pnpm vite --base /forward/5173/</code>）。只能转发服务器本机的端口。该功能将随下一个正式版发布，详见 <a href="${PORT_FORWARD_DOC}">端口转发预览</a> 与 <a href="${localize(lang, "/use-cases/")}#remote-web-dev">使用场景</a>。`,
+          a: `v0.12 起，WebMux 提供端口转发预览：会话里的开发服务器开始监听后，终端上方会提示端口，一键经 <code>/forward/{端口}/</code> 在浏览器打开，HMR WebSocket 照常工作，不需要新开端口或配置 SSH 端口转发。Vite、Next.js 等使用绝对路径的框架需改为“保留前缀”并设置 base（如 <code>pnpm vite --base /forward/5173/</code>）。只能转发服务器本机的端口。详见 <a href="${PORT_FORWARD_DOC}">端口转发预览</a> 与 <a href="${localize(lang, "/use-cases/")}#remote-web-dev">使用场景</a>。`,
         },
         {
           id: "edit-code",
@@ -106,7 +106,7 @@ function items(lang: Lang): Record<string, FaqItem> {
         {
           id: "dev-server-preview",
           q: "How do I preview a dev server when building web apps on a remote server?",
-          a: `Dev builds add port forwarding: when a dev server in a session starts listening, a banner offers the port and one click opens it at <code>/forward/{port}/</code>, with HMR WebSockets working and no new port or SSH tunnel to set up. Frameworks with absolute paths such as Vite or Next.js need “keep prefix” and a base (for example <code>pnpm vite --base /forward/5173/</code>). Only ports on the server itself can be forwarded. It ships in the next stable release; see <a href="${PORT_FORWARD_DOC}">port forwarding</a>${cn} and the <a href="${localize(lang, "/use-cases/")}#remote-web-dev">use case</a>.`,
+          a: `Since v0.12, WebMux has port forwarding: when a dev server in a session starts listening, a banner offers the port and one click opens it at <code>/forward/{port}/</code>, with HMR WebSockets working and no new port or SSH tunnel to set up. Frameworks with absolute paths such as Vite or Next.js need “keep prefix” and a base (for example <code>pnpm vite --base /forward/5173/</code>). Only ports on the server itself can be forwarded. See <a href="${PORT_FORWARD_DOC}">port forwarding</a>${cn} and the <a href="${localize(lang, "/use-cases/")}#remote-web-dev">use case</a>.`,
         },
         {
           id: "edit-code",

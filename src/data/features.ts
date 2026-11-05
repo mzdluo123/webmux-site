@@ -1,20 +1,18 @@
 // Feature inventory for /features/, grouped as in strategy.md#价值主张与消息层级 (layer 3).
 // Facts: mzdluo123/webmux docs/overview.md, docs/usage.md, docs/usage/*.md, docs/hybrid-sessions.md,
-// docs/deployment/*.md, checked 2026-11-05 at main. `dev: true` = on main / the dev channel, not yet
-// in a stable release; those docs are not mirrored, so `href` points at GitHub.
+// docs/deployment/*.md, checked 2026-11-05 at v0.12.0. `since` marks features new in that release.
 import type { Lang } from "../lib/i18n";
 import { serverSizeMB } from "../lib/releases";
 
 const SIZE = serverSizeMB() ?? 20;
 import { PORT_FORWARD_DOC } from "./use-cases";
 
-const GH = "https://github.com/mzdluo123/webmux/blob/main/docs";
-
 export interface Feature {
   title: string;
   body: string;
   href?: string;
-  dev?: boolean;
+  /** Release that introduced the feature, shown as a badge. */
+  since?: string;
 }
 
 export interface FeatureGroup {
@@ -30,31 +28,31 @@ export function recent(lang: Lang): Feature[] {
           title: "端口转发预览",
           body: "会话里的开发服务器开始监听后，终端上方 3 秒内提示端口，一键经 /forward/{端口}/ 在浏览器预览；HMR、SSE 与 WebSocket 直通，不新开端口。",
           href: PORT_FORWARD_DOC,
-          dev: true,
+          since: "v0.12",
         },
         {
           title: "聊天模式、工作台模式与快速开始",
           body: "侧栏可在“按最近活动列出全部聊天”与“仓库 → worktree → 会话”树之间切换；快速开始选仓库、分支与 agent，自动新建 worktree 并从聊天或终端开工。",
-          href: `${GH}/usage.md`,
-          dev: true,
+          href: "/docs/usage/#侧栏与两种模式",
+          since: "v0.12",
         },
         {
           title: "更醒目的提醒",
           body: "需要回答、等待授权与出错改为红色标记；页面右上角弹出提示，不需要通知权限或 HTTPS。",
-          href: `${GH}/usage.md`,
-          dev: true,
+          href: "/docs/usage/attention/",
+          since: "v0.12",
         },
         {
           title: "仓库初始化指令",
           body: "为每个仓库保存一段开场指令模板，支持 {{快捷指令}}、{{user}} 与 {{dir}} 占位符，新会话可选择自动发送。",
-          href: `${GH}/usage.md`,
-          dev: true,
+          href: "/docs/usage/#3-用户指令与初始化指令可选",
+          since: "v0.12",
         },
         {
           title: "聊天体验改进",
           body: "附件与消息显示图片缩略图；代码位置链接直接在代码浏览器打开；快捷指令按钮移到发送键旁；聊天端 agent 不再空闲休眠。",
-          href: `${GH}/hybrid-sessions.md`,
-          dev: true,
+          href: "/docs/hybrid-sessions/#聊天视图",
+          since: "v0.12",
         },
         {
           title: "新建会话重新设计",
@@ -77,31 +75,31 @@ export function recent(lang: Lang): Feature[] {
           title: "Port forwarding preview",
           body: "When a dev server in a session starts listening, a banner offers the port within 3 seconds; one click previews it at /forward/{port}/. HMR, SSE and WebSockets pass through, and no new port is opened.",
           href: PORT_FORWARD_DOC,
-          dev: true,
+          since: "v0.12",
         },
         {
           title: "Chat mode, workbench mode and Quick Start",
           body: "The sidebar switches between all chats by recent activity and a repository → worktree → session tree. Quick Start picks a repository, branch and agent, creates a worktree and starts in chat or terminal.",
-          href: `${GH}/usage.md`,
-          dev: true,
+          href: "/docs/usage/#侧栏与两种模式",
+          since: "v0.12",
         },
         {
           title: "Louder alerts",
           body: "Needs-answer, awaiting-permission and error states turn red, and a toast appears at the top right with no notification permission or HTTPS needed.",
-          href: `${GH}/usage.md`,
-          dev: true,
+          href: "/docs/usage/attention/",
+          since: "v0.12",
         },
         {
           title: "Repository init instructions",
           body: "Save an opening instruction per repository with {{quick command}}, {{user}} and {{dir}} placeholders, and send it automatically when a session starts.",
-          href: `${GH}/usage.md`,
-          dev: true,
+          href: "/docs/usage/#3-用户指令与初始化指令可选",
+          since: "v0.12",
         },
         {
           title: "A better chat view",
           body: "Image thumbnails for attachments and messages, code-location links that open the code browser, quick commands beside Send, and no idle sleep for chat-side agents.",
-          href: `${GH}/hybrid-sessions.md`,
-          dev: true,
+          href: "/docs/hybrid-sessions/#聊天视图",
+          since: "v0.12",
         },
         {
           title: "New session, redesigned",
@@ -245,7 +243,7 @@ export function groups(lang: Lang): FeatureGroup[] {
               title: "端口转发预览",
               body: "把会话里的开发服务器经 /forward/{端口}/ 转发到浏览器，自动检测监听端口。",
               href: PORT_FORWARD_DOC,
-              dev: true,
+              since: "v0.12",
             },
           ],
         },
@@ -433,7 +431,7 @@ export function groups(lang: Lang): FeatureGroup[] {
               title: "Port forwarding preview",
               body: "Forward dev servers in your sessions to the browser at /forward/{port}/, with listening ports detected automatically.",
               href: PORT_FORWARD_DOC,
-              dev: true,
+              since: "v0.12",
             },
           ],
         },

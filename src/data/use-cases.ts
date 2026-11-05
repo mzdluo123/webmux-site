@@ -1,15 +1,12 @@
 // Use-case copy for /use-cases/ and the home-page teaser. Facts come from mzdluo123/webmux
 // (checked 2026-11-05 at main): docs/overview.md, docs/usage.md, docs/usage/{terminal,worktrees,
 // mobile,attention,port-forwarding}.md, docs/hybrid-sessions.md, docs/deployment/*.md.
-// Steps with `dev: true` describe features on main and the dev channel that have not shipped in a
-// stable release yet; their docs are not in the mirror, so they link to GitHub.
 import type { Lang } from "../lib/i18n";
 import { serverSizeMB } from "../lib/releases";
 
 const SIZE = serverSizeMB() ?? 20;
 
-const GH_DOCS = "https://github.com/mzdluo123/webmux/blob/main/docs";
-export const PORT_FORWARD_DOC = `${GH_DOCS}/usage/port-forwarding.md`;
+export const PORT_FORWARD_DOC = "/docs/usage/port-forwarding/";
 
 export type UseCaseIcon =
   | "world-www"
@@ -24,8 +21,6 @@ export type UseCaseIcon =
 
 export interface Step {
   text: string;
-  /** Feature only on main / the dev channel so far. */
-  dev?: boolean;
 }
 
 export interface UseCase {
@@ -64,14 +59,12 @@ export function useCases(lang: Lang): UseCase[] {
             },
             {
               text: "开发服务器开始监听后，终端上方 3 秒内提示“检测到端口 5173（node）正在监听”，点“转发并打开”即可经 /forward/5173/ 预览，HMR WebSocket 照常工作。",
-              dev: true,
             },
             {
               text: "在终端旁的代码面板里审 Git Diff、预览 Markdown 与图片，选中几行把 路径:行号 发回 agent 让它修改。",
             },
             {
               text: "转发地址与 WebMux 同源，经 Tailscale 或 Cloudflare Tunnel 时手机上也能打开，顺手检查移动端布局。",
-              dev: true,
             },
             { text: "需要素材时直接拖进资源管理器上传；构建产物可以整目录打包成 ZIP 下载。" },
           ],
@@ -84,7 +77,7 @@ export function useCases(lang: Lang): UseCase[] {
             "Tailscale",
           ],
           links: [
-            { href: PORT_FORWARD_DOC, label: "端口转发预览（GitHub）" },
+            { href: PORT_FORWARD_DOC, label: "端口转发预览" },
             { href: "/docs/usage/terminal/#终端分屏", label: "终端分屏" },
             { href: "/docs/usage/#代码工作区", label: "代码工作区" },
             { href: "/docs/usage/worktrees/", label: "仓库与 worktree" },
@@ -99,7 +92,7 @@ export function useCases(lang: Lang): UseCase[] {
           pain: "长任务跑到一半，agent 要你确认一次权限或回答一个问题；没人回应，它就在那里干等几个小时。",
           steps: [
             {
-              text: "安装为 PWA 并开启 Web Push：agent 提问、请求授权、出错或完成时推送到锁屏，总览与标签页也会标出。",
+              text: "安装为 PWA 并开启 Web Push：agent 提问、请求授权、出错或完成时推送到锁屏；页面右上角也会弹出提示，不需要通知权限。",
             },
             {
               text: "点开通知直达会话：原生 TUI 配合软键栏（Esc、Ctrl、方向键、/ @ #）回答，或切到聊天视图打字回复。",
@@ -126,10 +119,9 @@ export function useCases(lang: Lang): UseCase[] {
           steps: [
             {
               text: "快速开始：选仓库和基准分支、选 agent、写下第一句任务，WebMux 自动新建 worktree 并在聊天里开工。",
-              dev: true,
             },
             {
-              text: "总览按仓库与 worktree 分组列出全部会话，卡片实时显示状态与屏幕预览，“可能在等你”的会话单独标出。",
+              text: "工作台模式按“仓库 → worktree → 会话”列出全部会话，卡片实时显示状态与屏幕预览；需要回答、等待授权或出错的会话以红色标出。",
             },
             {
               text: "不同任务互不干扰：每个 worktree 有独立分支与目录，删除前会检查未提交改动与活跃会话。",
@@ -236,7 +228,7 @@ export function useCases(lang: Lang): UseCase[] {
             {
               text: "产物在代码面板里预览：带目录的 Markdown、有表头的 CSV / TSV、可折叠的 JSON、可跳页缩放的 PDF。",
             },
-            { text: "把常用提示词存成快捷指令，从终端菜单或软键栏一键发送。" },
+            { text: "把常用提示词存成快捷指令，从终端菜单、软键栏或聊天发送键旁一键插入。" },
           ],
           uses: ["会话临时文件夹", "多格式预览", "快捷指令", "文件上传"],
           links: [
@@ -284,14 +276,12 @@ export function useCases(lang: Lang): UseCase[] {
             },
             {
               text: "Once the dev server listens, a banner appears within 3 seconds: “Port 5173 (node) is listening”. “Forward and open” previews it at /forward/5173/, with HMR WebSockets working.",
-              dev: true,
             },
             {
               text: "Review the Git diff and preview Markdown and images in the code panel beside the terminal; select lines and send path:line back to the agent.",
             },
             {
               text: "The forward shares the WebMux address, so over Tailscale or Cloudflare Tunnel it opens on your phone too: check the mobile layout while you are at it.",
-              dev: true,
             },
             {
               text: "Drag assets into the file explorer to upload them; download build output as a ZIP of the whole folder.",
@@ -306,7 +296,7 @@ export function useCases(lang: Lang): UseCase[] {
             "Tailscale",
           ],
           links: [
-            { href: PORT_FORWARD_DOC, label: "Port forwarding (GitHub)" },
+            { href: PORT_FORWARD_DOC, label: `Port forwarding${cn}` },
             { href: "/docs/usage/terminal/#终端分屏", label: "Terminal splits" },
             { href: "/docs/usage/#代码工作区", label: "Code workspace" },
             { href: "/docs/usage/worktrees/", label: "Repositories and worktrees" },
@@ -321,7 +311,7 @@ export function useCases(lang: Lang): UseCase[] {
           pain: "Halfway through a long task the agent needs one permission or one answer. With nobody there, it waits for hours.",
           steps: [
             {
-              text: "Install the PWA and turn on Web Push: questions, permission requests, errors and completions reach the lock screen, and the overview and browser tab flag it too.",
+              text: "Install the PWA and turn on Web Push: questions, permission requests, errors and completions reach the lock screen, and an in-page toast appears at the top right with no permission needed.",
             },
             {
               text: "Tap through to the session: answer in the native TUI with the soft-key bar (Esc, Ctrl, arrows, / @ #) or switch to the chat view and type.",
@@ -350,10 +340,9 @@ export function useCases(lang: Lang): UseCase[] {
           steps: [
             {
               text: "Quick Start: pick a repository and base branch, an agent and the first task; WebMux creates a worktree and starts the chat.",
-              dev: true,
             },
             {
-              text: "The overview groups every session by repository and worktree; cards show live status and screen previews, and sessions that may be waiting for you stand out.",
+              text: "Workbench mode lists every session as repository → worktree → session; cards show live status and screen previews, and sessions that need an answer, a permission or hit an error turn red.",
             },
             {
               text: "Tasks stay apart: each worktree has its own branch and folder, and removal checks for uncommitted changes and live sessions first.",
@@ -482,7 +471,7 @@ export function useCases(lang: Lang): UseCase[] {
               text: "Preview output in the code panel: Markdown with a table of contents, CSV / TSV with sticky headers, collapsible JSON, PDFs with page jump and zoom.",
             },
             {
-              text: "Save prompts you reuse as quick commands and send them from the terminal menu or the soft-key bar.",
+              text: "Save prompts you reuse as quick commands and insert them from the terminal menu, the soft-key bar or beside the chat Send button.",
             },
           ],
           uses: ["Session temp folder", "File previews", "Quick commands", "Uploads"],

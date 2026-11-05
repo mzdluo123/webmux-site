@@ -16,7 +16,7 @@ import PageBreadcrumb from "../components/PageBreadcrumb.astro";
 import Shot from "../components/Shot.astro";
 import TablerIcon from "../components/TablerIcon.astro";
 import Base from "../layouts/Base.astro";
-import { notFor, PORT_FORWARD_DOC, useCases, type UseCaseIcon } from "../data/use-cases";
+import { notFor, useCases, type UseCaseIcon } from "../data/use-cases";
 import { localize, type Lang } from "../lib/i18n";
 
 interface Props {
@@ -49,9 +49,6 @@ const c = zh
       lead: "会话放在服务端，浏览器、手机和本机终端只是附着上去。下面是它最常见的用法，每一步都对应仓库文档中已有的功能。",
       jump: "跳到场景",
       featuredEyebrow: "重点场景",
-      dev: "开发版",
-      devNote: "标“开发版”的步骤已在 main 分支与开发版通道提供，将随下一个正式版发布；切换通道见",
-      devLink: "下载与安装",
       illoLabel: "示意图：开发服务器监听端口后，终端上方出现端口转发提示",
       illoCaption: "示意图（非截图），文案取自端口转发文档。",
       bannerText: "检测到端口 5173（node）正在监听",
@@ -74,9 +71,6 @@ const c = zh
       lead: "Sessions live on the server; browsers, phones and local terminals attach to them. These are the most common ways to use it, and every step maps to a feature documented in the repository.",
       jump: "Jump to a use case",
       featuredEyebrow: "Featured",
-      dev: "dev builds",
-      devNote: "Steps marked “dev builds” are on main and the dev channel and ship in the next stable release; to switch channels see",
-      devLink: "Download and install",
       illoLabel: "Illustration: after the dev server starts listening, a port forwarding banner appears above the terminal",
       illoCaption: "Illustration, not a screenshot; wording from the port forwarding docs.",
       bannerText: "Port 5173 (node) is listening",
@@ -131,7 +125,6 @@ const c = zh
                 <span class="flex size-8 items-center justify-center rounded-full border bg-page font-mono text-sm font-semibold" aria-hidden="true">{i + 1}</span>
                 <p class="m-0 pt-1 text-[15px] leading-[1.7]">
                   {s.text}
-                  {s.dev && <Badge variant="outline" class="ml-1 align-middle text-[11px]">{c.dev}</Badge>}
                 </p>
               </li>
             ))
@@ -182,9 +175,6 @@ const c = zh
         </div>
       </div>
     </div>
-    <p class="container-site mt-10 mb-0 text-sm text-muted-foreground">
-      {c.devNote} <a class="link" href={l("/download/")}>{c.devLink}</a>{zh ? "。" : "."}
-    </p>
   </section>
 
   <!-- Other use cases -->
@@ -203,7 +193,6 @@ const c = zh
               {u.steps.map((s) => (
                 <li>
                   {s.text}
-                  {s.dev && <Badge variant="outline" class="ml-1 align-middle text-[11px]">{c.dev}</Badge>}
                 </li>
               ))}
             </ul>
@@ -261,8 +250,5 @@ const c = zh
       <Button href={l("/download/")} class="wm-control h-11 px-5 text-[15px] font-semibold">{c.install}</Button>
       <Button href={l("/compare/")} variant="outline" class="wm-control h-11 px-5 text-[15px]">{c.compare}</Button>
     </div>
-    <p class="mt-6 mb-0 text-sm text-muted-foreground">
-      <a class="link" href={PORT_FORWARD_DOC} rel="noopener">{zh ? "端口转发预览文档（GitHub）" : "Port forwarding docs (GitHub, Chinese)"}</a>
-    </p>
   </section>
 </Base>

@@ -1,8 +1,6 @@
 // Factual comparison (strategy.md#差异化与对比规则). WebMux facts: README.md, docs/overview.md,
 // docs/usage.md, docs/hybrid-sessions.md. Third-party cells only claim what the cited official
 // pages state; anything else is "unverified". Checked 2026-11-05.
-// WebMux cells marked "开发版 / dev builds" describe features on main and the dev channel that
-// have not shipped in a stable release yet (docs/usage/port-forwarding.md).
 import type { Lang } from "../lib/i18n";
 import { serverSizeMB } from "../lib/releases";
 
@@ -142,8 +140,8 @@ export const WEBMUX: Tool = {
   sources: [
     { label: "WebMux README", url: "https://github.com/mzdluo123/webmux#readme" },
     {
-      label: "端口转发预览（开发版）",
-      url: "https://github.com/mzdluo123/webmux/blob/main/docs/usage/port-forwarding.md",
+      label: "端口转发预览",
+      url: "/docs/usage/port-forwarding/",
     },
   ],
   cells: {
@@ -184,8 +182,8 @@ export const WEBMUX: Tool = {
     },
     ports: {
       v: "yes",
-      zh: "开发版：/forward/{端口}/ 转发本机端口，自动检测监听，HMR 可用",
-      en: "Dev builds: /forward/{port}/ for local ports, auto-detected, HMR works",
+      zh: "v0.12 起：/forward/{端口}/ 转发本机端口，自动检测监听，HMR 可用",
+      en: "Since v0.12: /forward/{port}/ for local ports, auto-detected, HMR works",
     },
     selfhost: {
       v: "yes",
