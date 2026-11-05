@@ -1,0 +1,138 @@
+---
+// /features/: what is new, then the full feature list in five groups (strategy.md 功能清单).
+import { Badge } from "$lib/components/ui/badge/index.js";
+import { Button } from "$lib/components/ui/button/index.js";
+import PageBreadcrumb from "../components/PageBreadcrumb.astro";
+import Shot from "../components/Shot.astro";
+import Base from "../layouts/Base.astro";
+import { groups, recent } from "../data/features";
+import { localize, type Lang } from "../lib/i18n";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const zh = lang === "zh-cn";
+const l = (p: string) => localize(lang, p);
+const external = (href: string) => /^https?:/.test(href);
+
+const c = zh
+  ? {
+      title: "功能：持久终端、TUI ↔ 聊天、Diff、worktree、端口转发 · WebMux",
+      description:
+        "WebMux 全部功能：持久会话与断线续接、终端分屏、十一款 CLI agent、TUI 与聊天视图互切、锁屏推送、Git worktree 与 Diff 审阅、多格式预览、端口转发预览、Tailscale 与 Cloudflare Tunnel、Windows WSL 2。",
+      h1: "功能一览",
+      lead: "从持久终端到代码审阅，WebMux 把在远端跑 agent 需要的东西放进一个单二进制。",
+      h2New: "最近加入",
+      newLead: "上次网站更新以来的主要变化。",
+      dev: "开发版",
+      devNote: "“开发版”功能已在 main 分支与开发版通道提供，将随下一个正式版发布。",
+      jump: "功能分组",
+      final: "看看它在真实场景里怎么用",
+      useCases: "使用场景",
+      install: "下载与安装",
+    }
+  : {
+      title: "Features: persistent terminal, chat, diffs · WebMux",
+      description:
+        "Everything in WebMux: persistent sessions, terminal splits, eleven CLI agents, TUI ↔ chat, lock-screen push, Git worktrees and diff review, file previews, port forwarding, Tailscale, Cloudflare Tunnel and Windows via WSL 2.",
+      h1: "Features",
+      lead: "From a persistent terminal to code review, WebMux puts what you need to run agents remotely into one binary.",
+      h2New: "Recently added",
+      newLead: "The main changes since the site was last updated.",
+      dev: "dev builds",
+      devNote: "“dev builds” features are on main and the dev channel and ship in the next stable release.",
+      jump: "Feature groups",
+      final: "See how it works in real situations",
+      useCases: "Use cases",
+      install: "Download and install",
+    };
+const list = groups(lang);
+const shots: Record<string, { name: string; dark?: string }> = {
+  sessions: { name: "terminal-splits/after-desktop-light.jpg", dark: "terminal-splits/after-desktop-dark.jpg" },
+  agents: { name: "desktop-chat.png" },
+  code: { name: "file-explorer/after-desktop-light.png", dark: "file-explorer/after-desktop-dark.png" },
+  devices: { name: "mobile-terminal.png" },
+};
+---
+
+<Base lang={lang} path="/features/" title={c.title} description={c.description} active="features">
+  <div class="container-site pt-16 pb-12 sm:pt-24">
+    <PageBreadcrumb lang={lang} items={[{ label: c.h1 }]} />
+    <h1 class="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">{c.h1}</h1>
+    <p class="mt-4 max-w-2xl text-[17px] leading-[1.75] text-muted-foreground">{c.lead}</p>
+    <nav aria-label={c.jump} class="mt-6">
+      <ul class="m-0 flex list-none flex-wrap gap-x-5 gap-y-2 p-0 text-[15px]">
+        <li><a class="link" href="#new">{c.h2New}</a></li>
+        {list.map((g) => <li><a class="link" href={`#${g.id}`}>{g.title}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+
+  <section id="new" class="scroll-mt-20 border-y border-band-line bg-band py-16 sm:py-20" aria-labelledby="new-title">
+    <div class="container-site">
+      <h2 id="new-title" class="m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{c.h2New}</h2>
+      <p class="mt-3 mb-8 text-muted-foreground">{c.newLead}</p>
+      <ul class="m-0 grid list-none gap-4 p-0 md:grid-cols-2">
+        {
+          recent(lang).map((f) => (
+            <li class="flex flex-col gap-2 rounded-lg border bg-page p-5">
+              <h3 class="m-0 flex flex-wrap items-center gap-2 text-[17px] font-semibold">
+                {f.href ? (
+                  <a href={f.href} rel={external(f.href) ? "noopener" : undefined} class="text-foreground no-underline hover:underline underline-offset-[3px]">{f.title}</a>
+                ) : (
+                  f.title
+                )}
+                {f.dev && <Badge variant="outline" class="text-[11px]">{c.dev}</Badge>}
+              </h3>
+              <p class="m-0 text-[15px] leading-[1.7] text-muted-foreground">{f.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-6 mb-0 text-sm text-muted-foreground">{c.devNote} <a class="link" href={l("/download/")}>{c.install}</a></p>
+    </div>
+  </section>
+
+  <div class="container-site flex flex-col gap-16 py-16 sm:gap-20 sm:py-24">
+    {
+      list.map((g) => (
+        <section id={g.id} class="scroll-mt-20 grid gap-8 md:grid-cols-12 md:gap-10" aria-labelledby={`${g.id}-title`}>
+          <div class="md:col-span-4">
+            <h2 id={`${g.id}-title`} class="m-0 text-[26px] leading-[1.25] font-bold sm:text-[30px]">{g.title}</h2>
+            {shots[g.id] && (
+              <div class:list={["mt-6", shots[g.id].name.startsWith("mobile-") && "max-w-[260px]"]}>
+                <Shot name={shots[g.id].name} dark={shots[g.id].dark} sizes="(max-width: 768px) 100vw, 340px" widths={[340, 680]} />
+              </div>
+            )}
+          </div>
+          <dl class="m-0 grid gap-x-10 gap-y-7 sm:grid-cols-2 md:col-span-8">
+            {g.items.map((f) => (
+              <div>
+                <dt class="flex flex-wrap items-center gap-2 text-[17px] font-semibold">
+                  {f.href ? (
+                    <a href={f.href} rel={external(f.href) ? "noopener" : undefined} class="text-foreground no-underline hover:underline underline-offset-[3px]">{f.title}</a>
+                  ) : (
+                    f.title
+                  )}
+                  {f.dev && <Badge variant="outline" class="text-[11px]">{c.dev}</Badge>}
+                </dt>
+                <dd class="m-0 mt-1 text-[15px] leading-[1.7] text-muted-foreground">{f.body}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      ))
+    }
+  </div>
+
+  <section class="border-t border-band-line bg-band py-16 sm:py-24" aria-labelledby="final-title">
+    <div class="container-site">
+      <h2 id="final-title" class="m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{c.final}</h2>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <Button href={l("/use-cases/")} class="wm-control h-11 px-5 text-[15px] font-semibold">{c.useCases}</Button>
+        <Button href={l("/download/")} variant="outline" class="wm-control h-11 px-5 text-[15px]">{c.install}</Button>
+      </div>
+    </div>
+  </section>
+</Base>

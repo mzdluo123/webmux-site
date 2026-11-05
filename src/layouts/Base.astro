@@ -4,7 +4,7 @@
 import "../styles/site.css";
 import Footer from "../components/Footer.astro";
 import HeadCommon from "../components/HeadCommon.astro";
-import Header from "../components/Header.astro";
+import Header, { type Active } from "../components/Header.astro";
 import { HTML_LANG, localize, OG_LOCALE, UI, type Lang } from "../lib/i18n";
 import { REPO_URL, SITE_URL } from "../../site.config.mjs";
 
@@ -19,7 +19,7 @@ interface Props {
   og?: string;
   ogAlt?: string;
   jsonLd?: object[];
-  active?: "story" | "install" | "docs" | "faq";
+  active?: Active;
   installHref?: string;
   /** Set when the page has no counterpart in the other language. */
   single?: boolean;

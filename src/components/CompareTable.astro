@@ -9,8 +9,11 @@ interface Props {
   dimensions: Dimension[];
   tools: Tool[];
   caption: string;
+  /** Stacked cards below 640px skip the first tool (WebMux already shown in an earlier table). */
+  omitFirstOnMobile?: boolean;
 }
-const { lang, dimensions, tools, caption } = Astro.props;
+const { lang, dimensions, tools, caption, omitFirstOnMobile = false } = Astro.props;
+const cardTools = omitFirstOnMobile ? tools.slice(1) : tools;
 const tone: Record<Verdict, string> = {
   yes: "text-primary",
   partial: "text-foreground",
@@ -25,7 +28,14 @@ const tone: Record<Verdict, string> = {
     <Table.Header>
       <Table.Row>
         <Table.Head scope="col" class="min-w-40">{lang === "zh-cn" ? "维度" : "Dimension"}</Table.Head>
-        {tools.map((tool) => <Table.Head scope="col" class="min-w-36 font-bold">{tool.name}</Table.Head>)}
+        {
+          tools.map((tool) => (
+            <Table.Head scope="col" class="h-auto min-w-36 py-2 align-bottom font-bold whitespace-normal">
+              {tool.name}
+              <span class="block text-[12px] leading-snug font-normal text-muted-foreground">{t(lang, tool.kind)}</span>
+            </Table.Head>
+          ))
+        }
       </Table.Row>
     </Table.Header>
     <Table.Body>
@@ -51,9 +61,10 @@ const tone: Record<Verdict, string> = {
 
 <div class="grid gap-4 sm:hidden">
   {
-    tools.map((tool) => (
+    cardTools.map((tool) => (
       <section class="rounded-lg border bg-page p-4">
         <h3 class="text-[17px] font-bold">{tool.name}</h3>
+        <p class="m-0 text-sm text-muted-foreground">{t(lang, tool.kind)}</p>
         <dl class="mt-2 divide-y">
           {dimensions.map((dim) => {
             const c = tool.cells[dim.id];

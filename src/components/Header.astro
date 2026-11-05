@@ -9,6 +9,8 @@ import MobileNav from "$lib/components/site/MobileNav.svelte";
 import ThemeToggle from "$lib/components/site/ThemeToggle.svelte";
 import Logo from "./Logo.astro";
 import { localize, UI, type Lang } from "../lib/i18n";
+
+export type Active = "features" | "useCases" | "compare" | "docs" | "faq";
 import { stars } from "../lib/releases";
 import { REPO_URL } from "../../site.config.mjs";
 
@@ -16,7 +18,7 @@ interface Props {
   lang: Lang;
   /** Locale-neutral path of the current page, for the language switch. */
   path: string;
-  active?: "story" | "install" | "docs" | "faq";
+  active?: Active;
   /** Target of the "install" CTA: the on-page section on the home page. */
   installHref?: string;
   /** Pages without a counterpart in the other language switch to its home page. */
@@ -27,8 +29,9 @@ const t = UI[lang];
 const other: Lang = lang === "en" ? "zh-cn" : "en";
 const home = localize(lang, "/");
 const nav = [
-  { id: "story", href: `${home}#story`, label: t.nav.story },
-  { id: "install", href: localize(lang, "/download/"), label: t.nav.install },
+  { id: "features", href: localize(lang, "/features/"), label: t.nav.features },
+  { id: "useCases", href: localize(lang, "/use-cases/"), label: t.nav.useCases },
+  { id: "compare", href: localize(lang, "/compare/"), label: t.nav.compare },
   { id: "docs", href: "/docs/", label: t.nav.docs },
   { id: "faq", href: localize(lang, "/faq/"), label: t.nav.faq },
 ] as const;

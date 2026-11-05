@@ -1,8 +1,9 @@
 // FAQ copy. Sources (mzdluo123/webmux origin/main, checked 2026-11-03): docs/faq.md 常见问题,
-// README.md, SECURITY.md, docs/overview.md, docs/deployment/{remote-access,windows-wsl}.md,
+// docs/usage/port-forwarding.md (main, 2026-11-05), README.md, SECURITY.md, docs/overview.md, docs/deployment/{remote-access,windows-wsl}.md,
 // docs/persistence.md, LICENSE (MIT). "No telemetry" checked by searching the Go/web sources.
 import type { Lang } from "../lib/i18n";
 import { localize } from "../lib/i18n";
+import { PORT_FORWARD_DOC } from "./use-cases";
 
 export interface FaqItem {
   /** ASCII anchor slug, stable across languages. */
@@ -20,6 +21,16 @@ function items(lang: Lang): Record<string, FaqItem> {
   const cn = zh ? "" : " (Chinese)";
   const list: FaqItem[] = zh
     ? [
+        {
+          id: "dev-server-preview",
+          q: "在远程服务器上开发 Web 应用，怎么预览开发服务器？",
+          a: `开发版起，WebMux 提供端口转发预览：会话里的开发服务器开始监听后，终端上方会提示端口，一键经 <code>/forward/{端口}/</code> 在浏览器打开，HMR WebSocket 照常工作，不需要新开端口或配置 SSH 端口转发。Vite、Next.js 等使用绝对路径的框架需改为“保留前缀”并设置 base（如 <code>pnpm vite --base /forward/5173/</code>）。只能转发服务器本机的端口。该功能将随下一个正式版发布，详见 <a href="${PORT_FORWARD_DOC}">端口转发预览</a> 与 <a href="${localize(lang, "/use-cases/")}#remote-web-dev">使用场景</a>。`,
+        },
+        {
+          id: "edit-code",
+          q: "能在浏览器里直接改代码吗？",
+          a: `不能。代码面板是只读的：可以浏览文件、审阅 Git Diff、预览多种格式，并把 <code>路径:行号</code> 发给 agent，但没有编辑器，也不提供暂存、提交或推送界面。改代码交给 agent 或终端里的编辑器；需要完整浏览器编辑器时可以与 VS Code Remote 或 code-server 并用，见 <a href="${localize(lang, "/compare/")}">对比</a>。`,
+        },
         {
           id: "sessions-after-restart",
           q: "重启服务后会话去哪了？",
@@ -92,6 +103,16 @@ function items(lang: Lang): Record<string, FaqItem> {
         },
       ]
     : [
+        {
+          id: "dev-server-preview",
+          q: "How do I preview a dev server when building web apps on a remote server?",
+          a: `Dev builds add port forwarding: when a dev server in a session starts listening, a banner offers the port and one click opens it at <code>/forward/{port}/</code>, with HMR WebSockets working and no new port or SSH tunnel to set up. Frameworks with absolute paths such as Vite or Next.js need “keep prefix” and a base (for example <code>pnpm vite --base /forward/5173/</code>). Only ports on the server itself can be forwarded. It ships in the next stable release; see <a href="${PORT_FORWARD_DOC}">port forwarding</a>${cn} and the <a href="${localize(lang, "/use-cases/")}#remote-web-dev">use case</a>.`,
+        },
+        {
+          id: "edit-code",
+          q: "Can I edit code in the browser?",
+          a: `No. The code panel is read-only: browse files, review Git diffs, preview many formats and send <code>path:line</code> to the agent, but there is no editor and no stage, commit or push UI. Leave edits to the agent or an editor in the terminal, or pair WebMux with VS Code Remote or code-server for a full browser editor; see the <a href="${localize(lang, "/compare/")}">comparison</a>.`,
+        },
         {
           id: "sessions-after-restart",
           q: "Where do my sessions go after the service restarts?",
@@ -169,6 +190,8 @@ function items(lang: Lang): Record<string, FaqItem> {
 const ORDER = [
   "install",
   "phone-access",
+  "dev-server-preview",
+  "edit-code",
   "is-it-safe",
   "windows",
   "license-and-cost",
@@ -184,7 +207,7 @@ const ORDER = [
 ];
 const HOME = [
   "sessions-after-restart",
-  "command-not-found",
+  "dev-server-preview",
   "phone-access",
   "is-it-safe",
   "windows",

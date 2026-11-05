@@ -7,7 +7,10 @@ import SecurityNote from "../components/SecurityNote.astro";
 import CompareSummary from "../components/CompareSummary.astro";
 import FaqList from "../components/FaqList.astro";
 import Base from "../layouts/Base.astro";
+import IconArrowRight from "@tabler/icons-svelte/icons/arrow-right";
+import TablerIcon from "../components/TablerIcon.astro";
 import { AGENTS, agentIcon } from "../data/agents";
+import { useCases } from "../data/use-cases";
 import { homeFaq } from "../data/faq";
 import { localize, UI, type Lang } from "../lib/i18n";
 import { softwareApplication } from "../lib/install";
@@ -62,6 +65,10 @@ const c = zh
         ["写代码的工作台", "分屏、草稿模式、资源管理器与 Diff、多格式预览、Git worktree、终端里显示图片。", "/docs/usage/terminal/"],
         ["轻到可以忘了它", "单二进制、空闲约 13 MB 内存，无需 root、tmux 或数据库；Windows 经 WSL 2 一等支持。", "/docs/overview/"],
       ],
+      allFeatures: "查看全部功能与最近加入的新功能",
+      casesTitle: "用在哪里",
+      casesSub: "从远程服务器上的 Web 开发，到通勤路上接管 agent。",
+      casesMore: "查看全部使用场景",
       galleryTitle: "界面一览",
       gallerySub: "全部是真实界面截图，来自 WebMux 仓库。",
       gallery: [
@@ -138,6 +145,10 @@ const c = zh
         ["A workbench for code", "Splits, drafts, file explorer and diffs, multi-format preview, Git worktrees, images in the terminal.", "/docs/usage/terminal/"],
         ["Light enough to forget", "One binary, about 13 MB of memory when idle, no root, tmux or database; first-class on Windows via WSL 2.", "/docs/overview/"],
       ],
+      allFeatures: "See every feature and what was added recently",
+      casesTitle: "Where it fits",
+      casesSub: "From web development on a remote server to taking over an agent on your commute.",
+      casesMore: "See all use cases",
       galleryTitle: "A look inside",
       gallerySub: "Every image is a real screenshot from the WebMux repository.",
       gallery: [
@@ -183,6 +194,7 @@ const storyShots = [
   { name: "desktop-diff.png" },
 ];
 const faq = homeFaq(lang);
+const cases = useCases(lang).slice(0, 6);
 ---
 
 <Base
@@ -267,6 +279,34 @@ const faq = homeFaq(lang);
         }
       </dl>
     </div>
+    <p class="mt-8 mb-0 text-[15px]">
+      <a class="link inline-flex items-center gap-1" href={l("/features/")}>{c.allFeatures}<TablerIcon icon={IconArrowRight} class="size-4" /></a>
+    </p>
+  </section>
+
+  <!-- 3b. Use cases -->
+  <section class="container-site border-t border-band-line py-16 sm:py-24" aria-labelledby="cases-title">
+    <h2 id="cases-title" class="m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{c.casesTitle}</h2>
+    <p class="mt-3 mb-8 text-muted-foreground">{c.casesSub}</p>
+    <ul class="m-0 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        cases.map((u, i) => (
+          <li class:list={[i === 0 && "sm:col-span-2 lg:col-span-1"]}>
+            <a
+              href={l(`/use-cases/#${u.id}`)}
+              class="flex h-full flex-col gap-2 rounded-lg border p-5 text-foreground no-underline hover:border-primary"
+            >
+              <span class="font-mono text-[12px] text-primary">{u.who}</span>
+              <span class="text-[17px] leading-[1.45] font-semibold">{u.title}</span>
+              <span class="text-[14px] leading-[1.65] text-muted-foreground">{u.uses.slice(0, 4).join(" · ")}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="mt-6 mb-0 text-[15px]">
+      <a class="link inline-flex items-center gap-1" href={l("/use-cases/")}>{c.casesMore}<TablerIcon icon={IconArrowRight} class="size-4" /></a>
+    </p>
   </section>
 
   <!-- 4. Gallery -->

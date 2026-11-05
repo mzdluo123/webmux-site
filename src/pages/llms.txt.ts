@@ -38,6 +38,9 @@ Then open http://127.0.0.1:7681 and click “New session”. Downloads and check
 ## Links
 
 - Home: ${abs("/")} (English: ${abs("/en/")})
+- Features: ${abs("/features/")}
+- Use cases (remote web development, agents from your phone, parallel worktrees…): ${abs("/use-cases/")}
+- Comparison with tmux, ttyd, mosh, Zellij, sshx, Happy, Claude Code Remote Control, Codex cloud, VS Code Tunnels, code-server: ${abs("/compare/")}
 - FAQ: ${abs("/faq/")}
 - Supported agents: ${abs("/agents/")}
 - Changelog: ${abs("/changelog/")}
