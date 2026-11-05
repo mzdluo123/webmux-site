@@ -33,6 +33,11 @@
         "depth": 1
       },
       {
+        "label": "自动更新",
+        "link": "/docs/deployment/updates/",
+        "depth": 1
+      },
+      {
         "label": "配置",
         "link": "/docs/deployment/configuration/",
         "depth": 1
@@ -95,6 +100,21 @@
       {
         "label": "移动端使用",
         "link": "/docs/usage/mobile/",
+        "depth": 1
+      },
+      {
+        "label": "需要你介入的提醒",
+        "link": "/docs/usage/attention/",
+        "depth": 1
+      },
+      {
+        "label": "端口转发预览",
+        "link": "/docs/usage/port-forwarding/",
+        "depth": 1
+      },
+      {
+        "label": "Shell 目录报告",
+        "link": "/docs/usage/shell-directory/",
         "depth": 1
       },
       {

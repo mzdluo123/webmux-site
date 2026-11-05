@@ -14,6 +14,7 @@ sourcePath: "docs/protocol/http-sessions.md"
 | DELETE | `/api/sessions/{id}`           | 关闭会话（SIGHUP → SIGKILL），204                                                  |
 | DELETE | `/api/sessions/{id}?remove=1`  | 移除已退出会话，204；仍在运行 409                                                  |
 | GET    | `/api/sessions/{id}/buffer`    | 下载完整原始缓冲（`application/octet-stream`）                                     |
+| GET    | `/api/sessions/{id}/upload`    | 读取本会话已上传的单个文件（`?path=`），见下文                                     |
 | POST   | `/api/sessions/{id}/upload`    | 上传文件，见下文                                                                   |
 | POST   | `/api/sessions/{id}/artifacts` | 确保会话临时文件夹存在，200 `{path}`，见下文                                       |
 
@@ -45,6 +46,12 @@ sourcePath: "docs/protocol/http-sessions.md"
 - `tui`：在 PTY 中运行档案生成的终端命令（OpenCode 注入 `--standalone`）。
 - `acp`：不启动终端，而是启动 ACP 进程并依次调用 `initialize` 与 `session/new`。
 
+可选 `prompt`（用户的第一条消息）与 `useInitInstruction`（把仓库的初始化指令放在它前面，需要 `workspace`，否则 400）：会话启动后自动发送。
+
+- 聊天端（`acp`）作为第一条聊天消息；发送失败时不保留新会话。
+- 终端（普通命令或混合的 `tui`）在程序有输出并安静 0.7 秒后（最长等 15 秒）输入并回车，多行文本在程序开启括号粘贴时按粘贴发送。
+- 指令引用了不存在或保留的名称、`prompt` 与指令合计超过上限时 400。
+
 混合会话的失败状态码（普通会话不受这些检查影响）：
 
 - 对普通配置或自定义命令提供 `startSide`、或取值无效：400。
@@ -57,6 +64,7 @@ sourcePath: "docs/protocol/http-sessions.md"
 - 文件位于会话临时文件夹的 `uploads/` 中，同名时追加 ` (2)` 等序号而不覆盖。
 - 单文件上限 100 MiB（超限 413），读期限 5 分钟（超时 408）。
 - 无效请求 400，会话不存在 404，会话已退出 409，临时文件夹不可用 503。
+- `GET /api/sessions/{id}/upload?path=<服务器绝对路径>` 读取该会话 `uploads/` 内的普通非符号链接文件（上限 10 MiB，超限 413），按文件内容嗅探 `Content-Type` 并返回原始字节；其他路径或不存在的文件返回 400，会话不存在 404。
 
 **会话临时文件夹**：`POST /api/sessions/{id}/artifacts` 幂等地创建并返回 `$TMPDIR/webmux-artifacts-<uid>-<实例摘要>/<会话ID>`（0700）。
 
@@ -105,24 +113,26 @@ interface SessionInfo {
   hybrid?: {
     side: "tui" | "acp" | "switching";
     phase?: string; // 切换中的步骤，切换之外省略
-    dormant: boolean; // 聊天端的 agent 进程已休眠
     state: "active" | "closed" | "interrupted";
     agent: string;
     agentTitle: string; // agent 显示名
     agentIcon: string; // 品牌图标键，属于启动配置图标目录
     agentSessionId: string | null; // agent 自己的会话 ID，未知时为 null
   };
+  // 会话进程树中监听在回环或通配地址上的 TCP 端口，按端口升序，不含 WebMux 自身端口；
+  // 端口开始或停止监听后 3 秒内更新。不支持检测的平台（非 Linux/macOS）恒为 []。
+  listeningPorts: { port: number; process: string }[];
 }
 ```
 
 ## 其他
 
-| 方法 | 路径                   | 说明                                                                                                                                              |
-| ---- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GET  | `/api/health`          | `{ok: true, sessions: n}`                                                                                                                         |
-| GET  | `/api/config`          | `{defaultCwd, defaultShell, hostname, workspace: {gitAvailable, registryAvailable, gitError, registryError}, tunnel, pendingUpdate?}`，不含 token |
-| GET  | `/api/fs/dirs?prefix=` | 匹配前缀的全部子目录（含符号链接目录），普通目录优先，按名称排序                                                                                  |
-| POST | `/api/fs/mkdir`        | `{path}`，204                                                                                                                                     |
+| 方法 | 路径                   | 说明                                                                                                                                                                                                           |
+| ---- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GET  | `/api/health`          | `{ok: true, sessions: n}`                                                                                                                                                                                      |
+| GET  | `/api/config`          | `{defaultCwd, defaultShell, hostname, workspace: {gitAvailable, registryAvailable, gitError, registryError}, tunnel, pendingUpdate?, portDetection}`，不含 token；`portDetection` 表示本平台会话会报告监听端口 |
+| GET  | `/api/fs/dirs?prefix=` | 匹配前缀的全部子目录（含符号链接目录），普通目录优先，按名称排序                                                                                                                                               |
+| POST | `/api/fs/mkdir`        | `{path}`，204                                                                                                                                                                                                  |
 
 `tunnel` 是只读的运行时隧道状态：`{enabled, state, named, hostname, publicUrl?}`。
 
@@ -140,13 +150,13 @@ interface SessionInfo {
 
 启动配置保存在服务端 `<state_dir>/launch-configs.json`，在所有已认证设备间共享。只提供用户自定义的启动配置，不再提供内置预设或 `/api/presets` 路由；新安装首次启动时服务端在该文件写入常见 agent 的普通配置，经同一接口列出、修改和删除。
 
-| 方法   | 路径                       | 说明                                                                                              |
-| ------ | -------------------------- | ------------------------------------------------------------------------------------------------- |
-| GET    | `/api/launch-configs`      | 摘要数组（按创建顺序）：`{id, name, icon?, cmd, envNames, preview, createdAt, updatedAt}`         |
-| GET    | `/api/launch-configs/{id}` | 完整配置：`{id, name, icon?, cmd, env, preview, createdAt, updatedAt}`                            |
-| POST   | `/api/launch-configs`      | `{name, icon?, cmd, env?, preview?}`，201 返回完整配置                                            |
-| PUT    | `/api/launch-configs/{id}` | `{name, icon?, cmd, env?, preview?}` 整体替换，省略的 `env` 与 `preview` 被清空，200 返回完整配置 |
-| DELETE | `/api/launch-configs/{id}` | 204                                                                                               |
+| 方法   | 路径                       | 说明                                                                                                   |
+| ------ | -------------------------- | ------------------------------------------------------------------------------------------------------ |
+| GET    | `/api/launch-configs`      | 摘要数组（按创建顺序）：`{id, name, icon?, cmd, envNames, chatOptions, preview, createdAt, updatedAt}` |
+| GET    | `/api/launch-configs/{id}` | 完整配置：`{id, name, icon?, cmd, env, preview, createdAt, updatedAt}`                                 |
+| POST   | `/api/launch-configs`      | `{name, icon?, cmd, env?, preview?}`，201 返回完整配置                                                 |
+| PUT    | `/api/launch-configs/{id}` | `{name, icon?, cmd, env?, preview?}` 整体替换，省略的 `env` 与 `preview` 被清空，200 返回完整配置      |
+| DELETE | `/api/launch-configs/{id}` | 204                                                                                                    |
 
 `icon` 为可选的本地图标 ID：`terminal`、`antigravity`、`claudecode`、`codex`、`geminicli`、`cursor`、`githubcopilot`、
 `opencode`、`qwen`、`kimi`、`codebuddy` 或 `pi`。
@@ -157,6 +167,12 @@ interface SessionInfo {
 - `terminal` 可显式覆盖自动匹配。
 
 `preview` 为 `null` 或省略时沿用服务端同步的全局预览设置；否则为 `{lines, skip}`，`lines` 为 1–50 的整数、`skip` 为 0–50 的整数。会话卡片按创建时记录的 `configId` 读取该配置的当前预览值，配置被删除或不可用时回退全局设置。
+
+列表的 `chatOptions` 是该配置最近报告的配置项清单与最后的值（结构同聊天状态的 `config`），还没有时为空数组：
+
+- 来源是该配置最近一次聊天端会话，或快速开始的配置读取 `POST /api/quick-starts/options`；
+- 服务端保存在 `<state_dir>/agent-options.json`，删除启动配置时一并清除；
+- 它只供快速开始在 agent 启动前展示配置，不参与切换或恢复。
 
 列表只含环境变量名（字典序），值只由单条读取与创建/更新响应返回。限制：
 
