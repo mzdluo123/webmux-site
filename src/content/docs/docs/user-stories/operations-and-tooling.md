@@ -163,14 +163,14 @@ sourcePath: "docs/user-stories/operations-and-tooling.md"
 - **US-L02 分层验证与诊断**：作为贡献者，我希望运行 Go race、前端单元、浏览器与隔离 E2E 测试，以便验证会话、安全和交互行为。
   验收要点：
   - 提供 `make test` 完整门禁与 `make test-fast` 快速入口、类型/格式/lint 检查；
-  - `make test` 一次构建前端与 E2E 程序供 E2E/性能复用，本地默认最多 2 个 E2E worker（`WEBMUX_E2E_WORKERS` 可覆盖，CI 仍为 Ubuntu 2 个、macOS 4 个），Go 默认 `-parallel=4`（`GO_TEST_PARALLEL` 可调）；
+  - `make test` 一次构建前端与 E2E 程序供 E2E/性能复用，本地默认最多 2 个 E2E worker（`WEBMUX_E2E_WORKERS` 可覆盖，CI 为 2 个），Go 默认 `-parallel=4`（`GO_TEST_PARALLEL` 可调）；
   - Go 采用 Uber Style Guide 与登记的仓库例外，`make check` 和 CI 在前端构建后执行 `go vet ./...`（CI 另以 `GOOS=darwin` 检查 macOS 构建）及固定 v2.15.0 的 golangci-lint（errcheck/govet/ineffassign/staticcheck/unused），生产零告警，测试仅冻结 errcheck，新增代码零新增告警，豁免只能收紧；
-  - CI 先由 `Classify changes` job 按路径裁剪：仅文档变更只跑格式、文档、持久化与 agent/web 静态守卫，仅 Go 变更跳过前端套件，仅前端变更跳过两个 Go race job 与 Windows 交叉编译，未知路径和工具/依赖变更全量运行；
+  - CI 先由 `Classify changes` job 按路径裁剪：仅文档变更只跑格式、文档、持久化与 agent/web 静态守卫，仅 Go 变更跳过前端套件，仅前端变更跳过 Go race 与 Windows 交叉编译，未知路径和工具/依赖变更全量运行；
   - 每次推送到 `main` 都强制完整运行（跳过分类），供发版复用；GitHub 并发组只保留一个待运行，密集合并仍可能取消中间提交的待运行，该提交发版时回退完整重跑；
-  - 独立的 `E2E runtime` job 按冻结锁文件统一安装并打包 Playwright 运行依赖，连同以 `omp`、`opencode`、`codex`、`codex-acp`、`claude`、`claude-agent-acp` 命名的假 ACP agent 一次构建供 Ubuntu 4 个和 macOS 2 个 E2E 分片及两个 Go race job 共用；
+  - 独立的 `E2E runtime` job 按冻结锁文件统一安装并打包 Playwright 运行依赖，连同以 `omp`、`opencode`、`codex`、`codex-acp`、`claude`、`claude-agent-acp` 命名的假 ACP agent 一次构建供 Ubuntu 4 个 E2E 分片及 Go race job 共用；
   - 分片仅准备 Node 与浏览器，不重复安装 pnpm、前端依赖、Go 或构建应用；
   - 显式预构建路径无效或缺少假 agent 时失败，本地默认仍从源码构建；
-  - macOS 原生 Go race（不含静态守卫 `archtest`/`docguard` 与 Windows 托盘/WSL 包）与 2 个仅桌面项目的 E2E 分片独立运行，移动端仿真只在 Ubuntu 运行；
+  - CI 不再使用 macOS runner（GitHub macOS arm64 容量不足导致 job 长时间排队后失败），只以 `GOOS=darwin go vet` 检查 macOS 构建；macOS 运行时行为需在 Mac 本机运行 `make test` 验证；
   - 性能测试保持单 worker 和 4x CPU 节流；
   - `Test result` 接受因变更分类而跳过的 `skipped`，并按分类结果交叉校验所有应运行的 job 均成功；
   - E2E 使用独立后端、目录、端口与假 agent 会话库（假 agent 位于后端 `PATH` 首位，混合会话用例由它驱动），等待隔离 Shell 提示符就绪后输入命令；
@@ -193,7 +193,7 @@ sourcePath: "docs/user-stories/operations-and-tooling.md"
   - 现有 CI 执行相应质量检查。
 - **US-L05 分层架构约束**：作为贡献者，我希望 Controller 与 Service 的边界和线上 JSON 形状由测试守住，以便越界依赖或协议漂移在 `go test` 中就被发现，而不是靠评审。
   验收要点：
-  - `go test ./...` 包含 `internal/archtest`：未归类或失效的包、越界依赖、Controller 直接 I/O 或使用未登记的 Service 包级函数、Service 携带 HTTP 状态、编解码非 `contract` 类型等违规一次列出位置、R0–R10 编号及修复提示；
+  - `go test ./...` 包含 `internal/archtest`：未归类或失效的包、越界依赖、Controller 直接 I/O 或使用未登记的 Service 包级函数、Service 携带 HTTP 状态、编解码非 `contract` 类型、Controller 在登记函数之外读取请求体等违规一次列出位置、R0–R11 编号及修复提示；
   - 同一包还检查 `internal/acp`、`internal/hybrid`、`internal/agentprofile` 核心与 `web/src`（启动配置图标目录除外）的生产代码不出现任何已注册 agent 的名称或可执行文件名，agent 差异只能放在 `internal/agentprofile/<agent>` 适配器中。纯函数例外需理由且仍被使用；
   - 允许业务整数与非错误对象的领域 Status。R9 检查包级初始化及编码器函数值/方法值，登记函数不能借别名绕过。固定样例覆盖违规与合规写法。141 份线上快照分九组独立运行（另有不可用服务场景单独运行），仅归一化明确动态字段，业务正文、确定性 Git OID、摘要和固定输入保留；
   - 差异可见，有意变更用 `-update` 重新录制。
@@ -265,7 +265,7 @@ sourcePath: "docs/user-stories/operations-and-tooling.md"
 - **US-L14 发布开发版**：作为维护者，我希望 main 上每个通过 CI 的提交自动发布为签名的开发版，以便尝鲜用户在正式发布前拿到新构建，同时不让正式版用户收到它。
   验收要点：
   - `test.yml` 在 main 的 push 上成功后触发，构建通过测试的那个提交，版本为最近正式标签补丁号加 1 再加 `-dev.<提交数>`；提交数为 0、已不是 main 最新提交、版本不高于已发布开发版，或自 `dev` 标签以来只改了文档时跳过；
-  - 只发布到预发布 Release `dev`（不设为 latest），产物名带版本号，`install.sh` 为固定文件名；先上传新产物，再替换 `install.sh` 与签名清单，移动 `dev` 标签，最后删除既不在本次也不在上一次清单中的文件；
+  - 只发布到预发布 Release `dev`（不设为 latest），产物名带版本号，`install.sh` 为固定文件名；先上传新产物，再替换 `install.sh` 与签名清单，移动 `dev` 标签，最后删除不在本次清单中的文件，只保留当前构建；
   - 签名 job 用独立的 `WEBMUX_DEV_SIGNING_KEY`，`releasesign` 按版本选择私钥与公钥组，sign 与 publish 不可取消；
   - 正式版发布说明从上一个 `v*` 标签生成，不以 `dev` 标签为起点；
   - 文档公布开发版公钥与轮换流程，说明正式标签须在 main 可达提交上、更新本地 `dev` 标签需 `git fetch --tags --force`。
@@ -288,7 +288,7 @@ sourcePath: "docs/user-stories/operations-and-tooling.md"
 质量基线补充依据：
 
 - [ESLint 与 TypeScript 配置](../../web/eslint.config.mjs)、[测试类型配置](../../web/tsconfig.test.json)、[wire 契约测试](../../web/test/wire-contract.test.ts)
-- [新建会话与 Dialog 浏览器回归](../../web/test/browser/NewSessionSheet.test.ts)、[主题与可访问性 E2E](../../web/test/e2e/frontend-quality.spec.ts)、[上传失败 E2E](../../web/test/e2e/upload.spec.ts)
+- [新建会话与 Dialog 浏览器回归](../../web/test/browser/NewSessionDialog.test.ts)、[主题与可访问性 E2E](../../web/test/e2e/frontend-quality.spec.ts)、[上传失败 E2E](../../web/test/e2e/upload.spec.ts)
 - [列表重连 E2E](../../web/test/e2e/workspace-discovery.spec.ts)。
 
 Pullfrog 依据：[workflow](../../.github/workflows/pullfrog.yml)、[订阅模型配置](../../CONTRIBUTING.md#pullfrog-模型配置)。

@@ -18,7 +18,7 @@ sourcePath: "docs/user-stories/access-and-sessions.md"
   - 鼠标悬停、键盘激活或手机点击可查看，指针可移入说明，Escape 或点击外部可关闭；
   - 说明涵盖共享密码用途、初始化生成与保存、配置路径及启动参数覆盖；
   - 配置路径独立成行、窄屏可换行且无横向溢出；
-  - 启用认证后，正确 token 才能访问 HTTP API 与 WebSocket；
+  - 启用认证后，正确 token 才能访问 HTTP API 与 WebSocket；HTTP 只接受 `Authorization: Bearer`，WebSocket 只接受 Bearer 或 token 子协议，`webmux_token` Cookie 与 URL 参数都不能认证；
   - 当前浏览器保存 token；
   - 错误或变更后的 token 触发重新认证提示；
   - 本机套接字采用同用户身份校验，见 US-M08。
@@ -59,7 +59,7 @@ sourcePath: "docs/user-stories/access-and-sessions.md"
 
 - **US-B01 启动 Shell 或 agent**：作为使用者，我希望通过自定义启动配置或显式命令运行 Shell、Open Code、Claude Code、Codex、omp 等程序，以便快速开始终端工作或遥控 agent。
   验收要点：
-  - 启动命令通过“预先输入 / 手动填写”Tab 区分来源，新安装预置常见 agent 的启动配置，没有不可修改的内置预设；
+  - 新建会话对话框以“位置”与“运行”两个选择行组成一页，“运行”在同一列表中提供保存的启动配置与末尾的“自定义命令…”；新安装预置常见 agent 的启动配置，没有不可修改的内置预设；
   - Claude Code、Codex CLI、Antigravity CLI、Open Code、Qoder、QoderCN 与 omp 的预置配置默认自动批准工具调用：
     - Claude Code `--dangerously-skip-permissions`；
     - Codex CLI `--dangerously-bypass-approvals-and-sandbox`；
@@ -71,28 +71,29 @@ sourcePath: "docs/user-stories/access-and-sessions.md"
   - Cursor、Copilot、Qwen、Kimi、CodeBuddy 使用各自默认授权行为；
   - 十一款 CLI 的启动命令见 [接入说明](../cli-agents.md)；
   - Claude Code、Codex CLI、Antigravity CLI、Open Code、omp、Qoder 与 QoderCN 预置配置默认为混合模式（US-Q01）；
-  - 预先输入以可键盘操作的下拉框选择，选中框和每个选项同时显示图标、名称与命令，长命令保留完整提示；
+  - 命令选择器可用键盘操作（Enter 打开、方向键与搜索、Esc 只关闭选择器），选中行和每个选项同时显示图标、名称与命令，长命令保留完整提示；
   - 保存的配置按 ID 启动，临时命令按完整 argv 启动，均创建真实 PTY；
   - Open Code 可通过“加载 shell 启动文件”保存为 Bash（`~/.bashrc`）或 Zsh（`~/.zshrc`）包装，新安装按服务端 `$SHELL` 预选，其他 shell 回退为不包装或手动选择，不自动安装程序；
   - 勾选了混合模式的配置可选择从终端或聊天开始（US-Q02）；
-  - 首页与工作树统一使用“新建会话”，分屏菜单复用同一命令选择表单；
+  - 首页与工作树统一使用“新建会话”，分屏菜单复用同一对话框；
+  - 底部汇总“将在 X 运行 Y”，默认值齐全时打开即可直接创建；会话名称收在“高级：会话名称”中；
   - 创建成功后按入口进入终端或加入当前布局。
 - **US-B02 自定义命令与参数**：作为进阶使用者，我希望填写完整命令及参数，或选用已保存的配置，以便运行自己的 CLI 工作流。
   验收要点：
-  - 命令来源 Tab 切换时保留手动输入和已选配置，但只提交当前方式；
+  - 在启动配置与“自定义命令…”之间切换时保留手动输入和已选配置，但只提交当前方式；
   - 空手动命令不能误用保存配置；
   - 正确保留引号、空参数与参数边界，不进行 shell 展开；
   - 未闭合引号或空可执行程序阻止提交；
   - `configId` 与非空 `cmd`、`env` 互斥；
-  - 临时命令不落盘，保存配置不可用或仍在加载时可切换手动填写。
+  - 临时命令不落盘，保存配置不可用或仍在加载时可改选“自定义命令…”。
 - **US-B03 选择直接目录**：作为使用者，我希望直接指定任意可访问目录并复用最近使用的位置，以便启动普通项目而不必先登记 Git 仓库。
   验收要点：
-  - “启动位置”通过“直接目录 / 已有工作树 / 新工作树”Tab 组织，无仓库时禁用两个工作树 Tab；
-  - 切换位置保留已填写目录；
-  - 默认使用最近目录或服务默认目录；
-  - 保留最近 10 个启动目录、上次成功使用的启动配置与临时命令；
-  - 已删除或不可用配置回退到手动填写，不隐式启动另一配置。 单仓库视图的全局新建优先预选该仓库的可用主工作区；
-  - 没有可用工作区时保留仓库并要求选择，不回退到其他项目。分屏表单以源会话的完整启动目录覆盖最近目录。
+  - “位置”选择器在一处列出主页当前仓库的工作树、最近目录、其他仓库的工作树与“输入或浏览目录…”，选中直接目录时显示可编辑的工作目录输入与浏览按钮；
+  - 默认位置优先级：上下文入口（工作树的“新建会话”、分屏源会话目录）> 主页选中仓库的可用主工作区（否则该仓库其他可用工作树）> 最近目录 > 服务默认目录；
+  - 主页选中仓库但没有可用工作区时保留仓库并要求选择，不回退到其他项目；对话框内改选位置不改变主页选中的仓库；
+  - 保留最近 10 个启动目录，并在成功创建后记住最近一次启动方案（启动配置及混合起始端，或临时命令），下次打开直接填入，对所有位置通用；
+  - 记住的配置已删除或不可用时显示“选择启动方式”并禁止提交，不隐式启动另一配置；创建失败不覆盖记忆；
+  - 分屏以源会话的完整启动目录覆盖最近目录，目录未改时保留其工作区归属。
 - **US-B04 浏览目录**：作为使用者，我希望逐层浏览和补全服务器目录，以便在手机上也能准确选中启动位置。
   验收要点：
   - 支持路径筛选、主目录、上一级、显示隐藏目录；
@@ -105,12 +106,12 @@ sourcePath: "docs/user-stories/access-and-sessions.md"
   - 不因此登记仓库。
 - **US-B06 在已有或新工作树启动**：作为使用者，我希望从已有 worktree 启动，或先创建 worktree 再启动 agent，以便在指定的代码副本中工作。
   验收要点：
-  - 通过启动位置 Tab 进入已有或新工作树面板；
-  - 仓库和工作树使用与启动命令相同样式的下拉框，显示名称与路径；
-  - 禁用不可用仓库、不可用或 bare 工作树；
-  - 切换仓库清空旧工作树选择，切换位置 Tab 保留已填数据；
+  - 在“位置”选择器中直接选择已有工作树（显示分支与路径），或在对应仓库分组中选择“新建工作树…”；
+  - 不可用仓库、不可用或 bare 工作树显示但禁用；
+  - 新工作树在位置行下方展开：“创建新分支 / 使用已有分支”、起始分支与新分支名称，起始提交与存放目录收在“高级：起始提交与存放目录”，位置行摘要显示“新分支 ← 起始分支”；改选其他位置再选回同一仓库的“新建工作树…”时保留已填写内容；
   - 新工作树成功后可启动会话或仅保留工作树；
-  - agent 启动失败时保留新工作树与分支并转到已有工作树面板，重试不重复创建。 仓库菜单的“新建工作树”默认只创建工作树，勾选“创建后启动会话”才显示命令并启动；
+  - agent 启动失败时保留新工作树与分支，位置自动变为该工作树，重试不重复创建；改选其他位置后仍可在列表中选回它；
+  - 仓库菜单的“新建工作树”默认只创建工作树，勾选“创建后启动会话”才显示命令并启动；未勾选时改选已有工作树或目录会禁用“创建工作树”并提示，不会无操作地关闭；
   - 启动配置不可用不阻止单独创建工作树。
 - **US-B07 命名会话**：作为使用者，我希望给新会话填写名称，以便在多个相似终端中识别任务。
   验收要点：
@@ -137,7 +138,8 @@ sourcePath: "docs/user-stories/access-and-sessions.md"
 
 依据：
 
-- [启动图标](../../web/src/components/LaunchConfigIcon.svelte)、[LobeHub 图标来源与许可](../../web/src/icons/lobehub/README.md)、[新建会话](../../web/src/components/NewSessionSheet.svelte)
+- [启动图标](../../web/src/components/LaunchConfigIcon.svelte)、[LobeHub 图标来源与许可](../../web/src/icons/lobehub/README.md)
+- [新建会话](../../web/src/components/NewSessionDialog.svelte)、[位置选择](../../web/src/components/LocationPicker.svelte)、[命令选择](../../web/src/components/LaunchPicker.svelte)、[默认值解析](../../web/src/newSessionDefaults.ts)
 - [启动配置编辑](../../web/src/components/LaunchConfigDialog.svelte)、[系统预设菜单](../../web/src/components/LaunchPresetMenu.svelte)、[启动配置存储](../../internal/launch/store.go)、[首次启动预设](../../internal/launch/presets.go)
 - [启动配置接口](../../internal/api/launch.go)、[CLI agent 接入](../cli-agents.md)
 - [会话标题来源](../../internal/hybrid/actor.go)、[会话覆盖层](../../internal/session/shell.go)、[聊天页头](../../web/src/hooks/hybrid.svelte.ts)
@@ -255,6 +257,13 @@ sourcePath: "docs/user-stories/access-and-sessions.md"
   - 中键或 Ctrl/⌘/Shift 点击保留浏览器默认的新标签页或新窗口行为；
   - 终端页“返回会话列表”回到首页，列表继续实时更新；
   - 主屏幕应用同样在应用内导航。
+- **US-C15 手动修改会话标题**：作为使用者，我希望在首页会话卡片菜单里手动给会话起名，以便在 agent 不自动更新标题时仍能分辨会话。
+  验收要点：
+  - 卡片菜单的“修改标题”打开对话框，预填当前标题，Enter 或“保存”提交，取消不改动；
+  - 手动标题优先于终端 OSC 与 agent 报告的标题，之后的自动标题不再覆盖它；
+  - 保存成功后标题经会话列表同步到所有设备，混合会话归档后恢复仍保留该名称；
+  - 留空保存则恢复自动标题：普通会话在终端或 agent 再次报告前显示启动目录名，混合会话立即恢复其上一个自动标题（如首条提示标题）；
+  - 含控制字符或超过 512 字节的名称被拒绝并在对话框内显示原因，原标题不变；跨 Origin 请求同样被拒绝。
 
 依据：
 
@@ -268,4 +277,5 @@ sourcePath: "docs/user-stories/access-and-sessions.md"
 - [标签页指示](../../web/src/browser-chrome.ts)、[终端状态接线](../../web/src/hooks/terminal-socket.svelte.ts)、[指示浏览器用例](../../web/test/browser/BrowserChrome.test.ts)
 - [指示端到端用例](../../web/test/e2e/browser-chrome.spec.ts)、[推送与设置卡片](../../web/src/push.ts)、[推送卡片](../../web/src/components/PushSettings.svelte)
 - [推送负载](../../internal/push/alert.go)
+- [修改标题对话框](../../web/src/components/RenameSessionDialog.svelte)、[标题浏览器用例](../../web/test/browser/RenameSessionDialog.test.ts)、[重命名实现](../../internal/session/manager.go)
 - [Service Worker](../../web/public/sw.js)、[推送设置用例](../../web/test/browser/PushSettings.test.ts)、[推送端到端用例](../../web/test/e2e/push.spec.ts)。

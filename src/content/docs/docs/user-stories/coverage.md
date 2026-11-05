@@ -52,6 +52,7 @@ sourcePath: "docs/user-stories/coverage.md"
 | 启动目录、Shell 报告目录、远端标记与复制目录                                                        | US-C04；US-C10                                      |
 | 会话链接当前标签页打开（US-C11 已退役）                                                             | US-C14                                              |
 | 浏览器标签页运行指示（标题标记、favicon 动画、减少动效）                                            | US-C13                                              |
+| 会话卡片菜单手动修改标题、清空恢复自动标题                                                          | US-C15                                              |
 | 按路径打开文件或目录                                                                                | US-I14                                              |
 | 文件内查找、跳转行、行号和 Diff 换行                                                                | US-I05                                              |
 | 修改分组/筛选、统一/并排 Diff、上下文与完整文件                                                     | US-I06–US-I08                                       |
@@ -87,7 +88,7 @@ sourcePath: "docs/user-stories/coverage.md"
 | 文档可达性、相对链接与锚点、README 首页预算                                                         | US-L12                                              |
 | Storybook、截图、baseline、CI 与 release                                                            | US-L03–US-L04                                       |
 | 发布签名、签名密钥检查、发布前验证与密钥轮换                                                        | US-L13                                              |
-| 开发版发布：`dev` Release、版本推导、跳过规则、保留两次构建与独立签名密钥                           | US-L14                                              |
+| 开发版发布：`dev` Release、版本推导、跳过规则、只保留当前构建与独立签名密钥                         | US-L14                                              |
 | 分层架构测试、线上 JSON 快照、必填数组 Zod 契约与重新录制                                           | US-L05                                              |
 | agent 适配器接口、注册表、Claude 进程注册记录与隐私边界、契约测试与 agent 名称守卫                  | US-L05；US-Q01；US-Q03                              |
 | 前端架构守卫：设计系统 lint、分层、重复代码、未使用代码与基线                                       | US-L06                                              |

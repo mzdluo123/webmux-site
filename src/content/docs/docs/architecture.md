@@ -67,7 +67,7 @@ flowchart LR
 | `internal/wsl`                                | 共享的 WSL 判定与 `wslinfo --networking-mode` 探测                                              |
 | `internal/codeview`                           | 只读文件浏览、Git 修改列表、内容快照与变化检测；根内文件操作与目录 ZIP                          |
 | `internal/push`                               | Web Push 订阅存储、注意力提醒与出站推送                                                         |
-| `internal/archtest`                           | 只含测试：分层清单与架构规则 R0–R10                                                             |
+| `internal/archtest`                           | 只含测试：分层清单与架构规则 R0–R11                                                             |
 | `internal/docguard`                           | 只含测试：文档与 spec 的行数、体积、目录扇出与树状组织规则                                      |
 | `internal/wslclient`                          | Windows 客户端共用：`wsl.exe --exec webmux bridge` 拨号器、目标发行版解析、Windows→WSL 路径换算 |
 | `internal/attach`                             | 原生终端附着核心（帧、控制权、尺寸、分离键、退出码）与 Unix / Windows 控制台适配                |
@@ -110,24 +110,25 @@ Tailscale 控制器的生命周期：
 | 共享           | `contract`、`config`、`runtime`、`jsonutil`、`statefile`、`settingsstore`、`fetch`、`pathutil`、`attentionkind`、`wsl`、`acp`、`agentprofile/...`    | 线上契约与基础设施，不依赖 Service 或 Controller                                   |
 | 服务器外客户端 | `client`、`localclient`、`attach`、`sessioncmd`、`tray/...`、`wslclient`、`tunnel`、`service`                                                        | 只通过线上协议访问服务器，只依赖共享层和其他客户端                                 |
 
-| 规则 | 检查                                                                                                                                                                                                                                                                                          |
-| ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| R0   | `internal/` 下每个包都在清单中，清单没有过期条目；出站与编码登记指向 Service 包；纯函数登记具有理由、真实包级函数及 Controller 使用点                                                                                                                                                         |
-| R1   | 依赖方向：Service 不导入 Controller、`cmd/`、WebSocket 库或 `net/http/httptest`；共享层与客户端不导入 Service 或 Controller                                                                                                                                                                   |
-| R2   | 只有 `cmd/` 导入 `internal/api`                                                                                                                                                                                                                                                               |
-| R3   | Controller 不导入 `os/exec`、`syscall`、`golang.org/x/sys/...`、PTY 库或 `internal/statefile`                                                                                                                                                                                                 |
-| R4   | Controller 不使用读写、创建或删除文件系统条目的 `os` 函数（`os.Hostname` 等不受限）                                                                                                                                                                                                           |
-| R5   | Controller 的构造、状态和 I/O 操作只调用注入实例的方法；只允许显式登记并附理由的 Service 包级纯函数（目前为 `push.Validate`、`hybrid.FormValue`）；可以引用 Service 的类型、常量与哨兵错误                                                                                                    |
-| R6   | Service 不使用服务端 HTTP 符号，不声明以 `*http.Request` 为参数的函数；只有登记为出站的 `push` 可以使用 HTTP 客户端符号                                                                                                                                                                       |
-| R7   | Service 错误不携带整数 `Status`/`StatusCode`/`HTTPStatus`/`HTTPStatusCode` 字段，不提供错误到整数状态的同名方法或函数；显式 HTTP 状态方法或函数始终禁止。允许大小、行号、退出码等业务整数及非错误对象的 `Status() int`；HTTP 状态映射归 `internal/api/errors.go`                              |
-| R8   | Controller 编解码的每个 JSON 值都是 `contract` 中的具名类型（可经指针、切片、映射）；汇点是 `encoding/json` 的编解码函数和登记的包装函数 `api.reply`/`decode`/`decodeOptional`/`serveCode`、`hub.jsonFrame`；接口类型的值只能出现在登记的包装函数内；`contract` 类型的字段不引用 Service 类型 |
-| R9   | Service 不声明 `MarshalJSON`；JSON 编码器只能在登记函数体内直接调用（Web Push 载荷与 VAPID 头、代码视图摘要）。检查整个源码，包括包级初始化；禁止保存编码器函数值或方法值，即使位于登记函数中                                                                                                 |
-| R10  | `contract` 不导入 Service 或 Controller                                                                                                                                                                                                                                                       |
+| 规则 | 检查                                                                                                                                                                                                                                                                                      |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R0   | `internal/` 下每个包都在清单中，清单没有过期条目；出站与编码登记指向 Service 包；纯函数登记具有理由、真实包级函数及 Controller 使用点                                                                                                                                                     |
+| R1   | 依赖方向：Service 不导入 Controller、`cmd/`、WebSocket 库或 `net/http/httptest`；共享层与客户端不导入 Service 或 Controller                                                                                                                                                               |
+| R2   | 只有 `cmd/` 导入 `internal/api`                                                                                                                                                                                                                                                           |
+| R3   | Controller 不导入 `os/exec`、`syscall`、`golang.org/x/sys/...`、PTY 库或 `internal/statefile`                                                                                                                                                                                             |
+| R4   | Controller 不使用读写、创建或删除文件系统条目的 `os` 函数（`os.Hostname` 等不受限）                                                                                                                                                                                                       |
+| R5   | Controller 的构造、状态和 I/O 操作只调用注入实例的方法；只允许显式登记并附理由的 Service 包级纯函数（目前为 `push.Validate`、`hybrid.FormValue`）；可以引用 Service 的类型、常量与哨兵错误                                                                                                |
+| R6   | Service 不使用服务端 HTTP 符号，不声明以 `*http.Request` 为参数的函数；只有登记为出站的 `push` 可以使用 HTTP 客户端符号                                                                                                                                                                   |
+| R7   | Service 错误不携带整数 `Status`/`StatusCode`/`HTTPStatus`/`HTTPStatusCode` 字段，不提供错误到整数状态的同名方法或函数；显式 HTTP 状态方法或函数始终禁止。允许大小、行号、退出码等业务整数及非错误对象的 `Status() int`；HTTP 状态映射归 `internal/api/errors.go`                          |
+| R8   | Controller 编解码的每个 JSON 值都是 `contract` 中的具名类型（可经指针、切片、映射）；汇点是 `encoding/json` 的编解码函数和登记的包装函数（见 `layers_test.go` 的 `sinks`，如 `api.reply`、`api.serve`）；接口类型的值只能出现在登记的包装函数内；`contract` 类型的字段不引用 Service 类型 |
+| R9   | Service 不声明 `MarshalJSON`；JSON 编码器只能在登记函数体内直接调用（Web Push 载荷与 VAPID 头、代码视图摘要）。检查整个源码，包括包级初始化；禁止保存编码器函数值或方法值，即使位于登记函数中                                                                                             |
+| R10  | `contract` 不导入 Service 或 Controller                                                                                                                                                                                                                                                   |
+| R11  | Controller 只在登记函数（`layers_test.go` 的 `bodyReaders`：`decode`、`decodeOptional`、`decodeStrict`、`receiveUpload`）内读取请求体；`r.Body` 与 `ParseForm`、`MultipartReader` 等消费请求体的方法其他位置都不允许，新增 JSON 接口必须经这些函数，大小上限与未知字段策略因此集中        |
 
 **维护方式**
 
 - 新增 `internal/` 包时，在 `internal/archtest/layers_test.go` 的清单中归类；删除包时同时删除条目。
-- 例外只能写进清单的登记表（`outbound`、`sinks`、`encoders`、`pure`），并附理由，评审时可见。纯函数登记不能用于构造、状态访问或 I/O；缺失、未使用或指向非函数的条目使测试失败。依赖方向没有例外。
+- 例外只能写进清单的登记表（`outbound`、`sinks`、`bodyReaders`、`encoders`、`pure`），并附理由，评审时可见。纯函数登记不能用于构造、状态访问或 I/O；缺失、未使用或指向非函数的条目使测试失败。依赖方向没有例外。
 - 每条规则由 `internal/archtest/testdata/fixture` 中带 `// want Rn` 注释的故意违规验证；修改规则时同步增加违规与合规样例。
 - `AGENTS.md` 有 10 KiB 体积预算，由 `TestAgentsGuideSize`（`internal/archtest/agents_size_test.go`）检查；超限时把最不常用的规则原文迁入 `docs/agent-rules/`，规则索引见 [Agent 规则](agent-rules.md)。
 - Service 以哨兵错误报告错误种类（`workspace.ErrConflict`、`codeview.ErrGone`、`files.ErrTooLarge` 等），Controller 用 `errors.Is` 映射状态码，错误文本不变。
