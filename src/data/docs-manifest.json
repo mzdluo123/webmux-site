@@ -1,8 +1,8 @@
 {
   "repo": "mzdluo123/webmux",
-  "ref": "v0.12.0",
-  "commit": "cb3f9317a2f15591067c3fbea163840ca93b705f",
-  "latestRelease": "v0.12.0",
+  "ref": "v0.12.1",
+  "commit": "6d191db2ff67d0e889f088b29daa4aa79e0b534b",
+  "latestRelease": "v0.12.1",
   "fallbackToMain": false,
   "docs": [
     {
@@ -141,7 +141,7 @@
       "source": "docs/overview.md",
       "url": "/docs/overview/",
       "titleAnchor": "项目介绍",
-      "sha256": "35fb52807b2b33e229526ba9a18bcd78d3c7b750f48a1a179a5f92e87cb057bd"
+      "sha256": "f2e24eda5d9da84e560dad10763891d8df8f74fb01b5e7b96d0bb557e5cf1e1f"
     },
     {
       "source": "docs/page-performance.md",
@@ -153,7 +153,7 @@
       "source": "docs/performance.md",
       "url": "/docs/performance/",
       "titleAnchor": "布局稳定性与-4-cpu-回归",
-      "sha256": "8e713f4f612140e79ac1e96c42bb75f668e9c8acd28a0143930b1da8e059e882"
+      "sha256": "392a4f3bcef4f971061137614b04ef5b2e9ba20e670809a33734907cf33f5a43"
     },
     {
       "source": "docs/persistence.md",
@@ -255,7 +255,7 @@
       "source": "docs/usage.md",
       "url": "/docs/usage/",
       "titleAnchor": "使用指南",
-      "sha256": "166b4bae54969ec7a6d1d10be016da4b667b5b64e6279cc5e1db612d9ce6ac2b"
+      "sha256": "32b5e092b32c9bed9a9951e1e40cb1db9bf0e748484d576f2644de98ee10a9a0"
     },
     {
       "source": "docs/usage/attention.md",
@@ -303,7 +303,7 @@
       "source": "docs/user-stories/access-and-sessions.md",
       "url": "/docs/user-stories/access-and-sessions/",
       "titleAnchor": "连接启动与会话总览",
-      "sha256": "24a1e569dbaea6e84a9ab975b7862f60ff109da1002eb5ef1a0983c8d3c36741"
+      "sha256": "ef846742f0f8fed4f35c8dee7e82b3128ed18cfb6df144d77178d293144a6b2b"
     },
     {
       "source": "docs/user-stories/clients-network-tray.md",
