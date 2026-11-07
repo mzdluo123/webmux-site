@@ -45,6 +45,26 @@ Claude Code、Codex、Antigravity CLI、OpenCode、Qoder、QoderCN 和 omp 的�
 CLI 使用服务用户的权限、账号、环境和配置。WebMux 不代管模型密钥，不为这些命令增加进程沙箱。
 缺少程序时该次会话启动会报告错误；其他启动配置和已有会话仍可使用。
 
+## 文件夹信任预写
+
+Claude Code、Codex、GitHub Copilot CLI 和 Antigravity CLI 首次在某个目录启动时会询问“是否信任此文件夹”，`--dangerously-skip-permissions` 一类参数不会跳过这个问题；无人看着的会话会一直停在对话框上。
+`agent_pretrust`（默认开启）让 WebMux 在新建会话、命令被识别为这四款 CLI 时，先把启动目录记入它们自己的配置，做法与 [Orca](https://www.onorca.dev/docs/agents/supported) 一致：
+
+| CLI             | 写入位置（环境变量可改）                   | 写入内容                                           |
+| --------------- | ------------------------------------------ | -------------------------------------------------- |
+| Claude Code     | `~/.claude.json`（`CLAUDE_CONFIG_DIR`）    | `projects["<目录>"].hasTrustDialogAccepted = true` |
+| Codex           | `~/.codex/config.toml`（`CODEX_HOME`）     | `[projects."<目录>"]` 下 `trust_level = "trusted"` |
+| GitHub Copilot  | `~/.copilot/config.json`（`COPILOT_HOME`） | 在 `trustedFolders` 数组追加目录                   |
+| Antigravity CLI | `~/.gemini/antigravity-cli/settings.json`  | 在 `trustedWorkspaces` 数组追加目录                |
+
+- 环境变量先取会话自己的环境变量，再取服务进程的。目录先解析符号链接。Antigravity CLI 没有改变该位置的环境变量，只用主目录。
+- 只对启动目录写入。主目录、它的上级目录和文件系统根永不写入，因为这些 CLI 的信任范围包含其下所有子目录。
+- 已有文件保留其他内容与权限，用临时文件加改名替换；已经记录过则不写。Codex 追加一个新表，保留你的注释；你显式设为 `untrusted` 的目录不会被改写。
+- Claude Code、Copilot 与 Antigravity CLI 的配置文件不存在时不创建，让 CLI 完成首次设置；Codex 只在 `~/.codex` 目录已存在时才创建 `config.toml`。无法解析（例如带注释的 JSON）时原样保留。
+- 任何失败只写一条日志，不阻止会话启动，CLI 照常显示自己的对话框。设置 `agent_pretrust = false` 完全关闭。
+- 只对新建会话生效，已运行或恢复的会话不受影响。混合会话的聊天端经 ACP 启动，不依赖这个对话框。
+- 其他 CLI：Qwen Code 的文件夹信任默认关闭，OpenCode、omp、Kimi 没有这个对话框；Cursor CLI、CodeBuddy 与 Qoder 的交互式信任记录格式尚未核实，暂未预写。Qoder 在未信任目录里会忽略 `--dangerously-skip-permissions`，需要先在该目录手动信任一次。
+
 ## 已有安装
 
 升级不会改写已经存在的 `launch-configs.json`，包括用户删空后的文件。
@@ -59,9 +79,9 @@ CLI 使用服务用户的权限、账号、环境和配置。WebMux 不代管模
 
 十一款 CLI 都使用持久 PTY 终端：浏览器断线不会结束进程，可重新连接并回放缓冲；服务重启会结束会话。
 十一款中 Claude Code、Codex CLI、Antigravity CLI、OpenCode、Qoder 与 QoderCN 提供 WebMux 的混合会话支持，可在终端与聊天视图之间切换；原有 omp 也继续支持混合会话。
-Claude Code 与 Codex CLI 的聊天端需要另外安装第三方 ACP 连接器，见 [混合会话](hybrid-sessions.md#开启)。
+Claude Code 与 Codex CLI 的聊天端需要另外安装第三方 ACP 连接器，见 [混合会话支持的 agent 与连接器](hybrid-sessions/agents.md)。
 Qoder 与 QoderCN 使用内置 `--acp` 标志启动 ACP，无需额外连接器。
 其他五款使用终端视图，不能仅凭其提供 ACP 接口就视为已适配 WebMux 的切换和恢复行为。
 
 运行、空闲与等待状态使用通用终端判断；具体的回答、授权与完成提醒取决于 CLI 发出的结构化事件、OSC 通知或 BEL。
-现有 Claude Code、Codex 和 omp 提醒配置见 [使用指南](usage.md#需要你介入的提醒)。
+现有 Claude Code、Codex 和 omp 提醒配置见 [使用指南](usage/attention.md)。

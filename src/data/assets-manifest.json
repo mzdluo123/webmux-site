@@ -1,7 +1,7 @@
 {
   "repo": "mzdluo123/webmux",
-  "ref": "v0.12.1",
-  "commit": "6d191db2ff67d0e889f088b29daa4aa79e0b534b",
+  "ref": "v0.13.1",
+  "commit": "eb965a412bc7e2a914f0e91c200af983c528a8c8",
   "files": [
     {
       "source": "docs/images/brand/webmux-logo-light.svg",
@@ -71,52 +71,52 @@
     {
       "source": "docs/images/hero.jpg",
       "dest": "src/assets/screenshots/hero.jpg",
-      "sha256": "4df292365f256b9aea437c32233a93cbd9ef8e3717a9a7f3b8a919d055dd536b"
+      "sha256": "dbcff3b952eb9d66194e79aac7e9345379832d948ef707f3ae943b184dba2cbf"
     },
     {
       "source": "docs/images/desktop-overview.png",
       "dest": "src/assets/screenshots/desktop-overview.png",
-      "sha256": "8158073f68ca3ee530e8b8f646087c43abd5b0ffbe42bd951f4faf464ecfff1e"
+      "sha256": "f3f27f332230c139ec15c41cb9c827ce4a2de5d2e3cbc79e5f2c97216110b345"
     },
     {
       "source": "docs/images/mobile-overview.png",
       "dest": "src/assets/screenshots/mobile-overview.png",
-      "sha256": "44988e3567b70819585184d47928833dda01bfaccd93c84b7aed4f01629390ed"
+      "sha256": "ee8dc5554d177a6be9a695f90a78b82f02071b6a1088188908e6479ad4025f26"
     },
     {
       "source": "docs/images/mobile-omp.png",
       "dest": "src/assets/screenshots/mobile-omp.png",
-      "sha256": "90f5662dbe19da94d7295b462ab797e1677666a73581fde4bbafc0a297266325"
+      "sha256": "aef77d2a00a763fc45b7796ca8f77026cc5392193f1bd1a702e4ce925b66a0fc"
     },
     {
       "source": "docs/images/mobile-chat.png",
       "dest": "src/assets/screenshots/mobile-chat.png",
-      "sha256": "44b143e4ee953b454670361c01bffc68e7912c9961aff214ce0d5e49a039347c"
+      "sha256": "ac44e42bfeaeb516cda5b4fb92b955c4add3b714c457fe61d549f88e169819c6"
     },
     {
       "source": "docs/images/desktop-diff.png",
       "dest": "src/assets/screenshots/desktop-diff.png",
-      "sha256": "810ab62f55d8ec03093521b5aadec357d2ce04fa843dbe95c027bc3c548153b2"
+      "sha256": "3d3520a2736fd734c9c462f66f36b065cbcbc41a10848bb4798e7f21f510bfeb"
     },
     {
       "source": "docs/images/desktop-chat.png",
       "dest": "src/assets/screenshots/desktop-chat.png",
-      "sha256": "e3a288c3a88757927cfd16be077333f071881d50099833dc0e7e66457af3821a"
+      "sha256": "0d18857ff3e407d778dd5cb901be6cdf2e5b9a9ed9e1ae0c49cd3192caa0eb56"
     },
     {
       "source": "docs/images/desktop-terminal.png",
       "dest": "src/assets/screenshots/desktop-terminal.png",
-      "sha256": "e25726fd7a0fd3f868f69b347504e6d0ef867bd26970f32e88be547c24c06a99"
+      "sha256": "f9128c2296451b68a90ebefcb93e5c53cb7cd08450b05a7f04169a8a5518f0ed"
     },
     {
       "source": "docs/images/mobile-terminal.png",
       "dest": "src/assets/screenshots/mobile-terminal.png",
-      "sha256": "d0cd3a63c27e37373e9737c41ff8d9adbe00fba115afb1dc952a333ba3d768d8"
+      "sha256": "78beb8af12808b316a1d4e1a979e8552c7fb080a42156c52d06a56cfef5ad198"
     },
     {
       "source": "docs/images/mobile-diff.png",
       "dest": "src/assets/screenshots/mobile-diff.png",
-      "sha256": "44a8b3de4d068dba2ed0b689d5c462f07c9cb7eed4c681e83760d03eea665727"
+      "sha256": "e8da03d52dd233e7a1331db05fb3dcdff9367574152930faf83328e2f871d0dc"
     },
     {
       "source": "docs/images/terminal-splits/after-desktop-light.jpg",

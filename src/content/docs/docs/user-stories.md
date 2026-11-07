@@ -32,7 +32,7 @@ sourcePath: "docs/user-stories.md"
 | 分组 | 功能范围                               | 故事编号      |
 | ---- | -------------------------------------- | ------------- |
 | A    | 连接、认证、品牌标识与访问边界         | US-A01–US-A06 |
-| B    | 创建会话与选择启动位置                 | US-B01–US-B08 |
+| B    | 创建会话与选择启动位置                 | US-B01–US-B09 |
 | C    | 会话总览、搜索与提醒                   | US-C01–US-C17 |
 | D    | 终端操作、分屏、续接、多设备与生命周期 | US-D01–US-D15 |
 | E    | 剪贴板与文件上传                       | US-E01–US-E07 |
@@ -40,7 +40,7 @@ sourcePath: "docs/user-stories.md"
 | G    | 快捷指令                               | US-G01–US-G06 |
 | H    | 手机、平板与触摸操作、慢速网络         | US-H01–US-H11 |
 | I    | 代码工作区、Diff、引用与文件操作       | US-I01–US-I19 |
-| J    | 仓库登记与 worktree 管理               | US-J01–US-J12 |
+| J    | 仓库登记与 worktree 管理               | US-J01–US-J14 |
 | K    | 配置、运行与服务管理                   | US-K01–US-K17 |
 | L    | 开发、验证与发布支持                   | US-L01–US-L14 |
 | M    | 原生终端、CLI 与本机控制面             | US-M01–US-M08 |
@@ -49,6 +49,7 @@ sourcePath: "docs/user-stories.md"
 | P    | Tailscale Serve / Funnel               | US-P01–US-P08 |
 | Q    | 混合会话（聊天 ↔ 终端）                | US-Q01–US-Q19 |
 | R    | 端口转发预览                           | US-R01–US-R04 |
+| S    | 脚本与 agent 控制                      | US-S01–US-S19 |
 
 ## 分组文档
 
@@ -65,14 +66,17 @@ sourcePath: "docs/user-stories.md"
 | [网络压缩用户故事](user-stories/terminal-network.md)             | H10–H11            |
 | [混合会话](user-stories/hybrid-sessions.md)                      | Q                  |
 | [端口转发预览](user-stories/port-forwarding.md)                  | R                  |
+| [脚本与 agent 控制](user-stories/shell-control.md)               | S                  |
 | [功能覆盖核对与后续维护](user-stories/coverage.md)               | 覆盖索引与维护约定 |
 
 ## 核对记录
 
 各次局部核对的记录（对应的故事、已运行的验证、范围限制）按日期存放在以下文件，条目按日期升序。新的核对记录追加到最新的文件，不要写回本文；超过文件上限时按“拆分过长文件”的办法按日期再拆。
 
-| 文件                                                                                   | 日期范围                 |
-| -------------------------------------------------------------------------------------- | ------------------------ |
-| [verification-log-2026-10-23-to-26](user-stories/verification-log-2026-10-23-to-26.md) | 2026-10-23 至 2026-10-26 |
-| [verification-log-2026-10-27-to-31](user-stories/verification-log-2026-10-27-to-31.md) | 2026-10-27 至 2026-10-31 |
-| [verification-log-2026-11](user-stories/verification-log-2026-11.md)                   | 2026-11-01 至 2026-11-05 |
+| 文件                                                                                                   | 日期范围                 |
+| ------------------------------------------------------------------------------------------------------ | ------------------------ |
+| [verification-log-2026-10-23-to-26](user-stories/verification-log-2026-10-23-to-26.md)                 | 2026-10-23 至 2026-10-26 |
+| [verification-log-2026-10-27-to-31](user-stories/verification-log-2026-10-27-to-31.md)                 | 2026-10-27 至 2026-10-31 |
+| [verification-log-2026-11](user-stories/verification-log-2026-11.md)                                   | 2026-11-01 至 2026-11-05 |
+| [verification-log-2026-11-shell](user-stories/verification-log-2026-11-shell.md)                       | 2026-11-05 起            |
+| [verification-log-2026-11-archived-history](user-stories/verification-log-2026-11-archived-history.md) | 2026-11-06 起            |

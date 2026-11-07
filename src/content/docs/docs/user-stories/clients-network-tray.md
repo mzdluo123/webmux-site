@@ -5,7 +5,7 @@ sourcePath: "docs/user-stories/clients-network-tray.md"
 ---
 ## M. 原生终端、CLI 与本机控制面
 
-- **US-M01 从本地终端启动**：作为终端使用者，我希望用 `webmux run -- COMMAND ARG...` 创建并附着会话，或引用 Web 端保存的启动配置，以便保留原来的 CLI 工作习惯并随时转到浏览器。
+- **US-M01 从本地终端启动**（脚本用法与启动增强见 US-S07）：作为终端使用者，我希望用 `webmux run -- COMMAND ARG...` 创建并附着会话，或引用 Web 端保存的启动配置，以便保留原来的 CLI 工作习惯并随时转到浏览器。
   验收要点：
   - `--` 后 argv 原样传递；
   - `--launch-config NAME`（`--config-id` 别名）按 Web 端显示的唯一名称选择已保存配置，以服务端保存的 argv 与环境变量创建，名称不存在时以用法错误退出并列出已有名称，且与命令、`--env` 互斥；
@@ -30,7 +30,7 @@ sourcePath: "docs/user-stories/clients-network-tray.md"
   - 服务未运行返回 3，不自动拉起服务；
   - 结束后恢复控制台状态；
   - 取消、会话退出或断线会中断无输入时的终端读取，`Run` 返回前等待输入、输出与尺寸协程退出，不关闭 stdin，也不终止持久会话；
-  - Unix 的 poll/read 遇到信号中断时重试，不误判为终端关闭。混合会话在聊天端或切换中拒绝附着并以 1 退出；
+  - Unix 的 poll/read 遇到信号中断时重试，不误判为终端关闭。混合会话在聊天视图或切换中拒绝附着并以 1 退出；
   - 附着期间被切到聊天视为被动分离，以 0 退出（US-Q13）。
 - **US-M04 分离与重新接管**：作为原生终端使用者，我希望浏览器接管后本地按键不会误抢控制，并可明确接管或分离，以便安全切换设备。
   验收要点：
@@ -41,7 +41,8 @@ sourcePath: "docs/user-stories/clients-network-tray.md"
 - **US-M05 命令行发现与打开会话**：作为使用者，我希望用 `ls` 列出会话并用 `open ID` 获取入口，以便不经过首页就能找到目标。
   验收要点：
   - `ls` 显示 ID、名称、状态、命令和目录，`--json` 输出原始会话数组；
-  - `open` 校验目标并打印不含 token 的本机链接，`--browser` 可打开默认浏览器。`ls` 为混合会话在状态列附加所在端，`--json` 原样包含 `hybrid`（US-Q13）。
+  - `open` 校验目标并打印不含 token 的本机链接，`--browser` 可打开默认浏览器。`ls` 为混合会话在状态列附加所在视图，`--json` 原样包含 `views`、`view`、`transition` 与 `agent`，不含 `hybrid`（US-Q13）。
+  - `ls` 可按标签、父会话与状态筛选，`--state`/`--archived`/`--repo` 列出已归档会话（US-S15），`open` 接受 `self`（US-S01、US-S03）；`run`、`attach`、`ls`、`open` 的 `--help` 写到标准输出并以 0 退出（US-S04）。
 - **US-M06 诊断运行实例**：作为部署者，我希望用 `status` 看到健康状态、访问地址和配置漂移，以便确认正在使用哪个实例。
   验收要点：
   - 优先本机 API，必要时使用运行时记录与 TCP 健康检查；

@@ -62,6 +62,7 @@ flowchart LR
 | `internal/forward`                            | 端口转发：内存中的转发登记、上游可达性探测、一次性兑换码与转发凭据（网关在 `internal/api`）     |
 | `internal/workspace`                          | 仓库清单持久化、Git worktree 查询 / 创建 / 删除、启动目录协调                                   |
 | `internal/launch`                             | 启动配置持久化（`launch-configs.json`）、独立文件锁、校验与不可用状态                           |
+| `internal/agenttrust`                         | 启动 Claude / Codex / Copilot / Antigravity 前预写“信任此文件夹”记录（`agent_pretrust`）        |
 | `internal/tunnelsettings`                     | 隧道设置持久化、独立文件锁、校验与故障关闭                                                      |
 | `internal/tailscale`                          | Tailscale CLI 定位、状态/入口解析、Serve/Funnel 精确应用与移除、WSL/Windows provider 检测       |
 | `internal/tailscalesettings`                  | Tailscale 网页设置持久化、独立文件锁、校验与故障关闭                                            |
@@ -208,7 +209,7 @@ flowchart LR
 - **agent 适配器**：`internal/agentprofile` 是 agent 中立的核心，`hybrid` 只依赖其中的接口。
   - `Agent` 接口提供档案数据（命令写法、参数分类、恢复与 ACP 命令）、身份识别与中断键。
   - 只有部分 agent 具备的行为是可选小接口，`hybrid` 以类型断言使用：`Resumer`、`ConfigReapplier`、`Steerer`、`LockTracker`、`ForceSwitchNoter`。
-  - 每个 agent 是一个子包（`opencode`、`omp`、`codex`、`claudecode`），`agentprofile/agents` 用显式列表组成不可变注册表；`agentprofile/agenttest` 是每个适配器都运行的契约测试。
+  - 每个 agent 是一个子包（`opencode`、`omp`、`codex`、`claudecode`、`agy`、`qoder`、`qodercn`），`agentprofile/agents` 用显式列表组成不可变注册表；`agentprofile/agenttest` 是每个适配器都运行的契约测试。
   - 新增 agent 只需新增子包并在注册表登记（启动预设、图标与文档另行添加）；`internal/archtest` 守住 `acp`、`hybrid`、核心包与 `web/src` 不出现 agent 名称。
 - **生命周期**：从终端或聊天开始，协议见 [混合会话接口](protocol/http-hybrid.md)。
   - 切换失败自动回到原端；TUI 自行退出或回滚失败标记 `interrupted`。

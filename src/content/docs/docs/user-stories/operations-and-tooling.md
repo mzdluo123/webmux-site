@@ -32,9 +32,9 @@ sourcePath: "docs/user-stories/operations-and-tooling.md"
   - 配置修改需重启生效。
 - **US-K04 调整会话与提醒行为**：作为部署者，我希望配置默认目录、缓冲和状态判断，并单独管理启动命令，以便适配自己的 agent 与资源预算。
   验收要点：
-  - 支持 `default_cwd`、`scrollback_bytes`、`idle_after_seconds`、`prompt_patterns`、`agent_protocol`、`bell_attention`、`program_status`，校验正则；
+  - 支持 `default_cwd`、`scrollback_bytes`、`idle_after_seconds`、`prompt_patterns`、`agent_protocol`、`bell_attention`、`program_status`、`agent_pretrust`，校验正则；
   - 启动命令完全通过自定义配置或显式 argv 提供，原 `shell`/`presets` 配置项不再提供内置命令，新安装首次启动在 `launch-configs.json` 写入常见 agent 预设；
-  - 提醒集成方式见 [使用指南](../usage.md#需要你介入的提醒)。
+  - 提醒集成方式见 [使用指南](../usage/attention.md)。
 - **US-K05 安装后台用户服务**：作为部署者，我希望以当前用户安装并启动后台服务，以便不需要一直开着前台终端。
   验收要点：
   - `service install` 使用 Linux systemd 用户服务或 macOS LaunchAgent，无需 sudo；
@@ -163,11 +163,12 @@ sourcePath: "docs/user-stories/operations-and-tooling.md"
 - **US-L02 分层验证与诊断**：作为贡献者，我希望运行 Go race、前端单元、浏览器与隔离 E2E 测试，以便验证会话、安全和交互行为。
   验收要点：
   - 提供 `make test` 完整门禁与 `make test-fast` 快速入口、类型/格式/lint 检查；
+  - 提供 `make cover`（`cover-go`、`cover-web`）与 CI 覆盖率报告：Go race 采集 atomic 语句覆盖率（排除测试守卫与假 agent 包）并输出包级摘要与 HTML，前端合并 Vitest Node 单元与 Chromium 浏览器组件测试的 V8 覆盖率，写入 `$GITHUB_STEP_SUMMARY` 并上传报告产物；
   - `make test` 一次构建前端与 E2E 程序供 E2E/性能复用，本地默认最多 2 个 E2E worker（`WEBMUX_E2E_WORKERS` 可覆盖，CI 为 2 个），Go 默认 `-parallel=4`（`GO_TEST_PARALLEL` 可调）；
   - Go 采用 Uber Style Guide 与登记的仓库例外，`make check` 和 CI 在前端构建后执行 `go vet ./...`（CI 另以 `GOOS=darwin` 检查 macOS 构建）及固定 v2.15.0 的 golangci-lint（errcheck/govet/ineffassign/staticcheck/unused），生产零告警，测试仅冻结 errcheck，新增代码零新增告警，豁免只能收紧；
   - CI 先由 `Classify changes` job 按路径裁剪：仅文档变更只跑格式、文档、持久化与 agent/web 静态守卫，仅 Go 变更跳过前端套件，仅前端变更跳过 Go race 与 Windows 交叉编译，未知路径和工具/依赖变更全量运行；
   - 每次推送到 `main` 都强制完整运行（跳过分类），供发版复用；GitHub 并发组只保留一个待运行，密集合并仍可能取消中间提交的待运行，该提交发版时回退完整重跑；
-  - 独立的 `E2E runtime` job 按冻结锁文件统一安装并打包 Playwright 运行依赖，连同以 `omp`、`opencode`、`codex`、`codex-acp`、`claude`、`claude-agent-acp` 命名的假 ACP agent 一次构建供 Ubuntu 4 个 E2E 分片及 Go race job 共用；
+  - 独立的 `E2E runtime` job 按冻结锁文件统一安装并打包 Playwright 运行依赖，连同以 `omp`、`opencode`、`codex`、`codex-acp`、`claude`、`claude-agent-acp`、`agy` 命名的假 ACP agent 一次构建供 Ubuntu 4 个 E2E 分片及 Go race job 共用；
   - 分片仅准备 Node 与浏览器，不重复安装 pnpm、前端依赖、Go 或构建应用；
   - 显式预构建路径无效或缺少假 agent 时失败，本地默认仍从源码构建；
   - CI 不再使用 macOS runner（GitHub macOS arm64 容量不足导致 job 长时间排队后失败），只以 `GOOS=darwin go vet` 检查 macOS 构建；macOS 运行时行为需在 Mac 本机运行 `make test` 验证；
@@ -181,6 +182,7 @@ sourcePath: "docs/user-stories/operations-and-tooling.md"
   - Storybook 提供设计系统、工作区与溢出场景；
   - 浏览器检查布局与可达性；
   - 截图脚本运行真实后端；omp 对话默认从仓库内录制的会话回放，不调用模型，`WEBMUX_SCREENSHOTS_RECORD=1` 时真实录制并导出新会话；
+  - 截图脚本按当前侧栏外壳与新建会话弹窗操作，并额外生成端口转发提示（`desktop-port-forward.png`）与快速开始页（`desktop-quick-start.png`）两张功能截图；
   - `screenshots:hero` 由已生成的桌面与手机截图合成 README 主图，缺图时失败；
   - 可见 UI 的 PR 按项目要求附最终实现截图。
 - **US-L04 基线评测与多平台发布**：作为维护者，我希望可复现地测量核心能力并构建各平台产物，以便比较回归和交付版本。
@@ -276,7 +278,7 @@ sourcePath: "docs/user-stories/operations-and-tooling.md"
 - [前端代码质量基线](../frontend-style.md)、[AGENTS.md](../../AGENTS.md)、[CONTRIBUTING.md](../../CONTRIBUTING.md)
 - [Go 质量基线](../go-style.md)、[Go lint 配置](../../.golangci.yml)、[数组契约 fixture](../../internal/wire/arrays_test.go)
 - [数组 Zod 用例](../../web/test/wireArrays.test.ts)、[推送 API 用例](../../internal/api/push_test.go)、[Node.js 版本](../../.nvmrc)
-- [CI 工具链](../../.github/actions/setup/action.yml)、[Makefile](../../Makefile)、[前端命令](../../web/package.json)
+- [CI 工具链](../../.github/actions/setup/action.yml)、[Makefile](../../Makefile)、[前端命令](../../web/package.json)、[Go 覆盖率汇总](../../.github/scripts/go-coverage-summary.sh)、[前端覆盖率合并](../../web/scripts/merge-coverage.mjs)
 - [贡献指南](../../CONTRIBUTING.md)、[Storybook](../storybook.md)、[评测说明](../../baseline/README.md)
 - [真实终端分配基准](../../internal/hub/hub_bench_test.go)、[CI](../../.github/workflows/test.yml)、[E2E 初始化](../../web/test/e2e/global-setup.mjs)
 - [分层清单](../../internal/archtest/layers_test.go)、[agent 名称守卫](../../internal/archtest/agentnames_test.go)、[架构规则](../../internal/archtest/arch_test.go)、[规则样例](../../internal/archtest/testdata/fixture)
