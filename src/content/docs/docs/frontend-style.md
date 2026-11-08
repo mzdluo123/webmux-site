@@ -72,7 +72,7 @@ Google 的指南自述部分条款受其内部环境约束，因此只采纳类�
 
 Oxlint 只解析 Svelte 的 `<script>`，不提供模板规则，也不对 `.svelte` 脚本做类型感知检查；模板事件处理器中的异步 rejection 仍需按第 6 条人工审查，Svelte 模板规则由 `pnpm --dir web check:arch` 的 ESLint 执行。
 
-类型感知模式同时启用其余 correctness 规则（`await-thenable`、`no-array-delete`、`no-base-to-string`、`no-implied-eval`、`no-misused-spread` 与 `unbound-method`）；`codePopout.ts` 的属性描述符解构和 `terminal.svelte.ts` 的对象方法转交不依赖 `this`，在这两个文件关闭 `unbound-method`。
+类型感知模式同时启用其余 correctness 规则（`await-thenable`、`no-array-delete`、`no-base-to-string`、`no-implied-eval`、`no-misused-spread` 与 `unbound-method`）；`code-popout.ts` 的属性描述符解构和 `terminal.svelte.ts` 的对象方法转交不依赖 `this`，在这两个文件关闭 `unbound-method`。
 
 `check`、`build`、`check:storybook` 与 `check:test` 都以 `--fail-on-warnings` 运行，警告不得静默累积。引入带存量违规的新规则时，先记录基线，再按 [前端架构守卫](frontend-architecture.md#基线与新规则) 的方式收紧。
 
@@ -85,7 +85,7 @@ Oxlint 只解析 Svelte 的 `<script>`，不提供模板规则，也不对 `.sve
 | ---------- | --------------------------------------------- | ------------------------------------------ |
 | 纯逻辑     | Vitest（Node）                                | 解析、转换、校验、状态映射、重试与错误映射 |
 | 组件行为   | Vitest Browser Mode + `vitest-browser-svelte` | 输入、提交、加载与错误状态、弹窗交互       |
-| 端到端     | Playwright（桌面与 Pixel 7）                  | 关键用户流程、失败路径、键盘与触控         |
+| 端到端     | Playwright（桌面与 iPhone SE）                | 关键用户流程、失败路径、键盘与触控         |
 | 视觉与溢出 | Storybook + Playwright                        | 极端内容、明暗主题、窄屏布局               |
 
 测试定位优先使用角色与标签（`getByRole`、`getByLabel`），断言用户可见行为；避免内部类名、实现细节与固定 `sleep`。用例之间保持独立，不连接开发中的服务。

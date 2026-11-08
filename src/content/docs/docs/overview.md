@@ -82,7 +82,7 @@ Windows 不是“顺带能用”的平台。
 
 ### 多设备与平台
 
-- **移动端优先**：软键栏（Esc / Ctrl / Alt / Shift / 方向键等）、触摸滚动、双指缩放、长按选词复制、虚拟键盘视口适配。
+- **移动端优先**：软键栏（Esc / Ctrl / Alt / Shift / 方向键等）、触摸滚动、长按选词复制、虚拟键盘视口适配。
 - **安装为应用与推送**：可安装为 PWA；agent 等你回复时，锁屏的手机也能收到 Web Push 通知，见 [安装为应用与手机推送](deployment/pwa-and-push.md)。
 - **远程访问**：推荐 Tailscale / WireGuard 等可信 VPN；也可托管 [Tailscale Serve / Funnel](tailscale.md) 或 [Cloudflare Named Tunnel](cloudflare-tunnel.md) 提供 HTTPS 入口。
 - **Windows（WSL）**：托盘程序管理 WSL 中的服务与访问入口，控制台客户端在 PowerShell / Windows Terminal 中附着会话。
@@ -103,7 +103,7 @@ OpenCode、omp、Codex CLI、Claude Code、Antigravity CLI、Qoder 与 QoderCN �
   - 圆环显示上下文用量，点击查看 Token 详情。
 - **多设备协作**：回合进行中的消息进入所有设备共享的队列，omp 与 Codex 还支持插话；权限请求与表单在所有设备同步。
   - 上传的图片与文件按 agent 能力以 ACP 内容块直接发送。
-- **持久运行、可恢复**：聊天端保持 agent 进程运行直到切换或显式归档；归档或服务重启后，从首页所属工作树的“已归档”中恢复到聊天或终端。
+- **持久运行、可恢复**：聊天端保持 agent 进程运行直到切换或显式归档；服务重启后自动恢复仍在运行的会话，已归档的可从首页所属工作树的“已归档”中恢复到聊天或终端。
 
 新安装预置的 Open Code、omp、Codex CLI、Claude Code、Antigravity CLI、Qoder 与 QoderCN 启动配置已开启混合模式：
 

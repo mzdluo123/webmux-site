@@ -23,7 +23,7 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
   - 选中混合配置时以带说明的单选项显示“从终端开始 / 从聊天开始”，默认终端；每个 agent 在浏览器里记住自己上次的起始端，没用过的 agent 沿用最近一次混合会话的选择；
   - 从终端开始在 PTY 中运行配置命令（OpenCode 注入 `--standalone`，命令中可见）；
   - 从聊天开始启动 ACP 进程并新建 agent 会话，PTY 中没有进程；
-  - 从聊天开始且未命名时，第一条消息一发出就以其文本（折叠空白，最多 80 个字符）作为临时标题，agent 上报标题后被替换，清除标题后回到目录名；只有附件、已命名或由终端切来的会话不设置；
+  - 从聊天开始且未命名时，第一条消息一发出就以其文本（折叠空白，最多 80 个字符；勾选初始化指令时只取用户输入，不含指令）作为临时标题，agent 上报标题后被替换，清除标题后回到目录名；只有附件、已命名或由终端切来的会话不设置；从终端开始的会话以首条用户指令为名（US-B07）；
   - 起始端以 `POST /api/sessions` 的 `view: "terminal" | "chat"` 提交，会话信息的 `view` 为所选视图、`views` 为 `["terminal","chat"]`；
   - 普通配置或手动命令带 `view: "chat"` 返回 400，旧字段 `startSide` 作为未知字段返回 400；
   - 记录存储不可用 503、记录已满 409。
@@ -63,8 +63,8 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
   - 聊天时间线中的链接与位置跳转：
     - agent 消息中的外部 `http(s):` / `mailto:` 链接在新标签页打开，图片显示为文字且标题不生成 `id`，危险或非代码协议链接只保留纯文本；
     - 指向代码位置的链接（本机 `file://` URI、绝对或相对路径，含 `#L10-L20`、`:10-20` 行范围与 `#标题` 片段）点击后在当前会话的代码浏览器（含已弹出的独立窗口）中打开文件源码并定位目标行范围或标题；相对路径先按会话当前目录、再按仓库根目录解析；文件正在显示对比时，标题链接切回预览并定位；
-    - 工具调用与“已浏览 N 项”中的文件位置、`resource_link` 点击后同样在代码浏览器中打开目标文件与行号；
-  - 工具调用显示一行摘要可展开，连续读取与搜索合并为“已浏览 N 项”，diff 显示增删行数并可在代码面板查看，同一 `toolCallId` 的更新只保留一行；
+    - 工具调用中的文件位置、`resource_link` 点击后同样在代码浏览器中打开目标文件与行号；
+  - 两段 agent 回复（或用户输入）之间连续的思考与工具调用默认折叠为一行并显示最新一条调用（含进行中动画与“共 N 步”，等待授权的调用优先显示；只有思考时显示“已思考”），点击展开后按顺序逐条列出并可再展开，diff 显示增删行数并可在代码面板查看，同一 `toolCallId` 的更新只保留一行；
   - 回合状态由服务端记录 `startedAt` / `endedAt`，进行中每秒显示已用时间，结束后保留总用时，刷新、重连与其他设备不重新计时；
   - Agent 在后台命令仍运行时以 `end_turn` 结束回合（如 agy）：
     - 服务端记录 `turn.unfinished: true`，回合尾标记在实时流、重连或历史截断后都显示“本轮已结束，仍有任务未完成”而非“已完成”，也不立即记“完成”提醒；
@@ -96,12 +96,14 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
   - 输入 `/` 打开随输入过滤的命令菜单。
 - **US-Q08 排队与插话**：作为使用者，我希望 agent 忙时继续发送消息并按顺序处理，以便不必等待也不会打断当前回合。
   验收要点：
-  - 发送经 `POST /api/sessions/{id}/input`（`mode` 为 `auto` 或 `steer`），停止回合经 `POST /api/sessions/{id}/interrupt`；会话在终端视图时带 `mode` 或附件的输入返回 409 `wrong_view`；
-  - 服务端队列多设备共享：空闲且未暂停时立即发送，否则排队，回合正常结束后逐条发送；
+  - 发送经 `POST /api/sessions/{id}/input`，`mode` 为 `auto`（默认）、`steer`、`refuse` 或 `now`，停止回合经 `POST /api/sessions/{id}/interrupt`；会话在终端视图时带 `mode` 或附件的输入返回 409 `wrong_view`，两个新模式同样不发送；
+  - 服务端队列多设备共享：空闲且未暂停时立即发送，否则排队，回合正常结束后逐条发送；排队结果带队列项 `itemId` 与从 1 开始的 `position`；
+  - `refuse` 在不能立即发送时返回 409 `busy` 且不入队；`now` 取消正在运行的回合后把这条提示排到队首并立即发送，不留队列项，语义同队列的立即发送；
   - 队列可编辑、上移、删除、二次确认后立即发送；
   - 回合被停止、出错或拒绝时队列暂停并提示继续或清空；
   - 按 `clientRequestId` 去重，重试不重复发送；
-  - 只有档案与 agent 都声明支持（omp、Codex、Claude Code）且回合进行中时显示“插话”，OpenCode 与 Antigravity CLI 没有插话；
+  - 只有档案与 agent 都声明支持（omp、Codex、Claude Code）且回合进行中时，输入文字后按 Ctrl/Cmd+Enter 才会插话（界面没有插话按钮），OpenCode 与 Antigravity CLI 没有插话；
+  - 回合进行中且没有文字与附件时，发送键变为停止键（名称“停止”），点击停止当前回合；有内容时保持“加入排队”；
   - Codex 与 Claude 的插话在回合已结束时返回 `promptRequired`（Claude 可为 `noRunningTurn`），这条消息排到队首作为下一回合发送，不产生 webmux 不知道的回合。
 - **US-Q09 聊天端提醒**：作为离开页面的使用者，我希望聊天端的回合状态像终端会话一样提醒我，以便及时回来批准或继续。
   验收要点：
@@ -125,16 +127,25 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
   验收要点：
   - 已归档会话与运行中会话同形：经 `GET /api/sessions?state=archived`（按 `archive.updatedAt` 倒序）与 `GET /api/sessions/{id}` 读取，`state` 为 `closed` 或 `interrupted`，运行时字段取零值，记录独有的字段在 `archive` 中；
   - 恢复经 `POST /api/sessions/{id}/resume {view}`（缺省为归档时的视图，对运行中会话 409 `not_archived`），删除记录经 `DELETE /api/sessions/{id}?forget=1`（同时删除临时文件夹，之后该 ID 返回 404）；
-  - 归档（关闭）混合会话把记录标为已关闭，记录保存会话最近的仓库/工作树关联，服务启动时把活动记录改为已中断并结束 PID 与启动标识都匹配的残留进程组；
+  - 归档（关闭）混合会话把记录标为已关闭，记录保存会话最近的仓库/工作树关联；服务启动时把活动记录改为已中断并结束 PID 与启动标识都匹配的残留进程组，随后自动恢复这些会话（沿用原 ID 与所在端），已关闭记录与此前已中断的记录不自动恢复，无法自动恢复的保持已中断并记日志；
+  - 用户在本页任一入口（会话页菜单、侧边栏、列表）停止并归档（混合会话）正在打开的会话后，页面自动离开（单窗格回首页，分屏只移除该窗格），不显示“可以恢复到聊天或终端”的横幅；普通终端由用户手动关闭时同样离开页面，并直接移除会话（不留“已退出”记录与横幅）；该横幅只用于打开已归档或已中断会话的页面；
   - 已归档记录显示在首页所属工作树活动会话下方的“已归档”中：旧记录按目录归入包含它的工作树，无匹配时进入直接会话；默认折叠并显示数量与已中断条数，每次显示最近 5 条；
   - 每条记录优先显示持久化的当前会话标题（旧记录没有标题时回退到创建名称）、agent、所在端、状态、时间与“上一轮可能未完成”“排队消息已丢失”提示：
     - 可恢复到聊天或终端（沿用原 ID）；已释放空间的记录标注“已释放空间”，恢复前先确认在原路径重建 worktree（US-J13）；
-    - 更多菜单提供“释放空间”（位于可用 linked worktree 且未释放时，US-J13）与“删除记录”：关联的 linked worktree 仍在时打开删除 worktree 确认流程一并清理，不在、已释放或位于主工作区/直接目录时确认后删除记录；
+    - 更多菜单提供以下操作：
+      - “释放空间”（位于可用 linked worktree 且未释放时，US-J13）；
+      - “删除记录”：确认后只删除记录并保留工作树；
+      - “删除记录和工作树”：仅在关联的 linked worktree 可删除时出现，打开删除 worktree 确认流程并列出将删除的聊天，成功删除工作树后一并删除该记录；
+      - 不在、已释放或位于主工作区/直接目录的记录只提供“删除记录”；
   - 原 agent 会话不存在时列出同目录候选，启动配置已删除时确认后不带环境变量恢复；
   - 在 WebMux 中删除工作树（安全或强制）成功后，该目录下已关闭或已中断的记录（含强制删除时刚关闭的会话留下的）保留并标为已释放，出现在所属仓库“已不可用工作区”，仍可重建并恢复（US-J09）；HEAD 无法解析时记录保持原样，不能重建；
   - Claude 记录沿用 `claudecode` 档案与通用候选/外部占用错误，恢复聊天后重应用 model/effort 并保留实际 mode，注册记录不可读不伪造无外部写者保证；
   - 记录不含环境变量值、消息、注册记录正文或 token，存储不可用时只禁用混合会话；
-  - 记录文件最多保存 200 条（含运行中）；新建混合会话时若已满，先淘汰最近未更新的已关闭或已中断记录，仍在运行、正在恢复或正在删除的记录不会被淘汰；淘汰会清理该记录的临时文件夹与不再共享的释放引用；没有可淘汰的记录时创建以 409 `limit` 拒绝，启动失败时恢复刚淘汰的记录。
+  - 记录文件最多保存 200 条（含运行中），文件另有 1 MiB 字节上限（命令很长时先于条数写满）：
+    - 新建混合会话时若任一上限已满，先淘汰最近未更新的已关闭或已中断记录，仍在运行、正在恢复或正在删除的记录不会被淘汰；
+    - 淘汰会清理该记录的临时文件夹与不再共享的释放引用；
+    - 没有可淘汰的记录时创建以 409 `limit` 拒绝，启动失败时恢复刚淘汰的记录；
+    - 每个配置记住的 agent 选项有数量与文本上限，且聊天选项缓存文件超过 1 MiB 时先丢弃最旧的配置记录。
 - **US-Q13 本地终端接入混合会话**：作为原生终端使用者，我希望 CLI 对混合会话的行为清楚可预期，以便与 Web 端的切换配合使用。
   验收要点：
   - `webmux run --launch-config` 引用混合配置时创建混合会话，默认从终端开始，`--view chat` 从聊天开始（US-S07）；
@@ -177,6 +188,9 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
 - **US-Q18 快速开始聊天**：作为想直接把任务交给 agent 的使用者，我希望在一个输入框写下任务、选好仓库和 agent 后按一次发送，就在新 worktree 里以聊天方式开工，以便省去建 worktree、选配置和等待聊天就绪这几步。
   验收要点：
   - 快速开始页 `/new` 是聊天模式的主区域：底部输入框，上方一行是仓库与基准分支，下方一行是 agent、该 agent 的配置项与权限模式；窄屏下 agent 与配置收进输入卡片；
+  - 窄屏（小于 640px）在快速开始页 `/new` 与聊天视图中的紧凑输入状态：
+    - 输入框未聚焦且无草稿文字、待发送附件、上传进度或发送中状态时，收起为单行紧凑输入条（仅保留单行输入框与发送/停止按钮），隐藏仓库与分支位置行、初始化指令勾选栏及底部辅助按钮；
+    - 点击或聚焦输入框（或打开其弹出菜单）时展开完整输入卡片，失焦且为空时自动收起；进入 `/new` 在窄屏或触屏设备上不自动抢占焦点；
   - 进入任一聊天视图时，输入框上方以同样的位置只读显示该会话的仓库与 worktree 分支（分离时为短提交号，无仓库的会话显示目录名），创建后不可更改；每次进入都重新读取仓库状态，读取完成前显示上次已知的值；
   - agent 旁的“启动方式”可选聊天或终端，本设备记住上次的选择；选终端时在 agent 的终端里启动（有附件时移入新会话上传目录并附上 `附件路径：`），不显示权限和配置项：
     - 已迁移命令行初始提示的 agent 通过首次启动参数直接传入消息（不写入 `SessionInfo.Cmd` 或混合会话记录）；
@@ -198,6 +212,7 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
       - 先 `{{dir}}`、说明最后插入，单遍，不展开其他名称；
       - 临时文件夹或说明不可用时预检即以 503 拒绝，不创建 worktree；
       - `webmux run --prompt` 与其他调用者不设置它，消息原文不变；终端视图首条消息同样适用；
+      - 终端视图的首条消息同样是会话名的来源（US-B07）：取去掉 `{{dir}}`、`{{webmux}}` 引用后的用户输入，不含初始化指令；
     - 服务端依次创建 worktree（自动分支名，路径为默认父目录下的分支名末段）、以聊天视图启动混合会话、应用配置与权限模式，并把首条消息作为第一轮提示发出，浏览器断开不影响；
     - 同一请求 ID 在执行中及完成后 10 分钟内重复提交只返回同一结果；
   - 仓库设置了初始化指令时，输入框附近显示“使用初始化指令”勾选框：
@@ -225,10 +240,10 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
 - [混合会话服务](../../internal/hybrid/)、[连接器检查](../../internal/hybrid/connector.go)、[agent 适配器核心](../../internal/agentprofile/)、[ACP 客户端](../../internal/acp/)
 - [agent 注册表](../../internal/agentprofile/agents/agents.go)、[Codex 适配器](../../internal/agentprofile/codex/codex.go)、[适配器契约测试](../../internal/agentprofile/agenttest/agenttest.go)
 - [Claude Code 适配器](../../internal/agentprofile/claudecode/claudecode.go)、[Claude 注册记录](../../internal/agentprofile/claudecode/registry.go)、[Antigravity CLI 适配器](../../internal/agentprofile/agy/agy.go)
-- [会话外壳与伴随进程](../../internal/session/shell.go)、[进程事实](../../internal/session/process_facts.go)、[聊天接口](../../internal/api/chat.go)、[聊天通道](../../internal/hub/chat.go)
+- [会话外壳与伴随进程](../../internal/session/lifecycle.go)、[进程事实](../../internal/session/process_facts.go)、[聊天接口](../../internal/api/chat.go)、[聊天通道](../../internal/hub/chat.go)
 - [启动配置](../../internal/launch/types.go)、[聊天视图](../../web/src/components/chat/)、[代码链接解析](../../web/src/markdown-link.ts)、[代码工作区](../../web/src/components/CodeWorkspace.svelte)、[会话页](../../web/src/pages/Terminal.svelte)
 - [已归档记录](../../web/src/components/ArchivedSessions.svelte)、[归位规则](../../web/src/archived.ts)、[安装提示](../../web/src/components/ConnectorInstallHint.svelte)、[原生附着](../../internal/attach/attach.go)
 - [使用说明](../hybrid-sessions.md)、[协议](../protocol/http-hybrid.md)、[创建会话协议](../protocol/http-session-create.md)、[端到端测试](../../web/test/e2e/hybrid.spec.ts)。
 - [会话卡片](../../web/src/components/SessionRow.svelte)、[会话页头部](../../web/src/components/TerminalHeader.svelte)、[品牌图标](../../web/src/components/LaunchConfigIcon.svelte)、[图标一致性测试](../../internal/launch/presets_test.go)
-- [快速开始页](../../web/src/pages/QuickStart.svelte)、[快速开始状态](../../web/src/quickStart.ts)、[创建编排](../../internal/workspace/create_session.go)、[会话接口](../../internal/api/sessions.go)、[按视图输入](../../internal/hybrid/input.go)、[配置项清单](../../internal/hybrid/options.go)
+- [快速开始页](../../web/src/pages/QuickStart.svelte)、[快速开始状态](../../web/src/quick-start.ts)、[创建编排](../../internal/workspace/create_session.go)、[会话接口](../../internal/api/sessions.go)、[按视图输入](../../internal/hybrid/input.go)、[配置项清单](../../internal/hybrid/options.go)
 - [聊天历史](../../web/src/components/ChatHistory.svelte)、[快速开始浏览器用例](../../web/test/browser/QuickStart.test.ts)、[聊天历史浏览器用例](../../web/test/browser/ChatHistory.test.ts)、[快速开始端到端用例](../../web/test/e2e/quick-start.spec.ts)。

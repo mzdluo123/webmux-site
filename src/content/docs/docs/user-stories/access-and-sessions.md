@@ -37,6 +37,8 @@ sourcePath: "docs/user-stories/access-and-sessions.md"
   - 健康检查返回可用状态和会话数；
   - 配置接口提供默认目录、主机名和工作区能力，不返回 token；
   - 首页展示连接与能力异常。
+  - 侧栏底部的主机状态入口可点击查看主机名、连接状态、健康检查往返延时、系统负载（1/5/15 分钟与核心数）和可用/总内存；
+  - 往返延时高于 200 毫秒，或 1 分钟负载高于核心数的 50% 时，状态灯变黄并在提示中说明原因；平台无法提供负载或内存时对应行不显示。
 - **US-A05 脚本访问**：作为进阶使用者，我希望通过 REST 和 WebSocket 操作会话，以便接入自己的脚本或客户端。
   验收要点：
   - 提供会话、配置、目录、上传、仓库与代码（含文件操作）接口；
@@ -79,6 +81,7 @@ sourcePath: "docs/user-stories/access-and-sessions.md"
   - 首页与工作树统一使用“新建会话”，分屏菜单复用同一对话框；
   - 无论哪种启动方式，对话框都有可选的“用户指令”，创建后自动发送：
     - 聊天端作为第一条消息；终端端若所选混合模式 agent 已支持命令行初始提示参数（且启动命令本身未带初始提示），通过首次 TUI 启动参数直接传入（不写入 `SessionInfo.Cmd` 或持久化记录），尚未迁移的 agent、不支持该消息形式的边界情况与自定义命令仍在程序输出安静后输入并自动回车；
+    - 未填会话名称的终端启动以该指令为会话名（US-B07）；
     - 位置属于已登记仓库且该仓库设置了初始化指令时，另有默认勾选的“使用初始化指令”，指令先于用户指令发送（模板规则见 US-J12）；
     - 引用无效、临时文件夹不可用等发送前即可发现的问题使创建失败并保留输入，不留下半启动的会话；
   - 底部汇总“将在 X 运行 Y”，默认值齐全时打开即可直接创建；会话名称收在“高级：会话名称”中；
@@ -117,16 +120,18 @@ sourcePath: "docs/user-stories/access-and-sessions.md"
   - 新工作树在位置行下方展开：“创建新分支 / 使用已有分支”、起始分支与新分支名称，起始提交与存放目录收在“高级：起始提交与存放目录”，位置行摘要显示“新分支 ← 起始分支”；改选其他位置再选回同一仓库的“新建工作树…”时保留已填写内容；
   - 新工作树成功后可启动会话或仅保留工作树；
   - agent 启动失败时保留新工作树与分支，位置自动变为该工作树，重试不重复创建；改选其他位置后仍可在列表中选回它；
-  - 标题栏的“新建工作树”默认只创建工作树，勾选“创建后启动会话”才显示命令并启动；未勾选时改选已有工作树或目录会禁用“创建工作树”并提示，不会无操作地关闭；
+  - 侧栏仓库菜单的“新建工作树…”默认只创建工作树，勾选“创建后启动会话”才显示命令并启动；未勾选时改选已有工作树或目录会禁用“创建工作树”并提示，不会无操作地关闭；
   - 启动配置不可用不阻止单独创建工作树。
 - **US-B07 命名会话**：作为使用者，我希望给新会话填写名称，以便在多个相似终端中识别任务。
   验收要点：
-  - 创建名称优先于程序标题（终端 OSC 0/2、聊天端 ACP `session_info_update`）；
-  - 未命名时使用程序标题，再回退到目录名；
+  - 创建名称优先于首条提示标题与程序标题（终端 OSC 0/2、聊天端 ACP `session_info_update`）；
+  - 未命名且从终端视图启动、填写了用户指令时，以该指令为名（折叠空白，最多 80 个字符，超出加“…”；不含初始化指令，去掉 `{{dir}}`、`{{webmux}}` 引用，普通 Shell 命令同样适用），之后程序标题不再覆盖；名称输入框的占位提示“留空则用首条提示，没有则跟随终端标题”；
+  - 没有用户指令（含只有初始化指令）时使用程序标题，再回退到目录名；聊天端从首条消息取临时标题，见 US-Q02；
   - 首页、终端、聊天页头与浏览器标签使用会话标题。
 - **US-B08 管理启动配置**：作为使用者，我希望把常用的命令、参数和环境变量保存为服务端启动配置，以便在任何设备上一键选用而不必重复输入。
   验收要点：
-  - 设置页可新建、编辑、删除自定义启动配置，并选择自动匹配、通用终端或 LobeHub 品牌图标；
+  - 设置页的启动配置以不带边框的行列表呈现（行高不低于 44px）：图标、名称、一行摘要（终端或混合会话、环境变量数、预览行数；完整命令只在编辑对话框中显示），整行点击编辑，行尾“⋯”菜单提供编辑与删除；
+  - 设置页可新建、编辑、删除自定义启动配置，并选择自动匹配、通用终端或 LobeHub 品牌图标；配置最多 100 条且文件总大小不超过 4 MiB，超出时保存被拒绝并提示精简（400），其余配置与功能不受影响；
   - 图标随配置持久保存并在设置列表、新建会话选择器中显示，缺少图标的旧配置按可识别的直接命令或标准 Bash/Zsh 包装自动匹配，不改写原配置；
   - “加载 shell 启动文件”复选框将普通命令安全包裹为所选 Bash 或 Zsh 的交互式 argv，保留空参数、空格和字面量 shell 字符；
   - 重新编辑还原普通命令并保持勾选与所选 shell，保存不重复包裹，取消勾选恢复直接执行；
@@ -141,12 +146,17 @@ sourcePath: "docs/user-stories/access-and-sessions.md"
   - 配置跨重启与设备共享，环境变量值默认遮挡；
   - 按配置 ID 启动，修改或删除配置不影响运行中会话的命令与环境，会话信息保留配置 ID 供首页解析预览；
   - 存储不可用时显示原因，临时命令仍可用。编辑器可勾选混合模式，可用性由服务端判定并显示原因，列表显示“混合”标记（US-Q01）。
-- **US-B09 启动 agent 时不卡在“信任此文件夹”**：作为使用者，我希望 Claude Code、Codex、GitHub Copilot CLI 和 Antigravity CLI 在新目录启动时不停在信任对话框，以便无人看着的会话也能直接开始工作。
+- **US-B09 启动 agent 时不卡在“信任此文件夹”**：作为使用者，我希望 Claude Code、Codex、GitHub Copilot CLI、Antigravity CLI、Qoder 和 QoderCN 在新目录启动时不停在信任对话框，以便无人看着的会话也能直接开始工作。
   验收要点：
-  - 默认开启 `agent_pretrust`；新建会话的命令被识别为这四款 CLI（直接执行、绝对路径或 Bash/Zsh 启动文件包装）时，先把启动目录记入该 CLI 自己的配置，再启动进程；
-  - 写入位置跟随会话的 `CLAUDE_CONFIG_DIR`、`CODEX_HOME`、`COPILOT_HOME`，其次是服务进程的同名变量，最后是主目录下的默认位置；Antigravity CLI 固定写主目录下的 `~/.gemini/antigravity-cli/settings.json`（`trustedWorkspaces`）；
+  - 默认开启 `agent_pretrust`；新建会话的命令被识别为这六款 CLI（直接执行、绝对路径、版本化二进制名或 Bash/Zsh 启动文件包装）时，先把启动目录记入该 CLI 自己的配置，再启动进程；
+  - 写入位置优先跟随会话环境变量，其次是服务进程的同名变量，最后回退到主目录下的默认位置：
+    - Claude Code：`CLAUDE_CONFIG_DIR` 或 `~/.claude.json`；
+    - Codex：`CODEX_HOME` 或 `~/.codex/config.toml`；
+    - GitHub Copilot CLI：`COPILOT_HOME` 或 `~/.copilot/config.json`；
+    - Antigravity CLI：固定写主目录下的 `~/.gemini/antigravity-cli/settings.json`（`trustedWorkspaces`）；
+    - Qoder 与 QoderCN：分别跟随 `QODER_CONFIG_DIR`（默认 `~/.qoder/settings.json`）与 `QODERCN_CONFIG_DIR`（默认 `~/.qoder-cn/settings.json`），写入 `permissions.trustDirectories`（不跟随命令行 `--config-dir`）；
   - 已有配置的其他内容与权限保持不变；已经信任时不写；Codex 保留注释且不改写用户显式设为 `untrusted` 的目录；
-  - Claude Code、Copilot 与 Antigravity CLI 的配置文件缺失、或无法解析时不创建、不改写；Codex 只在 `~/.codex` 已存在时创建 `config.toml`；
+  - Claude Code、Copilot、Antigravity CLI、Qoder 与 QoderCN 的配置文件缺失、或无法解析时不创建、不改写；Codex 只在 `~/.codex` 已存在时创建 `config.toml`；
   - 主目录、其上级目录与文件系统根永不写入；目录先解析符号链接；
   - 任何失败只记录日志，会话照常启动；`agent_pretrust = false` 时不写任何文件；
   - 其他 CLI 与已运行会话不受影响，说明与限制见 [CLI agent 接入](../cli-agents.md#文件夹信任预写)。
@@ -154,12 +164,12 @@ sourcePath: "docs/user-stories/access-and-sessions.md"
 依据：
 
 - [启动图标](../../web/src/components/LaunchConfigIcon.svelte)、[LobeHub 图标来源与许可](../../web/src/icons/lobehub/README.md)
-- [新建会话](../../web/src/components/NewSessionDialog.svelte)、[位置选择](../../web/src/components/LocationPicker.svelte)、[命令选择](../../web/src/components/LaunchPicker.svelte)、[默认值解析](../../web/src/newSessionDefaults.ts)
+- [新建会话](../../web/src/components/NewSessionDialog.svelte)、[位置选择](../../web/src/components/LocationPicker.svelte)、[命令选择](../../web/src/components/LaunchPicker.svelte)、[默认值解析](../../web/src/new-session-defaults.ts)
 - [启动配置编辑](../../web/src/components/LaunchConfigDialog.svelte)、[系统预设菜单](../../web/src/components/LaunchPresetMenu.svelte)、[启动配置存储](../../internal/launch/store.go)、[首次启动预设](../../internal/launch/presets.go)
 - [启动配置接口](../../internal/api/launch.go)、[CLI agent 接入](../cli-agents.md)
 - [信任预写](../../internal/agenttrust/agenttrust.go)、[会话钩子](../../internal/session/manager.go)
-- [会话标题来源](../../internal/hybrid/actor.go)、[会话覆盖层](../../internal/session/shell.go)、[聊天页头](../../web/src/hooks/hybrid.svelte.ts)
-- [目录选择](../../web/src/components/DirectoryPicker.svelte)、[命令解析](../../internal/session/command.go)、[工作区会话创建](../../internal/workspace/sessions.go)。
+- [会话标题来源](../../internal/hybrid/actor.go)、[会话覆盖层](../../internal/session/lifecycle.go)、[聊天页头](../../web/src/hooks/hybrid.svelte.ts)
+- [目录选择](../../web/src/components/DirectoryPicker.svelte)、[命令解析](../../internal/session/run_command.go)、[工作区会话创建](../../internal/workspace/sessions.go)。
 
 来源补充：[统一创建回归](../../web/test/e2e/session-creation.spec.ts)。
 
@@ -174,7 +184,13 @@ sourcePath: "docs/user-stories/access-and-sessions.md"
   - 从终端返回首页立即渲染上次的会话列表、服务端设置和仓库分组，慢速链接上不再显示启动骨架屏，并在后台刷新；刷新结果覆盖缓存，读取失败不清除已显示内容，慢速 Git 读取不显示启动超时错误；缓存只在当前标签页内存中，整页刷新或令牌失效后按冷启动处理；
   - 仓库可折叠；
   - 直接会话按启动目录分组，失效工作树中的会话仍可访问；
-  - 仓库标题栏常驻“主页显示 n/m”、“管理工作树”、“新建工作树”与详情按钮，仓库路径（可复制）、工作树比例、会话计数与读取时间及“从列表移除仓库…”收在详情浮层；聚焦单个仓库时标题为“工作树”，不可折叠；工作树路径及总数、运行/等待/退出计数收在各自的详情按钮中；
+  - 仓库级操作都在侧栏仓库行的“⋯”菜单（`仓库操作：<仓库名>`），页面上的仓库标题不再设按钮：
+    - “新建工作树…”“主页显示…”（勾选哪些工作树显示在主页，底部有“批量管理…”快捷入口）“管理工作树…”（US-J14）“仓库详情…”；
+    - 选中仓库后首页工具栏的“⋯”菜单（`仓库菜单：<仓库名>`）与侧栏共用这些条目并增加“仓库设置…”；选中工作树时再列出该工作树的“工作树详情…”“添加到主页 / 从主页移除”“删除 worktree”，工作树标题下只显示状态徽章，详情改在对话框中查看（US-J02）；
+    - 仓库详情对话框显示路径（可复制）、工作树比例、会话计数与读取时间，并提供“从列表移除仓库…”；
+    - 仓库或 Git 不可用时该菜单不显示；
+  - 手机上各工作树的“新建会话”只显示图标，名称保留为无障碍名称与提示；
+  - 聚焦单个仓库时不重复显示仓库标题与“工作树 主页 n/m”行，直接列出工作树；工作树路径及总数、运行/等待/退出计数收在各自的详情按钮中；
   - 首页不展示底部品牌、仓库持久化及可信网络/重启说明栏；
   - 会话与仓库管理表单按需加载，加载中可取消，下载失败可关闭提示，取消后不会迟到弹出。
 - **US-C02 实时查看会话摘要**：作为使用者，我希望在首页看到标题、状态、最近活跃时间、连接设备数和输出预览，以便少打开几个终端就能判断进度。
@@ -203,6 +219,7 @@ sourcePath: "docs/user-stories/access-and-sessions.md"
   - 搜索可展开匹配仓库；
   - 支持清除筛选、无匹配提示和 `/` 聚焦搜索，输入框与弹窗中不抢快捷键；
   - 筛掉的卡片不参与键盘导航或辅助技术浏览，并关闭该卡片已打开的菜单；
+  - 手机上状态筛选为单行横向滚动（选中项自动滚入可见，每个页签都显示计数，为 0 时显示 0），搜索框提示缩短为“搜索会话”；首页顶栏同时承载紧凑/预览、刷新与仓库菜单图标，页内不再重复仓库标题，“新建会话”独占一行；
   - 清除筛选恢复卡片顺序，删除会话后移除对应卡片。
 - **US-C05 判断运行状态**：作为使用者，我希望区分运行中、可能在等我、空闲和已退出，以便决定先查看哪个任务。
   验收要点：
@@ -284,19 +301,26 @@ sourcePath: "docs/user-stories/access-and-sessions.md"
   - 卡片菜单的“修改标题”打开对话框，预填当前标题，Enter 或“保存”提交，取消不改动；
   - 手动标题优先于终端 OSC 与 agent 报告的标题，之后的自动标题不再覆盖它；
   - 保存成功后标题经会话列表同步到所有设备，混合会话归档后恢复仍保留该名称；
-  - 留空保存则恢复自动标题：普通会话在终端或 agent 再次报告前显示启动目录名，混合会话立即恢复其上一个自动标题（如首条提示标题）；
+  - 留空保存则恢复自动标题：普通会话在终端或 agent 再次报告前显示启动目录名（首条提示为名的会话也回到目录名，因其写入的是创建名称，不是独立一层），混合会话立即恢复其上一个自动标题（如聊天端首条提示标题）；
   - 含控制字符或超过 512 字节的名称被拒绝并在对话框内显示原因，原标题不变；跨 Origin 请求同样被拒绝；
   - 侧栏的聊天历史与工作台导航树中，会话行有“⋯”按钮（`会话操作：<标题>`）：
     - 鼠标设备上行尾不留空位，悬停、聚焦或菜单打开时按钮出现在状态圆点的位置并暂时替代圆点（仓库行的“⋯”同样替代计数）；触屏上按钮常驻在圆点右侧；
     - 菜单对运行中会话提供“修改标题”（同一个对话框、规则相同）与“关闭会话”“停止会话并归档”或“移除会话”（与首页卡片共用对话框）；
-    - 对已归档聊天提供“恢复聊天”“释放空间”（位于可用 linked worktree 且未释放时，US-J13）与“删除记录”（关联的 linked worktree 仍在时进入删除 worktree 确认流程一并删除，否则确认后只删除记录）；已释放的聊天恢复前先确认重建 worktree；
+    - 对已归档聊天提供以下操作：
+      - “恢复聊天”；
+      - “释放空间”（位于可用 linked worktree 且未释放时，US-J13）；
+      - “删除记录”：确认后只删除记录，工作树保持不变；
+      - “删除记录和工作树”：仅在关联的 linked worktree 可删除时出现，打开删除 worktree 确认流程，成功后同时删除该记录；
+    - 已释放的聊天恢复前先确认重建 worktree；
 - **US-C16 侧栏与模式切换**：作为在多个会话之间来回的使用者，我希望首页、快速开始页和会话页都有同一个左侧侧栏，并能在聊天与工作台两种模式间切换，以便不回首页就能跳到其他会话。
   验收要点：
   - 侧栏左上角两个带图标的按钮切换聊天模式（侧栏为聊天历史，主区域为快速开始 `/new`）与工作台模式（侧栏为仓库导航树，主区域为原会话总览 `/`），按钮用 `aria-pressed` 标记当前模式；
   - 本设备记住上次的模式：打开 `/` 且上次是聊天时以替换历史记录的方式进入 `/new`，首次使用或记录无效时进入工作台；直接打开其他地址以地址为准；
   - 侧栏只是导航方式：从任何位置打开会话都不改变模式；在会话页切换模式只更换侧栏内容，终端连接不中断；在首页切换则同时换到另一种主页；
   - 侧栏依次为模式切换、主要操作（聊天为“新聊天”，工作台为“新建会话”）、导航内容和底部全局区；首页原顶栏移除，连接状态与主机名、添加仓库、端口转发、设置和主题切换移到侧栏底部，重连时显示“连接已断开，重连中…”；
-  - 桌面端侧栏可收起成只含图标的窄栏，收起状态保存在本设备，终端随可用宽度重新计算列数；
+  - 桌面端侧栏可收起成只含图标的窄栏，收起状态保存在本设备；模式切换仅在侧栏展开时显示，终端随可用宽度重新计算列数：
+    - 窄栏保留展开按钮和主要操作（聊天为“新聊天”，工作台为“新建会话”）；
+    - 其下依次列出进程仍在运行的会话（已退出的不显示）以便快速切换，只显示 agent 或启动配置图标，右下角是与侧栏会话行相同的彩色状态指示灯，当前会话标 `aria-current`；
   - 桌面端展开的侧栏右边缘是可聚焦的分隔条（`role="separator"`），拖动或方向键（Shift 加大步长，Home/End 到边界）调整宽度，范围 256–480px，宽度保存在本设备，页面随之让出空间；侧栏顶部的收起按钮、品牌和模式切换在任何宽度下都不重叠；
   - 小于 640px 时侧栏隐藏，从首页、快速开始和会话页顶栏左侧的“打开侧栏”按钮以左侧抽屉打开；只切换模式时抽屉保持打开，导航到其他页面后关闭；
   - 外壳只读取现有的会话列表、仓库清单与混合会话记录，不改变首页、快速开始页和会话页本身的行为。
@@ -306,11 +330,11 @@ sourcePath: "docs/user-stories/access-and-sessions.md"
   - 点仓库或“直接会话”进入工作台首页的对应视图，点工作树进入工作台首页并只显示该工作树下的会话与归档记录；当前视图或会话标记 `aria-current`，当前会话所在路径自动展开；
   - 从工作台打开任何会话（含处于聊天端的混合会话）都保持工作台模式；会话卡片同样如此；直接打开地址或刷新不改变模式；
   - 会话行显示 agent 或启动配置图标、标题和彩色状态圆点（绿色工作中、琥珀等待、灰色空闲、空心已结束），状态文字在行的可访问名与悬停提示中；节点显示会话数，收起时仍显示等待数量；圆点与计数在行尾右对齐；
-  - 不可用的仓库保留并标出原因，不显示工作树；可用仓库行提供“⋯”操作菜单（`仓库操作：<仓库名>`），包含“新建工作树…”与“管理工作树…”（US-J14），仓库或 Git 不可用时不显示；
+  - 不可用的仓库保留并标出原因，不显示工作树；可用仓库行提供“⋯”操作菜单（`仓库操作：<仓库名>`），包含“新建工作树…”“主页显示…”“管理工作树…”（US-J14）与“仓库详情…”，仓库或 Git 不可用时不显示；
   - 其他客户端（如 `webmux run --new-worktree`）新建的会话指向页面尚未读取的仓库或工作树时，外壳自动重读一次仓库清单，会话直接出现在对应工作树下，不先落入“已不可用工作区”、也不需要点击或刷新；重读后仍找不到的工作树（例如已释放空间）才归入“已不可用工作区”，同一工作树不重复重读；
   - “已不可用工作区”节点在有运行中的会话，或有无法归位到现存工作树的已归档记录（例如删除或释放空间后保留的已释放记录）时出现，与首页该仓库的分组一致；记录是其下的子行，排在运行中的会话之后：
     - 外观与交互沿用聊天历史的已归档行：空心圆点表示已结束，已释放的记录另带“已释放空间”图标，可访问名为“<标题>（已释放空间，已结束）”；
-    - 点击已释放的记录先确认重建再恢复，其他记录直接恢复；行尾“⋯”提供“恢复聊天”与“删除记录”；
+    - 点击已释放的记录先确认重建再恢复，其他记录直接恢复；行尾“⋯”提供“恢复聊天”“删除记录”，以及关联工作树可删除时的“删除记录和工作树”；
     - 节点的会话数与等待数只统计运行中的会话，不计入记录；
     - 记录行同样参与方向键导航、展开状态保存与当前页面路径自动展开；
   - 展开状态保存在本设备；树使用 `tree`/`treeitem` 语义，方向键在可见行间移动、左右键收起或展开，焦点行的“⋯”按钮是下一个 Tab 停靠点。
@@ -320,11 +344,11 @@ sourcePath: "docs/user-stories/access-and-sessions.md"
 - [应用外壳](../../web/src/components/AppShell.svelte)、[侧栏](../../web/src/components/AppSidebar.svelte)、[模式状态](../../web/src/shell.svelte.ts)、[外壳浏览器用例](../../web/test/browser/AppShell.test.ts)
 - [工作台导航树](../../web/src/components/WorkbenchTree.svelte)、[侧栏仓库菜单](../../web/src/components/SidebarRepositoryMenu.svelte)、[导航树浏览器用例](../../web/test/browser/WorkbenchTree.test.ts)、[侧栏底部](../../web/src/components/SidebarFooter.svelte)
 - [显示方式](../../web/src/components/SessionViewControls.svelte)、[范围端到端用例](../../web/test/e2e/repository-scope.spec.ts)
-- [会话首页](../../web/src/pages/SessionList.svelte)、[会话卡片](../../web/src/components/SessionRow.svelte)、[启动配置预览解析](../../web/src/launchPreviews.svelte.ts)
+- [会话首页](../../web/src/pages/SessionList.svelte)、[会话卡片](../../web/src/components/SessionRow.svelte)、[启动配置预览解析](../../web/src/launch-previews.svelte.ts)
 - [仓库分组](../../web/src/components/RepositoryGroup.svelte)、[工作区分组](../../web/src/components/WorkspaceGroup.svelte)、[列表事件更新](../../web/src/session-list.ts)
 - [表单按需加载](../../web/src/components/LazyDialog.svelte)
 - [目录线索与搜索](../../web/src/session-location.ts)、[OSC 7 解析](../../internal/session/osc.go)、[状态检测](../../internal/session/status.go)
-- [介入提醒](../../internal/session/attention.go)、[程序状态探测应答](../../internal/session/io.go)、[附着探测过滤](../../internal/attach/probe.go)
+- [介入提醒](../../internal/session/attention.go)、[程序状态探测应答](../../internal/session/input_write.go)、[附着探测过滤](../../internal/attach/probe.go)
 - [设置](../../web/src/pages/Settings.svelte)、[主题](../../web/src/theme.ts)
 - [标签页指示](../../web/src/browser-chrome.ts)、[终端状态接线](../../web/src/hooks/terminal-socket.svelte.ts)、[指示浏览器用例](../../web/test/browser/BrowserChrome.test.ts)
 - [指示端到端用例](../../web/test/e2e/browser-chrome.spec.ts)、[推送与设置卡片](../../web/src/push.ts)、[推送卡片](../../web/src/components/PushSettings.svelte)

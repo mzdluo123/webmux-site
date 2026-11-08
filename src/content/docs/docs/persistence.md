@@ -18,6 +18,7 @@ sourcePath: "docs/persistence.md"
 | repositories        | repositories.json        | repositories.json.lock        | internal/workspace           | unavailable           | 是       |
 | tunnel              | tunnel-settings.json     | tunnel-settings.json.lock     | internal/tunnelsettings      | fail_closed           | 是       |
 | tailscale-settings  | tailscale-settings.json  | tailscale-settings.json.lock  | internal/tailscalesettings   | fail_closed           | 是       |
+| voice-settings      | voice-settings.json      | voice-settings.json.lock      | internal/voicesettings       | fail_closed           | 是       |
 | tailscale-ownership | tailscale-ownership.json | tailscale-ownership.json.lock | cmd/webmux                   | block_start           | 否       |
 | push                | push.json                | push.json.lock                | internal/push                | unavailable           | 是       |
 | runtime             | run/server.json          | run/server.json.lock          | internal/runtime             | local_api_unavailable | 否       |
@@ -32,18 +33,19 @@ sourcePath: "docs/persistence.md"
 ## 统一行为与故障隔离
 
 - 每个 JSON 存储通过 `statefile.Open[T]` 取得注册 handle 和独立生命周期锁；数据与锁均为 0600、目录 0700。正常关闭显式解锁但不删除锁文件。`state_dir` 可为指向真实目录的符号链接；数据文件与锁自身仍拒绝符号链接。
+- 每个存储都有条数与字节双重上限：写入前用 `Handle.Fits` 判断，超限时淘汰可丢弃的记录（hybrid 记录、agent 选项缓存）或以无效输入拒绝（启动配置、仓库登记），不会让存储进入 `TooLarge` 失败。延迟合并写入失败时记录错误日志，I/O 类失败每 30 秒重试。
 - 读取有大小限制，拒绝符号链接、非普通文件、重复/未知/大小写变体键、缺失必需字段、非法 UTF-8、错误版本、尾随值与过深嵌套。损坏原文件保留。
 - Commit 和 Remove 强制目录同步。发布前失败保留旧状态；发布后同步失败报告 `commit_uncertain` 并冻结写入，不广播成功、不用旧内存覆盖已发布文件。
 - `unavailable` 只禁用对应功能；push 不再改名重建密钥。首次确认文件不存在时仍可初始化。
 - `fail_closed` 表示覆盖文件异常时关闭对应入口，不能从 TOML 回退为启用；紧急关闭仍可停止当前入口，但写盘失败必须报告未持久化。
-- `tunnel-settings.json` 与 `tailscale-settings.json` 共用 `internal/settingsstore` 的打开、读取、提交与 fail-closed 骨架；文件结构、校验与关闭方式由各自包注入，盘点中登记为 `entry-settings` 例外。
+- `tunnel-settings.json`、`tailscale-settings.json` 与 `voice-settings.json` 共用 `internal/settingsstore` 的打开、读取、提交与 fail-closed 骨架；文件结构、校验与关闭方式由各自包注入，盘点中登记为 `entry-settings` 例外。
 - `tailscale-settings.json` 保存用户希望的 mode/port/provider；`tailscale-ownership.json` 保存本实例实际创建的外部入口（精确目标、端口、pending/active），供撤销和重启对账。它们的职责、权限和失败策略不同。
 - 旧 `tailscale.json` 即使损坏或与新文件并存，也在监听前阻止启动。先停止旧版本并核实/撤销其精确外部入口，再整理旧文件；不执行全局 reset。旧 `tunnel.json` 使 Cloudflare 保持关闭。新版不自动迁移文件或旧浏览器偏好。
 - `run/server.json.lock` 仅保护运行时记录和本机控制面；锁冲突退化为 TCP 服务，不能与 Tailscale 安全阻止启动混淆。
 - 升级前停止全部旧进程并备份；新旧版本不得共用状态目录并发运行，改名后的锁无法与旧锁互斥。
 - Windows 托盘、日志、下载缓存、会话临时文件夹（含上传文件与快速开始的暂存上传）、代码树文件操作（写入用户工作区或临时文件夹）、`webmux repo settings --edit` 交给编辑器的临时文件与 baseline 结果属于独立生命周期，保持逐项登记的例外。
 - 外部 agent 的锁与 Claude 进程注册记录不属于 WebMux 存储；适配器只进行有界只读核对，不创建或修改这些文件，也不把路径、记录正文或进程事实写入 WebMux 状态。
-- 例外是 `agent_pretrust`（默认开启）：启动 Claude Code、Codex、Copilot CLI 或 Antigravity CLI 会话前，`internal/agenttrust` 在该 agent 自己的配置文件里追加启动目录的“信任此文件夹”记录，见 [CLI agent 接入](cli-agents.md#文件夹信任预写)。
+- 例外是 `agent_pretrust`（默认开启）：启动 Claude Code、Codex、Copilot CLI、Antigravity CLI、Qoder 或 QoderCN 会话前，`internal/agenttrust` 在该 agent 自己的配置文件里追加启动目录的“信任此文件夹”记录，见 [CLI agent 接入](cli-agents.md#文件夹信任预写)。
   - 写入走临时文件加改名，保留原权限与其他内容。
   - 不触碰 WebMux 状态目录。
   - 主目录、其上级目录和文件系统根永不写入。

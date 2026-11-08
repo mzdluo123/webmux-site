@@ -37,12 +37,12 @@ sourcePath: "docs/user-stories.md"
 | D    | 终端操作、分屏、续接、多设备与生命周期 | US-D01–US-D15 |
 | E    | 剪贴板与文件上传                       | US-E01–US-E07 |
 | F    | 草稿编写、保存与发送确认               | US-F01–US-F09 |
-| G    | 快捷指令                               | US-G01–US-G06 |
+| G    | 快捷指令与语音输入                     | US-G01–US-G07 |
 | H    | 手机、平板与触摸操作、慢速网络         | US-H01–US-H11 |
 | I    | 代码工作区、Diff、引用与文件操作       | US-I01–US-I19 |
 | J    | 仓库登记与 worktree 管理               | US-J01–US-J14 |
 | K    | 配置、运行与服务管理                   | US-K01–US-K17 |
-| L    | 开发、验证与发布支持                   | US-L01–US-L14 |
+| L    | 开发、验证与发布支持                   | US-L01–US-L15 |
 | M    | 原生终端、CLI 与本机控制面             | US-M01–US-M08 |
 | N    | Cloudflare 公网隧道                    | US-N01–US-N08 |
 | O    | Windows/WSL 托盘管理                   | US-O01–US-O14 |
@@ -64,6 +64,7 @@ sourcePath: "docs/user-stories.md"
 | [原生客户端、隧道与托盘](user-stories/clients-network-tray.md)   | M–P                |
 | [终端分屏用户故事](user-stories/terminal-splits.md)              | D13–D14            |
 | [网络压缩用户故事](user-stories/terminal-network.md)             | H10–H11            |
+| [语音输入用户故事](user-stories/terminal-voice.md)               | G07                |
 | [混合会话](user-stories/hybrid-sessions.md)                      | Q                  |
 | [端口转发预览](user-stories/port-forwarding.md)                  | R                  |
 | [脚本与 agent 控制](user-stories/shell-control.md)               | S                  |
@@ -78,5 +79,6 @@ sourcePath: "docs/user-stories.md"
 | [verification-log-2026-10-23-to-26](user-stories/verification-log-2026-10-23-to-26.md)                 | 2026-10-23 至 2026-10-26 |
 | [verification-log-2026-10-27-to-31](user-stories/verification-log-2026-10-27-to-31.md)                 | 2026-10-27 至 2026-10-31 |
 | [verification-log-2026-11](user-stories/verification-log-2026-11.md)                                   | 2026-11-01 至 2026-11-05 |
+| [verification-log-2026-11-06](user-stories/verification-log-2026-11-06.md)                             | 2026-11-06 起            |
 | [verification-log-2026-11-shell](user-stories/verification-log-2026-11-shell.md)                       | 2026-11-05 起            |
 | [verification-log-2026-11-archived-history](user-stories/verification-log-2026-11-archived-history.md) | 2026-11-06 起            |

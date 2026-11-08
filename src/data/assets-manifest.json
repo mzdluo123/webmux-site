@@ -1,7 +1,7 @@
 {
   "repo": "mzdluo123/webmux",
-  "ref": "v0.13.1",
-  "commit": "eb965a412bc7e2a914f0e91c200af983c528a8c8",
+  "ref": "v0.14.0",
+  "commit": "30f645c94d0f065b777e4e0f1c556a04989dc52d",
   "files": [
     {
       "source": "docs/images/brand/webmux-logo-light.svg",
@@ -56,7 +56,7 @@
     {
       "source": "web/public/fonts/licenses/NOTICE.txt",
       "dest": "public/licenses/fonts-NOTICE.txt",
-      "sha256": "cdc7ee75303e3a511024f1b1774cfbba0be081c04328564fcaea7f866c236e8e"
+      "sha256": "8c25a6fb430e155bd946d5ebd1810d39342d46719f6682379e5d0e2f0009a4cf"
     },
     {
       "source": "web/src/icons/lobehub/LICENSE",

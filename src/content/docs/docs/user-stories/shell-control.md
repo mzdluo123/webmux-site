@@ -57,7 +57,7 @@ sourcePath: "docs/user-stories/shell-control.md"
       省略 `--branch` 时服务端自动生成 `wt/<日期>-<时间>` 形式的不冲突分支名；默认像 Web 端一样加入主页显示（`--no-pin` 不加入）；
     - `--` 之前出现位置参数时以 2 结束，与 `--new-worktree` 同用时提示改用 `--branch`（旧写法 `--new-worktree BRANCH` 不会被当作命令执行）；
     - 失败按服务端的 `step` 报告失败步骤，保留已创建的 worktree 与会话并给出路径与 ID，不回滚；
-  - 视图与首条消息：`--view terminal|chat`（取代 `--start-side`，`chat` 隐含 `--detach`）、`--prompt TEXT|-`、`--init`（需要工作区关联，含 `--new-worktree`）；
+  - 视图与首条消息：`--view terminal|chat`（取代 `--start-side`，`chat` 隐含 `--detach`）、`--prompt TEXT|-`（终端视图且未给 `--name` 时即会话名，US-B07）、`--init`（需要工作区关联，含 `--new-worktree`）；
     `--set ID=VALUE`、`--permission ask|auto`、`--attach-file PATH`（先经 `POST /api/uploads` 上传，要求 `--prompt`）只在 `--view chat` 时可用，否则在本地以 2 结束；
   - 输出与等待：`--json` 输出 `{session, link}`（新建 worktree 时另含 `worktree` 与 `configWarnings`），配置警告写到标准错误，`--wait STATE --timeout DUR` 等会话第一次进入该状态（超时 124），
     `--reply` 要求 `--view chat` 与 `--prompt` 并与 `--wait`、`--follow` 互斥，`--label` 设置标签，`--dry-run` 只打印请求且隐藏环境变量值、不上传附件；
@@ -105,8 +105,9 @@ sourcePath: "docs/user-stories/shell-control.md"
   - 提醒来源为 `cli`，覆盖当前锁存的提醒而不受来源分层限制；会话徽章、页面内弹窗与后台推送照常出现，消息作为弹窗说明行与推送正文，只保存在内存中；
   - 之后按原有规则清除：用户输入、程序的下一次状态报告（会话在聊天视图时为 agent 的新状态或新一轮）；`notify --clear` 与 `send` 的输入同样清除，并同步到所有设备；已退出的会话以 1 拒绝。
 - **US-S14 从脚本驱动混合会话聊天**：作为编排脚本，我希望向另一个 agent 发送提示、取回回复并代为处理它的请求，以便不打开浏览器也能完成多 agent 协作。
-  - `webmux send SESSION TEXT` 对聊天视图的会话立即发送或进入服务端队列，可用 `--attach-file PATH`（先经会话上传接口上传，任一失败则不发送）附带文件或以 `--mode steer` 插话；`--json` 输出 `{view, queued, itemId, turnId, promptId}`；
-  - `--reply` 先连接聊天流再发送，跟踪本次输入开启的回合（插话时跟踪进行中的回合），与 `--wait` 互斥；会话在终端视图时不写入任何内容，以 1 结束并提示改用 `--wait STATE`；
+  - `webmux send SESSION TEXT` 对聊天视图的会话立即发送或进入服务端队列，可用 `--attach-file PATH`（先经会话上传接口上传，任一失败则不发送）附带文件；`--json` 输出 `{view, queued, itemId, position, turnId, promptId}`；
+  - `--mode` 取 `auto`（默认，空闲即发、忙则排队）、`steer`（插入当前回合）、`refuse`（忙时以 1 结束并报告 `busy`，不排队）或 `now`（取消当前回合并立即发送）；排队时在不带 `--json` 时向标准错误输出队列项与位置，标准输出保持为空；
+  - `--reply` 先连接聊天流再发送，跟踪本次输入开启的回合（插话时跟踪进行中的回合，`now` 跟随取消后开始的回合），与 `--wait` 互斥；会话在终端视图时不写入任何内容，以 1 结束并提示改用 `--wait STATE`；
   - `end_turn` 以 0 退出并输出最终回复（`--json` 为该回合事件），其他结束原因以 1 退出；遇到授权或提问时输出请求 ID 与选项并以 1 退出，
     `--auto-wait-requests` 继续等待；排队的提示被删除时以 1 退出；超时 124 且不取消回合；
   - `webmux chat` 组只保留聊天视图专有的操作：`chat status` 列出所在视图（取自会话信息的 `view` 与 `transition`）、回合、队列、权限模式、待回答请求（ID、选项、表单字段）与 agent 设置，
@@ -153,14 +154,14 @@ sourcePath: "docs/user-stories/shell-control.md"
 
 ### 依据
 
-- [会话命令与命令表](../../internal/sessioncmd/command.go)、[帮助渲染](../../internal/sessioncmd/help.go)、[元数据命令](../../internal/sessioncmd/metadata.go)、[运维命令表](../../cmd/webmux/commands.go)
-- [会话详情与标签接口](../../internal/api/sessionmeta.go)、[父会话与标签](../../internal/session/relations.go)、[进程所属会话](../../internal/session/peer.go)
+- [会话命令与命令表](../../internal/clicmd/command.go)、[帮助渲染](../../internal/clicmd/help.go)、[元数据命令](../../internal/clicmd/metadata.go)、[运维命令表](../../cmd/webmux/commands.go)
+- [会话详情与标签接口](../../internal/api/sessionmeta.go)、[父会话与标签](../../internal/session/relations.go)、[进程所属会话](../../internal/session/manager_process.go)
 - [本机套接字定位](../../cmd/webmux/sessions.go)、[会话环境](../../internal/session/env.go)、[保留变量](../../internal/contract/env.go)
-- [手册与简述](../../internal/agentguide/agentguide.go)、[手册主题](../../internal/agentguide/llms/connect.md)、[手册路由与说明接口](../../internal/api/guide.go)、[guide 与 dir 命令](../../internal/sessioncmd/guide.go)
-- [会话控制命令](../../internal/sessioncmd/control.go)、[补全](../../internal/sessioncmd/completion.go)
-- [notify 命令](../../internal/sessioncmd/notify.go)、[脚本提醒](../../internal/session/notify.go)、[推送正文](../../internal/push/alert.go)
-- [worktree 与主页显示命令](../../internal/sessioncmd/worktree.go)、[仓库命令](../../internal/sessioncmd/repo.go)、[启动配置命令](../../internal/sessioncmd/launchconfig.go)、[转发命令](../../internal/sessioncmd/forward.go)
-- [聊天命令](../../internal/sessioncmd/chat.go)、[聊天历史、设置与队列命令](../../internal/sessioncmd/chat_more.go)、[聊天接口](../../internal/api/chat.go)
-- [启动命令](../../internal/sessioncmd/launch.go)、[会话列表订阅、跟随与回合跟踪](../../internal/sessioncmd/streams.go)、[仓库与主页显示](../../internal/sessioncmd/workspace.go)
-- [会话创建与初始化指令展开](../../internal/workspace/create_session.go)、[会话接口](../../internal/api/sessions.go)、[快捷指令运行](../../web/src/components/SessionTerminal.svelte)、[预设与内置变量](../../web/src/quickCommands.ts)
-- [脚本调整尺寸](../../internal/session/session.go)、[尺寸校验与创建尺寸](../../internal/session/manager.go)、[尺寸请求类型](../../internal/contract/sessions.go)、[resize 命令与 screen 滚动历史](../../internal/sessioncmd/control.go)
+- [手册与简述](../../internal/agentguide/agentguide.go)、[手册主题](../../internal/agentguide/llms/connect.md)、[手册路由与说明接口](../../internal/api/guide.go)、[guide 与 dir 命令](../../internal/clicmd/guide.go)
+- [会话控制命令](../../internal/clicmd/control.go)、[补全](../../internal/clicmd/completion.go)
+- [notify 命令](../../internal/clicmd/notify.go)、[脚本提醒](../../internal/session/manager_attention.go)、[推送正文](../../internal/push/alert.go)
+- [worktree 与主页显示命令](../../internal/clicmd/worktree.go)、[仓库命令](../../internal/clicmd/repo.go)、[启动配置命令](../../internal/clicmd/launchconfig.go)、[转发命令](../../internal/clicmd/forward.go)
+- [聊天命令](../../internal/clicmd/chat.go)、[聊天历史、设置与队列命令](../../internal/clicmd/chat_config_queue.go)、[聊天接口](../../internal/api/chat.go)
+- [启动命令](../../internal/clicmd/launch.go)、[会话列表订阅、跟随与回合跟踪](../../internal/clicmd/streams.go)、[仓库与主页显示](../../internal/clicmd/workspace.go)
+- [会话创建与初始化指令展开](../../internal/workspace/create_session.go)、[会话接口](../../internal/api/sessions.go)、[快捷指令运行](../../web/src/components/SessionTerminal.svelte)、[预设与内置变量](../../web/src/quick-commands.ts)
+- [脚本调整尺寸](../../internal/session/session.go)、[尺寸校验与创建尺寸](../../internal/session/manager.go)、[尺寸请求类型](../../internal/contract/sessions.go)、[resize 命令与 screen 滚动历史](../../internal/clicmd/control.go)
