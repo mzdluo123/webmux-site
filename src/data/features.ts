@@ -33,7 +33,7 @@ export function recent(lang: Lang): Feature[] {
         {
           title: "聊天模式、工作台模式与快速开始",
           body: "侧栏可在“按最近活动列出全部聊天”与“仓库 → worktree → 会话”树之间切换；快速开始选仓库、分支与 agent，自动新建 worktree 并从聊天或终端开工。",
-          href: "/docs/usage/#侧栏与两种模式",
+          href: "/docs/usage/sessions/#侧栏",
           since: "v0.12",
         },
         {
@@ -45,7 +45,7 @@ export function recent(lang: Lang): Feature[] {
         {
           title: "仓库初始化指令",
           body: "为每个仓库保存一段开场指令模板，支持 {{快捷指令}}、{{user}} 与 {{dir}} 占位符，新会话可选择自动发送。",
-          href: "/docs/usage/#3-用户指令与初始化指令可选",
+          href: "/docs/usage/sessions/#3-用户指令与初始化指令可选",
           since: "v0.12",
         },
         {
@@ -57,7 +57,7 @@ export function recent(lang: Lang): Feature[] {
         {
           title: "新建会话重新设计",
           body: "单页对话框按“位置 / 运行 / 用户指令”组织，可搜索已有分支、从最近 50 个提交中选起点，混合 agent 记住从终端还是聊天开始。",
-          href: "/docs/usage/#新建会话",
+          href: "/docs/usage/sessions/#新建会话",
         },
         {
           title: "更多 agent 支持混合会话",
@@ -80,7 +80,7 @@ export function recent(lang: Lang): Feature[] {
         {
           title: "Chat mode, workbench mode and Quick Start",
           body: "The sidebar switches between all chats by recent activity and a repository → worktree → session tree. Quick Start picks a repository, branch and agent, creates a worktree and starts in chat or terminal.",
-          href: "/docs/usage/#侧栏与两种模式",
+          href: "/docs/usage/sessions/#侧栏",
           since: "v0.12",
         },
         {
@@ -92,7 +92,7 @@ export function recent(lang: Lang): Feature[] {
         {
           title: "Repository init instructions",
           body: "Save an opening instruction per repository with {{quick command}}, {{user}} and {{dir}} placeholders, and send it automatically when a session starts.",
-          href: "/docs/usage/#3-用户指令与初始化指令可选",
+          href: "/docs/usage/sessions/#3-用户指令与初始化指令可选",
           since: "v0.12",
         },
         {
@@ -104,7 +104,7 @@ export function recent(lang: Lang): Feature[] {
         {
           title: "New session, redesigned",
           body: "One page organised as Location / Run / User instruction, with branch search, a start commit from the last 50, and a remembered terminal-or-chat start per hybrid agent.",
-          href: "/docs/usage/#新建会话",
+          href: "/docs/usage/sessions/#新建会话",
         },
         {
           title: "More hybrid agents",
@@ -135,7 +135,7 @@ export function groups(lang: Lang): FeatureGroup[] {
             {
               title: "会话总览",
               body: "按仓库与 worktree 分组，实时显示标题、状态（运行中 / 可能在等你 / 空闲 / 已退出）与屏幕预览，可搜索与按状态筛选。",
-              href: "/docs/usage/#会话列表",
+              href: "/docs/usage/sessions/#会话列表",
             },
             {
               title: "终端分屏",
@@ -145,7 +145,7 @@ export function groups(lang: Lang): FeatureGroup[] {
             {
               title: "草稿模式",
               body: "在多行输入框里组合引用与上传路径，一次性发送并确认送达；草稿与暂存区保存在本机。",
-              href: "/docs/usage/#草稿模式",
+              href: "/docs/usage/terminal/#草稿模式",
             },
             {
               title: "查找与复制",
@@ -165,7 +165,7 @@ export function groups(lang: Lang): FeatureGroup[] {
             {
               title: "原生终端附着",
               body: "webmux run / attach / ls / open 在本机终端里创建与接续会话，与浏览器共享同一个 PTY。",
-              href: "/docs/usage/#从终端启动与附着",
+              href: "/docs/usage/command-line/#启动与附着",
             },
           ],
         },
@@ -196,7 +196,7 @@ export function groups(lang: Lang): FeatureGroup[] {
             {
               title: "需要你介入的提醒",
               body: "识别 OSC 7501、OSC 777、OSC 9 与 BEL，在总览、侧栏、标签页与手机推送中提示。",
-              href: "/docs/usage/#需要你介入的提醒",
+              href: "/docs/usage/attention/",
             },
             {
               title: "归档与恢复",
@@ -217,27 +217,27 @@ export function groups(lang: Lang): FeatureGroup[] {
             {
               title: "Diff 审阅",
               body: "未暂存、已暂存与未跟踪分组；并排 / 统一视图随宽度切换，支持查找、展开上下文与图片 Diff。",
-              href: "/docs/usage/#代码工作区",
+              href: "/docs/usage/code/",
             },
             {
               title: "资源管理器",
               body: "右键上传、下载（目录打包 ZIP）、重命名、复制、移动和删除；从系统拖入文件即可上传。",
-              href: "/docs/usage/#代码工作区",
+              href: "/docs/usage/code/",
             },
             {
               title: "多格式预览",
               body: "Markdown、图片、SVG、静态 HTML、CSV / TSV、JSON 与 PDF。",
-              href: "/docs/usage/#代码工作区",
+              href: "/docs/usage/code/",
             },
             {
               title: "行引用",
               body: "选中代码行，把 路径:行号 引用或行级评论一键插入对话或草稿。",
-              href: "/docs/usage/#代码工作区",
+              href: "/docs/usage/code/",
             },
             {
               title: "独立窗口",
               body: "把代码面板弹出为独立浏览器窗口，双屏对照终端与 Diff。",
-              href: "/docs/usage/#代码工作区",
+              href: "/docs/usage/code/",
             },
             {
               title: "端口转发预览",
@@ -264,7 +264,7 @@ export function groups(lang: Lang): FeatureGroup[] {
             {
               title: "跨设备偏好",
               body: "主题、预览、代码阅读与快捷指令由服务端保存并同步；字号、凭据与草稿留在本机。",
-              href: "/docs/usage/#跨设备偏好",
+              href: "/docs/usage/sessions/#跨设备偏好",
             },
             {
               title: "Windows（WSL 2）",
@@ -323,7 +323,7 @@ export function groups(lang: Lang): FeatureGroup[] {
             {
               title: "Session overview",
               body: "Grouped by repository and worktree with live title, status (running / may be waiting / idle / exited) and screen preview; search and status filters.",
-              href: "/docs/usage/#会话列表",
+              href: "/docs/usage/sessions/#会话列表",
             },
             {
               title: "Terminal splits",
@@ -333,7 +333,7 @@ export function groups(lang: Lang): FeatureGroup[] {
             {
               title: "Drafts",
               body: "Compose references and upload paths in a multi-line box and send them at once with delivery confirmation; drafts and stash stay on the device.",
-              href: "/docs/usage/#草稿模式",
+              href: "/docs/usage/terminal/#草稿模式",
             },
             {
               title: "Find and copy",
@@ -353,7 +353,7 @@ export function groups(lang: Lang): FeatureGroup[] {
             {
               title: "Native terminal attach",
               body: "webmux run / attach / ls / open create and resume sessions from your local terminal, sharing one PTY with the browser.",
-              href: "/docs/usage/#从终端启动与附着",
+              href: "/docs/usage/command-line/#启动与附着",
             },
           ],
         },
@@ -384,7 +384,7 @@ export function groups(lang: Lang): FeatureGroup[] {
             {
               title: "Attention alerts",
               body: "OSC 7501, OSC 777, OSC 9 and BEL are recognised and shown in the overview, sidebar, browser tab and phone push.",
-              href: "/docs/usage/#需要你介入的提醒",
+              href: "/docs/usage/attention/",
             },
             {
               title: "Archive and resume",
@@ -405,27 +405,27 @@ export function groups(lang: Lang): FeatureGroup[] {
             {
               title: "Diff review",
               body: "Unstaged, staged and untracked groups; split or unified by width, with find, context expansion and image diffs.",
-              href: "/docs/usage/#代码工作区",
+              href: "/docs/usage/code/",
             },
             {
               title: "File explorer",
               body: "Upload, download (folders as ZIP), rename, copy, move and delete from the context menu; drag files in from your desktop.",
-              href: "/docs/usage/#代码工作区",
+              href: "/docs/usage/code/",
             },
             {
               title: "File previews",
               body: "Markdown, images, SVG, static HTML, CSV / TSV, JSON and PDF.",
-              href: "/docs/usage/#代码工作区",
+              href: "/docs/usage/code/",
             },
             {
               title: "Line references",
               body: "Select lines and insert a path:line reference or line comment into the chat or draft.",
-              href: "/docs/usage/#代码工作区",
+              href: "/docs/usage/code/",
             },
             {
               title: "Pop-out window",
               body: "Pop the code panel into its own browser window for terminal and diff on two screens.",
-              href: "/docs/usage/#代码工作区",
+              href: "/docs/usage/code/",
             },
             {
               title: "Port forwarding preview",
@@ -452,7 +452,7 @@ export function groups(lang: Lang): FeatureGroup[] {
             {
               title: "Preferences across devices",
               body: "Theme, previews, code reading and quick commands are stored on the server and synced; font size, credentials and drafts stay local.",
-              href: "/docs/usage/#跨设备偏好",
+              href: "/docs/usage/sessions/#跨设备偏好",
             },
             {
               title: "Windows (WSL 2)",

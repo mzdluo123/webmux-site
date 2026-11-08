@@ -146,14 +146,14 @@ const description = zh
                   ? "不支持，使用终端视图。不能仅凭其提供 ACP 接口就视为已适配 WebMux 的切换和恢复行为。"
                   : "Not supported; it uses the terminal view. Offering an ACP interface alone does not mean WebMux's switching and resume behavior has been adapted."
             }{" "}
-            {a.hybrid && <><a class="link" href="/docs/hybrid-sessions/#开启">{zh ? "开启条件" : "Requirements"}</a>{cn}</>}
+            {a.hybrid && <><a class="link" href="/docs/hybrid-sessions/#怎么开启">{zh ? "开启条件" : "Requirements"}</a>{cn}</>}
           </dd>
         </div>
         <div>
           <dt class="font-bold">{zh ? "“需要你介入”提醒" : "“Needs you” alerts"}</dt>
           <dd class="m-0 text-muted-foreground">
             {(ALERTS[a.slug] ?? GENERIC_ALERTS)[k]}{zh ? "。" : "."}{" "}
-            <a class="link" href="/docs/usage/#需要你介入的提醒">{zh ? "提醒配置" : "Alert setup"}</a>{cn}
+            <a class="link" href="/docs/usage/attention/">{zh ? "提醒配置" : "Alert setup"}</a>{cn}
           </dd>
         </div>
       </dl>

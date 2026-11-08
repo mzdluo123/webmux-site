@@ -26,7 +26,7 @@ export function installProps(lang: Lang) {
     links: {
       services: "/docs/deployment/services/",
       remote: "/docs/deployment/remote-access/",
-      attach: "/docs/usage/#从终端启动与附着",
+      attach: "/docs/usage/command-line/#启动与附着",
       windows: localize(lang, "/windows/"),
       install: "/docs/deployment/install-and-upgrade/",
       security: localize(lang, "/security/"),
