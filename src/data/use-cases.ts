@@ -79,7 +79,7 @@ export function useCases(lang: Lang): UseCase[] {
           links: [
             { href: PORT_FORWARD_DOC, label: "端口转发预览" },
             { href: "/docs/usage/terminal/#终端分屏", label: "终端分屏" },
-            { href: "/docs/usage/#代码工作区", label: "代码工作区" },
+            { href: "/docs/usage/code/", label: "代码工作区" },
             { href: "/docs/usage/worktrees/", label: "仓库与 worktree" },
           ],
           shot: { name: "desktop-diff.png" },
@@ -130,7 +130,7 @@ export function useCases(lang: Lang): UseCase[] {
           ],
           uses: ["快速开始", "会话总览", "Git worktree", "归档与恢复"],
           links: [
-            { href: "/docs/usage/#会话列表", label: "会话列表" },
+            { href: "/docs/usage/sessions/#会话列表", label: "会话列表" },
             { href: "/docs/usage/worktrees/", label: "仓库与 worktree" },
             { href: "/docs/hybrid-sessions/#关闭中断与恢复", label: "归档与恢复" },
           ],
@@ -178,8 +178,8 @@ export function useCases(lang: Lang): UseCase[] {
           ],
           uses: ["Diff 审阅", "行引用", "草稿模式", "独立窗口"],
           links: [
-            { href: "/docs/usage/#代码工作区", label: "代码工作区" },
-            { href: "/docs/usage/#草稿模式", label: "草稿模式" },
+            { href: "/docs/usage/code/", label: "代码工作区" },
+            { href: "/docs/usage/terminal/#草稿模式", label: "草稿模式" },
           ],
           shot: { name: "mobile-diff.png" },
         },
@@ -197,7 +197,7 @@ export function useCases(lang: Lang): UseCase[] {
             { text: "回到电脑 webmux attach <ID> 接续，全程是同一个进程，一行输出都不会丢。" },
           ],
           uses: ["webmux run / attach", "同一 PTY", "多设备控制权"],
-          links: [{ href: "/docs/usage/#从终端启动与附着", label: "从终端启动与附着" }],
+          links: [{ href: "/docs/usage/command-line/#启动与附着", label: "从终端启动与附着" }],
         },
         {
           id: "windows-wsl",
@@ -255,7 +255,7 @@ export function useCases(lang: Lang): UseCase[] {
           ],
           uses: ["Shell 会话", "多设备观察", "提醒"],
           links: [
-            { href: "/docs/usage/#需要你介入的提醒", label: "需要你介入的提醒" },
+            { href: "/docs/usage/attention/", label: "需要你介入的提醒" },
             { href: "/docs/security/", label: "安全策略" },
           ],
         },
@@ -298,7 +298,7 @@ export function useCases(lang: Lang): UseCase[] {
           links: [
             { href: PORT_FORWARD_DOC, label: `Port forwarding${cn}` },
             { href: "/docs/usage/terminal/#终端分屏", label: "Terminal splits" },
-            { href: "/docs/usage/#代码工作区", label: "Code workspace" },
+            { href: "/docs/usage/code/", label: "Code workspace" },
             { href: "/docs/usage/worktrees/", label: "Repositories and worktrees" },
           ],
           shot: { name: "desktop-diff.png" },
@@ -353,7 +353,7 @@ export function useCases(lang: Lang): UseCase[] {
           ],
           uses: ["Quick Start", "Session overview", "Git worktrees", "Archive and resume"],
           links: [
-            { href: "/docs/usage/#会话列表", label: `Session list${cn}` },
+            { href: "/docs/usage/sessions/#会话列表", label: `Session list${cn}` },
             { href: "/docs/usage/worktrees/", label: `Repositories and worktrees${cn}` },
             { href: "/docs/hybrid-sessions/#关闭中断与恢复", label: `Archive and resume${cn}` },
           ],
@@ -409,8 +409,8 @@ export function useCases(lang: Lang): UseCase[] {
           ],
           uses: ["Diff review", "Line references", "Drafts", "Pop-out window"],
           links: [
-            { href: "/docs/usage/#代码工作区", label: `Code workspace${cn}` },
-            { href: "/docs/usage/#草稿模式", label: `Drafts${cn}` },
+            { href: "/docs/usage/code/", label: `Code workspace${cn}` },
+            { href: "/docs/usage/terminal/#草稿模式", label: `Drafts${cn}` },
           ],
           shot: { name: "mobile-diff.png" },
         },
@@ -433,7 +433,10 @@ export function useCases(lang: Lang): UseCase[] {
           ],
           uses: ["webmux run / attach", "One PTY", "Multi-device control"],
           links: [
-            { href: "/docs/usage/#从终端启动与附着", label: `Run and attach from a terminal${cn}` },
+            {
+              href: "/docs/usage/command-line/#启动与附着",
+              label: `Run and attach from a terminal${cn}`,
+            },
           ],
         },
         {
@@ -503,7 +506,7 @@ export function useCases(lang: Lang): UseCase[] {
           ],
           uses: ["Shell sessions", "Multi-device watching", "Alerts"],
           links: [
-            { href: "/docs/usage/#需要你介入的提醒", label: `Attention alerts${cn}` },
+            { href: "/docs/usage/attention/", label: `Attention alerts${cn}` },
             { href: "/en/security/", label: "Security" },
           ],
         },
