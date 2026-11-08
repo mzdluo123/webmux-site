@@ -1,7 +1,7 @@
 {
   "repo": "mzdluo123/webmux",
-  "ref": "v0.14.0",
-  "commit": "30f645c94d0f065b777e4e0f1c556a04989dc52d",
+  "ref": "main",
+  "commit": "93ff77cb13ec52b20cd68bbf4fa374d4caf1761b",
   "latestRelease": "v0.14.0",
   "fallbackToMain": false,
   "docs": [
@@ -9,7 +9,7 @@
       "source": "CONTRIBUTING.md",
       "url": "/docs/contributing/",
       "titleAnchor": "参与贡献",
-      "sha256": "82ee934f98c0810b882affce443022e1629e3c4e42fb3a5bb8e175c89d986d55"
+      "sha256": "8160742defc913dda42afdd64a23fc71d0dde0e9480923a5018b63fb93987238"
     },
     {
       "source": "SECURITY.md",
@@ -147,7 +147,7 @@
       "source": "docs/overview.md",
       "url": "/docs/overview/",
       "titleAnchor": "项目介绍",
-      "sha256": "f24163c17042420be4d190a2e755b381a281a6308dc243783c13840a1f6946d4"
+      "sha256": "0dbcd41485b8d4ed037c343cd6b8cd62d27854cb1403110a7452af73dd8ee049"
     },
     {
       "source": "docs/page-performance.md",
@@ -648,22 +648,22 @@
     {
       "source": "docs/images/desktop-port-forward.png",
       "url": "/docs/images/desktop-port-forward.webp",
-      "sha256": "c497cd09b6156d3fa4d4515ffe1ddb7c4f6dbae5f900e349626ff1ed215cfe55"
+      "sha256": "b3754349a63189b04d346b3627b766eeebb1b0d18cfe63cdb0763baa4119385e"
     },
     {
       "source": "docs/images/desktop-quick-start.png",
       "url": "/docs/images/desktop-quick-start.webp",
-      "sha256": "ea3099321fa1bc8ff95abba5283b3ee6f8eb95a5cede8dd99f9212af207dc5cb"
+      "sha256": "4dad0d43e397eaf11bea8c7980742d0c87393531887de289883423121cabc4dd"
     },
     {
       "source": "docs/images/mobile-chat.png",
       "url": "/docs/images/mobile-chat.webp",
-      "sha256": "ac44e42bfeaeb516cda5b4fb92b955c4add3b714c457fe61d549f88e169819c6"
+      "sha256": "76213f9d21da3ca5c6e924a2c5fe9af0f6f8c3b0992c9db4c75a086fab2e888c"
     },
     {
       "source": "docs/images/mobile-omp.png",
       "url": "/docs/images/mobile-omp.webp",
-      "sha256": "aef77d2a00a763fc45b7796ca8f77026cc5392193f1bd1a702e4ce925b66a0fc"
+      "sha256": "140a0329aa712ce81faf4683eddfb978d1bbf5f9620bede9c82d6e5542321efd"
     },
     {
       "source": "docs/images/website-prototypes/a-workbench.jpg",
