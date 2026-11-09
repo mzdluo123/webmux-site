@@ -8,23 +8,23 @@ sourcePath: "CONTRIBUTING.md"
 
 ## 开发环境
 
-| 工具     | 版本               |
-| -------- | ------------------ |
-| Go       | 1.26+              |
-| Node.js  | 26.12.1（Current） |
-| pnpm     | 12.11.2            |
-| GNU Make | 任意               |
+| 工具     | 版本           |
+| -------- | -------------- |
+| Go       | 1.26+          |
+| Node.js  | 26.13.0（LTS） |
+| pnpm     | 12.18.0        |
+| GNU Make | 任意           |
 
 Node.js 版本固定在根目录 `.nvmrc`，CI 使用同一文件；使用 nvm 时可运行 `nvm install && nvm use`。使用 [pnpm 官方独立安装脚本](https://pnpm.io/installation#using-a-standalone-script)安装指定版本：
 
 ```sh
-curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=12.11.2 sh -
+curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=12.18.0 sh -
 ```
 
 安装完成后重新打开终端，使 `pnpm` 的 PATH 配置生效，再运行：
 
 ```sh
-pnpm --version  # 应为 12.11.2
+pnpm --version  # 应为 12.18.0
 pnpm --dir web install --frozen-lockfile
 make test-browsers-install   # 安装 Playwright Chromium（Linux 上同时安装系统依赖，可能需要 sudo）
 ```
@@ -62,7 +62,7 @@ pnpm --dir web dev    # http://127.0.0.1:5173
 
 ## 更新 README 截图
 
-`make build && pnpm --dir web screenshots` 会启动临时后端和演示仓库，用 Playwright 重新生成 `docs/images/` 下的截图。README 与 [项目介绍](docs/overview.md) 引用这些截图；README 还展示 `docs/images/<主题>/` 下的部分功能截图，替换时保持图片存在，`make docs-check` 会校验 README 的图片与链接。
+`make build && pnpm --dir web screenshots` 会启动临时后端和演示仓库，用 Playwright 重新生成 `docs/images/` 下的截图。README 与 [项目介绍](docs/overview.md) 引用这些截图；README“更多功能截图”折叠区的 `terminal-splits`、`kitty-graphics`、`file-explorer`、`cli-agents`（`after-desktop-{light,dark}`）也由该脚本生成；用 `WEBMUX_SCREENSHOTS_ONLY=features` 可只重拍这八张，不需要 omp。其余 `docs/images/<主题>/` 是各 PR 的界面证据，不再更新。`make docs-check` 会校验 README 的图片与链接。
 
 omp 的对话默认从 `web/scripts/screenshots/omp-session.jsonl` 回放，不调用模型、不需要 API key：
 

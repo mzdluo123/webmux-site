@@ -13,6 +13,11 @@
         "depth": 0
       },
       {
+        "label": "草稿用户故事",
+        "link": "/docs/user-stories/terminal/drafts/",
+        "depth": 0
+      },
+      {
         "label": "常见问题与获取帮助",
         "link": "/docs/faq/",
         "depth": 0

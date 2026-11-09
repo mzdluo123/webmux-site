@@ -1,15 +1,15 @@
 {
   "repo": "mzdluo123/webmux",
-  "ref": "v0.14.0",
-  "commit": "30f645c94d0f065b777e4e0f1c556a04989dc52d",
-  "latestRelease": "v0.14.0",
+  "ref": "v0.14.1",
+  "commit": "00433c972b978ef646163c3af1efdee3ceac3cf6",
+  "latestRelease": "v0.14.1",
   "fallbackToMain": false,
   "docs": [
     {
       "source": "CONTRIBUTING.md",
       "url": "/docs/contributing/",
       "titleAnchor": "参与贡献",
-      "sha256": "82ee934f98c0810b882affce443022e1629e3c4e42fb3a5bb8e175c89d986d55"
+      "sha256": "556ab9c89b23e3b029a3d750ba012f638c02e89fadfc3f1af8b51ee0d0817ccf"
     },
     {
       "source": "SECURITY.md",
@@ -21,7 +21,7 @@
       "source": "docs/README.md",
       "url": "/docs/",
       "titleAnchor": "webmux-文档中心",
-      "sha256": "7e828c82afe1bbc96cc3a0c866f938784f3cd890df4a53ae99bcf63c03540b14"
+      "sha256": "9bbb1c8451b2d905c1f5a6928501bcc0388eea319420212902eae8bb040a3f9c"
     },
     {
       "source": "docs/architecture.md",
@@ -45,7 +45,7 @@
       "source": "docs/cli-agents.md",
       "url": "/docs/cli-agents/",
       "titleAnchor": "cli-agent-接入",
-      "sha256": "112d7a7016d617c6aebb5e0495fa3baeb23ec98ec914752f5f5afd8e71a853b9"
+      "sha256": "53951d6d4fdb829f0b7881266853174ff018af42caefb7f898951382ab2a6a53"
     },
     {
       "source": "docs/cloudflare-tunnel.md",
@@ -63,7 +63,7 @@
       "source": "docs/deployment/configuration.md",
       "url": "/docs/deployment/configuration/",
       "titleAnchor": "配置",
-      "sha256": "c97f1b29dcf4c902a9ebd9469ba71eb208c097a09f746cd0b7d5c06dff760cb9"
+      "sha256": "6401d822ec45ae9ab9c8fe25b3eabaf9daa1fdd0990d595bd8a159d43e445214"
     },
     {
       "source": "docs/deployment/install-and-upgrade.md",
@@ -87,7 +87,7 @@
       "source": "docs/deployment/services.md",
       "url": "/docs/deployment/services/",
       "titleAnchor": "服务管理与平台差异",
-      "sha256": "77b82a6225d1c5b54d5043bdca055dbc7b08e9da740c9a06dc64bdba68bca9a2"
+      "sha256": "03aad8de562e60301f6d83476c7773c8dbbabb1680bcd3751ad49f528f2f2224"
     },
     {
       "source": "docs/deployment/updates.md",
@@ -105,19 +105,19 @@
       "source": "docs/design-system.md",
       "url": "/docs/design-system/",
       "titleAnchor": "webmux-design-system",
-      "sha256": "5e2398897920fc60bacb3679f726afd4733c58b01c7d0ac143645d12ee361664"
+      "sha256": "b42b4aeae371d63e3aa6627834a4bf4ffb30a46cbed27a62c1f4431b9b4703ed"
     },
     {
       "source": "docs/faq.md",
       "url": "/docs/faq/",
       "titleAnchor": "常见问题与获取帮助",
-      "sha256": "45ea6132909f22003885a5f170e80fa115df0db912adda438b89a3db3f06a6dd"
+      "sha256": "e821473ee812902c33fe6ce747d3ed78c1bfe85f0654d06e231aa34c972c74d9"
     },
     {
       "source": "docs/frontend-architecture.md",
       "url": "/docs/frontend-architecture/",
       "titleAnchor": "frontend-architecture-guard",
-      "sha256": "897e049600522c5de4fd8ecb0c3de2229490206f0b410f9b058c5c83139d95a2"
+      "sha256": "b19b62c2d2db561424c7be9490d7af8870eb16c61503bcd5b8c78c251e862add"
     },
     {
       "source": "docs/frontend-style.md",
@@ -135,7 +135,7 @@
       "source": "docs/hybrid-sessions.md",
       "url": "/docs/hybrid-sessions/",
       "titleAnchor": "混合会话聊天--终端",
-      "sha256": "08f32ed1811ab397b929a9ee863eeccc59feb3d4f6bd201162573b976f365487"
+      "sha256": "e3b684e6900b1bd1abe3bb9e28b87a63b6e6191335aa0cfd8f1aebe0ea57ff5b"
     },
     {
       "source": "docs/hybrid-sessions/agents.md",
@@ -147,7 +147,7 @@
       "source": "docs/overview.md",
       "url": "/docs/overview/",
       "titleAnchor": "项目介绍",
-      "sha256": "f24163c17042420be4d190a2e755b381a281a6308dc243783c13840a1f6946d4"
+      "sha256": "0dbcd41485b8d4ed037c343cd6b8cd62d27854cb1403110a7452af73dd8ee049"
     },
     {
       "source": "docs/page-performance.md",
@@ -279,7 +279,7 @@
       "source": "docs/usage/attention.md",
       "url": "/docs/usage/attention/",
       "titleAnchor": "需要你介入的提醒",
-      "sha256": "0befa1031b524433db44d432bbd87d0387ebd4a5169cf6855bf0c43dc0069090"
+      "sha256": "d30bba2d90d4d38a5bb2b5fadc7cec5d6e267588572eaa256de0c9736495158c"
     },
     {
       "source": "docs/usage/chat.md",
@@ -315,7 +315,7 @@
       "source": "docs/usage/sessions.md",
       "url": "/docs/usage/sessions/",
       "titleAnchor": "会话与工作台",
-      "sha256": "f765aa3633e2225461e6fd0e5953450bb7b1aef427301845b6dfa2f30ff9c5d8"
+      "sha256": "763cfb2c63a669222f9898bb3eebe6220589067b66c44b1f381387fd72fa7ad4"
     },
     {
       "source": "docs/usage/shell-control.md",
@@ -345,7 +345,7 @@
       "source": "docs/user-stories.md",
       "url": "/docs/user-stories/",
       "titleAnchor": "webmux-user-stories",
-      "sha256": "6005534d47c1ce1ae89fae24bb08d574d7fa18c52e3feee818eca8c146b05565"
+      "sha256": "f9a91d9b26527c5775f7d207199a89921145ab66543b4cdcbc43501200b5a652"
     },
     {
       "source": "docs/user-stories/access-and-sessions.md",
@@ -363,25 +363,25 @@
       "source": "docs/user-stories/code-and-worktrees.md",
       "url": "/docs/user-stories/code-and-worktrees/",
       "titleAnchor": "代码工作区与工作树",
-      "sha256": "289e5e38f8cc673b788ed632c24bcfa6caca847a1e3db66c78d84aa8651f6856"
+      "sha256": "72f34c13515a4ae6397b31075bc642058af0c9cfe0ba40c6cfcaf320cc659ab8"
     },
     {
       "source": "docs/user-stories/coverage.md",
       "url": "/docs/user-stories/coverage/",
       "titleAnchor": "功能覆盖核对与后续维护",
-      "sha256": "43b54cc24336ded12b9f5abab84103c83f542c1b8c888921d2897650509a3e21"
+      "sha256": "4c8e354c7d9c10606bf3424a4f2ac02a9cd51c9349d28a6e44c15a15e2a35ea5"
     },
     {
       "source": "docs/user-stories/hybrid-sessions.md",
       "url": "/docs/user-stories/hybrid-sessions/",
       "titleAnchor": "混合会话",
-      "sha256": "07edd9d5fa592fe1e49a40e893d273580d3f9d82c6ea09c5db98cc726415a0ed"
+      "sha256": "5b9fc73b1f8195c1d2201b7005449a8c69e1b1976b8c2840dd4d098bf7a3eced"
     },
     {
       "source": "docs/user-stories/operations-and-tooling.md",
       "url": "/docs/user-stories/operations-and-tooling/",
       "titleAnchor": "配置运行与贡献者工具",
-      "sha256": "e8b6686826b534f465d347cdccddd51817f0895fc2d233bb24835d5027b1b303"
+      "sha256": "f4bffe2844b79abbb34b22b47cf283010fe1d90d3b295f27678b7ed31200b8a5"
     },
     {
       "source": "docs/user-stories/port-forwarding.md",
@@ -417,7 +417,13 @@
       "source": "docs/user-stories/terminal.md",
       "url": "/docs/user-stories/terminal/",
       "titleAnchor": "终端输入与移动端",
-      "sha256": "743fa92443dc93573badde2f5b137e97e9dcb35c7140b60a64c282f91c548403"
+      "sha256": "826878b3176f38f24f37e9eb6cbb4081de12d5950a9fd2a53c77a4926d2cf79f"
+    },
+    {
+      "source": "docs/user-stories/terminal/drafts.md",
+      "url": "/docs/user-stories/terminal/drafts/",
+      "titleAnchor": "草稿编写保存与发送确认",
+      "sha256": "251f397916dfba19b66c99a1502f8c56ce71d55a6ef053751809f6fa0401ca5c"
     },
     {
       "source": "docs/website.md",
@@ -648,22 +654,22 @@
     {
       "source": "docs/images/desktop-port-forward.png",
       "url": "/docs/images/desktop-port-forward.webp",
-      "sha256": "c497cd09b6156d3fa4d4515ffe1ddb7c4f6dbae5f900e349626ff1ed215cfe55"
+      "sha256": "b3754349a63189b04d346b3627b766eeebb1b0d18cfe63cdb0763baa4119385e"
     },
     {
       "source": "docs/images/desktop-quick-start.png",
       "url": "/docs/images/desktop-quick-start.webp",
-      "sha256": "ea3099321fa1bc8ff95abba5283b3ee6f8eb95a5cede8dd99f9212af207dc5cb"
+      "sha256": "4dad0d43e397eaf11bea8c7980742d0c87393531887de289883423121cabc4dd"
     },
     {
       "source": "docs/images/mobile-chat.png",
       "url": "/docs/images/mobile-chat.webp",
-      "sha256": "ac44e42bfeaeb516cda5b4fb92b955c4add3b714c457fe61d549f88e169819c6"
+      "sha256": "76213f9d21da3ca5c6e924a2c5fe9af0f6f8c3b0992c9db4c75a086fab2e888c"
     },
     {
       "source": "docs/images/mobile-omp.png",
       "url": "/docs/images/mobile-omp.webp",
-      "sha256": "aef77d2a00a763fc45b7796ca8f77026cc5392193f1bd1a702e4ce925b66a0fc"
+      "sha256": "140a0329aa712ce81faf4683eddfb978d1bbf5f9620bede9c82d6e5542321efd"
     },
     {
       "source": "docs/images/website-prototypes/a-workbench.jpg",
@@ -707,6 +713,7 @@
     }
   ],
   "linkTargets": {
+    ".agents/skills/webmux-ui/SKILL.md": "blob",
     ".github/actions/setup/action.yml": "blob",
     ".github/scripts/go-coverage-summary.sh": "blob",
     ".github/scripts/test-linux-packages.sh": "blob",
@@ -747,6 +754,7 @@
     "deploy/windows/webmux.nsi": "blob",
     "docs/agent-rules.md": "blob",
     "docs/agent-rules/naming.md": "blob",
+    "docs/agent-rules/testing.md": "blob",
     "docs/doc-governance.md": "blob",
     "docs/images/page-performance": "tree",
     "docs/user-stories/verification-log-2026-10-23-to-26.md": "blob",
@@ -1116,23 +1124,28 @@
     "web/src/components/TerminalSplitMenu.svelte": "blob",
     "web/src/components/TerminalViewport.svelte": "blob",
     "web/src/components/TokenHelp.svelte": "blob",
+    "web/src/components/TouchGamepad.svelte": "blob",
     "web/src/components/VoiceButton.svelte": "blob",
     "web/src/components/VoiceSettings.svelte": "blob",
     "web/src/components/WorkbenchTree.svelte": "blob",
     "web/src/components/WorkspaceGroup.svelte": "blob",
     "web/src/components/WorktreeCreateFields.svelte": "blob",
     "web/src/components/chat": "tree",
+    "web/src/components/chat/ChatSessionOptions.svelte": "blob",
+    "web/src/components/chat/ComposerCard.svelte": "blob",
     "web/src/components/code-popout.ts": "blob",
     "web/src/draft-storage.ts": "blob",
     "web/src/forwards.svelte.ts": "blob",
     "web/src/home-worktrees.ts": "blob",
     "web/src/hooks/code-font-preference.svelte.ts": "blob",
+    "web/src/hooks/composer-morph.svelte.ts": "blob",
     "web/src/hooks/hybrid.svelte.ts": "blob",
     "web/src/hooks/keyboard-size-hold.ts": "blob",
     "web/src/hooks/terminal-graphics-anchor.ts": "blob",
     "web/src/hooks/terminal-graphics.ts": "blob",
     "web/src/hooks/terminal-socket.svelte.ts": "blob",
     "web/src/hooks/terminal.svelte.ts": "blob",
+    "web/src/hooks/touch-gamepad-preference.svelte.ts": "blob",
     "web/src/hooks/touch.ts": "blob",
     "web/src/hooks/tunnel-settings.svelte.ts": "blob",
     "web/src/hooks/upload.svelte.ts": "blob",
@@ -1142,6 +1155,7 @@
     "web/src/install.svelte.ts": "blob",
     "web/src/kitty-graphics.ts": "blob",
     "web/src/launch-previews.svelte.ts": "blob",
+    "web/src/lib/components/ui/drawer/drawer-content.svelte": "blob",
     "web/src/markdown-link.ts": "blob",
     "web/src/markdown-slug.ts": "blob",
     "web/src/new-session-defaults.ts": "blob",
@@ -1178,6 +1192,7 @@
     "web/test/browser/AttentionToasts.test.ts": "blob",
     "web/test/browser/BrowserChrome.test.ts": "blob",
     "web/test/browser/ChatHistory.test.ts": "blob",
+    "web/test/browser/ChatView.test.ts": "blob",
     "web/test/browser/ForwardAuth.test.ts": "blob",
     "web/test/browser/ForwardDialog.test.ts": "blob",
     "web/test/browser/InstallSettings.test.ts": "blob",
@@ -1221,6 +1236,7 @@
     "web/test/keyboard-size-hold.test.ts": "blob",
     "web/test/kitty-graphics.test.ts": "blob",
     "web/test/pending-update.test.ts": "blob",
+    "web/test/storybook/acp-chat.spec.ts": "blob",
     "web/test/terminal-search.test.ts": "blob",
     "web/test/voice.test.ts": "blob",
     "web/test/wire-arrays.test.ts": "blob",
