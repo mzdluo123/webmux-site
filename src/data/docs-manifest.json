@@ -1,8 +1,8 @@
 {
   "repo": "mzdluo123/webmux",
-  "ref": "v0.14.1",
-  "commit": "00433c972b978ef646163c3af1efdee3ceac3cf6",
-  "latestRelease": "v0.14.1",
+  "ref": "v0.14.2",
+  "commit": "7690a2f91dba481529eba8edfd8e90eabfe89310",
+  "latestRelease": "v0.14.2",
   "fallbackToMain": false,
   "docs": [
     {
@@ -117,7 +117,7 @@
       "source": "docs/frontend-architecture.md",
       "url": "/docs/frontend-architecture/",
       "titleAnchor": "frontend-architecture-guard",
-      "sha256": "b19b62c2d2db561424c7be9490d7af8870eb16c61503bcd5b8c78c251e862add"
+      "sha256": "43e27cd5d90bb4672ea7dd0b56314fd4ebf532281a4cec724ef088c5c648dd84"
     },
     {
       "source": "docs/frontend-style.md",
@@ -135,7 +135,7 @@
       "source": "docs/hybrid-sessions.md",
       "url": "/docs/hybrid-sessions/",
       "titleAnchor": "混合会话聊天--终端",
-      "sha256": "e3b684e6900b1bd1abe3bb9e28b87a63b6e6191335aa0cfd8f1aebe0ea57ff5b"
+      "sha256": "f2d43964e67ae22068441acc415cfa7cf697e5b383131e68ea80a24761798b9f"
     },
     {
       "source": "docs/hybrid-sessions/agents.md",
@@ -303,7 +303,7 @@
       "source": "docs/usage/mobile.md",
       "url": "/docs/usage/mobile/",
       "titleAnchor": "移动端使用",
-      "sha256": "826c20f5cec1a8eecf61d922296d513fa9af83d3fb11010998bab1c1f0f7862f"
+      "sha256": "bb79a6155bc9c3c2471881d260d99317069139ef5f968d92eaca5a083775c59f"
     },
     {
       "source": "docs/usage/port-forwarding.md",
@@ -369,13 +369,13 @@
       "source": "docs/user-stories/coverage.md",
       "url": "/docs/user-stories/coverage/",
       "titleAnchor": "功能覆盖核对与后续维护",
-      "sha256": "4c8e354c7d9c10606bf3424a4f2ac02a9cd51c9349d28a6e44c15a15e2a35ea5"
+      "sha256": "a02776636f654978b1e3957b861fc2070d66235c48a03dc6d2a31a4e638a7cde"
     },
     {
       "source": "docs/user-stories/hybrid-sessions.md",
       "url": "/docs/user-stories/hybrid-sessions/",
       "titleAnchor": "混合会话",
-      "sha256": "5b9fc73b1f8195c1d2201b7005449a8c69e1b1976b8c2840dd4d098bf7a3eced"
+      "sha256": "00395fe8c7fa169423b0e54bd01331856b2de4e6f656b78e96f1718cba337e50"
     },
     {
       "source": "docs/user-stories/operations-and-tooling.md",
@@ -417,7 +417,7 @@
       "source": "docs/user-stories/terminal.md",
       "url": "/docs/user-stories/terminal/",
       "titleAnchor": "终端输入与移动端",
-      "sha256": "826878b3176f38f24f37e9eb6cbb4081de12d5950a9fd2a53c77a4926d2cf79f"
+      "sha256": "65b94e4f26bd4ead0da179e7290d7b87ea1c38874245ca9cbf78f230770fb14f"
     },
     {
       "source": "docs/user-stories/terminal/drafts.md",
