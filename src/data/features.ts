@@ -1,6 +1,6 @@
 // Feature inventory for /features/, grouped as in strategy.md#价值主张与消息层级 (layer 3).
 // Facts: mzdluo123/webmux docs/overview.md, docs/usage.md, docs/usage/*.md, docs/hybrid-sessions.md,
-// docs/deployment/*.md, checked 2026-11-05 at v0.12.0. `since` marks features new in that release.
+// docs/deployment/*.md, checked 2026-11-10 at v0.14.3/main. `since` marks features new in that release.
 import type { Lang } from "../lib/i18n";
 import { serverSizeMB } from "../lib/releases";
 
@@ -25,96 +25,88 @@ export function recent(lang: Lang): Feature[] {
   return lang === "zh-cn"
     ? [
         {
-          title: "端口转发预览",
-          body: "会话里的开发服务器开始监听后，终端上方 3 秒内提示端口，一键经 /forward/{端口}/ 在浏览器预览；HMR、SSE 与 WebSocket 直通，不新开端口。",
-          href: PORT_FORWARD_DOC,
-          since: "v0.12",
+          title: "快速开始可选已有工作树",
+          body: "快速开始不再只能新建 worktree：在弹出面板顶部切到「已有工作树」，就能直接在主工作区或现有 worktree 中启动聊天 agent，继续已有分支或未提交的改动；默认仍是新建独立的 worktree。",
+          href: "/use-cases/#parallel-agents",
         },
         {
-          title: "聊天模式、工作台模式与快速开始",
-          body: "侧栏可在“按最近活动列出全部聊天”与“仓库 → worktree → 会话”树之间切换；快速开始选仓库、分支与 agent，自动新建 worktree 并从聊天或终端开工。",
-          href: "/docs/usage/sessions/#侧栏",
-          since: "v0.12",
+          title: "会话置顶",
+          body: "把正在跟进的会话置顶，并按需要上移、下移或取消；侧栏与快速切换优先显示同一顺序，顺序保存在服务端并跨设备同步。",
+          href: "/docs/usage/sessions/#快速切换会话",
+          since: "v0.14",
         },
         {
-          title: "更醒目的提醒",
-          body: "需要回答、等待授权与出错改为红色标记；页面右上角弹出提示，不需要通知权限或 HTTPS。",
-          href: "/docs/usage/attention/",
-          since: "v0.12",
+          title: "聊天提示召回与模型搜索",
+          body: "聊天输入框按 ↑ 召回本会话发过的提示，按 ↓ 往后翻；模型选项支持按名称、值与说明搜索，手机端在会话选项面板内完成。",
+          href: "/docs/hybrid-sessions/#输入框与会话选项",
+          since: "v0.14",
         },
         {
-          title: "仓库初始化指令",
-          body: "为每个仓库保存一段开场指令模板，支持 {{快捷指令}}、{{user}} 与 {{dir}} 占位符，新会话可选择自动发送。",
-          href: "/docs/usage/sessions/#3-用户指令与初始化指令可选",
-          since: "v0.12",
+          title: "工作台导航树记住折叠",
+          body: "侧栏导航树在本设备记住每个节点的展开状态，并在节点下的未结束会话变化时自动展开到会话行；当前打开的会话路径始终展开。",
+          href: "/docs/usage/sessions/#排列与分组",
+          since: "v0.14",
         },
         {
-          title: "聊天体验改进",
-          body: "附件与消息显示图片缩略图；代码位置链接直接在代码浏览器打开；快捷指令按钮移到发送键旁；聊天端 agent 不再空闲休眠。",
-          href: "/docs/hybrid-sessions/#聊天视图",
-          since: "v0.12",
+          title: "Kimi 加入混合会话",
+          body: "Kimi Code CLI 的同一段对话可在原生 TUI 与聊天视图之间切换，支持模型与模式恢复、首次启动自动处理目录信任；混合会话现覆盖八款 agent（含 omp）。",
+          href: "/docs/hybrid-sessions/agents/#kimi-code-cli",
+          since: "v0.14",
         },
         {
-          title: "新建会话重新设计",
-          body: "单页对话框按“位置 / 运行 / 用户指令”组织，可搜索已有分支、从最近 50 个提交中选起点，混合 agent 记住从终端还是聊天开始。",
-          href: "/docs/usage/sessions/#新建会话",
+          title: "全局会话切换",
+          body: "按 ⌘K（macOS）或 Ctrl+Alt+K（Windows / Linux）从工作台、快速开始、终端或设置页搜索并跳到已有会话，支持跨仓库、目录与分支名，置顶会话优先。",
+          href: "/docs/usage/sessions/#快速切换会话",
+          since: "v0.14",
         },
         {
-          title: "更多 agent 支持混合会话",
-          body: "Claude Code、Antigravity CLI、Qoder 与 QoderCN 加入 TUI ↔ 聊天互切，现在共七款。",
-          href: "/docs/hybrid-sessions/",
-        },
-        {
-          title: "安装包与自动更新",
-          body: "deb / rpm 安装包附带 systemd 用户服务；Windows 安装程序；正式版与开发版通道，签名发布与自动更新检查。",
-          href: "/docs/deployment/updates/",
+          title: "语音输入与移动端快捷操作",
+          body: "聊天、快速开始页与终端草稿支持可插拔的语音识别；手机端提供软键栏、触控手柄覆盖层与紧凑输入卡片。",
+          href: "/docs/usage/mobile/",
+          since: "v0.14",
         },
       ]
     : [
         {
-          title: "Port forwarding preview",
-          body: "When a dev server in a session starts listening, a banner offers the port within 3 seconds; one click previews it at /forward/{port}/. HMR, SSE and WebSockets pass through, and no new port is opened.",
-          href: PORT_FORWARD_DOC,
-          since: "v0.12",
+          title: "Quick Start in an existing worktree",
+          body: "Quick Start no longer only creates worktrees: switch to “Existing worktree” at the top of the picker to start a chat agent in the main workspace or a linked worktree, continuing existing branches or uncommitted work. A new worktree is still the default.",
+          href: "/use-cases/#parallel-agents",
         },
         {
-          title: "Chat mode, workbench mode and Quick Start",
-          body: "The sidebar switches between all chats by recent activity and a repository → worktree → session tree. Quick Start picks a repository, branch and agent, creates a worktree and starts in chat or terminal.",
-          href: "/docs/usage/sessions/#侧栏",
-          since: "v0.12",
+          title: "Pin active sessions",
+          body: "Pin the sessions you are following and move them up or down; the sidebar and quick switcher show pinned sessions first in the same server-saved order across devices.",
+          href: "/docs/usage/sessions/#快速切换会话",
+          since: "v0.14",
         },
         {
-          title: "Louder alerts",
-          body: "Needs-answer, awaiting-permission and error states turn red, and a toast appears at the top right with no notification permission or HTTPS needed.",
-          href: "/docs/usage/attention/",
-          since: "v0.12",
+          title: "Prompt recall and model search",
+          body: "Press ↑ in the chat composer to recall prompts sent in this session and ↓ to move forward; model options can be searched by name, value or description, including inside the mobile session options panel.",
+          href: "/docs/hybrid-sessions/#输入框与会话选项",
+          since: "v0.14",
         },
         {
-          title: "Repository init instructions",
-          body: "Save an opening instruction per repository with {{quick command}}, {{user}} and {{dir}} placeholders, and send it automatically when a session starts.",
-          href: "/docs/usage/sessions/#3-用户指令与初始化指令可选",
-          since: "v0.12",
+          title: "The workbench tree remembers folds",
+          body: "The sidebar tree remembers each node's expanded state on this device and auto-expands to unfinished sessions when a node's live sessions change; the current session path always expands.",
+          href: "/docs/usage/sessions/#排列与分组",
+          since: "v0.14",
         },
         {
-          title: "A better chat view",
-          body: "Image thumbnails for attachments and messages, code-location links that open the code browser, quick commands beside Send, and no idle sleep for chat-side agents.",
-          href: "/docs/hybrid-sessions/#聊天视图",
-          since: "v0.12",
+          title: "Kimi joins hybrid sessions",
+          body: "Kimi Code CLI switches between its native TUI and the chat view, with model and mode restoration plus automatic folder trust on first start; eight agents (including omp) now support hybrid sessions.",
+          href: "/docs/hybrid-sessions/agents/#kimi-code-cli",
+          since: "v0.14",
         },
         {
-          title: "New session, redesigned",
-          body: "One page organised as Location / Run / User instruction, with branch search, a start commit from the last 50, and a remembered terminal-or-chat start per hybrid agent.",
-          href: "/docs/usage/sessions/#新建会话",
+          title: "Global session switcher",
+          body: "Press ⌘K on macOS or Ctrl+Alt+K on Windows / Linux to search and jump to sessions from the workbench, Quick Start, terminal or settings, across repositories, directories and branches, with pinned sessions first.",
+          href: "/docs/usage/sessions/#快速切换会话",
+          since: "v0.14",
         },
         {
-          title: "More hybrid agents",
-          body: "Claude Code, Antigravity CLI, Qoder and QoderCN joined TUI ↔ chat switching, seven agents in total.",
-          href: "/docs/hybrid-sessions/",
-        },
-        {
-          title: "Packages and auto-update",
-          body: "deb / rpm packages with a systemd user service, a Windows installer, stable and dev channels, signed releases and update checks.",
-          href: "/docs/deployment/updates/",
+          title: "Voice input and mobile shortcuts",
+          body: "Chat, Quick Start and terminal drafts support pluggable speech recognition; on phones the soft-key bar, touch gamepad overlay and compact composer keep controls within reach.",
+          href: "/docs/usage/mobile/",
+          since: "v0.14",
         },
       ];
 }
@@ -133,9 +125,24 @@ export function groups(lang: Lang): FeatureGroup[] {
               href: "/docs/architecture/",
             },
             {
+              title: "聊天与工作台模式",
+              body: "侧栏在聊天历史与“仓库 → worktree → 会话”树之间切换；快速开始选仓库、工作树方式与 agent，写下任务即在新 worktree 或已有工作树中开工。",
+              href: "/docs/usage/chat/",
+            },
+            {
+              title: "仓库初始化指令",
+              body: "为仓库保存开场指令模板，支持 {{快捷指令}}、{{user}}、{{dir}} 与 {{webmux}} 占位符；快速开始或新建会话时可勾选随首条消息发送。",
+              href: "/docs/usage/chat/#仓库初始化指令",
+            },
+            {
               title: "会话总览",
-              body: "按仓库与 worktree 分组，实时显示标题、状态（运行中 / 可能在等你 / 空闲 / 已退出）与屏幕预览，可搜索与按状态筛选。",
+              body: "按仓库与 worktree 分组，实时显示标题、状态（运行中 / 可能在等你 / 空闲 / 已退出）与屏幕预览，可搜索与按状态筛选；导航树在本设备记住展开状态，并自动展开有未结束会话的节点。",
               href: "/docs/usage/sessions/#会话列表",
+            },
+            {
+              title: "置顶与快速切换",
+              body: "置顶正在跟进的会话并调整顺序；⌘K（macOS）或 Ctrl+Alt+K（Windows / Linux）跨仓库搜索并跳到任意会话，侧栏与结果共用同一置顶顺序。",
+              href: "/docs/usage/sessions/#快速切换会话",
             },
             {
               title: "终端分屏",
@@ -180,12 +187,12 @@ export function groups(lang: Lang): FeatureGroup[] {
             },
             {
               title: "TUI ↔ 聊天互切",
-              body: "七款 agent 的同一段对话可在原生 TUI 与 ACP 聊天视图之间切换，历史由 agent 自己保存。",
+              body: "八款 agent（含 omp）的同一段对话可在原生 TUI 与 ACP 聊天视图之间切换，历史由 agent 自己保存；Kimi 也支持模型与模式恢复。",
               href: "/docs/hybrid-sessions/",
             },
             {
               title: "聊天视图",
-              body: "消息、思考与工具调用按时间线展示；选择模型、模式与权限；圆环显示上下文用量；附件以 ACP 内容块直接发送。",
+              body: "消息、思考与工具调用按时间线展示；模型选项可搜索，输入框按 ↑ 召回发过的提示；选择模式与权限；圆环显示上下文用量；附件以 ACP 内容块直接发送。",
               href: "/docs/hybrid-sessions/#聊天视图",
             },
             {
@@ -211,7 +218,7 @@ export function groups(lang: Lang): FeatureGroup[] {
           items: [
             {
               title: "Git worktree 管理",
-              body: "登记已有仓库，从最近的分支与提交创建 worktree 并直接启动 agent；删除前检查未提交改动与活跃会话。",
+              body: "登记已有仓库，从最近的分支与提交创建 worktree 并直接启动 agent，也可在已有主工作区或 worktree 中继续；删除前检查未提交改动与活跃会话。",
               href: "/docs/usage/worktrees/",
             },
             {
@@ -257,13 +264,18 @@ export function groups(lang: Lang): FeatureGroup[] {
               href: "/docs/usage/mobile/",
             },
             {
+              title: "语音输入与触控手柄",
+              body: "服务端配置语音识别后，聊天、快速开始与终端草稿可把识别文字插入输入框；软键栏可展开软键盘摇杆，支持按住连发与滑动切向。",
+              href: "/docs/usage/mobile/",
+            },
+            {
               title: "PWA 与锁屏推送",
               body: "HTTPS 下可安装为应用，agent 等你回复时推送到锁屏；iOS 16.4+ 需添加到主屏幕。",
               href: "/docs/deployment/pwa-and-push/",
             },
             {
               title: "跨设备偏好",
-              body: "主题、预览、代码阅读与快捷指令由服务端保存并同步；字号、凭据与草稿留在本机。",
+              body: "主题、预览、代码阅读、快捷指令与会话置顶由服务端保存并同步；字号、凭据、草稿与侧栏折叠留在本机。",
               href: "/docs/usage/sessions/#跨设备偏好",
             },
             {
@@ -321,9 +333,24 @@ export function groups(lang: Lang): FeatureGroup[] {
               href: "/docs/architecture/",
             },
             {
+              title: "Chat and workbench modes",
+              body: "The sidebar switches between chat history and a repository → worktree → session tree; Quick Start picks a repository, worktree mode and agent, then starts in a new or existing worktree.",
+              href: "/docs/usage/chat/",
+            },
+            {
+              title: "Repository init instructions",
+              body: "Save an opening instruction per repository with {{quick command}}, {{user}}, {{dir}} and {{webmux}} placeholders, and send it with the first message from Quick Start or the new-session dialog.",
+              href: "/docs/usage/chat/#仓库初始化指令",
+            },
+            {
               title: "Session overview",
-              body: "Grouped by repository and worktree with live title, status (running / may be waiting / idle / exited) and screen preview; search and status filters.",
+              body: "Grouped by repository and worktree with live title, status (running / may be waiting / idle / exited) and screen preview; search and status filters, plus per-device fold memory and auto-expand to unfinished sessions.",
               href: "/docs/usage/sessions/#会话列表",
+            },
+            {
+              title: "Pins and quick switching",
+              body: "Pin the sessions you follow and reorder them; ⌘K on macOS or Ctrl+Alt+K on Windows / Linux searches and jumps to any session across repositories, sharing the same pinned order.",
+              href: "/docs/usage/sessions/#快速切换会话",
             },
             {
               title: "Terminal splits",
@@ -368,12 +395,12 @@ export function groups(lang: Lang): FeatureGroup[] {
             },
             {
               title: "TUI ↔ chat",
-              body: "Seven agents switch one conversation between the native TUI and an ACP chat view; the agent keeps the history.",
+              body: "Eight agents (including omp) switch one conversation between the native TUI and an ACP chat view, with history kept by the agent; Kimi also restores model and mode.",
               href: "/docs/hybrid-sessions/",
             },
             {
               title: "Chat view",
-              body: "Messages, thinking and tool calls on a timeline; model, mode and permission pickers; a context ring; attachments sent as ACP content blocks.",
+              body: "Messages, thinking and tool calls on a timeline; searchable model options, ↑ prompt recall, mode and permission pickers; a context ring; attachments sent as ACP content blocks.",
               href: "/docs/hybrid-sessions/#聊天视图",
             },
             {
@@ -399,7 +426,7 @@ export function groups(lang: Lang): FeatureGroup[] {
           items: [
             {
               title: "Git worktrees",
-              body: "Register existing repositories, create worktrees from recent branches and commits and launch an agent in them; removal checks for uncommitted work and live sessions.",
+              body: "Register existing repositories, create worktrees from recent branches and commits and launch an agent in them, or continue in the main workspace or an existing worktree; removal checks for uncommitted work and live sessions.",
               href: "/docs/usage/worktrees/",
             },
             {
@@ -445,13 +472,18 @@ export function groups(lang: Lang): FeatureGroup[] {
               href: "/docs/usage/mobile/",
             },
             {
+              title: "Voice input and touch gamepad",
+              body: "With a speech recognizer configured, chat, Quick Start and terminal drafts can insert recognized text; the soft-key bar can expand a touch gamepad with hold-to-repeat and slide-to-turn.",
+              href: "/docs/usage/mobile/",
+            },
+            {
               title: "PWA and lock-screen push",
               body: "Install it as an app over HTTPS and get pushed when an agent waits for you; iOS 16.4+ needs Add to Home Screen.",
               href: "/docs/deployment/pwa-and-push/",
             },
             {
               title: "Preferences across devices",
-              body: "Theme, previews, code reading and quick commands are stored on the server and synced; font size, credentials and drafts stay local.",
+              body: "Theme, previews, code reading, quick commands and session pins are stored on the server and synced; font size, credentials, drafts and sidebar folds stay local.",
               href: "/docs/usage/sessions/#跨设备偏好",
             },
             {

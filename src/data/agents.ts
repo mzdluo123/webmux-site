@@ -1,5 +1,5 @@
 // Preset CLI agents, from mzdluo123/webmux docs/cli-agents.md (commands checked by upstream
-// on 2026-10-31) and docs/hybrid-sessions.md. Icons: LobeHub monochrome SVGs (MIT), synced.
+// on 2026-11-10) and docs/hybrid-sessions.md. Icons: LobeHub monochrome SVGs (MIT), synced.
 export interface Agent {
   slug: string;
   name: string;
@@ -85,8 +85,8 @@ export const AGENTS: Agent[] = [
     name: "Kimi Code CLI",
     command: "kimi",
     icon: "kimi",
-    args: null,
-    hybrid: false,
+    args: "--auto",
+    hybrid: true,
     docsUrl: "https://github.com/MoonshotAI/kimi-code",
   },
   {

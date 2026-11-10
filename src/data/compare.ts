@@ -1,12 +1,12 @@
 // Factual comparison (strategy.md#差异化与对比规则). WebMux facts: README.md, docs/overview.md,
 // docs/usage.md, docs/hybrid-sessions.md. Third-party cells only claim what the cited official
-// pages state; anything else is "unverified". Checked 2026-11-05.
+// pages state; anything else is "unverified". Checked 2026-11-10.
 import type { Lang } from "../lib/i18n";
 import { serverSizeMB } from "../lib/releases";
 
 const SIZE = serverSizeMB() ?? 20;
 
-export const CHECKED = "2026-11-05";
+export const CHECKED = "2026-11-10";
 
 export type Verdict = "yes" | "no" | "partial" | "unverified";
 
@@ -167,8 +167,8 @@ export const WEBMUX: Tool = {
     },
     chat: {
       v: "partial",
-      zh: "七款：Claude Code、Codex CLI、OpenCode、omp、Antigravity、Qoder、QoderCN",
-      en: "Seven: Claude Code, Codex CLI, OpenCode, omp, Antigravity, Qoder, QoderCN",
+      zh: "八款：Claude Code、Codex CLI、OpenCode、omp、Antigravity、Qoder、QoderCN、Kimi",
+      en: "Eight: Claude Code, Codex CLI, OpenCode, omp, Antigravity, Qoder, QoderCN, Kimi",
     },
     light: {
       v: "yes",
@@ -192,8 +192,8 @@ export const WEBMUX: Tool = {
     },
     anyagent: {
       v: "yes",
-      zh: "任意 CLI 可在终端运行；提醒依赖其信号，聊天视图限上述七款",
-      en: "Any CLI runs in the terminal; alerts depend on its signals, chat view limited to seven",
+      zh: "任意 CLI 可在终端运行；提醒依赖其信号，聊天视图限上述八款",
+      en: "Any CLI runs in the terminal; alerts depend on its signals, chat view limited to eight",
     },
     license: { v: "yes", zh: "MIT", en: "MIT" },
   },

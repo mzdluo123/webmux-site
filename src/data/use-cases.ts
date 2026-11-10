@@ -1,5 +1,5 @@
 // Use-case copy for /use-cases/ and the home-page teaser. Facts come from mzdluo123/webmux
-// (checked 2026-11-05 at main): docs/overview.md, docs/usage.md, docs/usage/{terminal,worktrees,
+// (checked 2026-11-10 at main): docs/overview.md, docs/usage.md, docs/usage/{terminal,worktrees,
 // mobile,attention,port-forwarding}.md, docs/hybrid-sessions.md, docs/deployment/*.md.
 import type { Lang } from "../lib/i18n";
 import { serverSizeMB } from "../lib/releases";
@@ -118,17 +118,20 @@ export function useCases(lang: Lang): UseCase[] {
           pain: "多个终端标签页、多个 tmux 窗口，谁跑完了、谁卡在授权、谁报错了，只能一个个切过去看。",
           steps: [
             {
-              text: "快速开始：选仓库和基准分支、选 agent、写下第一句任务，WebMux 自动新建 worktree 并在聊天里开工。",
+              text: "快速开始：选仓库和基准分支、选 agent、写下第一句任务，WebMux 自动新建 worktree 并在聊天里开工；也可以切到「已有工作树」，接着现有分支或未提交的改动继续。",
             },
             {
               text: "工作台模式按“仓库 → worktree → 会话”列出全部会话，卡片实时显示状态与屏幕预览；需要回答、等待授权或出错的会话以红色标出。",
+            },
+            {
+              text: "把当前跟进的会话置顶，侧栏和快速切换（⌘K / Ctrl+Alt+K）优先显示；导航树还会记住展开状态，并自动展开有未结束会话的节点。",
             },
             {
               text: "不同任务互不干扰：每个 worktree 有独立分支与目录，删除前会检查未提交改动与活跃会话。",
             },
             { text: "聊天会话可以停止并归档，之后从所属 worktree 的“已归档”中恢复到聊天或终端。" },
           ],
-          uses: ["快速开始", "会话总览", "Git worktree", "归档与恢复"],
+          uses: ["快速开始", "已有工作树", "会话置顶", "快速切换", "Git worktree", "归档与恢复"],
           links: [
             { href: "/docs/usage/sessions/#会话列表", label: "会话列表" },
             { href: "/docs/usage/worktrees/", label: "仓库与 worktree" },
@@ -339,10 +342,13 @@ export function useCases(lang: Lang): UseCase[] {
           pain: "Many terminal tabs, many tmux windows: which one finished, which is stuck on a permission, which failed? You click through them one by one.",
           steps: [
             {
-              text: "Quick Start: pick a repository and base branch, an agent and the first task; WebMux creates a worktree and starts the chat.",
+              text: "Quick Start: pick a repository and base branch, an agent and the first task; WebMux creates a worktree and starts the chat. Switch to “Existing worktree” to continue an existing branch or uncommitted work instead.",
             },
             {
               text: "Workbench mode lists every session as repository → worktree → session; cards show live status and screen previews, and sessions that need an answer, a permission or hit an error turn red.",
+            },
+            {
+              text: "Pin the sessions you follow so the sidebar and quick switcher (⌘K / Ctrl+Alt+K) show them first; the tree remembers folds and auto-expands nodes with unfinished sessions.",
             },
             {
               text: "Tasks stay apart: each worktree has its own branch and folder, and removal checks for uncommitted changes and live sessions first.",
@@ -351,7 +357,14 @@ export function useCases(lang: Lang): UseCase[] {
               text: "Chat sessions can be stopped and archived, then resumed to chat or terminal from their worktree's “Archived” section.",
             },
           ],
-          uses: ["Quick Start", "Session overview", "Git worktrees", "Archive and resume"],
+          uses: [
+            "Quick Start",
+            "Existing worktree",
+            "Session pins",
+            "Quick switcher",
+            "Git worktrees",
+            "Archive and resume",
+          ],
           links: [
             { href: "/docs/usage/sessions/#会话列表", label: `Session list${cn}` },
             { href: "/docs/usage/worktrees/", label: `Repositories and worktrees${cn}` },
