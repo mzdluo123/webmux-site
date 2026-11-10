@@ -5,9 +5,9 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
 ---
 ## Q. 混合会话（聊天 ↔ 终端）
 
-- **US-Q01 开启混合模式**：作为使用者，我希望在启动配置上勾选混合模式，以便之后用这条配置启动的 OpenCode、omp、Codex CLI、Claude Code、Antigravity CLI、Qoder 或 QoderCN 会话能在聊天视图与终端之间切换。
+- **US-Q01 开启混合模式**：作为使用者，我希望在启动配置上勾选混合模式，以便之后用这条配置启动的 OpenCode、omp、Codex CLI、Claude Code、Antigravity CLI、Qoder、QoderCN 或 Kimi 会话能在聊天视图与终端之间切换。
   验收要点：
-  - 新安装预置的 OpenCode、omp、Codex CLI、Claude Code、Antigravity CLI、Qoder 与 QoderCN 配置已勾选混合模式，已有 `launch-configs.json` 不被改写；
+  - 新安装预置的 OpenCode、omp、Codex CLI、Claude Code、Antigravity CLI、Qoder、QoderCN 与 Kimi 配置已勾选混合模式，已有 `launch-configs.json` 不被改写；
   - 设置页编辑器提供“混合模式（聊天 ↔ 终端）”勾选框，可用性只取服务端判定（打开时用配置的 `chatSupport`，改命令后去抖查询 `POST /api/launch-configs/chat-support`）；线上字段为 `chat`/`chatSupport`，请求体中的旧字段 `hybrid`/`hybridSupport` 返回 400；
   - 不可用时禁用并显示原因：
     - 未识别的 agent、命令写法、会话库或目录参数、非交互参数；
@@ -37,15 +37,17 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
     - 已有 agent 会话 ID：
       - Codex 取自写锁；Antigravity CLI 由注入的会话级 `--settings` `title` 钩子经 `OSC 7501` 子记录上报 36 字符 UUID；
       - Claude 取自 `<CLAUDE_CONFIG_DIR>/sessions/<pid>.json`，采用前核对 PID、UUID、规范化 cwd、进程启动标识与 PID domain，失效时退回 cwd + 启动时间的 `session/list` 候选，多个候选时让用户选择；
+      - Kimi 不把 OSC 7501 子记录当作会话 ID，使用 cwd + 启动时间的 `session/list` 候选，`session_` 前缀 ID 原样保留，多个候选时让用户选择；
       - 首条消息前即使已有注册 UUID，list 不含可加载会话仍不可切换；
     - 会话列表能查到；
     - 未被其他会话占用；
   - “聊天 | 终端”的下划线平滑移向当前选择，切换中仍显示真实进度；目标内容准备好后短暂淡入，减少动态效果时直接显示，不以动画结束代替连接就绪；
-  - TUI 在回合中时先发中断键并等待空闲（Claude Code 与 Antigravity CLI 为一次 Esc；Codex 启动阶段的“工作中”不算回合，Claude 无启动静默期），10 秒后可选继续等待、强制切换或取消（强制切换的损失说明取自服务端 `forceSwitchNote`，由各 agent 适配器提供）；
+  - TUI 在回合中时先发中断键并等待空闲（Claude Code、Antigravity CLI 与 Kimi 为一次 Esc；Codex 启动阶段的“工作中”不算回合，Claude 无启动静默期），10 秒后可选继续等待、强制切换或取消（强制切换的损失说明取自服务端 `forceSwitchNote`，由各 agent 适配器提供）；
   - 进入目标端前确认 TUI 进程组已退出；
   - 聊天视图回放完整历史，模型等配置与切换前一致：
     - 按档案补齐 omp 的 mode、Antigravity CLI 的 model 与 thought_level，以及 Codex 的模式、模型、推理强度；Antigravity CLI 与 Codex 首次切换按启动参数推导配置；
     - Claude 首次从 argv 推导 model/effort/mode，冷 load 与 resume 后重应用 model/effort，mode 保留连接器从 transcript 恢复的实际值，回退显示实际配置与通知；
+    - Kimi 首次从 argv 推导 model/mode，冷 load 与 resume 后只重应用 mode，model 与 thinking 由 Kimi 保留；
   - 会话被 webmux 之外的 Codex 客户端或被有效注册记录识别的 Claude 进程占用时回到终端并提示 `occupied_external`，当前/退出/陈旧 Claude 记录不误报，来源不可读时仅保留内部检测且不保证发现所有外部写者；
   - Claude 注册读取有频率/大小/条目上限，普通会话不扫描，路径、PID、启动标识、记录正文与凭据不进入客户端负载、混合记录或日志；
   - 已附着的终端以 4409 断开。
@@ -53,7 +55,7 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
   验收要点：
   - 回合进行中先确认，再取消回合并把挂起的请求答复为取消；
   - 排队中未发送的消息合并后退回发起设备的草稿，其他设备只收到提示，不自动发给 TUI；
-  - agent 支持时 `session/close` 后结束 ACP 进程并等待退出，再以恢复命令在同一会话 ID 下启动新运行代际（Claude 为 `--resume <id>`，Antigravity CLI 为 `--conversation <id>`）；
+  - agent 支持时 `session/close` 后结束 ACP 进程并等待退出，再以恢复命令在同一会话 ID 下启动新运行代际（Claude 为 `--resume <id>`，Antigravity CLI 为 `--conversation <id>`，Kimi 为 `kimi --session <id>`）；
   - Claude 的 cancel 只中断当前回合，后台 Bash 或子任务可能存活，切换须终止连接器并等待受管后代退出，不保证任意自行 daemonize 的进程已清理；
   - 切换期间显示“中断、退出、启动、连接终端”进度，直到新运行在本页输出首屏（最多 10 秒）才淡入终端，不显示空白终端；
   - 页面列出恢复时未保留的参数；
@@ -97,22 +99,26 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
 - **US-Q07 调整配置与使用命令**：作为使用者，我希望在聊天视图切换模型等配置并使用 agent 的斜杠命令，以便不切回终端也能调整 agent。
   验收要点：
   - 桌面输入框下方显示 agent 提供的配置项（选择类为下拉、布尔类为开关）。两者都按 `category` 显示图标，未知类别使用通用图标；下拉按钮显示服务端确认的当前值，长值可在菜单中查看全文。桌面宽度不足时这一行横向滚动；手机仅在输入卡片内提供一个“会话选项”入口；
+  - 模型配置项（`category: "model"` 或 `id: "model"`）支持文本搜索（按名称、值与说明忽略大小写筛选，无匹配时提示“没有匹配的模型”）：桌面端在下拉弹出层内搜索并在关闭后清空搜索词；手机端在“会话选项”面板内点击模型按钮后展开可搜索列表，按 Esc 先收起列表并把焦点归还模型按钮；
   - 手机打开“会话选项”后，底部面板按行显示名称和当前值，选择后提交；关闭、点击遮罩或下滑可收起，关闭后焦点回到入口；短屏或更多配置时面板内部滚动，不遮住关闭按钮；
   - 打开面板时从齿轮位置展开轮廓，文字与控件不缩放；系统启用“减少动态效果”时直接显示，快速关闭再打开也不残留裁切；
   - 变更经 `session/set_config_option` 生效并在所有设备同步，取值被记录用于切换与恢复后补齐；手机面板的下拉与开关只显示已确认的值，保存失败时保留原值并在面板内提示；
   - Claude 首次从 `--model`、`--effort` 与权限 argv 播种，`manual` 映射为 ACP `default`、危险跳过权限优先映射 `bypassPermissions`，不支持的值列入不生效参数；
+  - Kimi 首次从 `--model`、`--auto`、`--yolo` 与 `--plan` 播种 model/mode，plan 优先；`--skills-dir` 与 `--add-dir` 列入不生效参数，冷恢复只重应用 mode；冷恢复或手动选择已生效模式时的 `Already in <mode> mode` 按幂等成功处理；
   - 冷 `session/load` 与 `session/resume` 后重应用记录的 model/effort，mode 以 transcript 恢复值为准，不回写过期 argv，回退显示实际值与通知；
   - 输入 `/` 打开随输入过滤的命令菜单。
+  - 消息框为空且没有附件时，用 ↑ 找回本会话已发送的提示词文字。光标在文字开头时按 ↑ 查看更早的提示词，在末尾按 ↓ 查看更新的提示词，越过最新一条时清空。浏览时收起斜杠命令菜单，编辑后按正常草稿处理，保留光标方向键与输入法行为。
 - **US-Q08 排队与插话**：作为使用者，我希望 agent 忙时继续发送消息并按顺序处理，以便不必等待也不会打断当前回合。
   验收要点：
   - 窄屏或较矮的窗口默认将队列折叠为一行，显示条数与第一条的摘要；展开后仍可滚动到输入框和会话选项；
   - 发送经 `POST /api/sessions/{id}/input`，`mode` 为 `auto`（默认）、`steer`、`refuse` 或 `now`，停止回合经 `POST /api/sessions/{id}/interrupt`；会话在终端视图时带 `mode` 或附件的输入返回 409 `wrong_view`，两个新模式同样不发送；
+  - 发送失败时同时保留原消息与等待期间继续输入的文字，附件恢复到待发送列表，不让未成功内容静默丢失；
   - 服务端队列多设备共享：空闲且未暂停时立即发送，否则排队，回合正常结束后逐条发送；排队结果带队列项 `itemId` 与从 1 开始的 `position`；
   - `refuse` 在不能立即发送时返回 409 `busy` 且不入队；`now` 取消正在运行的回合后把这条提示排到队首并立即发送，不留队列项，语义同队列的立即发送；
   - 队列可编辑、上移、删除、二次确认后立即发送；展开与收起平滑改变高度，上移和删除在服务端确认后让其余行平滑就位；减少动态效果时直接更新，关闭中的内容不可聚焦；
   - 回合被停止、出错或拒绝时队列暂停并提示继续或清空；
-  - 按 `clientRequestId` 去重，重试不重复发送；
-  - 只有档案与 agent 都声明支持（omp、Codex、Claude Code）且回合进行中时，输入文字后按 Ctrl/Cmd+Enter 才会插话（界面没有插话按钮），OpenCode 与 Antigravity CLI 没有插话；
+  - 按 `clientRequestId` 去重，重试不重复发送；浏览器草稿和 API 向混合或普通 Kimi TUI 提交文本与 Enter 时在同一回执内分隔 200ms，空正文不等待，延迟期间保持输入锁；
+  - 只有档案与 agent 都声明支持（omp、Codex、Claude Code）且回合进行中时，输入文字后按 Ctrl/Cmd+Enter 才会插话（界面没有插话按钮），OpenCode、Antigravity CLI 与 Kimi 没有插话；
   - 回合进行中且没有文字与附件时，发送键变为停止键（名称“停止”），点击停止当前回合；有内容时保持“加入排队”；
   - Codex 与 Claude 的插话在回合已结束时返回 `promptRequired`（Claude 可为 `noRunningTurn`），这条消息排到队首作为下一回合发送，不产生 webmux 不知道的回合。
 - **US-Q09 聊天端提醒**：作为离开页面的使用者，我希望聊天端的回合状态像终端会话一样提醒我，以便及时回来批准或继续。
@@ -151,6 +157,7 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
   - 在 WebMux 中删除工作树（安全或强制）成功后，该目录下已关闭或已中断的记录（含强制删除时刚关闭的会话留下的）保留并标为已释放，出现在所属仓库“已不可用工作区”，仍可重建并恢复（US-J09）；HEAD 无法解析时记录保持原样，不能重建；
   - Claude 记录沿用 `claudecode` 档案与通用候选/外部占用错误，恢复聊天后重应用 model/effort 并保留实际 mode，注册记录不可读不伪造无外部写者保证；
   - 记录不含环境变量值、消息、注册记录正文或 token，存储不可用时只禁用混合会话；
+  - 记录读取不等待文件落盘；立即写入失败保留此前已接受修改的 dirty 状态并重试，服务关闭等待在途创建、恢复与持久化，不在关闭后启动新 actor，最终写入失败记录诊断；
   - 记录文件最多保存 200 条（含运行中），文件另有 1 MiB 字节上限（命令很长时先于条数写满）：
     - 新建混合会话时若任一上限已满，先淘汰最近未更新的已关闭或已中断记录，仍在运行、正在恢复或正在删除的记录不会被淘汰；
     - 淘汰会清理该记录的临时文件夹与不再共享的释放引用；
@@ -170,7 +177,7 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
   - 完成后以可移除 chip 列在输入框上方（图片附件显示缩略小图与文件名，文件显示文件图标与文件名），不改动草稿文本、不自动发送，只有附件时也可发送；
   - 单条超过 8 个、单文件超过 10 MiB 或合计超过 20 MiB 时上传前拒绝；
   - 上传属于会话页，已完成的待发送附件随会话草稿保存在本设备：Claude 与其他 agent 共用该状态，切换两端、切换页面与自动重连不丢失草稿文字与待发送 chip，离开会话页仅中止进行中的上传；
-  - 会话不存在或已退出时拒绝上传，取消或失败不产生伪造附件。
+  - 会话不存在或已退出时拒绝上传，取消或失败不产生伪造附件；发送成功后立即释放待发送图片的 Object URL，失败恢复与手动移除分别保留或释放对应预览。
 - **US-Q15 聊天附件**：作为聊天端使用者，我希望图片和文件随消息以 agent 原生内容发送，以便 agent 直接看到素材而不必自己读取路径。
   验收要点：
   - 聊天和快速开始共用的待发送附件列表在新增时淡入，删除后其余标签平滑就位；换行或清空时输入卡片随列表高度变化，系统减少动态效果时直接更新，动画不延迟移除或发送；
@@ -198,13 +205,15 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
   - 标识只用于展示，不可聚焦或点击；切到终端视图后隐藏；浏览器不认识的图标键只显示名称，不用其他图标代替。
 - **US-Q18 快速开始聊天**：作为想直接把任务交给 agent 的使用者，我希望在一个输入框写下任务、选好仓库和 agent 后按一次发送，就在新 worktree 里以聊天方式开工，以便省去建 worktree、选配置和等待聊天就绪这几步。
   验收要点：
-  - 桌面快速开始页 `/new` 是聊天模式的主区域：底部输入框，上方一行是仓库与基准分支，下方一行是 agent、该 agent 的配置项与权限模式。下拉按钮显示当前选项，空间不足时可横向滚动到两端；
+  - 桌面快速开始页 `/new` 是聊天模式的主区域：底部输入框，上方一行是仓库与基准分支，下方一行是 agent、该 agent 的配置项（模型配置项同样支持文本搜索）与权限模式。下拉按钮显示当前选项，空间不足时可横向滚动到两端；
   - 窄屏（小于 640px）或高度小于 480px 的触屏设备，在快速开始页 `/new` 与聊天视图中共用紧凑输入状态：
     - 输入框未聚焦且无草稿文字、待发送附件、上传进度或发送中状态时，输入卡片收起为单行输入框与发送/停止按钮。下方不常驻选项行，仓库与分支位置行、初始化指令勾选栏及卡片内包括设置齿轮在内的辅助按钮隐藏；
     - 展开输入框后才显示会话选项入口；agent 与启动方式位于卡片内，权限与 agent 配置统一收进“会话选项”底部面板，显示当前值，读取期间保留加载提示与禁用状态；
     - 单行输入框与完整卡片之间平滑改变高度，发送按钮随之移动且文字不缩放；动画可以打断，窗口尺寸变化后不残留固定高度；
     - 会话选项面板使用与聊天视图相同的入口展开动画，系统开启“减少动态效果”时直接显示；
-    - 点击或聚焦输入框（或打开其弹出菜单）时展开完整输入卡片，失焦且为空时自动收起；进入 `/new` 在窄屏或触屏设备上不自动抢占焦点；
+    - 点击或聚焦输入框本身（或打开其弹出菜单）时展开完整输入卡片，失焦且为空时自动收起；卡片容器不充当包含其他控件的额外按钮，键盘可直接聚焦文本框；进入 `/new` 在窄屏或触屏设备上不自动抢占焦点：
+      - 单行紧凑卡片上下内边距对称，隐藏的选项行不在卡片下方留下多余间距；
+      - 快速开始页 `/new` 跟踪可视视口高度（`visualViewport.height`）并锁定页面滚动，软键盘弹起时展开后的输入卡片整体保持在键盘上方可见；
   - 进入任一聊天视图时，输入框上方以同样的位置只读显示该会话的仓库与 worktree 分支（分离时为短提交号，无仓库的会话显示目录名），创建后不可更改；每次进入都重新读取仓库状态，读取完成前显示上次已知的值；
   - agent 旁的“启动方式”可选聊天或终端，本设备记住上次的选择；选终端时在 agent 的终端里启动（有附件时移入新会话上传目录并附上 `附件路径：`），不显示权限和配置项：
     - 已迁移命令行初始提示的 agent 通过首次启动参数直接传入消息（不写入 `SessionInfo.Cmd` 或混合会话记录）；
@@ -227,10 +236,10 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
       - 临时文件夹或说明不可用时预检即以 503 拒绝，不创建 worktree；
       - `webmux run --prompt` 与其他调用者不设置它，消息原文不变；终端视图首条消息同样适用；
       - 终端视图的首条消息同样是会话名的来源（US-B07）：取去掉 `{{dir}}`、`{{webmux}}` 引用后的用户输入，不含初始化指令；
-    - 服务端依次创建 worktree（自动分支名，路径为默认父目录下的分支名末段）、以聊天视图启动混合会话、应用配置与权限模式，并把首条消息作为第一轮提示发出，浏览器断开不影响；
+    - 服务端依次创建 worktree（分支名由快速开始页按与手动新建相同的 `wt/<形容词>-<名词>` 规则生成，路径为默认父目录下的分支名末段；分支冲突时重新生成重试）、以聊天视图启动混合会话、应用配置与权限模式，并把首条消息作为第一轮提示发出，浏览器断开不影响；
     - 同一请求 ID 在执行中及完成后 10 分钟内重复提交只返回同一结果；
   - 仓库设置了初始化指令时，输入框附近显示“使用初始化指令”勾选框：
-    - 默认勾选，取消勾选在切换页面时保留，发送成功后或切换仓库时恢复勾选；
+    - 从聊天开始时默认勾选，从终端开始时默认不勾选；手动选择在切换页面时保留，发送成功后或切换仓库时恢复默认；
     - 勾选时首条消息为“展开后的指令、空行、用户输入”，指令里写了 `{{user}}` 时用户输入放在那里而不是接在后面；可预览展开后的内容（`{{dir}}` 与 `{{webmux}}` 在会话创建后才替换为临时文件夹路径与 WebMux 工具说明）；
     - 引用了不存在的快捷指令时服务端拒绝发送并列出缺少的名称，不创建 worktree；
   - 成功后当前标签页进入新会话的聊天视图；失败时停在原页面、保留文字，按失败体的 `step`（`precheck`、`worktree`、`session`、`config`、`prompt`）说明失败步骤与原因，已创建的 worktree 或会话保留并提供入口；
@@ -264,4 +273,5 @@ sourcePath: "docs/user-stories/hybrid-sessions.md"
 - [快速开始页](../../web/src/pages/QuickStart.svelte)、[快速开始状态](../../web/src/quick-start.ts)、[创建编排](../../internal/workspace/create_session.go)、[会话接口](../../internal/api/sessions.go)、[按视图输入](../../internal/hybrid/input.go)、[配置项清单](../../internal/hybrid/options.go)
 - [聊天历史](../../web/src/components/ChatHistory.svelte)、[快速开始浏览器用例](../../web/test/browser/QuickStart.test.ts)、[聊天历史浏览器用例](../../web/test/browser/ChatHistory.test.ts)、[快速开始端到端用例](../../web/test/e2e/quick-start.spec.ts)。
 
-- [手机会话选项面板](../../web/src/components/chat/ChatSessionOptions.svelte)、[共用输入卡片](../../web/src/components/chat/ComposerCard.svelte)、[聊天浏览器用例](../../web/test/browser/ChatView.test.ts)、[布局验收](../../web/test/storybook/acp-chat.spec.ts)。
+- [手机会话选项面板](../../web/src/components/chat/ChatSessionOptions.svelte)、[模型可搜索列表](../../web/src/components/chat/ChatChoiceCommandList.svelte)、[共用输入卡片](../../web/src/components/chat/ComposerCard.svelte)；
+- [聊天浏览器用例](../../web/test/browser/ChatView.test.ts)、[布局验收](../../web/test/storybook/acp-chat.spec.ts)。

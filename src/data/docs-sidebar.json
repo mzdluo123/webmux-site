@@ -13,6 +13,11 @@
         "depth": 0
       },
       {
+        "label": "连接与会话",
+        "link": "/docs/user-stories/access-and-sessions/",
+        "depth": 0
+      },
+      {
         "label": "草稿用户故事",
         "link": "/docs/user-stories/terminal/drafts/",
         "depth": 0
