@@ -26,9 +26,26 @@ sourcePath: "docs/persistence.md"
 | hybrid              | hybrid-sessions.json     | hybrid-sessions.json.lock     | internal/hybrid              | unavailable           | 是       |
 | agent-options       | agent-options.json       | agent-options.json.lock       | internal/hybrid              | unavailable           | 是       |
 
+| conversation | conversations.sqlite | conversations.sqlite.lock | internal/conversation | unavailable | 是 |
+
 <!-- persistence-inventory:end -->
 
 这份表的机器来源是 `internal/archtest/persistence_inventory.json`；`make persistence-check` 精确比较表格各单元格（允许 Markdown 对齐空格变化），拒绝遗漏、重复或过时条目。
+
+## 对话事务存储
+
+`conversations.sqlite` 保存 Conversation、ProviderThread、单调 Run 序号，以及 handoff、delivery 和幂等 receipt 的事务基础。
+当前阶段尚未记录消息正文或开放交接入口；完整活动写入与可靠投递后续接入。
+现有混合会话一对一迁移为稳定身份，旧记录标记 `historyOrigin=unknown`，不猜测升级前历史。
+
+- 纯 Go SQLite（modernc.org/sqlite），支持 `CGO_ENABLED=0`；schema 迁移与版本号在同一事务提交。
+- 数据库、生命周期锁与崩溃恢复 sidecar 均为 0600，状态目录 0700；拒绝文件自身的符号链接。
+- SQLite 使用 FULL 同步和默认 DELETE rollback journal；不使用长期保留正文的 WAL；删除启用 `secure_delete`。
+- 损坏、未知未来版本和锁冲突只禁用依赖对话存储的混合创建与恢复；普通终端仍可运行，原数据库不重建。
+- 删除记录（`forget=1`）与成功淘汰归档记录同时清理关联身份、Run、handoff、delivery 和 receipt。
+- JSON 记录与 SQLite 不共享事务；中断于记录删除与数据库清理之间时，下次成功读取记录清单后继续清理孤立身份。
+- worktree 释放与重建保留身份，配置删除不隐式删除对话。备份时先停服务，并备份整个状态目录；不得只复制活跃数据库。
+- 数据库错误不把 SQL 值或正文交给应用日志；当前版本不可用时保留原文件供人工诊断。
 
 ## 统一行为与故障隔离
 
@@ -45,6 +62,7 @@ sourcePath: "docs/persistence.md"
 - 升级前停止全部旧进程并备份；新旧版本不得共用状态目录并发运行，改名后的锁无法与旧锁互斥。
 - Windows 托盘、日志、下载缓存、会话临时文件夹（含上传文件与快速开始的暂存上传）、代码树文件操作（写入用户工作区或临时文件夹）、`webmux repo settings --edit` 交给编辑器的临时文件与 baseline 结果属于独立生命周期，保持逐项登记的例外。
 - 外部 agent 的锁与 Claude 进程注册记录不属于 WebMux 存储；适配器只进行有界只读核对，不创建或修改这些文件，也不把路径、记录正文或进程事实写入 WebMux 状态。
+- Kimi ACP 会话切到 TUI 前是写入例外：适配器只把当前会话 `wire.jsonl` 的 `acp:<会话ID>` 环境绑定改为 `local`，避免 2.5.2 工具注册丢失。首次修改保留 `wire.jsonl.before-local-binding` 备份，临时文件原子替换，其他事件不变；这不属于 WebMux 存储。
 - 例外是 `agent_pretrust`（默认开启），见 [CLI agent 接入](cli-agents.md#文件夹信任预写)：
   - 启动 Claude Code、Codex、Copilot CLI、Antigravity CLI、Qoder 或 QoderCN 会话前，`internal/agenttrust` 在该 agent 自己的配置文件里追加启动目录的“信任此文件夹”记录。
   - 启动 Kimi 时改为注入进程级 `KIMI_CODE_TRUST_WORKSPACE=1`。

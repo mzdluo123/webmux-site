@@ -1,8 +1,8 @@
 {
   "repo": "mzdluo123/webmux",
-  "ref": "v0.14.4",
-  "commit": "f5b14acd44b40a4d804fe2f6ca752a2788d9a4c9",
-  "latestRelease": "v0.14.4",
+  "ref": "v0.14.5",
+  "commit": "d61b5a436fd72842abe422df9ea227e114afd49b",
+  "latestRelease": "v0.14.5",
   "fallbackToMain": false,
   "docs": [
     {
@@ -27,7 +27,7 @@
       "source": "docs/architecture.md",
       "url": "/docs/architecture/",
       "titleAnchor": "架构设计",
-      "sha256": "942252d1700e196c49e6b0860d39d9c4ccb515ebe3e5372ca54c6059fe07feab"
+      "sha256": "68e09d510b1e7f4ffc7e8f820ecbfca5ec73d046a4894e1495fbcb6e6b204df0"
     },
     {
       "source": "docs/binary-size.md",
@@ -117,7 +117,7 @@
       "source": "docs/frontend-architecture.md",
       "url": "/docs/frontend-architecture/",
       "titleAnchor": "frontend-architecture-guard",
-      "sha256": "caedfac1c71d4f884e91cb21b1027aa207632ea14113a721441249e72ded9b84"
+      "sha256": "8ce79d945be81826a2c781775f84af6a7dc5e775515e4fd9eb5c725590932c3d"
     },
     {
       "source": "docs/frontend-style.md",
@@ -135,13 +135,13 @@
       "source": "docs/hybrid-sessions.md",
       "url": "/docs/hybrid-sessions/",
       "titleAnchor": "混合会话聊天--终端",
-      "sha256": "4fc2ab5a68bf5f81336d6b1605a0cafd2c2b1b80fd836ac25a4af2326f14089c"
+      "sha256": "08b61c5772fcc1a51ad534a397c28c4f35b698c781991b8d075ea51b0239b082"
     },
     {
       "source": "docs/hybrid-sessions/agents.md",
       "url": "/docs/hybrid-sessions/agents/",
       "titleAnchor": "混合会话支持的-agent-与连接器",
-      "sha256": "f6a6ee8b606219e522383b878982e2d686b85514535240f62eac9bd298a39e7b"
+      "sha256": "276085814bc238823a038f4f353f0ce2f0063bd88357127f24b4c0bb1588f093"
     },
     {
       "source": "docs/overview.md",
@@ -165,7 +165,7 @@
       "source": "docs/persistence.md",
       "url": "/docs/persistence/",
       "titleAnchor": "配置与持久化清单",
-      "sha256": "30f86f0f0104b919e63ebf40e6e96c82cdef2e369433b9365eacc1b0e5d55a35"
+      "sha256": "6c9d5dff2dce3e37f82c4aaabc3eaec142f2911f10b90fba7e8074b1c327bd66"
     },
     {
       "source": "docs/protocol.md",
@@ -189,7 +189,7 @@
       "source": "docs/protocol/http-hybrid.md",
       "url": "/docs/protocol/http-hybrid/",
       "titleAnchor": "http-与-websocket聊天视图与混合会话",
-      "sha256": "9d5a12b69ea1a3b5545508a9d629ff9a0b9cef8fa5bc9a5f0e649f07f36fb709"
+      "sha256": "78ea6dfbbed8a695a950dfa24faa0864066e0848075fab4e4947468143dfc796"
     },
     {
       "source": "docs/protocol/http-push.md",
@@ -345,7 +345,7 @@
       "source": "docs/user-stories.md",
       "url": "/docs/user-stories/",
       "titleAnchor": "webmux-user-stories",
-      "sha256": "7efdd94d33e30a185dc2476295f2e8742991f173aaa0acb1862f9fc3c6be0e7e"
+      "sha256": "1112ae9a6be6c1bd049f2aee9880e64a961ca474b0a35c8c76fd78fe58bcfbc0"
     },
     {
       "source": "docs/user-stories/access-and-sessions.md",
@@ -387,19 +387,19 @@
       "source": "docs/user-stories/coverage.md",
       "url": "/docs/user-stories/coverage/",
       "titleAnchor": "功能覆盖核对与后续维护",
-      "sha256": "cfd021981421ed39673540199215fdda513b58433b4793932bc8191145e38f07"
+      "sha256": "7702c99bcbecc60b57fbc40d9764039de541d90754a6d2c1fe0a81e71c98ff89"
     },
     {
       "source": "docs/user-stories/hybrid-sessions.md",
       "url": "/docs/user-stories/hybrid-sessions/",
       "titleAnchor": "混合会话",
-      "sha256": "c81a5b5e11c8bfaeb52ec87d7b464ff9bef15ba8313dc8e3415d9f9c45c7bf29"
+      "sha256": "978d4257b5c0e138f38ad5bb84c03ffc7c4db3da5bd0bc034885d9c13e298df8"
     },
     {
       "source": "docs/user-stories/operations-and-tooling.md",
       "url": "/docs/user-stories/operations-and-tooling/",
       "titleAnchor": "配置运行与贡献者工具",
-      "sha256": "0c0dc6390ace1cec0003a17a31767f16b0a85010c7af50d1b7b93d2ce29a9dfc"
+      "sha256": "08ca48abbc40ebd31e24260b3a1dd898e66953a31912992fb709de8928419012"
     },
     {
       "source": "docs/user-stories/port-forwarding.md",
@@ -837,6 +837,7 @@
     "internal/archtest/agents_size_test.go": "blob",
     "internal/archtest/arch_test.go": "blob",
     "internal/archtest/filenames_test.go": "blob",
+    "internal/archtest/filesize_test.go": "blob",
     "internal/archtest/layers_test.go": "blob",
     "internal/archtest/persistence_inventory.json": "blob",
     "internal/archtest/persistence_rules_test.go": "blob",
@@ -880,6 +881,7 @@
     "internal/contract/tailscale.go": "blob",
     "internal/contract/tunnel.go": "blob",
     "internal/contract/views.go": "blob",
+    "internal/conversation": "tree",
     "internal/docguard/doc_test.go": "blob",
     "internal/docguard/links_test.go": "blob",
     "internal/forward/credentials.go": "blob",
@@ -924,6 +926,7 @@
     "internal/session/session.go": "blob",
     "internal/session/status.go": "blob",
     "internal/settings/service.go": "blob",
+    "internal/statefile/database.go": "blob",
     "internal/statefile/store.go": "blob",
     "internal/tailscale": "tree",
     "internal/tailscalesettings/store.go": "blob",

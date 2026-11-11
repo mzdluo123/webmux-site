@@ -28,7 +28,7 @@ sourcePath: "docs/user-stories/coverage.md"
 | 快速开始聊天：新建 worktree 或选择已有工作树、启动聊天端、预选配置、首条消息与快捷指令、窄屏空闲单行收起，幂等与失败报告                         | US-Q18；US-J12；US-G02；US-G06                      |
 | 聊天历史：稳定排序的运行中与已归档聊天、状态、切换与恢复                                                                                         | US-Q19；US-Q12                                      |
 | 混合会话异常、自动重连、Claude 现有认证复用与登录引导（US-Q11 已退役）                                                                           | US-Q10；US-D09                                      |
-| 混合会话记录、失败重试与关闭等待、工作树内已归档记录、恢复、Claude 配置重应用，以及删除记录与删除记录和工作树两种操作                            | US-Q12；US-D10；US-L10                              |
+| 混合会话稳定身份与事务存储、记录、失败重试与关闭等待、工作树内已归档记录、恢复、Claude 配置重应用，以及删除记录与删除记录和工作树两种操作        | US-Q12；US-D10；US-L10                              |
 | `run --launch-config`、`attach` 与 `ls` 对混合会话的行为（视图字段与 4409 取值）                                                                 | US-Q13；US-M01；US-M03；US-M05                      |
 | 会话内连回所属实例：`WEBMUX_SOCKET`、`WEBMUX_BIN`、`--socket`、`self` 与版本过旧提示                                                             | US-S01                                              |
 | 会话详情接口与 `webmux get`、父会话、会话标签与 `ls` 筛选                                                                                        | US-S02–US-S03                                       |
@@ -124,7 +124,7 @@ sourcePath: "docs/user-stories/coverage.md"
 | Storybook、多视口 PR 截图与交互 GIF、baseline、CI 与 release                                                                                     | US-L03–US-L04                                       |
 | 发布签名、签名密钥检查、发布前验证与密钥轮换                                                                                                     | US-L13                                              |
 | 开发版发布：`dev` Release、版本推导、跳过规则、只保留当前构建与独立签名密钥                                                                      | US-L14                                              |
-| 源码文件命名约定、Go 文件名守卫与前端文件名守卫                                                                                                  | US-L15                                              |
+| 源码文件命名与 500 行大小约定、Go 文件命名与大小守卫、前端文件命名与大小守卫                                                                     | US-L15                                              |
 | 分层架构测试、线上 JSON 快照、本地状态空数组、集中错误映射、必填数组 Zod 契约与重新录制                                                          | US-L05                                              |
 | agent 适配器接口、注册表、Claude 进程注册记录与隐私边界、契约测试与 agent 名称守卫                                                               | US-L05；US-Q01；US-Q03                              |
 | 前端架构守卫：设计系统 lint、分层、重复代码、未使用代码与基线                                                                                    | US-L06                                              |
