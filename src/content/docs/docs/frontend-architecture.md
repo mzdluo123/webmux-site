@@ -70,6 +70,7 @@ Oxlint（`pnpm --dir web lint`）仍是通用 lint。它只读取 `.svelte` 的 
 | `ItemGroup`         | `variant="divided"`                                         | 与 `Item variant="divided"` 配套：列表项之间不留间隙，细线紧贴行边                                                                                                                              |
 | `Button`            | `aria-pressed` / `aria-expanded` / `aria-current="true"`    | outline、ghost、quiet 在开关按下、展开或当前项时显示前景色描边；不再提供填充的 `secondary`                                                                                                      |
 | `Button`            | `raised`                                                    | 浮在终端或代码上的按钮（边框加阴影）                                                                                                                                                            |
+| `Button`            | `wrap`                                                      | 较长的文字按钮（如“改为在新工作树打开”）在窄屏大字号下换行而不溢出；平时高度不变                                                                                                                |
 | `Button`            | `size="icon-touch"` / `size="sm-touch"`                     | 窄屏（小于 `sm`）44px 触控尺寸，`sm` 以上恢复常规尺寸                                                                                                                                           |
 | `Button`            | `size="icon-touch-sm"`                                      | 手机 44px、`sm` 以上 32px：紧凑工具栏中需保留触控尺寸的按钮（如终端顶栏 ⋯）                                                                                                                     |
 | `Input`、`Textarea` | `mono`                                                      | 命令、路径、环境变量与终端文本                                                                                                                                                                  |
@@ -93,6 +94,8 @@ Oxlint（`pnpm --dir web lint`）仍是通用 lint。它只读取 `.svelte` 的 
 `ListButton` 的 `navigation-action`（聊天历史）与 `file-tree-overlay`（工作台树）在鼠标设备上不为行尾操作按钮留空位：按钮在悬停、聚焦或菜单打开时覆盖行尾的状态圆点或计数（这些标记加上 `sidebar-row.ts` 的 `underRowAction` 让位）；触屏上留出按钮位置，按钮常驻。
 
 `ItemGroup variant="panel"` 统一提供紧凑列表的边框与分隔线；`Item variant="row"` 提供无独立卡片边框的行；`ListButton variant="navigation"` 提供侧栏导航行的选中与键盘焦点样式。
+
+`ListButton variant="turn"` 用于宽聊天窗格的对话轮次刻度：`data-turn-role="user"` 使用前景色，`agent` 使用信息蓝，`aria-current="location"` 加长并提高当前刻度的不透明度；角色与消息摘要同时写入可访问名称和悬停提示。
 
 粗指针设备的最小触控高度用 Tailwind 的 `any-pointer-coarse:` 变体（如 `any-pointer-coarse:min-h-11`）。
 
