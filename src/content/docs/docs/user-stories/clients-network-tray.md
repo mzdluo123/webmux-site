@@ -60,7 +60,9 @@ sourcePath: "docs/user-stories/clients-network-tray.md"
   验收要点：
   - Unix 套接字验证同用户身份，`bridge` 在标准输入输出间传输；
   - 浏览器网络入口仍要求认证；
-  - 会话内进程不能用本机管理 API 读取 token、停止服务或控制隧道，也不能经套接字读取或修改 `/api/tunnel` 及其子路径（403）；
+  - 会话内进程不能用本机管理 API 读取 token、停止服务或控制隧道，也不能经套接字读取或修改 `/api/tunnel`、`/api/p2p` 及其子路径（403）；
+  - 本机状态 `/local/v1/status` 汇总当前隧道、Tailscale 与 P2P 直连运行状态（开关、端口映射与活动直连对端数），不含敏感凭据；
+  - 本机客户端忽略成功响应内容时，仍报告响应读取失败；非成功响应统一保留 HTTP 状态码与最多 64 KiB 错误体，供命令处理结构化错误；
   - 套接字不是不同账号间的共享授权机制。
 
 依据：
@@ -68,6 +70,7 @@ sourcePath: "docs/user-stories/clients-network-tray.md"
 - [会话命令](../../internal/clicmd/clicmd.go)、[会话环境](../../internal/session/env.go)、[会话管理](../../internal/session/manager.go)
 - [服务启动](../../cmd/webmux/main.go)、[原生附着](../../internal/attach/)、[控制命令](../../cmd/webmux/control.go)
 - [本机 API](../../internal/api/local.go)、[运行时记录](../../internal/runtime/)、[环境与本机请求](../../cmd/webmux/sessions.go)。
+- [本机客户端](../../internal/localclient/client.go)、[响应处理回归](../../internal/localclient/response_test.go)。
 
 ## N. Cloudflare 公网隧道
 
@@ -134,7 +137,7 @@ sourcePath: "docs/user-stories/clients-network-tray.md"
 - [启动与故障用例](../../cmd/webmux/tunnelsettings_test.go)、[本机权限用例](../../internal/api/local_test.go)
 - [入口与二维码](../../cmd/webmux/access.go)、[隧道进程与下载](../../internal/tunnel/)、[公网来源授权](../../internal/api/public.go)
 - [动态配置](../../internal/api/config.go)、[推送来源](../../internal/api/push.go)、[Web 设置页](../../web/src/pages/TunnelSettingsPage.svelte)
-- [设置状态管理](../../web/src/hooks/tunnel-settings.svelte.ts)、[设置端到端用例](../../web/test/e2e/tunnel-settings.spec.ts)
+- [设置状态管理](../../web/src/hooks/settings/tunnel-settings.svelte.ts)、[设置端到端用例](../../web/test/e2e/tunnel-settings.spec.ts)
 - [Named Tunnel 指南](../cloudflare-tunnel.md)、[部署说明](../deployment/remote-access.md#公网访问cloudflare-tunnel)。
 
 ## O. Windows/WSL 托盘管理
@@ -347,5 +350,5 @@ Windows 原生终端客户端复用 US-M01–US-M06：提供 run、attach、ls�
 - [控制器用例](../../cmd/webmux/tailscalectl_test.go)、[网页设置存储](../../internal/tailscalesettings/store.go)、[配置](../../internal/config/config.go)
 - [启动与 Token](../../cmd/webmux/main.go)、[来源注册表](../../internal/api/public.go)
 - [状态与设置 API](../../internal/api/tailscale.go)、[API 用例](../../internal/api/tailscale_test.go)、[设置页](../../web/src/pages/TailscaleSettingsPage.svelte)
-- [设置表单](../../web/src/components/TailscaleConfiguration.svelte)、[设置卡片](../../web/src/components/TailscaleSettings.svelte)、[Tailscale 指南](../tailscale.md)。
+- [设置表单](../../web/src/components/settings/TailscaleConfiguration.svelte)、[设置卡片](../../web/src/components/settings/TailscaleSettings.svelte)、[Tailscale 指南](../tailscale.md)。
 - 托盘一键开启：[托盘菜单视图](../../internal/tray/menuview.go)、[视图用例](../../internal/tray/menuview_test.go)、[托盘操作](../../internal/tray/winui/links.go)、[本机客户端](../../internal/localclient/client.go)、[本机状态](../../cmd/webmux/local.go)。

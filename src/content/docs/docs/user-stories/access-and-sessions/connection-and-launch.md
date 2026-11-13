@@ -37,7 +37,7 @@ sourcePath: "docs/user-stories/access-and-sessions/connection-and-launch.md"
   - 健康检查返回可用状态和会话数；
   - 配置接口提供默认目录、主机名和工作区能力，不返回 token；
   - 首页展示连接与能力异常。
-  - 侧栏底部的主机状态入口可点击查看主机名、连接状态、健康检查往返延时、系统负载（1/5/15 分钟与核心数）和可用/总内存；
+  - 侧栏底部的主机状态入口可点击查看主机名、连接状态、当前传输路径（`WebSocket` 或含候选类型与 IP 族的 `P2P 直连`，见 US-H12）、往返延时（直连生效时优先采用 P2P 控制通道 RTT，否则采用健康检查 RTT）、系统负载（1/5/15 分钟与核心数）和可用/总内存；
   - 往返延时高于 200 毫秒，或 1 分钟负载高于核心数的 50% 时，状态灯变黄并在提示中说明原因；平台无法提供负载或内存时对应行不显示。
 - **US-A05 脚本访问**：作为进阶使用者，我希望通过 REST 和 WebSocket 操作会话，以便接入自己的脚本或客户端。
   验收要点：
@@ -53,8 +53,8 @@ sourcePath: "docs/user-stories/access-and-sessions/connection-and-launch.md"
 
 依据：
 
-- [统一品牌标识](../../../web/src/components/Brand.svelte)、[品牌图标](../../../web/public/icon.svg)、[浏览器图标入口](../../../web/index.html)
-- [应用入口](../../../web/src/App.svelte)、[Token 说明](../../../web/src/components/TokenHelp.svelte)、[配置命令](../../../cmd/webmux/configcmd.go)
+- [统一品牌标识](../../../web/src/components/shell/Brand.svelte)、[品牌图标](../../../web/public/icon.svg)、[浏览器图标入口](../../../web/index.html)
+- [应用入口](../../../web/src/App.svelte)、[Token 说明](../../../web/src/components/shared/TokenHelp.svelte)、[配置命令](../../../cmd/webmux/configcmd.go)
 - [启动与 token 生成](../../../cmd/webmux/main.go)、[API 路由与安全检查](../../../internal/api/router.go)、[Host 校验](../../../internal/api/host.go)
 - [安全说明](../../../SECURITY.md)。
 
@@ -168,12 +168,12 @@ sourcePath: "docs/user-stories/access-and-sessions/connection-and-launch.md"
 
 依据：
 
-- [启动图标](../../../web/src/components/LaunchConfigIcon.svelte)、[LobeHub 图标来源与许可](../../../web/src/icons/lobehub/README.md)
-- [新建会话](../../../web/src/components/NewSessionDialog.svelte)、[位置选择](../../../web/src/components/LocationPicker.svelte)、[命令选择](../../../web/src/components/LaunchPicker.svelte)、[默认值解析](../../../web/src/new-session-defaults.ts)
-- [启动配置编辑](../../../web/src/components/LaunchConfigDialog.svelte)、[系统预设菜单](../../../web/src/components/LaunchPresetMenu.svelte)、[启动配置存储](../../../internal/launch/store.go)、[首次启动预设](../../../internal/launch/presets.go)
+- [启动图标](../../../web/src/components/settings/LaunchConfigIcon.svelte)、[LobeHub 图标来源与许可](../../../web/src/icons/lobehub/README.md)
+- [新建会话](../../../web/src/components/sessions/NewSessionDialog.svelte)、[位置选择](../../../web/src/components/workspace/LocationPicker.svelte)、[命令选择](../../../web/src/components/sessions/LaunchPicker.svelte)、[默认值解析](../../../web/src/domains/sessions/new-session-defaults.ts)
+- [启动配置编辑](../../../web/src/components/settings/LaunchConfigDialog.svelte)、[系统预设菜单](../../../web/src/components/settings/LaunchPresetMenu.svelte)、[启动配置存储](../../../internal/launch/store.go)、[首次启动预设](../../../internal/launch/presets.go)
 - [启动配置接口](../../../internal/api/launch.go)、[CLI agent 接入](../../cli-agents.md)
 - [信任预写](../../../internal/agenttrust/agenttrust.go)、[会话钩子](../../../internal/session/manager.go)
-- [会话标题来源](../../../internal/hybrid/actor.go)、[会话覆盖层](../../../internal/session/lifecycle.go)、[聊天页头](../../../web/src/hooks/hybrid.svelte.ts)
-- [目录选择](../../../web/src/components/DirectoryPicker.svelte)、[命令解析](../../../internal/session/run_command.go)、[工作区会话创建](../../../internal/workspace/sessions.go)。
+- [会话标题来源](../../../internal/hybrid/actor.go)、[会话覆盖层](../../../internal/session/lifecycle.go)、[聊天页头](../../../web/src/hooks/sessions/hybrid.svelte.ts)
+- [目录选择](../../../web/src/components/workspace/DirectoryPicker.svelte)、[命令解析](../../../internal/session/run_command.go)、[工作区会话创建](../../../internal/workspace/sessions.go)。
 
 来源补充：[统一创建回归](../../../web/test/e2e/session-creation.spec.ts)。

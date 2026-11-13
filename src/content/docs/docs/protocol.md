@@ -5,7 +5,7 @@ sourcePath: "docs/protocol.md"
 ---
 所有 API 以 `/api` 为前缀，WebSocket 以 `/ws` 为前缀，其余路径返回嵌入的前端（SPA 回退）。数据契约：
 
-- 前端的完整数据契约定义在 [`web/src/schemas.ts`](../web/src/schemas.ts)。
+- 前端的完整数据契约定义在 [`web/src/contracts/schemas.ts`](../web/src/contracts/schemas.ts)。
 - 后端对应的线上类型都在 [`internal/contract`](../internal/contract)（REST 按资源分文件，终端帧与 `/ws/sessions` 事件在 `terminal.go`），由 `internal/wire` 与 Service 类型互相转换。
 - 两边的字段保持一致，`internal/api/testdata/wire` 的快照测试固定了每个端点和帧的 JSON 形状。
 
@@ -36,9 +36,11 @@ sourcePath: "docs/protocol.md"
 | [HTTP API：Tailscale 状态与设置](protocol/http-tailscale.md)     | `/api/tailscale` 检测、运行状态与网页设置                              |
 | [HTTP API：语音识别设置](protocol/http-voice.md)                 | `/api/voice/settings` 识别命令与环境变量的网页设置                     |
 | [HTTP API：注意力推送](protocol/http-push.md)                    | Web Push 订阅、来源资格与推送负载                                      |
+| [HTTP API：交接预览](protocol/http-handoff.md)                   | 冻结来源、动态预算、手工编辑与 revision                                |
+| [HTTP API：持久对话历史](protocol/http-conversation.md)          | Activity 分页、UTF-8 偏移、完整性与导出边界                            |
 | [服务端偏好](protocol/settings.md)                               | `/api/settings`、`/ws/settings`、修订号与设备边界                      |
 | [WebSocket 接口](protocol/websocket.md)                          | 会话列表事件、终端帧、回放、提交、控制端与关闭码                       |
 | [本机 API](protocol/local-api.md)                                | Unix 套接字认证与 `/local/v1/*` 控制面                                 |
 | [控制面 JSON 契约](protocol/control-json.md)                     | `version`、`status`、`stop`、`config` 与 `update check` 的 JSON 输出   |
 
-修改线上字段时，同时更新 [`web/src/schemas.ts`](../web/src/schemas.ts) 与 [`internal/contract`](../internal/contract)；每个子页只描述自己的主题，索引保持短小。
+修改线上字段时，同时更新 [`web/src/contracts/schemas.ts`](../web/src/contracts/schemas.ts) 与 [`internal/contract`](../internal/contract)；每个子页只描述自己的主题，索引保持短小。

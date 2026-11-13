@@ -10,7 +10,8 @@ WebMux 是运行在单台 Linux / macOS 机器上的单用户 Web 终端。核�
 **非目标**
 
 - 多机网关、多用户或权限体系：以启动服务的系统用户身份运行。
-- 服务重启后的会话存活：普通会话只在内存中，重启即结束。混合会话的运行恢复记录保存在 `hybrid-sessions.json`，稳定 Conversation / ProviderThread 身份和事务基础保存在 `conversations.sqlite`。当前完整历史仍由 agent 保存；持久身份不意味着 PTY 或进程跨重启存活。
+- 服务重启后的会话存活：普通会话只在内存中，重启即结束。混合会话的运行恢复记录保存在 `hybrid-sessions.json`，稳定 Conversation / ProviderThread 身份和事务基础保存在 `conversations.sqlite`。规范化 ACP Activity 在 UI 截断前分块保存；TUI 缺口显式保留。
+  持久身份与历史不意味着 PTY 或进程跨重启存活。`history_capture=false` 关闭正文捕获和历史/交接入口，身份与未决投递保护仍保留。
 - 进程沙箱：命令以服务用户身份执行，不做隔离。
 - 依赖或兼容 tmux。
 
@@ -70,6 +71,8 @@ flowchart LR
 | `internal/tailscale`                          | Tailscale CLI 定位、状态/入口解析、Serve/Funnel 精确应用与移除、WSL/Windows provider 检测                  |
 | `internal/tailscalesettings`                  | Tailscale 网页设置持久化、独立文件锁、校验与故障关闭                                                       |
 | `internal/voicesettings`                      | 语音识别网页设置持久化、独立文件锁、校验与故障关闭                                                         |
+| `internal/p2p`                                | WebRTC DataChannel 直连引擎（单端口 UDP 复用、UPnP/NAT-PMP/PCP 端口映射、流分片与 RPC 承载、`nop2p` 裁剪） |
+| `internal/p2psettings`                        | P2P 直连网页设置持久化（`p2p-settings.json`）、独立文件锁、校验与故障关闭                                  |
 | `internal/wsl`                                | 共享的 WSL 判定与 `wslinfo --networking-mode` 探测                                                         |
 | `internal/codeview`                           | 只读文件浏览、Git 修改列表、内容快照与变化检测；根内文件操作与目录 ZIP                                     |
 | `internal/push`                               | Web Push 订阅存储、注意力提醒与出站推送                                                                    |
@@ -82,6 +85,7 @@ flowchart LR
 | `internal/tray/traysys`                       | 托盘系统管理操作：防火墙规则、登录自启动项、单实例与进程管理、安装程序启动                                 |
 | `internal/tray/forward`                       | 托盘转发：同源校验后把请求中转到 WebMux 的 TCP 监听                                                        |
 | `internal/tray/winui`, `cmd/webmux-tray`      | Windows 托盘通知区界面、菜单渲染、通知与剪贴板（`//go:build windows`）                                     |
+| `internal/handoff`                            | 历史预算、整项选择和服务端预览；通过注入服务协调，不创建 PTY                                               |
 | `internal/conversation`                       | 稳定对话与 provider 身份、Run 序号、handoff / delivery / receipt 事务基础                                  |
 | `internal/hybrid`                             | 混合会话：每会话一个 actor、记录持久化、聊天事件规范化、切换与恢复                                         |
 | `internal/artifacts`                          | 会话交互产物目录（系统临时目录下的私有文件夹，含 `uploads/`）的创建与清理                                  |
@@ -152,7 +156,7 @@ Tailscale 控制器的生命周期：
 - 业务正文、确定性 Git OID、版本摘要和固定输入保留。
 - 九组场景（sessions-terminal、basics-errors-fs-upload、launch、workspace、codeview、push、settings、hybrid、hybrid-records）各自持有夹具、期限和归一化状态，可用 `-run '^TestWireSnapshots$/codeview$'` 等单独运行；隧道另有 `TestWireSnapshotsTunnel`。
 
-线上形状变化会给出 JSON 差异；有意的协议变更同时修改 `web/src/schemas.ts` 并重新录制：
+线上形状变化会给出 JSON 差异；有意的协议变更同时修改 `web/src/contracts/schemas.ts` 并重新录制：
 
 ```sh
 go test ./internal/api -run TestWireSnapshots -update
@@ -348,7 +352,7 @@ else                                        → running
 ## 前端
 
 - Svelte 5 + TypeScript + Vite，基础控件使用 shadcn-svelte，样式基于 Tailwind CSS。
-- 所有 HTTP 响应、WebSocket JSON 和本地设置都先经 Zod 校验（`web/src/schemas.ts`），再进入页面状态。
+- 所有 HTTP 响应、WebSocket JSON 和本地设置都先经 Zod 校验（`web/src/contracts/schemas.ts`），再进入页面状态。
 - 终端使用 xterm.js 6 与 WebGL 渲染；WebGL 不可用、上下文丢失或像素尺寸不一致时回退到 DOM 渲染器，不重置终端。
 - DEC 2026 同步输出期间 xterm 保持旧画面，Kitty 图片层随之暂存新增、删除与定位，在 xterm 绘制完成更新的同一帧应用（`terminal-graphics.ts`）。
   - xterm 6.0 的 DOM 渲染器会自行重绘行（滚动触发的选区刷新、resize、焦点、光标）并在缓冲重置时清空各行，绕过同步检查。

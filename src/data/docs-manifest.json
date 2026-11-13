@@ -1,15 +1,15 @@
 {
   "repo": "mzdluo123/webmux",
-  "ref": "v0.14.5",
-  "commit": "d61b5a436fd72842abe422df9ea227e114afd49b",
-  "latestRelease": "v0.14.5",
+  "ref": "v0.15.0",
+  "commit": "56594cba391ff78fe58601fde402b17cbcb35439",
+  "latestRelease": "v0.15.0",
   "fallbackToMain": false,
   "docs": [
     {
       "source": "CONTRIBUTING.md",
       "url": "/docs/contributing/",
       "titleAnchor": "参与贡献",
-      "sha256": "556ab9c89b23e3b029a3d750ba012f638c02e89fadfc3f1af8b51ee0d0817ccf"
+      "sha256": "15c17c8f3bbc6c0f8c40aa495efe440884c0e2fd3da00376cd4dde8431cffae5"
     },
     {
       "source": "SECURITY.md",
@@ -21,25 +21,25 @@
       "source": "docs/README.md",
       "url": "/docs/",
       "titleAnchor": "webmux-文档中心",
-      "sha256": "702b502b6bf0342f0f04854d710aac26b4553e340f7ce18a787675c4b65aa8ed"
+      "sha256": "5203f692a051783af8d92cc999b66b56d687d89a53931534ebc2afdcd484844e"
     },
     {
       "source": "docs/architecture.md",
       "url": "/docs/architecture/",
       "titleAnchor": "架构设计",
-      "sha256": "68e09d510b1e7f4ffc7e8f820ecbfca5ec73d046a4894e1495fbcb6e6b204df0"
+      "sha256": "cbead6cd17962ad816e94a9a19c530883383bd4c028fdf4a695677f7784b865d"
     },
     {
       "source": "docs/binary-size.md",
       "url": "/docs/binary-size/",
       "titleAnchor": "内嵌二进制体积",
-      "sha256": "e46cb393a345b21c8d1a7415b016b8a3a87a5243c9c412a1806637f913877d2c"
+      "sha256": "786ea760c7dbbe5af86e88187d83d1f2202f2800f162934ab2448882bb43eb7e"
     },
     {
       "source": "docs/ci-performance.md",
       "url": "/docs/ci-performance/",
       "titleAnchor": "ci-耗时优化与验收",
-      "sha256": "1a96d643c8845b9a9c87df573466eab8886b812ae532d7ccaaa0f10d9ab0820a"
+      "sha256": "8648061da140ba3e7a905c7a5584416be67cb6b6eff5c82d9fad3d3800594ec7"
     },
     {
       "source": "docs/cli-agents.md",
@@ -63,7 +63,7 @@
       "source": "docs/deployment/configuration.md",
       "url": "/docs/deployment/configuration/",
       "titleAnchor": "配置",
-      "sha256": "1829766179ffd9fda78d41e6abe05a0ed9d8312c528a10894b4a2fe46596487e"
+      "sha256": "9f9a8b08012780365ed81a2482177457b77b5c07c63ec06755959e0c5a3554a8"
     },
     {
       "source": "docs/deployment/install-and-upgrade.md",
@@ -81,7 +81,7 @@
       "source": "docs/deployment/remote-access.md",
       "url": "/docs/deployment/remote-access/",
       "titleAnchor": "远程访问与-https",
-      "sha256": "40e075bd957f906e59e640b9267ff6bac196b9b22b3dbdab66b9abf54f2e7a93"
+      "sha256": "9b1683647da381a83d8190d3d39381ae5c040c4c2775ce2c5945e920959d12ba"
     },
     {
       "source": "docs/deployment/services.md",
@@ -117,13 +117,13 @@
       "source": "docs/frontend-architecture.md",
       "url": "/docs/frontend-architecture/",
       "titleAnchor": "frontend-architecture-guard",
-      "sha256": "8ce79d945be81826a2c781775f84af6a7dc5e775515e4fd9eb5c725590932c3d"
+      "sha256": "4869fb0517b47267229daabff8cc69edae9809a8584f5c7cec5a0d8bb44ace20"
     },
     {
       "source": "docs/frontend-style.md",
       "url": "/docs/frontend-style/",
       "titleAnchor": "前端代码质量基线",
-      "sha256": "121a7ae3a126d339f21d894f9e9978b09ad47cf8256c5dda59da55c8a3a56ae6"
+      "sha256": "79537726370318c7c85b66b6bd57e309fcb2007c8fea43315c56cd3d954589f1"
     },
     {
       "source": "docs/go-style.md",
@@ -135,7 +135,7 @@
       "source": "docs/hybrid-sessions.md",
       "url": "/docs/hybrid-sessions/",
       "titleAnchor": "混合会话聊天--终端",
-      "sha256": "08b61c5772fcc1a51ad534a397c28c4f35b698c781991b8d075ea51b0239b082"
+      "sha256": "13812df4b877553ecbc8c8c00e994e431e4cf6485d6b7121fb5f4fa9801d93a0"
     },
     {
       "source": "docs/hybrid-sessions/agents.md",
@@ -144,10 +144,16 @@
       "sha256": "276085814bc238823a038f4f353f0ce2f0063bd88357127f24b4c0bb1588f093"
     },
     {
+      "source": "docs/hybrid-sessions/handoff.md",
+      "url": "/docs/hybrid-sessions/handoff/",
+      "titleAnchor": "将聊天交给另一个-agent",
+      "sha256": "03f4db67e91f1616a05f7dbbec2bc3e350e62fdd6aac39159dd39fb2f6010edb"
+    },
+    {
       "source": "docs/overview.md",
       "url": "/docs/overview/",
       "titleAnchor": "项目介绍",
-      "sha256": "a5afa0550a19e8ac6ea1b3ccc6ed2cb895f2c843d3e6ad3396ccc3bb452cb420"
+      "sha256": "9c93fcb744c3abd39fcd24a3cce6abc9018ef9058303c4b848112a69e38a6a82"
     },
     {
       "source": "docs/page-performance.md",
@@ -165,13 +171,13 @@
       "source": "docs/persistence.md",
       "url": "/docs/persistence/",
       "titleAnchor": "配置与持久化清单",
-      "sha256": "6c9d5dff2dce3e37f82c4aaabc3eaec142f2911f10b90fba7e8074b1c327bd66"
+      "sha256": "fea74b6ebd619d1132a92f3648d1c90d6df3fa456896a361a37b2a1907802594"
     },
     {
       "source": "docs/protocol.md",
       "url": "/docs/protocol/",
       "titleAnchor": "api-与协议",
-      "sha256": "6c4c672f0a9d968582158f6ae36f68f35e6b022f370224e00e974b21e707589e"
+      "sha256": "ab3769581dccf1538fbfb22aef48dc42572ca4a73b58b1a2c8f9722cab0c64d4"
     },
     {
       "source": "docs/protocol/control-json.md",
@@ -180,16 +186,46 @@
       "sha256": "6ee1b61ef3b3add17b2ceb61910d25bb15edc801bd70b49e99a2319de70c2204"
     },
     {
+      "source": "docs/protocol/handoff-mcp.md",
+      "url": "/docs/protocol/handoff-mcp/",
+      "titleAnchor": "交接历史恢复threadread-mcp",
+      "sha256": "f945e30918bf2ee94725d10170b354218d2cd4b72e845a5fbf6d0573965bb5d0"
+    },
+    {
+      "source": "docs/protocol/handoff-native.md",
+      "url": "/docs/protocol/handoff-native/",
+      "titleAnchor": "codex-原生历史交接",
+      "sha256": "e2d32519878faba28239ff38e1a28d4a063f9d89f98d2a645215a472a2533f7f"
+    },
+    {
+      "source": "docs/protocol/handoff-validation.md",
+      "url": "/docs/protocol/handoff-validation/",
+      "titleAnchor": "portable-handoff-验收记录",
+      "sha256": "1f75093f92b6b9bcfc56060d84ec0c0bdb34e9c93045a796dffb86f62b5ca3f0"
+    },
+    {
+      "source": "docs/protocol/http-conversation.md",
+      "url": "/docs/protocol/http-conversation/",
+      "titleAnchor": "http-api持久对话历史",
+      "sha256": "b388ab6d6aeffa86c380391253b82e2a8e7cd10f422ed94544c343601a62415b"
+    },
+    {
       "source": "docs/protocol/http-forward.md",
       "url": "/docs/protocol/http-forward/",
       "titleAnchor": "http-api端口转发",
       "sha256": "5e185ef0583b1942919afab07dbe34031c33397d55ea2bc56180041dceaf30af"
     },
     {
+      "source": "docs/protocol/http-handoff.md",
+      "url": "/docs/protocol/http-handoff/",
+      "titleAnchor": "http-api交接预览",
+      "sha256": "c2c76eee97404e1a72ed7449b9e9fbe236d20115b30117fc1f3fb5ca8229833e"
+    },
+    {
       "source": "docs/protocol/http-hybrid.md",
       "url": "/docs/protocol/http-hybrid/",
       "titleAnchor": "http-与-websocket聊天视图与混合会话",
-      "sha256": "78ea6dfbbed8a695a950dfa24faa0864066e0848075fab4e4947468143dfc796"
+      "sha256": "bbb547bd39b2c2f550b3251bbbd7d52d89b6fc66cee4b328fa5a2b38fdedde05"
     },
     {
       "source": "docs/protocol/http-push.md",
@@ -201,13 +237,13 @@
       "source": "docs/protocol/http-session-create.md",
       "url": "/docs/protocol/http-session-create/",
       "titleAnchor": "http-api创建会话",
-      "sha256": "1fb92f490bc1c65aaf1efd5548bfe4a58dc22c3c961838c76637df6152053382"
+      "sha256": "8dc675b2ad18925c103e32c883672e63c99f01141dbaf51f0ba3bed55e89ab12"
     },
     {
       "source": "docs/protocol/http-sessions.md",
       "url": "/docs/protocol/http-sessions/",
       "titleAnchor": "http-api会话启动配置与其他",
-      "sha256": "b3e55c9306822cbd4fcda3154e3a1332a2920df7cb38c00a72acd34eed898db4"
+      "sha256": "84142ce1f00b594da68a98302477d32349cae81870b46c382c260ee75112e727"
     },
     {
       "source": "docs/protocol/http-tailscale.md",
@@ -237,7 +273,7 @@
       "source": "docs/protocol/local-api.md",
       "url": "/docs/protocol/local-api/",
       "titleAnchor": "本机-apiunix-套接字",
-      "sha256": "16d245be82efe233f495257ef7753b3ad34423d25060e4f85b16edbf9c1b361c"
+      "sha256": "a06a581217b39d306ed304094b596c65cf05b0ab4b73c5462fbe984451e4876f"
     },
     {
       "source": "docs/protocol/settings.md",
@@ -261,7 +297,7 @@
       "source": "docs/storybook.md",
       "url": "/docs/storybook/",
       "titleAnchor": "storybook-与防溢出测试",
-      "sha256": "8f5539d14341414d40ac71fb2d6750c629c70fd9ebedc4787a84eddf39d0f252"
+      "sha256": "fac8562abff403fe11bde0eebcc77eba8977c976c26ed0f4effd7607d7656c26"
     },
     {
       "source": "docs/tailscale.md",
@@ -285,7 +321,7 @@
       "source": "docs/usage/chat.md",
       "url": "/docs/usage/chat/",
       "titleAnchor": "聊天模式",
-      "sha256": "578d1451479499794702bd13cb66a0891b8bda10057942b28b4e74716bd30e0a"
+      "sha256": "808b38005a5c42567f5bb7496db6699b33bcbe83f87af1f68ba79ce14cd1d32d"
     },
     {
       "source": "docs/usage/code.md",
@@ -298,6 +334,12 @@
       "url": "/docs/usage/command-line/",
       "titleAnchor": "从本机终端使用",
       "sha256": "612b63c3bb3953e187437ce63508b74a599534cbe5166c159506ca322e6c0c9a"
+    },
+    {
+      "source": "docs/usage/mcp.md",
+      "url": "/docs/usage/mcp/",
+      "titleAnchor": "通过-mcp-控制-webmux",
+      "sha256": "233cc255600a8e54a6f23ade0f24a1875cec266e676cfb68affad3dc92bc19b5"
     },
     {
       "source": "docs/usage/mobile.md",
@@ -321,7 +363,7 @@
       "source": "docs/usage/shell-control.md",
       "url": "/docs/usage/shell-control/",
       "titleAnchor": "用脚本和-agent-控制-webmux",
-      "sha256": "c7d72ec75d5aaffea5dd08bb8a053db7d3599db68feae3f20022dff9ede2af5b"
+      "sha256": "277c1193eb410ac57b61ad8963480878ece4692d4509509cadef564c7fa7dfd8"
     },
     {
       "source": "docs/usage/shell-directory.md",
@@ -345,7 +387,7 @@
       "source": "docs/user-stories.md",
       "url": "/docs/user-stories/",
       "titleAnchor": "webmux-user-stories",
-      "sha256": "1112ae9a6be6c1bd049f2aee9880e64a961ca474b0a35c8c76fd78fe58bcfbc0"
+      "sha256": "81fded4de940f52643a758be16c9bc575fe80879c913b00b40236a304b2402c6"
     },
     {
       "source": "docs/user-stories/access-and-sessions.md",
@@ -357,91 +399,115 @@
       "source": "docs/user-stories/access-and-sessions/connection-and-launch.md",
       "url": "/docs/user-stories/access-and-sessions/connection-and-launch/",
       "titleAnchor": "连接认证与启动会话",
-      "sha256": "571dd6d053a7c355483913386fea9e054220665c6670a2cfcb8dc23016772110"
+      "sha256": "ef14f9b29965040610bf49e1b74f00e282c7b24d069d1337ebc5121a7ba80de0"
     },
     {
       "source": "docs/user-stories/access-and-sessions/workspace.md",
       "url": "/docs/user-stories/access-and-sessions/workspace/",
       "titleAnchor": "会话总览搜索与提醒",
-      "sha256": "ce346af0aa84c711c0681f4677a5e4a1a74cbe19ed7acc10d24b6c0136ccb16c"
+      "sha256": "a237d294d51ddee2582950b06019265f67c237737ca92954b85d8af92c568266"
     },
     {
       "source": "docs/user-stories/clients-network-tray.md",
       "url": "/docs/user-stories/clients-network-tray/",
       "titleAnchor": "原生客户端隧道与托盘",
-      "sha256": "6ccbe96a865986a991858b80e54bd399da68d5c034593618acc2b57938760f68"
+      "sha256": "a4a39c4c4ea856001fbdb3d52d04dc3be4c4f4eff15c108449c899fe05331a45"
     },
     {
       "source": "docs/user-stories/code-and-worktrees.md",
       "url": "/docs/user-stories/code-and-worktrees/",
       "titleAnchor": "代码工作区与工作树",
-      "sha256": "b59b6575347589799698722d8229e6213c066c8850517d80f1297373bef411c3"
+      "sha256": "68245c03dbc211ad1ddc6960e8069e6cf80053bd2e9c97aa7cd3ac6fdf5c4971"
     },
     {
       "source": "docs/user-stories/code-and-worktrees/worktrees.md",
       "url": "/docs/user-stories/code-and-worktrees/worktrees/",
       "titleAnchor": "仓库登记与-worktree-管理",
-      "sha256": "626d6e20e42b29b58b07ea1a711afe00b93339a197b3b2b6964ee99f320456b1"
+      "sha256": "633f5f5ad7c90257c6ce74f97f5ef3493c58acc3592c4f146489a9ac1d8ad1a8"
     },
     {
       "source": "docs/user-stories/coverage.md",
       "url": "/docs/user-stories/coverage/",
       "titleAnchor": "功能覆盖核对与后续维护",
-      "sha256": "7702c99bcbecc60b57fbc40d9764039de541d90754a6d2c1fe0a81e71c98ff89"
+      "sha256": "94247d730cb93439b67a545f5023322bf0b94fbf04d732bca3c580e9fc066b89"
     },
     {
       "source": "docs/user-stories/hybrid-sessions.md",
       "url": "/docs/user-stories/hybrid-sessions/",
       "titleAnchor": "混合会话",
-      "sha256": "978d4257b5c0e138f38ad5bb84c03ffc7c4db3da5bd0bc034885d9c13e298df8"
+      "sha256": "cf0090befe35f6c5e0187ab7f2ce1a497655b6d7d5065abde30087011bffe4a6"
+    },
+    {
+      "source": "docs/user-stories/hybrid-sessions/composition-and-handoff.md",
+      "url": "/docs/user-stories/hybrid-sessions/composition-and-handoff/",
+      "titleAnchor": "编写历史与交接",
+      "sha256": "ae5f860a83c1ffe92a9cacc819d16869c167604b290fed2d0293eaed0706b00e"
+    },
+    {
+      "source": "docs/user-stories/hybrid-sessions/lifecycle-and-commands.md",
+      "url": "/docs/user-stories/hybrid-sessions/lifecycle-and-commands/",
+      "titleAnchor": "命令生命周期与附件",
+      "sha256": "f16b10e7705d651d653d399e1572cc745c4cd92beec41bef3cd4b1052782e3a0"
+    },
+    {
+      "source": "docs/user-stories/hybrid-sessions/mode-and-timeline.md",
+      "url": "/docs/user-stories/hybrid-sessions/mode-and-timeline/",
+      "titleAnchor": "模式与时间线",
+      "sha256": "f36f2e60149023ba2c11a611c9a163f40692cbbabda411972a456887f8ffad30"
+    },
+    {
+      "source": "docs/user-stories/hybrid-sessions/quick-start.md",
+      "url": "/docs/user-stories/hybrid-sessions/quick-start/",
+      "titleAnchor": "快速开始聊天",
+      "sha256": "ec153dc592cc46b5154bcdac616529a7b8f0afd90bab2d59ed523d83c9b02ad3"
     },
     {
       "source": "docs/user-stories/operations-and-tooling.md",
       "url": "/docs/user-stories/operations-and-tooling/",
       "titleAnchor": "配置运行与贡献者工具",
-      "sha256": "08ca48abbc40ebd31e24260b3a1dd898e66953a31912992fb709de8928419012"
+      "sha256": "e050cb04dca2df74550c2681d0daa5e5aedec88b1603d32a69ef7cf485fd2859"
     },
     {
       "source": "docs/user-stories/port-forwarding.md",
       "url": "/docs/user-stories/port-forwarding/",
       "titleAnchor": "端口转发预览",
-      "sha256": "aeec5bb58d501215bc508f0dcf5c377996717874748cf48db876146824353991"
+      "sha256": "9e31f7d37f27affcb0a20df3fd0d0ac033c461838620ca23e4a10d45a82026f0"
     },
     {
       "source": "docs/user-stories/shell-control.md",
       "url": "/docs/user-stories/shell-control/",
       "titleAnchor": "脚本与-agent-控制",
-      "sha256": "9dc85f2fad642a67650797c16177d861e67a3176da83f92ae406d3d1f59700cd"
+      "sha256": "2b41f43c0aaed00341a11b0156709f4a91049c81292d3e1971e8ea96cb073b83"
     },
     {
       "source": "docs/user-stories/terminal-network.md",
       "url": "/docs/user-stories/terminal-network/",
-      "titleAnchor": "网络压缩用户故事",
-      "sha256": "a7df4570ff6a4e07d2f840449a611dfb554e0f39c20da9b488f867edcdf33aca"
+      "titleAnchor": "网络压缩与-p2p-直连用户故事",
+      "sha256": "868ad35be28964bcab00507d2d2b87819288d54ab54a2071019c632087fd9155"
     },
     {
       "source": "docs/user-stories/terminal-splits.md",
       "url": "/docs/user-stories/terminal-splits/",
       "titleAnchor": "终端分屏用户故事",
-      "sha256": "920242555013584dbe62c7cc76c87a0d4bc7ca070398adb56cc0fd7e2285414c"
+      "sha256": "2eddb730f7891526d3f462d8aa004535d4996a26e80df783f815e26dc52395ce"
     },
     {
       "source": "docs/user-stories/terminal-voice.md",
       "url": "/docs/user-stories/terminal-voice/",
       "titleAnchor": "语音输入用户故事",
-      "sha256": "867146d1571660e38b66c003cce7718c8be68afa23a406ba49d9c3c34abfe5d0"
+      "sha256": "6e5736e941dc52f8f081d05e0a9642a560ed460cb28454f0fbb9c85f671d9c60"
     },
     {
       "source": "docs/user-stories/terminal.md",
       "url": "/docs/user-stories/terminal/",
       "titleAnchor": "终端输入与移动端",
-      "sha256": "30e20116589e145b2b22ed530acf860401af959d4e16bfcd10dfb6eb2a5e047e"
+      "sha256": "f8352c454701b176903deccdc453927e1165d69edfa9e0a79d67c8dd78799e10"
     },
     {
       "source": "docs/user-stories/terminal/drafts.md",
       "url": "/docs/user-stories/terminal/drafts/",
       "titleAnchor": "草稿编写保存与发送确认",
-      "sha256": "251f397916dfba19b66c99a1502f8c56ce71d55a6ef053751809f6fa0401ca5c"
+      "sha256": "1d59988b7306919fd63b51bd06d8f98fe0cf77c2222916260dfbfd34b57b1141"
     },
     {
       "source": "docs/website.md",
@@ -546,7 +612,15 @@
       "reason": "rule"
     },
     {
+      "source": "docs/user-stories/verification-log-2026-11-12.md",
+      "reason": "rule"
+    },
+    {
       "source": "docs/user-stories/verification-log-2026-11-archived-history.md",
+      "reason": "rule"
+    },
+    {
+      "source": "docs/user-stories/verification-log-2026-11-handoff.md",
       "reason": "rule"
     },
     {
@@ -755,6 +829,7 @@
     "cmd/webmux/control.go": "blob",
     "cmd/webmux/local.go": "blob",
     "cmd/webmux/main.go": "blob",
+    "cmd/webmux/p2pctl.go": "blob",
     "cmd/webmux/sessions.go": "blob",
     "cmd/webmux/start.go": "blob",
     "cmd/webmux/tailscalectl.go": "blob",
@@ -778,7 +853,9 @@
     "docs/user-stories/verification-log-2026-10-23-to-26.md": "blob",
     "docs/user-stories/verification-log-2026-10-27-to-31.md": "blob",
     "docs/user-stories/verification-log-2026-11-06.md": "blob",
+    "docs/user-stories/verification-log-2026-11-12.md": "blob",
     "docs/user-stories/verification-log-2026-11-archived-history.md": "blob",
+    "docs/user-stories/verification-log-2026-11-handoff.md": "blob",
     "docs/user-stories/verification-log-2026-11-shell.md": "blob",
     "docs/user-stories/verification-log-2026-11.md": "blob",
     "docs/website/prototypes/a-workbench.html": "blob",
@@ -790,6 +867,7 @@
     "docs/website/prototypes/c-story.html": "blob",
     "docs/website/prototypes/d-split.html": "blob",
     "install.sh": "blob",
+    "internal": "tree",
     "internal/acp": "tree",
     "internal/agentguide/agentguide.go": "blob",
     "internal/agentguide/llms/connect.md": "blob",
@@ -806,14 +884,18 @@
     "internal/api/compression_test.go": "blob",
     "internal/api/config.go": "blob",
     "internal/api/continuity_test.go": "blob",
+    "internal/api/conversation.go": "blob",
     "internal/api/errors.go": "blob",
     "internal/api/forward.go": "blob",
     "internal/api/forward_test.go": "blob",
     "internal/api/guide.go": "blob",
+    "internal/api/handoff.go": "blob",
     "internal/api/host.go": "blob",
     "internal/api/launch.go": "blob",
     "internal/api/local.go": "blob",
     "internal/api/local_test.go": "blob",
+    "internal/api/p2p.go": "blob",
+    "internal/api/p2p_test.go": "blob",
     "internal/api/public.go": "blob",
     "internal/api/push.go": "blob",
     "internal/api/push_test.go": "blob",
@@ -860,8 +942,12 @@
     "internal/clicmd/help.go": "blob",
     "internal/clicmd/launch.go": "blob",
     "internal/clicmd/launchconfig.go": "blob",
+    "internal/clicmd/mcp.go": "blob",
     "internal/clicmd/metadata.go": "blob",
     "internal/clicmd/notify.go": "blob",
+    "internal/clicmd/p2p.go": "blob",
+    "internal/clicmd/p2p_probe.go": "blob",
+    "internal/clicmd/p2p_test.go": "blob",
     "internal/clicmd/repo.go": "blob",
     "internal/clicmd/status.go": "blob",
     "internal/clicmd/streams.go": "blob",
@@ -882,11 +968,13 @@
     "internal/contract/tunnel.go": "blob",
     "internal/contract/views.go": "blob",
     "internal/conversation": "tree",
+    "internal/conversation/projection.go": "blob",
     "internal/docguard/doc_test.go": "blob",
     "internal/docguard/links_test.go": "blob",
     "internal/forward/credentials.go": "blob",
     "internal/forward/forward.go": "blob",
     "internal/forward/forward_test.go": "blob",
+    "internal/handoff": "tree",
     "internal/hub/chat.go": "blob",
     "internal/hub/hub.go": "blob",
     "internal/hub/hub_bench_test.go": "blob",
@@ -902,6 +990,19 @@
     "internal/launch/store.go": "blob",
     "internal/launch/types.go": "blob",
     "internal/localclient/client.go": "blob",
+    "internal/localclient/response_test.go": "blob",
+    "internal/mcpcontrol/actions.go": "blob",
+    "internal/mcpcontrol/actions_test.go": "blob",
+    "internal/mcpcontrol/control.go": "blob",
+    "internal/mcpcontrol/read.go": "blob",
+    "internal/mcpcontrol/read_test.go": "blob",
+    "internal/mcpcontrol/wait.go": "blob",
+    "internal/mcpcontrol/wait_test.go": "blob",
+    "internal/p2p/portmap.go": "blob",
+    "internal/p2p/service_nop2p.go": "blob",
+    "internal/p2p/service_webrtc.go": "blob",
+    "internal/p2p/stream_conn.go": "blob",
+    "internal/p2psettings/store.go": "blob",
     "internal/procpeek/listen_darwin.go": "blob",
     "internal/procpeek/listen_linux.go": "blob",
     "internal/push/alert.go": "blob",
@@ -1087,131 +1188,147 @@
     "web/scripts/embed-assets.ts": "blob",
     "web/scripts/merge-coverage.mjs": "blob",
     "web/src/App.svelte": "blob",
-    "web/src/archived.ts": "blob",
-    "web/src/attention-toast.svelte.ts": "blob",
-    "web/src/attention-toast.ts": "blob",
-    "web/src/branch-actions.ts": "blob",
-    "web/src/browser-chrome.ts": "blob",
-    "web/src/capabilities.ts": "blob",
-    "web/src/chat-schemas.ts": "blob",
-    "web/src/code-highlight.ts": "blob",
-    "web/src/code-highlighter.ts": "blob",
-    "web/src/code-language.ts": "blob",
-    "web/src/code-pierre.ts": "blob",
-    "web/src/code-reference.ts": "blob",
-    "web/src/components/AddRepositoryDialog.svelte": "blob",
-    "web/src/components/AppShell.svelte": "blob",
-    "web/src/components/AppSidebar.svelte": "blob",
-    "web/src/components/ArchivedSessions.svelte": "blob",
-    "web/src/components/AttentionToasts.svelte": "blob",
-    "web/src/components/BranchOperationFlow.svelte": "blob",
-    "web/src/components/Brand.svelte": "blob",
-    "web/src/components/ChatHistory.svelte": "blob",
-    "web/src/components/CodeDiffReader.svelte": "blob",
-    "web/src/components/CodeDocumentView.svelte": "blob",
-    "web/src/components/CodeFileActions.svelte": "blob",
-    "web/src/components/CodeFileTree.svelte": "blob",
-    "web/src/components/CodeImageView.svelte": "blob",
-    "web/src/components/CodeMarkdownPreview.svelte": "blob",
-    "web/src/components/CodeNavigator.svelte": "blob",
-    "web/src/components/CodePanel.svelte": "blob",
-    "web/src/components/CodeReader.svelte": "blob",
-    "web/src/components/CodeWorkspace.svelte": "blob",
-    "web/src/components/CodeZoomPanel.svelte": "blob",
-    "web/src/components/ConnectorInstallHint.svelte": "blob",
-    "web/src/components/DeleteBranches.svelte": "blob",
-    "web/src/components/DirectoryPicker.svelte": "blob",
-    "web/src/components/FastForwardBranch.svelte": "blob",
-    "web/src/components/ForwardButton.svelte": "blob",
-    "web/src/components/ForwardDialog.svelte": "blob",
-    "web/src/components/InitInstructionField.svelte": "blob",
-    "web/src/components/InstallSettings.svelte": "blob",
-    "web/src/components/LaunchConfigDialog.svelte": "blob",
-    "web/src/components/LaunchConfigIcon.svelte": "blob",
-    "web/src/components/LaunchPicker.svelte": "blob",
-    "web/src/components/LaunchPresetMenu.svelte": "blob",
-    "web/src/components/LazyDialog.svelte": "blob",
-    "web/src/components/LocationPicker.svelte": "blob",
-    "web/src/components/ManageWorktreesPreview.svelte": "blob",
-    "web/src/components/NetworkSettings.svelte": "blob",
-    "web/src/components/NewSessionDialog.svelte": "blob",
-    "web/src/components/PendingUpdateNotice.svelte": "blob",
-    "web/src/components/PushBranch.svelte": "blob",
-    "web/src/components/PushCheckNotice.svelte": "blob",
-    "web/src/components/PushSettings.svelte": "blob",
-    "web/src/components/QuickCommandDialog.svelte": "blob",
-    "web/src/components/QuickCommandMenu.svelte": "blob",
-    "web/src/components/QuickCommandPresetMenu.svelte": "blob",
-    "web/src/components/RebuildWorktreeDialog.svelte": "blob",
-    "web/src/components/ReleaseWorktreeDialog.svelte": "blob",
-    "web/src/components/RemoveWorktreeDialog.svelte": "blob",
-    "web/src/components/RenameSessionDialog.svelte": "blob",
-    "web/src/components/RepositoryBranches.svelte": "blob",
-    "web/src/components/RepositoryGroup.svelte": "blob",
-    "web/src/components/RepositoryPanel.svelte": "blob",
-    "web/src/components/RepositoryRemotes.svelte": "blob",
-    "web/src/components/RepositorySettingsDialog.svelte": "blob",
-    "web/src/components/RepositoryWorktrees.svelte": "blob",
-    "web/src/components/ScratchPanel.svelte": "blob",
-    "web/src/components/SessionRow.svelte": "blob",
-    "web/src/components/SessionSwitcher.svelte": "blob",
-    "web/src/components/SessionTerminal.svelte": "blob",
-    "web/src/components/SessionViewControls.svelte": "blob",
-    "web/src/components/SettingsNavigation.svelte": "blob",
-    "web/src/components/SidebarFooter.svelte": "blob",
-    "web/src/components/SidebarRepositoryMenu.svelte": "blob",
-    "web/src/components/SoftKeys.svelte": "blob",
-    "web/src/components/SplitSessionDialog.svelte": "blob",
-    "web/src/components/SwitchBranch.svelte": "blob",
-    "web/src/components/SwitchBranchDialog.svelte": "blob",
-    "web/src/components/TailscaleConfiguration.svelte": "blob",
-    "web/src/components/TailscaleSettings.svelte": "blob",
-    "web/src/components/TerminalFindBar.svelte": "blob",
-    "web/src/components/TerminalHeader.svelte": "blob",
-    "web/src/components/TerminalInputComposer.svelte": "blob",
-    "web/src/components/TerminalPortPrompts.svelte": "blob",
-    "web/src/components/TerminalShortcuts.svelte": "blob",
-    "web/src/components/TerminalSplitMenu.svelte": "blob",
-    "web/src/components/TerminalViewport.svelte": "blob",
-    "web/src/components/TokenHelp.svelte": "blob",
-    "web/src/components/TouchGamepad.svelte": "blob",
-    "web/src/components/VoiceButton.svelte": "blob",
-    "web/src/components/VoiceSettings.svelte": "blob",
-    "web/src/components/WorkbenchTree.svelte": "blob",
-    "web/src/components/WorkspaceGroup.svelte": "blob",
-    "web/src/components/WorktreeCreateFields.svelte": "blob",
-    "web/src/components/WorktreeDetails.svelte": "blob",
-    "web/src/components/WorktreeSyncSummary.svelte": "blob",
     "web/src/components/chat": "tree",
     "web/src/components/chat/ChatChoiceCommandList.svelte": "blob",
+    "web/src/components/chat/ChatHistory.svelte": "blob",
     "web/src/components/chat/ChatSessionOptions.svelte": "blob",
     "web/src/components/chat/ComposerCard.svelte": "blob",
-    "web/src/components/code-popout.ts": "blob",
-    "web/src/draft-storage.ts": "blob",
-    "web/src/forwards.svelte.ts": "blob",
-    "web/src/home-worktrees.ts": "blob",
-    "web/src/hooks/code-font-preference.svelte.ts": "blob",
-    "web/src/hooks/composer-morph.svelte.ts": "blob",
-    "web/src/hooks/hybrid.svelte.ts": "blob",
-    "web/src/hooks/keyboard-size-hold.ts": "blob",
-    "web/src/hooks/terminal-graphics-anchor.ts": "blob",
-    "web/src/hooks/terminal-graphics.ts": "blob",
-    "web/src/hooks/terminal-socket.svelte.ts": "blob",
-    "web/src/hooks/terminal.svelte.ts": "blob",
-    "web/src/hooks/touch-gamepad-preference.svelte.ts": "blob",
-    "web/src/hooks/touch.ts": "blob",
-    "web/src/hooks/tunnel-settings.svelte.ts": "blob",
-    "web/src/hooks/upload.svelte.ts": "blob",
-    "web/src/hooks/viewport.svelte.ts": "blob",
-    "web/src/hooks/voice.svelte.ts": "blob",
+    "web/src/components/code/CodeDiffReader.svelte": "blob",
+    "web/src/components/code/CodeDocumentView.svelte": "blob",
+    "web/src/components/code/CodeFileActions.svelte": "blob",
+    "web/src/components/code/CodeFileTree.svelte": "blob",
+    "web/src/components/code/CodeImageView.svelte": "blob",
+    "web/src/components/code/CodeMarkdownPreview.svelte": "blob",
+    "web/src/components/code/CodeNavigator.svelte": "blob",
+    "web/src/components/code/CodePanel.svelte": "blob",
+    "web/src/components/code/CodeReader.svelte": "blob",
+    "web/src/components/code/CodeWorkspace.svelte": "blob",
+    "web/src/components/code/CodeZoomPanel.svelte": "blob",
+    "web/src/components/code/code-popout.ts": "blob",
+    "web/src/components/notifications/AttentionToasts.svelte": "blob",
+    "web/src/components/notifications/PendingUpdateNotice.svelte": "blob",
+    "web/src/components/sessions/ArchivedSessions.svelte": "blob",
+    "web/src/components/sessions/ConnectorInstallHint.svelte": "blob",
+    "web/src/components/sessions/InitInstructionField.svelte": "blob",
+    "web/src/components/sessions/LaunchPicker.svelte": "blob",
+    "web/src/components/sessions/NewSessionDialog.svelte": "blob",
+    "web/src/components/sessions/RenameSessionDialog.svelte": "blob",
+    "web/src/components/sessions/SessionRow.svelte": "blob",
+    "web/src/components/settings/InstallSettings.svelte": "blob",
+    "web/src/components/settings/LaunchConfigDialog.svelte": "blob",
+    "web/src/components/settings/LaunchConfigIcon.svelte": "blob",
+    "web/src/components/settings/LaunchPresetMenu.svelte": "blob",
+    "web/src/components/settings/NetworkSettings.svelte": "blob",
+    "web/src/components/settings/P2PSettings.svelte": "blob",
+    "web/src/components/settings/PushCheckNotice.svelte": "blob",
+    "web/src/components/settings/PushSettings.svelte": "blob",
+    "web/src/components/settings/QuickCommandDialog.svelte": "blob",
+    "web/src/components/settings/QuickCommandMenu.svelte": "blob",
+    "web/src/components/settings/QuickCommandPresetMenu.svelte": "blob",
+    "web/src/components/settings/SettingsNavigation.svelte": "blob",
+    "web/src/components/settings/TailscaleConfiguration.svelte": "blob",
+    "web/src/components/settings/TailscaleSettings.svelte": "blob",
+    "web/src/components/settings/VoiceSettings.svelte": "blob",
+    "web/src/components/shared/LazyDialog.svelte": "blob",
+    "web/src/components/shared/TokenHelp.svelte": "blob",
+    "web/src/components/shared/VoiceButton.svelte": "blob",
+    "web/src/components/shell/AppShell.svelte": "blob",
+    "web/src/components/shell/AppSidebar.svelte": "blob",
+    "web/src/components/shell/Brand.svelte": "blob",
+    "web/src/components/shell/SessionSwitcher.svelte": "blob",
+    "web/src/components/shell/SidebarFooter.svelte": "blob",
+    "web/src/components/shell/SidebarRepositoryMenu.svelte": "blob",
+    "web/src/components/shell/WorkbenchTree.svelte": "blob",
+    "web/src/components/terminal/ScratchPanel.svelte": "blob",
+    "web/src/components/terminal/SessionTerminal.svelte": "blob",
+    "web/src/components/terminal/SessionViewControls.svelte": "blob",
+    "web/src/components/terminal/SoftKeys.svelte": "blob",
+    "web/src/components/terminal/SplitSessionDialog.svelte": "blob",
+    "web/src/components/terminal/TerminalFindBar.svelte": "blob",
+    "web/src/components/terminal/TerminalHeader.svelte": "blob",
+    "web/src/components/terminal/TerminalInputComposer.svelte": "blob",
+    "web/src/components/terminal/TerminalPortPrompts.svelte": "blob",
+    "web/src/components/terminal/TerminalShortcuts.svelte": "blob",
+    "web/src/components/terminal/TerminalSplitMenu.svelte": "blob",
+    "web/src/components/terminal/TerminalViewport.svelte": "blob",
+    "web/src/components/terminal/TouchGamepad.svelte": "blob",
+    "web/src/components/workspace/AddRepositoryDialog.svelte": "blob",
+    "web/src/components/workspace/BranchOperationFlow.svelte": "blob",
+    "web/src/components/workspace/DeleteBranches.svelte": "blob",
+    "web/src/components/workspace/DirectoryPicker.svelte": "blob",
+    "web/src/components/workspace/FastForwardBranch.svelte": "blob",
+    "web/src/components/workspace/ForwardButton.svelte": "blob",
+    "web/src/components/workspace/ForwardDialog.svelte": "blob",
+    "web/src/components/workspace/LocationPicker.svelte": "blob",
+    "web/src/components/workspace/ManageWorktreesPreview.svelte": "blob",
+    "web/src/components/workspace/PushBranch.svelte": "blob",
+    "web/src/components/workspace/RebuildWorktreeDialog.svelte": "blob",
+    "web/src/components/workspace/ReleaseWorktreeDialog.svelte": "blob",
+    "web/src/components/workspace/RemoveWorktreeDialog.svelte": "blob",
+    "web/src/components/workspace/RepositoryBranches.svelte": "blob",
+    "web/src/components/workspace/RepositoryGroup.svelte": "blob",
+    "web/src/components/workspace/RepositoryPanel.svelte": "blob",
+    "web/src/components/workspace/RepositoryRemotes.svelte": "blob",
+    "web/src/components/workspace/RepositorySettingsDialog.svelte": "blob",
+    "web/src/components/workspace/RepositoryWorktrees.svelte": "blob",
+    "web/src/components/workspace/SwitchBranch.svelte": "blob",
+    "web/src/components/workspace/SwitchBranchDialog.svelte": "blob",
+    "web/src/components/workspace/WorkspaceGroup.svelte": "blob",
+    "web/src/components/workspace/WorktreeCreateFields.svelte": "blob",
+    "web/src/components/workspace/WorktreeDetails.svelte": "blob",
+    "web/src/components/workspace/WorktreeSyncSummary.svelte": "blob",
+    "web/src/contracts/chat-schemas.ts": "blob",
+    "web/src/contracts/schemas.ts": "blob",
+    "web/src/domains/code/code-highlight.ts": "blob",
+    "web/src/domains/code/code-highlighter.ts": "blob",
+    "web/src/domains/code/code-language.ts": "blob",
+    "web/src/domains/code/code-pierre.ts": "blob",
+    "web/src/domains/code/code-reference.ts": "blob",
+    "web/src/domains/code/markdown-link.ts": "blob",
+    "web/src/domains/code/markdown-slug.ts": "blob",
+    "web/src/domains/notifications/attention-toast.svelte.ts": "blob",
+    "web/src/domains/notifications/attention-toast.ts": "blob",
+    "web/src/domains/sessions/archived.ts": "blob",
+    "web/src/domains/sessions/new-session-defaults.ts": "blob",
+    "web/src/domains/sessions/session-location.ts": "blob",
+    "web/src/domains/sessions/session-pins.svelte.ts": "blob",
+    "web/src/domains/settings/launch-previews.svelte.ts": "blob",
+    "web/src/domains/settings/quick-commands.svelte.ts": "blob",
+    "web/src/domains/settings/quick-commands.ts": "blob",
+    "web/src/domains/settings/settings-intent.ts": "blob",
+    "web/src/domains/settings/settings.svelte.ts": "blob",
+    "web/src/domains/terminal/draft-storage.ts": "blob",
+    "web/src/domains/terminal/kitty-graphics.ts": "blob",
+    "web/src/domains/terminal/terminal-clipboard.ts": "blob",
+    "web/src/domains/terminal/terminal-draft.svelte.ts": "blob",
+    "web/src/domains/terminal/terminal-layout.ts": "blob",
+    "web/src/domains/terminal/terminal-protocol.ts": "blob",
+    "web/src/domains/terminal/terminal-search.ts": "blob",
+    "web/src/domains/workspace/branch-actions.ts": "blob",
+    "web/src/domains/workspace/forwards.svelte.ts": "blob",
+    "web/src/domains/workspace/home-worktrees.ts": "blob",
+    "web/src/domains/workspace/worktree-batch.ts": "blob",
+    "web/src/hooks/code/code-font-preference.svelte.ts": "blob",
+    "web/src/hooks/sessions/hybrid.svelte.ts": "blob",
+    "web/src/hooks/sessions/quick-start.ts": "blob",
+    "web/src/hooks/sessions/session-list.ts": "blob",
+    "web/src/hooks/settings/p2p-settings.svelte.ts": "blob",
+    "web/src/hooks/settings/theme.ts": "blob",
+    "web/src/hooks/settings/tunnel-settings.svelte.ts": "blob",
+    "web/src/hooks/shared/composer-morph.svelte.ts": "blob",
+    "web/src/hooks/shared/shell.svelte.ts": "blob",
+    "web/src/hooks/shared/upload.svelte.ts": "blob",
+    "web/src/hooks/shared/viewport.svelte.ts": "blob",
+    "web/src/hooks/shared/voice.svelte.ts": "blob",
+    "web/src/hooks/terminal/keyboard-size-hold.ts": "blob",
+    "web/src/hooks/terminal/terminal-graphics-anchor.ts": "blob",
+    "web/src/hooks/terminal/terminal-graphics.ts": "blob",
+    "web/src/hooks/terminal/terminal-socket.svelte.ts": "blob",
+    "web/src/hooks/terminal/terminal.svelte.ts": "blob",
+    "web/src/hooks/terminal/touch-gamepad-preference.svelte.ts": "blob",
+    "web/src/hooks/terminal/touch.ts": "blob",
     "web/src/icons/lobehub/README.md": "blob",
-    "web/src/install.svelte.ts": "blob",
-    "web/src/kitty-graphics.ts": "blob",
-    "web/src/launch-previews.svelte.ts": "blob",
     "web/src/lib/components/ui/drawer/drawer-content.svelte": "blob",
-    "web/src/markdown-link.ts": "blob",
-    "web/src/markdown-slug.ts": "blob",
-    "web/src/new-session-defaults.ts": "blob",
     "web/src/pages/ForwardAuth.svelte": "blob",
     "web/src/pages/QuickStart.svelte": "blob",
     "web/src/pages/SessionList.svelte": "blob",
@@ -1219,28 +1336,19 @@
     "web/src/pages/TailscaleSettingsPage.svelte": "blob",
     "web/src/pages/Terminal.svelte": "blob",
     "web/src/pages/TunnelSettingsPage.svelte": "blob",
-    "web/src/pending-update.ts": "blob",
-    "web/src/push.ts": "blob",
-    "web/src/quick-commands.svelte.ts": "blob",
-    "web/src/quick-commands.ts": "blob",
-    "web/src/quick-start.ts": "blob",
-    "web/src/schemas.ts": "blob",
-    "web/src/session-list.ts": "blob",
-    "web/src/session-location.ts": "blob",
-    "web/src/session-pins.svelte.ts": "blob",
-    "web/src/settings-intent.ts": "blob",
-    "web/src/settings.svelte.ts": "blob",
-    "web/src/shell.svelte.ts": "blob",
+    "web/src/platform/browser-chrome.ts": "blob",
+    "web/src/platform/capabilities.ts": "blob",
+    "web/src/platform/install.svelte.ts": "blob",
+    "web/src/platform/p2p-framing.ts": "blob",
+    "web/src/platform/p2p-session.ts": "blob",
+    "web/src/platform/p2p-transport.ts": "blob",
+    "web/src/platform/p2p.svelte.ts": "blob",
+    "web/src/platform/pending-update.ts": "blob",
+    "web/src/platform/push.ts": "blob",
+    "web/src/platform/touch-input.ts": "blob",
+    "web/src/platform/voice.ts": "blob",
+    "web/src/platform/ws.ts": "blob",
     "web/src/styles.css": "blob",
-    "web/src/terminal-clipboard.ts": "blob",
-    "web/src/terminal-draft.svelte.ts": "blob",
-    "web/src/terminal-layout.ts": "blob",
-    "web/src/terminal-search.ts": "blob",
-    "web/src/theme.ts": "blob",
-    "web/src/touch-input.ts": "blob",
-    "web/src/voice.ts": "blob",
-    "web/src/worktree-batch.ts": "blob",
-    "web/src/ws.ts": "blob",
     "web/stories/ScratchNotes.stories.ts": "blob",
     "web/test/architecture.test.ts": "blob",
     "web/test/browser/AppShell.test.ts": "blob",

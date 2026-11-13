@@ -124,6 +124,21 @@ JSON 输出契约见 [控制面 JSON 契约](../protocol/control-json.md#控制�
 | `bell_attention`     | `true`                | 把终端响铃（输入 1 秒后）视为需要介入                                             |
 | `program_status`     | `true`                | 识别 `OSC 7501` 程序状态报告，并由服务端应答 `OSC 7501;?` 探测                    |
 
+### 对话历史保存
+
+`history_capture` 默认 `true`。WebMux 将规范化聊天消息、工具事实与交接草稿保存在 `state_dir/conversations.sqlite`；PTY 与进程仍不会跨服务重启存活。
+设置 `history_capture = false` 并重启后，停止写入新的规范化正文，同时关闭历史 REST、handoff 预览/投递和 `thread_read`。
+聊天实时显示与普通终端仍可使用；已有数据库保留，身份、删除与 unknown 投递保护继续使用数据库，不因关闭历史功能而解除。
+重新开启后只保存新的实时内容；有关闭区间的原生线程不自动把随后 load 的旧正文回填，缺口保持可见。
+关闭不会删除旧正文或 agent 自己的 transcript；会话标题、位置和原生恢复身份仍按既有规则保存。删除、备份与存储故障边界见[持久化清单](../persistence.md)。
+
+### 交接历史预算
+
+`handoff_token_cap` 默认 `16000`，允许 `1024`–`64000`。它限制交接历史的保守估算成本：一个 UTF-8 字节按一个 token，包含角色和 JSON 转义。
+实际预算还要扣除目标上下文占用、当前请求、附件与后续工作预留；增大上限不保证能保留更多历史。
+原生用量缺失时明确标为估算；inline 还受 64 KiB prompt 与附件序列化上限约束。用户请求和附件不会自动缩短。
+预览 API、编辑与 stale 语义见[交接预览](../protocol/http-handoff.md)。
+
 ### Agent 启动
 
 | 键               | 默认值 | 作用                                                                      |
@@ -153,6 +168,33 @@ env = ["DASHSCOPE_API_KEY=sk-xxx"]
 | ----------- | ------ | -------------------------------------------------------------------------------- |
 | `voice.cmd` | `[]`   | 识别程序的完整参数数组（argv），直接执行、不经 shell 展开；为空时禁用语音识别    |
 | `voice.env` | `[]`   | 附加到子进程环境的 `KEY=VALUE` 列表；只保存在服务端，从不通过 `/api/config` 返回 |
+
+### 机会性 P2P 直连（`[p2p]`）
+
+经 Cloudflare Tunnel、Tailscale DERP 或反向代理等高延迟中转入口访问时，浏览器先保持现有 WebSocket 打开会话，后台自动协商 WebRTC DataChannel 直连（DTLS 1.2+），满足滞回阈值后无感升级全部实时流与 `/api/*` 请求（含分块文件上传）：
+
+- 本机回环、内网、Tailscale MagicDNS 或基线 RTT `< 15 ms` 自动跳过协商；
+- 显式拒绝 `relay`（TURN）候选，不部署中继服务器，保持零中继成本；
+- 设置页“网络”分区可在线开关直连升级、路由器端口映射（UPnP IGD / NAT-PMP / PCP）与自定义 STUN 列表，保存在状态目录的 `p2p-settings.json` 并立即生效，“恢复配置文件默认”删除网页覆盖。
+- 后台直连协商最多等待 30 秒，持续交换晚到的候选；手机切网后重新收集候选，失败继续使用 WebSocket。公网 IPv6、UDP 放行与运营商验收见[移动网络上的 P2P 直连](remote-access.md#移动网络上的-p2p-直连)。
+
+```toml
+[p2p]
+enabled = true
+port_mapping = true
+stun_servers = [
+  "stun:stun.miwifi.com:3478",
+  "stun:stun.chat.bilibili.com:3478",
+  "stun:stun.cloudflare.com:3478",
+  "stun:stun.l.google.com:19302",
+]
+```
+
+| 键                 | 默认值                                         | 作用                                                          |
+| ------------------ | ---------------------------------------------- | ------------------------------------------------------------- |
+| `p2p.enabled`      | `true`                                         | 是否允许浏览器协商 WebRTC DataChannel 直连升级                |
+| `p2p.port_mapping` | `true`                                         | 自动向本地网关申请 UPnP IGD / NAT-PMP / PCP 外部 UDP 端口映射 |
+| `p2p.stun_servers` | 小米、Bilibili、Cloudflare 与 Google 公共 STUN | 仅允许 `stun:` 或 `stuns:` URI，拒绝 `turn:` / `turns:`       |
 
 #### `STDIN / STDOUT` 外部识别协议
 

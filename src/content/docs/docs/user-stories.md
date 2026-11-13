@@ -38,7 +38,7 @@ sourcePath: "docs/user-stories.md"
 | E    | 剪贴板与文件上传                       | US-E01–US-E07 |
 | F    | 草稿编写、保存与发送确认               | US-F01–US-F09 |
 | G    | 快捷指令与语音输入                     | US-G01–US-G07 |
-| H    | 手机、平板与触摸操作、慢速网络         | US-H01–US-H11 |
+| H    | 手机、平板与触摸操作、慢速网络         | US-H01–US-H12 |
 | I    | 代码工作区、Diff、引用与文件操作       | US-I01–US-I19 |
 | J    | 仓库登记与 worktree 管理               | US-J01–US-J18 |
 | K    | 配置、运行与服务管理                   | US-K01–US-K17 |
@@ -47,9 +47,9 @@ sourcePath: "docs/user-stories.md"
 | N    | Cloudflare 公网隧道                    | US-N01–US-N08 |
 | O    | Windows/WSL 托盘管理                   | US-O01–US-O14 |
 | P    | Tailscale Serve / Funnel               | US-P01–US-P08 |
-| Q    | 混合会话（聊天 ↔ 终端）                | US-Q01–US-Q19 |
+| Q    | 混合会话（聊天 ↔ 终端）                | US-Q01–US-Q20 |
 | R    | 端口转发预览                           | US-R01–US-R04 |
-| S    | 脚本与 agent 控制                      | US-S01–US-S19 |
+| S    | 脚本与 agent 控制                      | US-S01–US-S24 |
 
 ## 分组文档
 
@@ -66,7 +66,7 @@ sourcePath: "docs/user-stories.md"
 | [配置、运行与贡献者工具](user-stories/operations-and-tooling.md)                  | K–L                |
 | [原生客户端、隧道与托盘](user-stories/clients-network-tray.md)                    | M–P                |
 | [终端分屏用户故事](user-stories/terminal-splits.md)                               | D13–D14            |
-| [网络压缩用户故事](user-stories/terminal-network.md)                              | H10–H11            |
+| [网络压缩与 P2P 直连用户故事](user-stories/terminal-network.md)                   | H10–H12            |
 | [语音输入用户故事](user-stories/terminal-voice.md)                                | G07                |
 | [混合会话](user-stories/hybrid-sessions.md)                                       | Q                  |
 | [端口转发预览](user-stories/port-forwarding.md)                                   | R                  |
@@ -77,11 +77,13 @@ sourcePath: "docs/user-stories.md"
 
 各次局部核对的记录（对应的故事、已运行的验证、范围限制）按日期存放在以下文件，条目按日期升序。新的核对记录追加到最新的文件，不要写回本文；超过文件上限时按“拆分过长文件”的办法按日期再拆。
 
-| 文件                                                                                                   | 日期范围                 |
-| ------------------------------------------------------------------------------------------------------ | ------------------------ |
-| [verification-log-2026-10-23-to-26](user-stories/verification-log-2026-10-23-to-26.md)                 | 2026-10-23 至 2026-10-26 |
-| [verification-log-2026-10-27-to-31](user-stories/verification-log-2026-10-27-to-31.md)                 | 2026-10-27 至 2026-10-31 |
-| [verification-log-2026-11](user-stories/verification-log-2026-11.md)                                   | 2026-11-01 至 2026-11-05 |
-| [verification-log-2026-11-06](user-stories/verification-log-2026-11-06.md)                             | 2026-11-06 起            |
-| [verification-log-2026-11-shell](user-stories/verification-log-2026-11-shell.md)                       | 2026-11-05 起            |
-| [verification-log-2026-11-archived-history](user-stories/verification-log-2026-11-archived-history.md) | 2026-11-06 起            |
+| 文件                                                                                                   | 日期范围                          |
+| ------------------------------------------------------------------------------------------------------ | --------------------------------- |
+| [verification-log-2026-10-23-to-26](user-stories/verification-log-2026-10-23-to-26.md)                 | 2026-10-23 至 2026-10-26          |
+| [verification-log-2026-10-27-to-31](user-stories/verification-log-2026-10-27-to-31.md)                 | 2026-10-27 至 2026-10-31          |
+| [verification-log-2026-11](user-stories/verification-log-2026-11.md)                                   | 2026-11-01 至 2026-11-05          |
+| [verification-log-2026-11-06](user-stories/verification-log-2026-11-06.md)                             | 2026-11-06 起                     |
+| [verification-log-2026-11-handoff](user-stories/verification-log-2026-11-handoff.md)                   | 2026-11-11 起的交接增强与最终验收 |
+| [verification-log-2026-11-shell](user-stories/verification-log-2026-11-shell.md)                       | 2026-11-05 起                     |
+| [verification-log-2026-11-archived-history](user-stories/verification-log-2026-11-archived-history.md) | 2026-11-06 起                     |
+| [verification-log-2026-11-12](user-stories/verification-log-2026-11-12.md)                             | 2026-11-12 起                     |

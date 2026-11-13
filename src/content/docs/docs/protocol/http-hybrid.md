@@ -6,7 +6,7 @@ sourcePath: "docs/protocol/http-hybrid.md"
 用开启了聊天视图（界面称“混合模式”）的启动配置创建的会话有两个视图：原生 TUI（终端视图 `terminal`）与 ACP 聊天视图（`chat`）。同一段 agent 对话在两个视图之间切换，webmux 会话 ID 始终不变。
 
 - 线上类型：[`internal/contract/views.go`](../../internal/contract/views.go)、[`sessions.go`](../../internal/contract/sessions.go) 与 [`chat.go`](../../internal/contract/chat.go)。
-- 前端镜像：[`web/src/schemas.ts`](../../web/src/schemas.ts) 与 [`web/src/chat-schemas.ts`](../../web/src/chat-schemas.ts)。
+- 前端镜像：[`web/src/contracts/schemas.ts`](../../web/src/contracts/schemas.ts) 与 [`web/src/contracts/chat-schemas.ts`](../../web/src/contracts/chat-schemas.ts)。
 - 认证、Origin 与错误格式：同 [API 与协议](../protocol.md)；创建见 [创建会话](http-session-create.md)，输入、中断、列表与删除记录等通用操作见 [会话](http-sessions.md#会话)。
 
 ## 会话信息中的视图与 agent
@@ -140,7 +140,7 @@ Claude Code 的 ACP 进程无参数执行 `claude-agent-acp`，`initialize` 固�
 
 - 内容：`message.append`（按 `messageId` 追加，`role` 为 user/agent/thought）、`tool.upsert`（按 `toolCallId` 的字段补丁）。
 - 会话元数据：`plan.set`、`commands.set`、`config.set`、`usage.set`、`info.set`（`title` 同时写回会话标题，创建名称仍优先）、`compaction.upsert`。
-- 回合：`turn.start`（`{turnId, promptId, queueItemId?}`，发送排队提示的回合带该提示的 `queueItemId`）、`turn.end`（`stopReason` 含 `cancelled`、`error`、`auth_required`）。
+- 回合：`turn.start`（`{turnId, promptId, queueItemId?}`，发送排队提示的回合带该提示的 `queueItemId`）、`turn.end`（`stopReason` 含 `cancelled`、`error`、`auth_required`；可选 `unfinished=true` 表示该回合结束时仍有后台工作，随结束事件一起发布）。
 - 请求：`request.open`、`request.close`。
 - 提示与标记：`notice`、`marker`（`loaded`、`switched`、`truncated`、`reconnected`；`switched` 标记的 `view` 为切换后的视图，旧字段 `side` 已删除）。
 

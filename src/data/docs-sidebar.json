@@ -188,6 +188,31 @@
         "depth": 0
       },
       {
+        "label": "交接操作",
+        "link": "/docs/hybrid-sessions/handoff/",
+        "depth": 1
+      },
+      {
+        "label": "交接预览",
+        "link": "/docs/protocol/http-handoff/",
+        "depth": 1
+      },
+      {
+        "label": "只读历史 MCP",
+        "link": "/docs/protocol/handoff-mcp/",
+        "depth": 1
+      },
+      {
+        "label": "Codex 原生历史",
+        "link": "/docs/protocol/handoff-native/",
+        "depth": 1
+      },
+      {
+        "label": "持久对话历史",
+        "link": "/docs/protocol/http-conversation/",
+        "depth": 1
+      },
+      {
         "label": "配置与持久化清单",
         "link": "/docs/persistence/",
         "depth": 0
@@ -227,6 +252,11 @@
   {
     "label": "性能与质量",
     "items": [
+      {
+        "label": "交接故障矩阵与性能验收",
+        "link": "/docs/protocol/handoff-validation/",
+        "depth": 0
+      },
       {
         "label": "布局稳定性与 4× CPU 回归",
         "link": "/docs/performance/",

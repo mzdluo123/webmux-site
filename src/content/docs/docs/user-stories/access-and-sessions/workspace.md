@@ -31,6 +31,7 @@ sourcePath: "docs/user-stories/access-and-sessions/workspace.md"
   - 状态标签紧跟标题，下一行依次为所在端（混合会话）、连接设备或“后台会话”与最近活跃时间，状态变化不移动其他内容；
   - 没有客户端的会话显示为后台会话；
   - 高频输出保留未变化会话的对象与创建顺序，不反复排序全表；
+  - 120 会话下切换状态筛选和打开卡片菜单，4× CPU 降速的最大交互时间不超过 300 ms；
   - 最近活跃时间每 30 秒及回到前台时校准；
   - 会话卡片按创建时使用的启动配置显示其预览设置，配置缺失或首页加载时存储不可用则回退全局设置，打开新建会话重新读取期间或失败时保留已加载的预览。混合会话卡片标出所在端，聊天端以最新 agent 消息代替终端预览，回合进行中卡片还显示一行当前工作（当前工具调用或计划步骤，一行截断）；
   - 已关闭或已中断的混合会话不在运行中会话里，而作为已归档记录显示在所属工作树（或直接会话目录、“已不可用工作区”）活动会话下方的“已归档”中；拥有已归档记录的工作树与有会话的工作树一样保留在首页，搜索与“已归档”状态筛选覆盖这些记录（US-Q09、US-Q12）。
@@ -192,20 +193,21 @@ sourcePath: "docs/user-stories/access-and-sessions/workspace.md"
 
 依据：
 
-- [应用外壳](../../../web/src/components/AppShell.svelte)、[侧栏](../../../web/src/components/AppSidebar.svelte)、[模式状态](../../../web/src/shell.svelte.ts)、[外壳浏览器用例](../../../web/test/browser/AppShell.test.ts)
-- [工作台导航树](../../../web/src/components/WorkbenchTree.svelte)、[侧栏仓库菜单](../../../web/src/components/SidebarRepositoryMenu.svelte)、[导航树浏览器用例](../../../web/test/browser/WorkbenchTree.test.ts)、[侧栏底部](../../../web/src/components/SidebarFooter.svelte)
-- [置顶状态](../../../web/src/session-pins.svelte.ts)、[服务端设置接口](../../../internal/api/settings.go)、[侧栏置顶端到端用例](../../../web/test/e2e/app-shell.spec.ts)
-- [会话切换面板](../../../web/src/components/SessionSwitcher.svelte)、[快速切换端到端用例](../../../web/test/e2e/session-switcher.spec.ts)
-- [显示方式](../../../web/src/components/SessionViewControls.svelte)、[范围端到端用例](../../../web/test/e2e/repository-scope.spec.ts)
-- [会话首页](../../../web/src/pages/SessionList.svelte)、[会话卡片](../../../web/src/components/SessionRow.svelte)、[启动配置预览解析](../../../web/src/launch-previews.svelte.ts)
-- [仓库分组](../../../web/src/components/RepositoryGroup.svelte)、[工作区分组](../../../web/src/components/WorkspaceGroup.svelte)、[列表事件更新](../../../web/src/session-list.ts)
-- [表单按需加载](../../../web/src/components/LazyDialog.svelte)
-- [目录线索与搜索](../../../web/src/session-location.ts)、[OSC 7 解析](../../../internal/session/osc.go)、[状态检测](../../../internal/session/status.go)
+- [应用外壳](../../../web/src/components/shell/AppShell.svelte)、[侧栏](../../../web/src/components/shell/AppSidebar.svelte)、[模式状态](../../../web/src/hooks/shared/shell.svelte.ts)、[外壳浏览器用例](../../../web/test/browser/AppShell.test.ts)
+- [工作台导航树](../../../web/src/components/shell/WorkbenchTree.svelte)、[侧栏仓库菜单](../../../web/src/components/shell/SidebarRepositoryMenu.svelte)、[导航树浏览器用例](../../../web/test/browser/WorkbenchTree.test.ts)、[侧栏底部](../../../web/src/components/shell/SidebarFooter.svelte)
+- [置顶状态](../../../web/src/domains/sessions/session-pins.svelte.ts)、[服务端设置接口](../../../internal/api/settings.go)、[侧栏置顶端到端用例](../../../web/test/e2e/app-shell.spec.ts)
+- [会话切换面板](../../../web/src/components/shell/SessionSwitcher.svelte)、[快速切换端到端用例](../../../web/test/e2e/session-switcher.spec.ts)
+- [显示方式](../../../web/src/components/terminal/SessionViewControls.svelte)、[范围端到端用例](../../../web/test/e2e/repository-scope.spec.ts)
+- [会话首页](../../../web/src/pages/SessionList.svelte)、[会话卡片](../../../web/src/components/sessions/SessionRow.svelte)、[启动配置预览解析](../../../web/src/domains/settings/launch-previews.svelte.ts)
+- [仓库分组](../../../web/src/components/workspace/RepositoryGroup.svelte)、[工作区分组](../../../web/src/components/workspace/WorkspaceGroup.svelte)、[列表事件更新](../../../web/src/hooks/sessions/session-list.ts)
+- [表单按需加载](../../../web/src/components/shared/LazyDialog.svelte)
+- [目录线索与搜索](../../../web/src/domains/sessions/session-location.ts)、[OSC 7 解析](../../../internal/session/osc.go)、[状态检测](../../../internal/session/status.go)
 - [介入提醒](../../../internal/session/attention.go)、[程序状态探测应答](../../../internal/session/input_write.go)、[附着探测过滤](../../../internal/attach/probe.go)
-- [设置](../../../web/src/pages/Settings.svelte)、[主题](../../../web/src/theme.ts)、[过渡样式](../../../web/src/styles.css)、[主题切换端到端用例](../../../web/test/e2e/theme.spec.ts)
-- [标签页指示](../../../web/src/browser-chrome.ts)、[终端状态接线](../../../web/src/hooks/terminal-socket.svelte.ts)、[指示浏览器用例](../../../web/test/browser/BrowserChrome.test.ts)
-- [指示端到端用例](../../../web/test/e2e/browser-chrome.spec.ts)、[推送与设置卡片](../../../web/src/push.ts)、[推送卡片](../../../web/src/components/PushSettings.svelte)
-- [页面内弹窗提醒](../../../web/src/components/AttentionToasts.svelte)、[弹窗状态跟踪](../../../web/src/attention-toast.svelte.ts)、[弹窗纯函数](../../../web/src/attention-toast.ts)、[弹窗浏览器用例](../../../web/test/browser/AttentionToasts.test.ts)
+- [设置](../../../web/src/pages/Settings.svelte)、[主题](../../../web/src/hooks/settings/theme.ts)、[过渡样式](../../../web/src/styles.css)、[主题切换端到端用例](../../../web/test/e2e/theme.spec.ts)
+- [标签页指示](../../../web/src/platform/browser-chrome.ts)、[终端状态接线](../../../web/src/hooks/terminal/terminal-socket.svelte.ts)、[指示浏览器用例](../../../web/test/browser/BrowserChrome.test.ts)
+- [指示端到端用例](../../../web/test/e2e/browser-chrome.spec.ts)、[推送与设置卡片](../../../web/src/platform/push.ts)、[推送卡片](../../../web/src/components/settings/PushSettings.svelte)
+- 弹窗提醒：[组件](../../../web/src/components/notifications/AttentionToasts.svelte)、[状态跟踪](../../../web/src/domains/notifications/attention-toast.svelte.ts)；
+  [纯函数](../../../web/src/domains/notifications/attention-toast.ts)、[浏览器用例](../../../web/test/browser/AttentionToasts.test.ts)。
 - [推送负载](../../../internal/push/alert.go)
-- [修改标题对话框](../../../web/src/components/RenameSessionDialog.svelte)、[标题浏览器用例](../../../web/test/browser/RenameSessionDialog.test.ts)、[重命名实现](../../../internal/session/manager.go)
+- [修改标题对话框](../../../web/src/components/sessions/RenameSessionDialog.svelte)、[标题浏览器用例](../../../web/test/browser/RenameSessionDialog.test.ts)、[重命名实现](../../../internal/session/manager.go)
 - [Service Worker](../../../web/public/sw.js)、[推送设置用例](../../../web/test/browser/PushSettings.test.ts)、[推送端到端用例](../../../web/test/e2e/push.spec.ts)。

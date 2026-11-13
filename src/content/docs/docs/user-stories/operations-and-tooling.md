@@ -24,7 +24,7 @@ sourcePath: "docs/user-stories/operations-and-tooling.md"
 - **US-K03 检查与覆盖配置**：作为部署者，我希望启动前检查配置并用命令行覆盖地址或 token，以便发现配置错误和临时调整运行环境。
   验收要点：
   - `config check`/`validate` 校验而不启动服务，TOML 语法错误带行列号，可输出 JSON；
-  - `config show` 只读查看磁盘配置，`--live` 查看已验证运行进程的内存快照；
+  - `config show` 只读查看磁盘配置，`--live` 查看已验证运行进程的内存快照（含 `[p2p]` 等网页覆盖后的生效值与各字段来源）；
   - 不可达报错、不回退磁盘，凭据仅输出是否配置；
   - 字段显式默认值仍保留来源且不含 token；
   - 显式指定缺失文件时报错且不会创建，默认文件缺失时 `config show`/`validate` 仍按默认值工作，只有 `serve` / `start` 会自动生成；
@@ -34,6 +34,8 @@ sourcePath: "docs/user-stories/operations-and-tooling.md"
   验收要点：
   - 支持 `default_cwd`、`scrollback_bytes`、`idle_after_seconds`、`prompt_patterns`、`agent_protocol`、`bell_attention`、`program_status`、`agent_pretrust`，校验正则；
   - 启动命令完全通过自定义配置或显式 argv 提供，原 `shell`/`presets` 配置项不再提供内置命令，新安装首次启动在 `launch-configs.json` 写入常见 agent 预设；
+  - `history_capture` 默认开启，可在 TOML 全局关闭规范化正文和历史/交接入口；诊断显示生效值，旧正文与未决投递保护继续保留；
+  - `handoff_token_cap` 默认 16000，校验范围 1024–64000，限制交接历史保守预算；实际预算仍受上下文窗口和 prompt 上限约束；
   - 提醒集成方式见 [使用指南](../usage/attention.md)。
 - **US-K05 安装后台用户服务**：作为部署者，我希望以当前用户安装并启动后台服务，以便不需要一直开着前台终端。
   验收要点：
@@ -143,9 +145,9 @@ sourcePath: "docs/user-stories/operations-and-tooling.md"
 - [更新命令](../../cmd/webmux/updatecmd.go)、[签名与更新](../../internal/update/)、[自动更新单元](../../deploy/linux/webmux-update.service)、[定时器](../../deploy/linux/webmux-update.timer)
 - [安装脚本](../../deploy/linux/postinstall.sh)、[自动更新说明](../deployment/updates.md)
 - [通道文件](../../internal/update/channel_unix.go)、[通道命令](../../cmd/webmux/updatecmd.go)
-- [已安装版本识别](../../internal/update/installed.go)、[状态输出](../../internal/clicmd/status.go)、[待生效提示组件](../../web/src/components/PendingUpdateNotice.svelte)
-- [提示逻辑](../../web/src/pending-update.ts)、[提示用例](../../web/test/pending-update.test.ts)
-- [部署指南](../deployment.md)、[设置页](../../web/src/pages/Settings.svelte)、[设置导航](../../web/src/components/SettingsNavigation.svelte)
+- [已安装版本识别](../../internal/update/installed.go)、[状态输出](../../internal/clicmd/status.go)、[待生效提示组件](../../web/src/components/notifications/PendingUpdateNotice.svelte)
+- [提示逻辑](../../web/src/platform/pending-update.ts)、[提示用例](../../web/test/pending-update.test.ts)
+- [部署指南](../deployment.md)、[设置页](../../web/src/pages/Settings.svelte)、[设置导航](../../web/src/components/settings/SettingsNavigation.svelte)
 - [导航浏览器回归](../../web/test/browser/SettingsNavigation.test.ts)。
 
 ## L. 开发、验证与发布支持
@@ -154,7 +156,7 @@ sourcePath: "docs/user-stories/operations-and-tooling.md"
 
 - **US-L01 本地开发与构建**：作为贡献者，我希望使用统一命令安装锁定依赖、运行前端和构建内嵌程序，以便复现开发与发布环境。
   验收要点：
-  - CI 和发布构建使用 `go.mod` 固定的 Go 1.26.10 工具链；
+  - CI 和发布构建使用 `go.mod` 固定的 Go 1.27.4 工具链；
   - 本地与 CI 使用 `.nvmrc` 固定的 Node.js 26.13.0；
   - 本地通过官方独立脚本安装 pnpm 12.18.0，CI 使用 pnpm/action-setup；
   - 使用 pnpm frozen lockfile；
@@ -163,9 +165,12 @@ sourcePath: "docs/user-stories/operations-and-tooling.md"
   - CI 将 pnpm store、Go 模块与 Go 构建/测试缓存分开，构建缓存使用按周滚动且随模块文件变化的 key 在 `main` 刷新。
 - **US-L02 分层验证与诊断**：作为贡献者，我希望运行 Go race、前端单元、浏览器与隔离 E2E 测试，以便验证会话、安全和交互行为。
   验收要点：
+  - agent 本地验证必须并发启动互不依赖的检查并收集所有退出结果，优先使用已有并行 Make 入口，详见 [本地验证规则](../agent-rules/testing.md#agent-local-validation)；
+  - 共享产物先构建再消费，性能测试独占执行；因资源竞争降低并发或串行运行时说明具体原因，已通过的检查仅在后续变更、失败或未解决问题影响其结论时重跑；
   - 提供 `make test` 完整门禁与 `make test-fast` 快速入口、类型/格式/lint 检查；
   - 提供 `make cover`（`cover-go`、`cover-web`）与 CI 覆盖率报告：Go race 采集 atomic 语句覆盖率（排除测试守卫与假 agent 包）并输出包级摘要与 HTML，前端合并 Vitest Node 单元与 Chromium 浏览器组件测试的 V8 覆盖率，写入 `$GITHUB_STEP_SUMMARY` 并上传报告产物；
-  - `make test` 一次构建前端与 E2E 程序供 E2E/性能复用，本地默认最多 2 个 E2E worker（`WEBMUX_E2E_WORKERS` 可覆盖，CI 为 2 个），Go 默认 `-parallel=4`（`GO_TEST_PARALLEL` 可调）；
+  - `make test` 一次构建前端与 E2E 程序供 E2E/性能复用，本地先并行运行 Go 与 Vitest，再并行运行 Storybook 与 E2E，性能套件随后单独运行；`make test-fast` 并行运行 Go 与 Vitest；
+  - 本地 Vitest 浏览器、E2E、Storybook 按可用并行度分别最多 4、8、6 个 worker（`WEBMUX_E2E_WORKERS` 可覆盖 E2E，CI 为 2 个），Go 默认 `-parallel=4`（`GO_TEST_PARALLEL` 可调）；
   - Go 采用 Uber Style Guide 与登记的仓库例外，`make check` 和 CI 在前端构建后执行 `go vet ./...`（CI 另以 `GOOS=darwin` 检查 macOS 构建）及固定 v2.15.0 的 golangci-lint（errcheck/govet/ineffassign/staticcheck/unused），生产零告警，测试仅冻结 errcheck，新增代码零新增告警，豁免只能收紧；
   - CI 先由 `Classify changes` job 按路径裁剪：仅文档变更只跑格式、文档、持久化与 agent/web 静态守卫，仅 Go 变更跳过前端套件，仅前端变更跳过 Go race 与 Windows 交叉编译，未知路径和工具/依赖变更全量运行；Go wire 快照同时触发前端 Zod 契约测试，分类脚本有独立路径用例；
   - 每次推送到 `main` 都强制完整运行（跳过分类），供发版复用；GitHub 并发组只保留一个待运行，密集合并仍可能取消中间提交的待运行，该提交发版时回退完整重跑；
@@ -178,6 +183,7 @@ sourcePath: "docs/user-stories/operations-and-tooling.md"
   - E2E 使用独立后端、目录、端口与假 agent 会话库（假 agent 位于后端 `PATH` 首位，混合会话用例由它驱动），等待隔离 Shell 提示符就绪后输入命令；
   - 失败有报告与 trace；
   - 测试不连接现有开发服务；在外层 WebMux 中运行时清除继承的会话标记，依赖真实外部父进程的少量集成用例明确跳过，而不是把外层会话误判为测试服务器所有；
+  - Codex 混合会话夹具清空继承的 `CODEX_PATH`，从夹具自己的 `PATH` 查找假 agent；往返测试用无效宿主路径验证不会误用真实 Codex；
   - PTY 取消写入测试由子进程真实 drain 后断言后续写入成功，attach 取消统一返回 `context.Canceled`，Codex 启动静默期前提失效时失败而非跳过核心断言。
 - **US-L03 预览 UI 与生成证据**：作为贡献者，我希望用真实组件预览极端内容、明暗主题和屏幕尺寸，以便发现溢出并为 UI 变更提供证据。
   验收要点：
@@ -196,6 +202,7 @@ sourcePath: "docs/user-stories/operations-and-tooling.md"
   - `make release` 禁用 CGO，构建 Linux/macOS 服务及 Windows CLI/托盘双架构产物，嵌入服务摘要并生成 SHA256SUMS；
   - `make tray` 可单独构建托盘；
   - 发版先由 `verify` 查找标签提交在 `main` 上完整通过的 `push` Test 运行并复用；不在 `main`、无运行、失败、有跳过作业或等待超时则 `Checks` 以 `full: true` 完整重跑，两者都未通过时不签名、不发布；
+  - 正式版与开发版安装 NSIS 时使用独立的 kernel.org Ubuntu HTTPS 镜像源，保留 Ubuntu 归档签名校验，不修改 runner 全局源；索引下载失败立即终止构建，不使用旧索引继续安装。
   - 现有 CI 执行相应质量检查。
 - **US-L05 分层架构约束**：作为贡献者，我希望 Controller 与 Service 的边界和线上 JSON 形状由测试守住，以便越界依赖或协议漂移在 `go test` 中就被发现，而不是靠评审。
   验收要点：
@@ -207,6 +214,8 @@ sourcePath: "docs/user-stories/operations-and-tooling.md"
   验收要点：
   - `pnpm --dir web check:arch` 依次运行 ESLint（`@shadcn/lint` 与 Svelte 模板规则）、dependency-cruiser、jscpd、knip 与 Vitest 架构测试，`make check` 与 CI 的格式/构建 job 同样执行；
   - 报错说明应复用的组件、size/variant 或主题令牌；
+  - 源码按契约、基础设施、领域主题、hooks、组件与页面分层；根目录只保留入口、声明与全局样式，领域模块、hooks 与组件必须有主题归属；
+  - 依赖规则同时约束运行时与 type-only 导入，拒绝反向依赖、主题间循环与失效导入；临时真实模块样例验证允许和拒绝路径，迁移不保留旧路径垫片；
   - 圆角只允许设计系统刻度（标签 sm、控件 md、内容容器 lg，`rounded-xl` 仅限 Dialog/AlertDialog/Drawer 弹层），裸 `rounded`、`rounded-2xl` 以上与 CSS 固定像素圆角会列出文件位置；
   - 提交的基线为空，任何违规都会失败；
   - 引入带存量违规的新规则时可先记录基线，`arch:ratchet` 只删除已修复的记录；
