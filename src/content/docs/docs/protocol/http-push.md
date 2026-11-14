@@ -1,8 +1,10 @@
 ---
 title: "HTTP API：注意力推送（Web Push）"
-description: "reason 取值：disabled（[push] enabled = false）、storage（/push.json 不可读写）、quicktunnel（地址每次启动都会变化，请改用 Cloudflare Named Tunnel 或 Tailscale Serve/Funnel 等稳定 H…"
+description: "需要选择 notifications，否则本页路由返回 404，不打开订阅与 VAPID 存储；已选择时仍受 [push].enabled、来源及存储可用性限制。终端注意力识别属于核心，不依赖 Web Push。"
 sourcePath: "docs/protocol/http-push.md"
 ---
+需要选择 `notifications`，否则本页路由返回 404，不打开订阅与 VAPID 存储；已选择时仍受 `[push].enabled`、来源及存储可用性限制。终端注意力识别属于核心，不依赖 Web Push。
+
 ## 注意力推送（Web Push）
 
 | 方法   | 路径                           | 说明                                                                                                                                                                                                              |
