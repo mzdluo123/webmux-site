@@ -118,6 +118,11 @@
         "depth": 1
       },
       {
+        "label": "Git 工作台",
+        "link": "/docs/usage/git-workbench/",
+        "depth": 1
+      },
+      {
         "label": "从本机终端使用",
         "link": "/docs/usage/command-line/",
         "depth": 1
@@ -130,6 +135,11 @@
       {
         "label": "移动端使用",
         "link": "/docs/usage/mobile/",
+        "depth": 1
+      },
+      {
+        "label": "头显与 TV 浏览器",
+        "link": "/docs/usage/xr-and-tv/",
         "depth": 1
       },
       {

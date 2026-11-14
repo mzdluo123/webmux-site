@@ -16,6 +16,9 @@ sourcePath: "docs/persistence.md"
 | bootstrap           | config.toml              | none                          | internal/config + cmd/webmux | 配置错误阻止启动      | 否       |
 | launch              | launch-configs.json      | launch-configs.json.lock      | internal/launch              | unavailable           | 是       |
 | repositories        | repositories.json        | repositories.json.lock        | internal/workspace           | unavailable           | 是       |
+| git-operations      | git-operations.json      | git-operations.json.lock      | internal/workspace           | unavailable           | 是       |
+| git-task-baselines  | git-task-baselines.json  | git-task-baselines.json.lock  | internal/workspace           | unavailable           | 是       |
+| git-workbench-state | git-workbench-state.json | git-workbench-state.json.lock | internal/workspace           | unavailable           | 是       |
 | tunnel              | tunnel-settings.json     | tunnel-settings.json.lock     | internal/tunnelsettings      | fail_closed           | 是       |
 | tailscale-settings  | tailscale-settings.json  | tailscale-settings.json.lock  | internal/tailscalesettings   | fail_closed           | 是       |
 | voice-settings      | voice-settings.json      | voice-settings.json.lock      | internal/voicesettings       | fail_closed           | 是       |
@@ -71,7 +74,20 @@ ACP 聊天的规范化消息与工具内容在 UI 截断前保存为完整 Activ
 ## 统一行为与故障隔离
 
 - 每个 JSON 存储通过 `statefile.Open[T]` 取得注册 handle 和独立生命周期锁；数据与锁均为 0600、目录 0700。正常关闭显式解锁但不删除锁文件。`state_dir` 可为指向真实目录的符号链接；数据文件与锁自身仍拒绝符号链接。
-- 每个 JSON 存储都有条数与字节双重上限：写入前用 `Handle.Fits` 判断，超限时淘汰可丢弃的记录（hybrid 记录、agent 选项缓存）或以无效输入拒绝（启动配置、仓库登记），不会让存储进入 `TooLarge` 失败。延迟合并写入失败时记录错误日志，I/O 类失败每 30 秒重试。
+- 每个 JSON 存储都有条数与字节双重上限：写入前用 `Handle.Fits` 判断，超限时淘汰可丢弃的记录（hybrid 记录、agent 选项缓存、已终结的 Git 操作记录）或以无效输入拒绝（启动配置、仓库登记），不会让存储进入 `TooLarge` 失败。延迟合并写入失败时记录错误日志，I/O 类失败每 30 秒重试。
+- `git-operations.json` 记录受控 Git 写操作的实例状态、幂等键与脱敏输出摘要：
+  - 覆盖基础与序列操作（`commit`、`push`、`fetch`、`fast_forward`、`switch`、`merge`、`rebase`、`cherry_pick`、`revert`、`continue`、`abort`）；
+  - 覆盖贮藏、受控丢弃与智能切换等操作（`stash_push`、`stash_apply`、`stash_pop`、`stash_drop`、`discard`、`smart_checkout`、`branch_rename`、`branch_upstream`、`tag_create`、`tag_delete`、`remote_add`、`remote_update`、`remote_remove`）；
+  - 单条输出上限 4 KiB，单库最多 100 条、全局最多 1000 条、已终结记录保留 7 天，且整体受 2 MiB `Fits` 上界约束；
+  - 移除仓库登记时同步清理该仓库记录，不保存环境变量、原始凭据、Diff 或文件正文；
+  - 服务启动时对遗留的 `pending`/`running` 条目结合本地 reflog、分支/标签/`refs/stash` 引用、远程配置、`.git/MERGE_HEAD` / `rebase-merge` / `CHERRY_PICK_HEAD` / `REVERT_HEAD` 与恢复锚点 `refs/webmux/recovery/<worktreeId>/<kind>` 执行只读对账，绝不自动重试或 `git reset`。
+- `git-task-baselines.json` 记录各工作树的固定任务审阅基线（`baselineId`、`repositoryId`、`worktreeId`、`worktreePath`、`baseOid` / `unborn`、`capturedAt`、`source`、`cleanAtStart` 与启动前脏改动计数摘要）：
+  - 新建工作树或显式设定任务起点时写入并同步维护仓库私有保护引用 `refs/webmux/baselines/<worktreeId>`（`unborn` 基线不伪造空 OID 且不保留旧引用），全局最多 2000 条并受 2 MiB `Fits` 上界约束；
+  - 归档单个会话不删除基线；工作树移除（`remove`、`batch-remove`、`release`）、仓库取消登记（`DELETE /api/repositories/{id}`）或显式清除（`DELETE .../task-baseline`）时同步清理记录与私有引用，不保存文件或 Diff 正文。
+- `git-workbench-state.json` 记录各工作树的跨设备提交草稿与绑定内容身份的已审阅标记（整体受 2 MiB `Fits` 上界约束）：
+  - 提交草稿保存 `revision`、`subject`、`body` 与 `updatedAt`（单工作树草稿上限 32 KiB）；已审阅标记保存 `scope`、`area`、`path`、`oldPath`、两侧模式与 blob OID / SHA-256 摘要（单工作树最多 1000 条标记、全局最多 500 个工作树）；
+  - 提交草稿仅在真实提交成功落盘（`ExecuteCommit` 或启动对账确认为 `matched` / `needs_review`）后清空，预览过期、钩子报错、`uncertain` 或取消推送均保留草稿，且应用日志从不记录草稿正文；
+  - 工作树移除（`remove`、`batch-remove`、`release`）或仓库取消登记（`DELETE /api/repositories/{id}`）时同步清理该工作树或仓库的草稿与审阅记录。
 - 读取有大小限制，拒绝符号链接、非普通文件、重复/未知/大小写变体键、缺失必需字段、非法 UTF-8、错误版本、尾随值与过深嵌套。损坏原文件保留。
 - Commit 和 Remove 强制目录同步。发布前失败保留旧状态；发布后同步失败报告 `commit_uncertain` 并冻结写入，不广播成功、不用旧内存覆盖已发布文件。
 - `unavailable` 只禁用对应功能；push 不再改名重建密钥。首次确认文件不存在时仍可初始化。
@@ -85,7 +101,7 @@ ACP 聊天的规范化消息与工具内容在 UI 截断前保存为完整 Activ
 - 外部 agent 的锁与 Claude 进程注册记录不属于 WebMux 存储；适配器只进行有界只读核对，不创建或修改这些文件，也不把路径、记录正文或进程事实写入 WebMux 状态。
 - Kimi ACP 会话切到 TUI 前是写入例外：适配器只把当前会话 `wire.jsonl` 的 `acp:<会话ID>` 环境绑定改为 `local`，避免 2.5.2 工具注册丢失。首次修改保留 `wire.jsonl.before-local-binding` 备份，临时文件原子替换，其他事件不变；这不属于 WebMux 存储。
 - 例外是 `agent_pretrust`（默认开启），见 [CLI agent 接入](cli-agents.md#文件夹信任预写)：
-  - 启动 Claude Code、Codex、Copilot CLI、Antigravity CLI、Qoder 或 QoderCN 会话前，`internal/agenttrust` 在该 agent 自己的配置文件里追加启动目录的“信任此文件夹”记录。
+  - 启动 Claude Code、Codex、Copilot CLI、Antigravity CLI、Qoder、QoderCN 或 Devin 会话前，`internal/agenttrust` 在该 agent 自己的配置文件里追加启动目录的“信任此文件夹”记录；Devin 的文件缺失时连父目录一起创建为最小 JSON。
   - 启动 Kimi 时改为注入进程级 `KIMI_CODE_TRUST_WORKSPACE=1`。
   - 配置写入走临时文件加改名，保留原权限与其他内容。
   - 不触碰 WebMux 状态目录；Kimi 不写持久信任记录。

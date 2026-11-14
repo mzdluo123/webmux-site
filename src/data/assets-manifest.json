@@ -1,7 +1,7 @@
 {
   "repo": "mzdluo123/webmux",
-  "ref": "v0.15.0",
-  "commit": "56594cba391ff78fe58601fde402b17cbcb35439",
+  "ref": "v0.15.1",
+  "commit": "9fc770ebc48ac0f532051628adc927a651bce561",
   "files": [
     {
       "source": "docs/images/brand/webmux-logo-light.svg",
@@ -182,6 +182,11 @@
       "source": "web/src/icons/lobehub/cursor.svg",
       "dest": "src/assets/agents/cursor.svg",
       "sha256": "c39ee63dd6a38a9856bd97a1dcb863023eed2b353b9709742e000c8ac90d91d7"
+    },
+    {
+      "source": "web/src/icons/lobehub/devin.svg",
+      "dest": "src/assets/agents/devin.svg",
+      "sha256": "ffb1cdf4ad2c1d5a7c72678d170ae5000e17bfa4a9b818111cd46c467fadc161"
     },
     {
       "source": "web/src/icons/lobehub/geminicli.svg",

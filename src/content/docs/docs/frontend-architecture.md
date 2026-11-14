@@ -54,17 +54,30 @@ pnpm --dir web check:arch    # 全部架构检查；make check 与 CI 也会运�
 
 迁移文件时必须同时更新测试 mock、Storybook、worker URL、工具配置与文档链接；旧路径不保留垫片。
 
+### XR 与设备模式边界
+
+- `hooks/shared/` 拥有 TV/头显显式开关、设备偏好和 TV 导航生命周期；`platform/spatial-navigation.ts` 只计算几何候选。根属性由应用外壳设置，呈现使用共享设计系统令牌，不由设备 UA 推断业务模式。
+- 复合控件用 `data-tv-native-keys` 保留自己的键盘协议；聊天内联菜单在 `webmux:tv-back` 的 capture 阶段，仅消费自己拥有焦点时的返回，再由根导航释放编辑。
+- `hooks/terminal/terminal.svelte.ts` 的 `TerminalController` 保有唯一 xterm emulator、输入路由与 socket。DOM renderer 和 XR Canvas 共用这个解析模型；`setImmersive` 暂停 DOM 适配，退出后恢复，不建立第二个 PTY 或输入控制器。
+- `domains/terminal/` 放共享按键编码、XR 文本/面板契约与布局校验；`domains/code/` 放代码/Diff 的只读 XR 适配。`hooks/terminal/` 协调会话来源、异步 XR 所有权、Canvas、射线、场景与资源清理，不让领域依赖渲染层。
+- Three.js 运行时只允许在 XR 专属 `hooks/terminal/xr-*` 场景模块中导入。`xr-session.svelte.ts` 在用户手势请求会话后动态导入 `xr-workspace.ts`；普通页面与领域契约不得静态导入该场景入口或初始化 3D renderer。
+- XR 布局经版本化 Zod 校验并通过设备偏好存储，只含面板 ID、类型、会话引用、位置、尺寸与可见性。拖动/缩放结束才写入；不保存标题、输出、草稿、代码或 token，不进入设置 API 与同步帧。
+
+XR 面板姿态、纹理尺寸与每眼帧缓冲只影响呈现；PTY 网格仍由共享控制权流程管理，只有用户明确确认逻辑网格变化才可提交 resize。返回 2D、关闭面板和 XR 资源清理均不拥有服务端会话销毁权。
+
+同深度 XR 面板按统一表面顺序绘制和命中；终端子平面与所属面板共面，使用组内顺序覆盖背景。真实前后关系仍交给深度测试，控制器射线单独置顶，不用改变持久化姿态解决遮挡。
+
 ## 检查项
 
-| 命令          | 工具                    | 检查内容                                                                                                                                          |
-| ------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `arch:lint`   | ESLint + `@shadcn/lint` | 用 class 覆盖组件外观、原始调色板颜色、任意值、内联样式、未知类名、动态类名；手写原生控件；在 `ui/` 外导入原语、变体工具或 `@tabler/icons-svelte` |
-| `arch:deps`   | dependency-cruiser      | 分层、领域依赖白名单、type-only 越界、循环依赖、孤立模块与无法解析的导入                                                                          |
-| `arch:dupes`  | jscpd                   | 新增的复制粘贴代码块                                                                                                                              |
-| `arch:unused` | knip                    | 从入口不可达的文件、未使用的依赖、导出与类型，重复导出                                                                                            |
-| `arch:test`   | Vitest                  | 目录归属、同名组件、重复外观类、圆角、命名与文件大小；真实导入样例验证合法依赖、反向依赖、type-only、循环与旧路径拒绝                             |
+| 命令          | 工具                     | 检查内容                                                                                                                                          |
+| ------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `arch:lint`   | ESLint + `@shadcn/lint`  | 用 class 覆盖组件外观、原始调色板颜色、任意值、内联样式、未知类名、动态类名；手写原生控件；在 `ui/` 外导入原语、变体工具或 `@tabler/icons-svelte` |
+| `arch:deps`   | dependency-cruiser       | 分层、领域依赖白名单、type-only 越界、循环依赖、孤立模块与无法解析的导入                                                                          |
+| `arch:dupes`  | jscpd                    | 新增的复制粘贴代码块                                                                                                                              |
+| `arch:unused` | knip                     | 从入口不可达的文件、未使用的依赖、导出与类型，重复导出                                                                                            |
+| `arch:test`   | Vite+ `vp test` (Vitest) | 目录归属、同名组件、重复外观类、圆角、命名与文件大小；真实导入样例验证合法依赖、反向依赖、type-only、循环与旧路径拒绝                             |
 
-Oxlint（`pnpm --dir web lint`）仍是通用 lint。它只读取 `.svelte` 的 `<script>`，所以模板相关规则由只加载架构规则的 ESLint 执行。
+Vite+ 的 Oxlint（`pnpm --dir web lint`，即 `vp lint`）负责通用 lint。它只读取 `.svelte` 的 `<script>`，模板相关规则仍由 ESLint 的架构与 Svelte 模板规则检查。
 
 `test/dependency-policy.test.ts` 在临时目录生成独立的 TypeScript/Svelte 模块，调用实际 dependency-cruiser 配置并核对允许与拒绝结果；不以匹配配置文本替代依赖分析。`test/architecture.test.ts` 直接扫描生产树，阻止业务文件重新堆入根目录或无主题的组件、hooks 目录。
 
@@ -77,7 +90,9 @@ Oxlint（`pnpm --dir web lint`）仍是通用 lint。它只读取 `.svelte` 的 
 | `CardTitle`                                                                                                                                                                         | 排版（不含字重）            | 标题字号随所在区域变化                                                         |
 | `CardContent`、`TabsContent`、`CommandList`、`ItemGroup`、`ItemActions`、`Collapsible`、`CollapsibleContent`、`DialogContent`、`DialogHeader`、`PopoverContent`、`ResponsiveDialog` | 内边距与间距                | 内容区域的留白取决于放入的内容，组件本身不规定                                 |
 | `CollapsibleTrigger`、`PopoverTrigger`                                                                                                                                              | 全部外观                    | bits-ui 原语，设计系统没有给它们任何样式；需要按钮外观时用 `child` 渲染 Button |
-| `Pane`、`ResizableHandle`                                                                                                                                                           | `styles.css` 中的布局钩子类 | 终端、草稿与代码分栏的显示和尺寸由响应式 CSS 控制                              |
+| `Pane`、`ResizableHandle`                                                                                                                                                           | `styles.css` 中的布局钩子类 | 终端、草稿、代码与 Git 分栏的显示和尺寸由响应式 CSS 控制                       |
+
+Git 工作台分栏使用 `git-pane` 与 `git-divider` 布局钩子类，只在样式表中表达分栏尺寸与 1px 分隔线。
 
 组件需要由样式表控制布局时，优先用 `data-*` 属性作为选择器（如 `DirectoryPicker` 的 `data-directory-picker`），只在样式表中写布局；外观仍通过 variant 表达。
 
@@ -113,6 +128,8 @@ Oxlint（`pnpm --dir web lint`）仍是通用 lint。它只读取 `.svelte` 的 
 | `Checkbox`          | —                                                           | 复选框，配合 `Label` 使用                                                                                                                                                                       |
 | `ListButton`        | `row` / `text` / `content` / `option` / `tab` / `tab-close` | 列表、标签栏与卡片中的可点击区域。它不带控件尺寸，虚拟列表的固定行高不受影响；独立的操作按钮仍用 `Button`                                                                                       |
 | `ListButton`        | `navigation` / `navigation-action` / `file-tree-overlay`    | 侧栏导航行：`aria-pressed` 标记选中的筛选，`aria-current="page"` 标记当前页面；后两者用于带行尾操作按钮的侧栏行，见表下说明                                                                     |
+| `ListButton`        | `variant="review-toggle"`                                   | 常驻行内审阅图标；32px、紧凑触控 36px，aria-pressed 仅改变主题文字色，不绘制边框或填充选中块。                                                                                                  |
+| `ListButton`        | `variant="compact-row"` / `variant="file-tree-action"`      | Git 工作台紧凑选中行（`rounded-sm`，浅主题底色与左侧细线）及其行尾动作按钮（窄屏与触屏常驻、桌面悬停/聚焦显示）                                                                                 |
 | `ChatSelect`        | `labeled`、`searchable`                                     | 输入框下方的选择：`labeled` 同时显示当前值文字（快速开始的仓库与 agent），`searchable` 用可搜索面板筛选模型选项；带 `reason` 的选项保留在菜单中并禁用；基准分支改用可搜索的 `BranchCommandList` |
 
 `ListButton` 的 `navigation-action`（聊天历史）与 `file-tree-overlay`（工作台树）在鼠标设备上不为行尾操作按钮留空位：按钮在悬停、聚焦或菜单打开时覆盖行尾的状态圆点或计数（这些标记加上 `sidebar-row.ts` 的 `underRowAction` 让位）；触屏上留出按钮位置，按钮常驻。
@@ -151,3 +168,5 @@ Oxlint（`pnpm --dir web lint`）仍是通用 lint。它只读取 `.svelte` 的 
 - 不要为了通过检查而扩大基线、添加 `eslint-disable` 或 `jscpd:ignore`。确有必要的例外，在 PR 中说明原因，并优先改为配置中的契约或白名单。
 
 治理过程与每批的决策记录见 OpenSpec 变更 `frontend-architecture-guard`。
+
+紧凑列表使用 `compact-row`，折叠头使用 `section-header`，来源槽位使用 `provenance-gutter`，可选择差异行使用 `diff-line`；焦点统一消费 ring。
