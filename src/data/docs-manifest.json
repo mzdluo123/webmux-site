@@ -1,7 +1,7 @@
 {
   "repo": "mzdluo123/webmux",
   "ref": "v0.18.0",
-  "commit": "76e97971bb6f24e3218e8b7bbb5921a705d126a9",
+  "commit": "c0f9d3f15514412fe37c7ba57abe88c5fb21d8db",
   "latestRelease": "v0.18.0",
   "fallbackToMain": false,
   "docs": [
@@ -27,7 +27,7 @@
       "source": "docs/architecture.md",
       "url": "/docs/architecture/",
       "titleAnchor": "架构设计",
-      "sha256": "2fc8da5865f3cb844bffce35113260bf6e8f290747fd8d4e4ceb813b60d03544"
+      "sha256": "99ac9ae3db6edb776ef16d10a9a6333b21f8bd3c1d20949c689aa248d6e49368"
     },
     {
       "source": "docs/architecture/layers.md",
@@ -75,13 +75,13 @@
       "source": "docs/deployment/configuration.md",
       "url": "/docs/deployment/configuration/",
       "titleAnchor": "配置",
-      "sha256": "211a3ba3f3850e6e6d05677c5e39661e2a7a385cc66535006da41097f0adb7d7"
+      "sha256": "e1b6a435ba5ccf39ea61c2c84c456a8b46531317f4a8b8ef1ad0ea37500d813e"
     },
     {
       "source": "docs/deployment/install-and-upgrade.md",
       "url": "/docs/deployment/install-and-upgrade/",
       "titleAnchor": "安装与升级",
-      "sha256": "3ee4c32f4c35bfc0dd84e6b10b351d57cc5dede8695f028532fb71284df2ddcf"
+      "sha256": "7302f6ef81bdd43858c294d63122becec8dc384f55ec28d34e15ff386f12b0a2"
     },
     {
       "source": "docs/deployment/official-relay.md",
@@ -129,7 +129,7 @@
       "source": "docs/faq.md",
       "url": "/docs/faq/",
       "titleAnchor": "常见问题与获取帮助",
-      "sha256": "7e1f0afc87430bd99b3dcd341bfc5f48a35b2653b7cc839f0ca6f601b9bbe97f"
+      "sha256": "47200549fd167cbfa079471fb831a990e3c5115b040eb00013794c416b2abe52"
     },
     {
       "source": "docs/frontend-architecture.md",
@@ -189,7 +189,7 @@
       "source": "docs/overview.md",
       "url": "/docs/overview/",
       "titleAnchor": "项目介绍",
-      "sha256": "a1789a6327656f8313e6a3cce980bfe1e2b821de4dce3ea3461bba4d39ab2cbe"
+      "sha256": "472b466df2c1a9b1f5f883e8ef9fc2bb15df877bceb36502fff3d1c9edaa0a00"
     },
     {
       "source": "docs/page-performance.md",
@@ -207,7 +207,7 @@
       "source": "docs/persistence.md",
       "url": "/docs/persistence/",
       "titleAnchor": "配置与持久化清单",
-      "sha256": "b640788635cbdcdbcccff06c30cea00b1a8e7d5499777e23c1edee0f82ba9df0"
+      "sha256": "31178b20a540a9fd9828c698c6b2fbfc7c8026b6c0efe18395d691d902b5b11b"
     },
     {
       "source": "docs/protocol.md",
@@ -423,7 +423,7 @@
       "source": "docs/usage/sessions.md",
       "url": "/docs/usage/sessions/",
       "titleAnchor": "会话与工作台",
-      "sha256": "6085309147e78d2bd23fa877322b7b1e4750b1f6fe55b619418f1db389053bdc"
+      "sha256": "14797d89d3d858bdc296eceaeb15050053b998104b6ab8f00a7a10d16051ad35"
     },
     {
       "source": "docs/usage/shell-control.md",
@@ -453,7 +453,7 @@
       "source": "docs/user-stories.md",
       "url": "/docs/user-stories/",
       "titleAnchor": "webmux-user-stories",
-      "sha256": "c88368c4bdb91a85ee2c22139bbe2175a08b0d895546f9b737bccfa5562af8c2"
+      "sha256": "4306fff61805296270e68b9b2b6820b9e32a1e44e67bf6d6c9e0dafc0e4c7e6a"
     },
     {
       "source": "docs/user-stories/access-and-sessions.md",
@@ -471,7 +471,7 @@
       "source": "docs/user-stories/access-and-sessions/workspace.md",
       "url": "/docs/user-stories/access-and-sessions/workspace/",
       "titleAnchor": "会话总览搜索与提醒",
-      "sha256": "d222fd1a5e61d345275349efcee113f6562032a47f419c1c7601e4a4905ff89f"
+      "sha256": "a3909edf4e80f76eb806ba33172099e94b1dae4bd9d5c74d3cf0604dedbf79fa"
     },
     {
       "source": "docs/user-stories/clients-network-tray.md",
@@ -519,7 +519,7 @@
       "source": "docs/user-stories/coverage.md",
       "url": "/docs/user-stories/coverage/",
       "titleAnchor": "功能覆盖核对与后续维护",
-      "sha256": "8ca4a16c1518887d1bffac3c629ec265f8b0c363d1f103c114deb332c0da8e71"
+      "sha256": "479229325ea5aef4cd32f426f6e83420470aa8b9ccaaa21ef1a5d93ff629132a"
     },
     {
       "source": "docs/user-stories/hybrid-sessions.md",
@@ -561,7 +561,7 @@
       "source": "docs/user-stories/operations-and-tooling/operations.md",
       "url": "/docs/user-stories/operations-and-tooling/operations/",
       "titleAnchor": "配置运行与服务管理",
-      "sha256": "0e9577abb8c7f644c20ac0469943a50c69e4b8c2140366c844181d332916e638"
+      "sha256": "ad432879edc6a199da48828e240a687017c079d58baea1024e2647af78338df5"
     },
     {
       "source": "docs/user-stories/operations-and-tooling/tooling.md",
