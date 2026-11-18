@@ -7,8 +7,10 @@ sourcePath: "docs/user-stories/code-and-worktrees.md"
 
 - **US-I01 边用终端边看代码**：作为遥控开发任务的使用者，我希望在会话旁打开代码工作区，以便核对 agent 的工作而不离开终端。
   验收要点：
-  - 宽屏并排且可调整分栏；
-  - 窄屏切换终端与代码；
+  - 点击“打开面板”先呈现选择页（桌面为右侧栏页面，窄于 640px 的视口为底部抽屉），选择“代码”后以代码工作区替换侧栏内容，而非打开下拉菜单；
+  - 代码工作区保持原有布局，不增加侧栏头部；再次点击会话页右上角“打开面板”重新呈现选择页，通过桌面选择页或手机抽屉的“关闭侧栏面板”关闭整个侧栏；
+  - 返回选择页或切换面板不会销毁代码工作区已打开的文件标签与阅读位置；
+  - 宽屏并排且可调整分栏，窄屏切换终端与代码；
   - 导航开关、文件标签、单文件历史与逐行 Blame 入口、“在 Git 中查看”（后两者在会话绑定已登记 Git 仓库时显示）、刷新全部与独立窗口同在一行，根路径与导航状态提示在导航面板顶部；
   - 代码导航可折叠、调整宽度；
   - 窄于 640px 时文档栏操作收进“代码菜单”（显示完整路径），文档提示仍直接显示，Diff 内容区不少于 393×851 视口高度的 70%；
@@ -179,7 +181,7 @@ sourcePath: "docs/user-stories/code-and-worktrees.md"
 - [Markdown 链接与图片路径解析](../../web/src/domains/code/markdown-link.ts)、[标题锚点](../../web/src/domains/code/markdown-slug.ts)、[代码块高亮](../../web/src/domains/code/code-highlight.ts)
 - [Markdown 预览](../../web/src/components/code/CodeMarkdownPreview.svelte)、[Diff 阅读](../../web/src/components/code/CodeDiffReader.svelte)、[图片预览](../../web/src/components/code/CodeImageView.svelte)
 - [代码引用](../../web/src/domains/code/code-reference.ts)、[代码服务](../../internal/codeview/)、[文件操作](../../internal/codeview/mutate.go)、[目录 ZIP 与上传](../../internal/codeview/archive.go)
-- [代码接口](../../internal/pluginapi/code.go)、[临时文件夹服务](../../internal/artifacts/artifacts.go)。
+- [代码接口](../../internal/featureapi/code.go)、[临时文件夹服务](../../internal/artifacts/artifacts.go)。
 
 US-I13 补充：弹出代码窗口取消原页面尚未完成的目录识别时，不缓存普通目录降级结果；独立窗口可重新识别 Git 并使用 Diff。依据：[取消回归](../../internal/codeview/concurrency_test.go)。
 

@@ -1,10 +1,10 @@
 ---
 title: "CLI agent 接入"
-description: "选择 launch 后，首次创建缺失的 launch-configs.json 时，WebMux 写入以下十二款 CLI、Shell 和 omp 的普通配置，共 14 项，可编辑或删除，不会自动安装或认证 CLI。 新生成配置只有 PTY 核心，不自动创建启动配置；可直接填写临时命令，或先 选择插…"
+description: "选择 launch 后，首次创建缺失的 launch-configs.json 时，WebMux 写入以下十二款 CLI、Shell 和 omp 的普通配置，共 14 项，可编辑或删除，不会自动安装或认证 CLI。 新生成配置只有 PTY 核心，不自动创建启动配置；可直接填写临时命令，或先 选择功…"
 sourcePath: "docs/cli-agents.md"
 ---
 选择 `launch` 后，首次创建缺失的 `launch-configs.json` 时，WebMux 写入以下十二款 CLI、Shell 和 omp 的普通配置，共 14 项，可编辑或删除，不会自动安装或认证 CLI。
-新生成配置只有 PTY 核心，不自动创建启动配置；可直接填写临时命令，或先 [选择插件](deployment/configuration.md#内置插件选择) 并重启。混合聊天需 `chat` + `launch` + `files`，目录/worktree 管理另需 `workspace`。
+新生成配置只有 PTY 核心，不自动创建启动配置；可直接填写临时命令，或先 [选择功能](deployment/configuration.md#内置功能选择) 并重启。混合聊天需 `chat` + `launch` + `files`，目录/worktree 管理另需 `workspace`。
 
 旧版安装的 `launch-configs.json` 仍可能保留 Gemini CLI（`gemini --yolo`），但自 2026-06-18 起已停止为免费个人账号及 Google AI Pro/Ultra 处理请求，个人 Google 登录不可用。
 新安装默认预置已替换为 Antigravity CLI（`agy --dangerously-skip-permissions`，混合模式）。
@@ -32,8 +32,9 @@ Kimi 对应当前 Kimi Code CLI，旧 Kimi CLI 用户应先按官方说明迁移
 
 ## 启动与参数
 
-1. 在运行 WebMux 的机器上按官方说明安装 CLI，并以服务用户的身份完成认证。
-2. 在“新建会话”的“运行”列表中选择启动配置，在“位置”中指定目录或工作树，再创建会话。
+1. 在运行 WebMux 的机器上按官方说明安装 CLI，并以服务用户的身份完成认证；可在“设置 → Agent 工具”（`/settings#agent-tools`）或执行 `webmux agents [--check]` 查看本机已检测到的可执行路径、版本号、外部 ACP 连接器状态与按需检查的可用更新，复制安装或升级命令。
+2. 在“新建会话”中先选择项目；Git 项目可确认“工作位置”，再在“运行”列表中选择启动配置并创建会话。
+   未启用 workspace 时直接填写目录；从明确仓库或分屏上下文打开时，直接确认会话设置。
 3. 在设置页编辑完整命令、参数、环境变量及图标。参数因 CLI 而异，请查看对应程序的 `--help`。
 
 预置 agent 命令使用“加载 shell 启动文件”包装，Bash 为 `/usr/bin/env bash -ic 'exec -- "$@"' webmux <程序> <参数>`，Zsh 为 `zsh -ic 'exec -- "$@"' webmux <程序> <参数>`。
@@ -51,7 +52,7 @@ CLI 使用服务用户的权限、账号、环境和配置。WebMux 不代管模
 Claude Code、Codex、GitHub Copilot CLI、Antigravity CLI、Qoder、QoderCN、Kimi 和 Devin 首次在某个目录启动时会询问“是否信任此文件夹”，`--dangerously-skip-permissions` 或 `--auto` 一类参数不会跳过这个问题；无人看着的会话会一直停在对话框上。
 选择 `launch` 启动集成时，`agent_pretrust` 默认开启，让 WebMux 在新建会话、命令被识别为这八款 CLI 时，先预处理启动目录的信任记录或环境，前六款的做法与 [Orca](https://www.onorca.dev/docs/agents/supported) 一致：
 
-未选择 `launch` 时，核心仍可直接运行这些 CLI，但不装配信任预写或 agent 专属提交延迟；配置开关为 `true` 不会隐式启用插件。
+未选择 `launch` 时，核心仍可直接运行这些 CLI，但不装配信任预写或 agent 专属提交延迟；配置开关为 `true` 不会隐式启用功能。
 
 | CLI             | 写入位置（环境变量可改）                            | 写入内容                                           |
 | --------------- | --------------------------------------------------- | -------------------------------------------------- |

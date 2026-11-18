@@ -60,7 +60,7 @@ const RULES: GroupRule[] = [
   { id: "installer", match: /^webmux-setup-windows-(amd64|arm64)\.exe$/ },
   { id: "windows", match: /^webmux-(tray-)?windows-(amd64|arm64)\.exe$/ },
   { id: "packages", match: /\.(deb|rpm)$/ },
-  { id: "scripts", match: /^(install\.sh|SHA256SUMS)$/ },
+  { id: "scripts", match: /^(install\.sh|SHA256SUMS(?:\.minisig)?)$/ },
 ];
 
 const ARCH: Record<string, { zh: string; en: string }> = {
@@ -89,7 +89,10 @@ export function describeAsset(name: string, lang: Lang): string {
   m = name.match(/\.(x86_64|aarch64)\.rpm$/);
   if (m) return `Fedora / RHEL · ${arch(m[1])}`;
   if (name === "install.sh") return zh ? "安装脚本" : "Install script";
-  if (name === "SHA256SUMS") return zh ? "全部资产的摘要" : "Checksums for all assets";
+  if (name === "SHA256SUMS")
+    return zh ? "发布文件的 SHA-256 清单" : "SHA-256 manifest for release files";
+  if (name === "SHA256SUMS.minisig")
+    return zh ? "清单的 Ed25519 签名" : "Ed25519 signature of the manifest";
   return zh ? "其他" : "Other";
 }
 

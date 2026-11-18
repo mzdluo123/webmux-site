@@ -5,15 +5,15 @@ sourcePath: "docs/usage.md"
 ---
 WebMux 把服务器上的 CLI agent 或 Shell 会话跑在后台，你可以随时从电脑或手机的浏览器接管。关闭标签页或锁屏不会结束会话；服务重启才会。
 
-首次生成的配置只有 PTY 核心：点「新建会话」，填写完整命令与启动目录即可使用。下列聊天、仓库、代码、上传等入口需要先 [选择对应内置插件](deployment/configuration.md#内置插件选择) 并重启；旧配置省略选择时保留旧版全部功能。
+首次生成的配置只有 PTY 核心：点「新建会话」，填写完整命令与启动目录即可使用。下列聊天、仓库、代码、上传等入口需要先 [选择对应内置功能](deployment/configuration.md#内置功能选择) 并重启；旧配置省略选择时保留旧版全部功能。
 
 ## 第一次使用
 
 1. **想直接把任务交给 agent**（`chat` + `launch` + `files`，仓库流程另需 `workspace`）：点左上角切到**聊天模式**，选仓库、工作树方式与 agent，写下任务并发送。
    服务端会按所选方式启动聊天 agent 并发出第一条消息。见 [聊天模式](usage/chat.md)。
-2. **想管理多个终端或查看全局状态**：点右上角「新建会话」，填写目录与临时命令；开启 `launch` 后也可选保存的启动配置（如 Claude Code、Codex、Shell）。
+2. **想管理多个终端或查看全局状态**：点右上角「新建会话」，填写目录与临时命令；开启 `workspace` 项目能力后先选项目，开启 `launch` 后也可选保存的启动配置（如 Claude Code、Codex、Shell）。
    见 [会话与工作台](usage/sessions.md)。
-3. **随时审阅与接管**：开启 `chat` 后在会话页切换“聊天 | 终端”；开启 `code` 后点「代码」打开文件树与 Diff；Git 工作台还需同时开启 `workspace`。
+3. **随时审阅与接管**：开启 `chat` 后在会话页切换“聊天 | 终端”；点击「打开面板」展开右侧栏，选「分屏」管理终端窗格，开启 `code` 后也可选「代码」查看文件与 Diff；Git 工作台还需同时开启 `workspace`。
 
 ## 你想做什么
 
@@ -30,7 +30,7 @@ WebMux 把服务器上的 CLI agent 或 Shell 会话跑在后台，你可以随�
 | 在本机终端里 `run` / `attach`，或在 Windows 用   | [从本机终端使用](usage/command-line.md)              |
 | 让脚本或 agent 控制 WebMux                       | [用脚本和 agent 控制 WebMux](usage/shell-control.md) |
 | 在手机上输入、用软键栏和手势                     | [移动端使用](usage/mobile.md)                        |
-| 在头显或电视浏览器操作、进入沉浸式 VR            | [头显与 TV 浏览器](usage/xr-and-tv.md)               |
+| 在头显或电视浏览器操作                           | [头显与 TV 浏览器](usage/headset-and-tv.md)          |
 | 预览服务器上的开发服务器                         | [端口转发预览](usage/port-forwarding.md)             |
 | 让会话行显示 shell 当前目录                      | [Shell 目录报告](usage/shell-directory.md)           |
 | 接入某个 CLI agent                               | [CLI agent 接入](cli-agents.md)                      |

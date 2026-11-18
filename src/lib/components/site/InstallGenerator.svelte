@@ -11,6 +11,7 @@
   import IconChevronRight from "@tabler/icons-svelte/icons/chevron-right";
   import CommandBox from "./CommandBox.svelte";
   import { installCopy, type InstallLang } from "./install-copy";
+  import { shellArg } from "$lib/shell";
 
   interface AssetLink {
     name: string;
@@ -26,7 +27,7 @@
     packages,
     windowsSetup,
     windowsTray,
-    tabs = ["linux", "windows", "packages", "manual"],
+    tabs = ["linux", "windows", "packages", "source"],
     links,
   }: {
     lang: InstallLang;
@@ -34,10 +35,10 @@
     installUrl: string;
     mirrorPrefix: string;
     devInstallUrl: string;
-    packages: AssetLink[];
+    packages: { name: string; command: string }[];
     windowsSetup?: AssetLink;
     windowsTray?: AssetLink;
-    tabs?: ("linux" | "windows" | "packages" | "manual" | "source")[];
+    tabs?: ("linux" | "windows" | "packages" | "source")[];
     /** Localized site paths for "next steps". */
     links: {
       services: string;
@@ -66,10 +67,13 @@
 
   const installCommand = $derived.by(() => {
     const url = `${mirror ? mirrorPrefix : ""}${dev ? devInstallUrl : installUrl}`;
+    const path = dir.trim();
+    const home = path.match(/^(?:~|\$HOME)(?:\/(.*))?$/);
+    const installDir = home ? `"$HOME"${home[1] ? `/${shellArg(home[1])}` : ""}` : shellArg(path);
     const env = [
       dev && "WEBMUX_CHANNEL=dev",
-      !dev && pinned.trim() && `WEBMUX_VERSION=${pinned.trim().replace(/[^0-9A-Za-z.\-]/g, "")}`,
-      dir.trim() && `WEBMUX_INSTALL_DIR="${dir.trim().replace(/["`\\]/g, "")}"`,
+      !dev && pinned.trim() && `WEBMUX_VERSION=${shellArg(pinned.trim())}`,
+      path && `WEBMUX_INSTALL_DIR=${installDir}`,
     ].filter(Boolean);
     return env.length ? `curl -fsSL ${url} \\\n  | ${env.join(" ")} sh` : `curl -fsSL ${url} | sh`;
   });
@@ -78,14 +82,6 @@
   const rpm = $derived(packages.filter((p) => p.name.endsWith(".rpm")));
   const debAmd = $derived(deb.find((p) => p.name.includes("amd64")) ?? deb[0]);
   const rpmAmd = $derived(rpm.find((p) => p.name.includes("x86_64")) ?? rpm[0]);
-  const manualCommand = $derived(
-    [
-      `curl -LO ${installUrl.replace("install.sh", "webmux-linux-amd64")}`,
-      `curl -LO ${installUrl.replace("install.sh", "SHA256SUMS")}`,
-      "sha256sum --check --ignore-missing SHA256SUMS   # macOS: shasum -a 256 -c --ignore-missing SHA256SUMS",
-      "install -m 755 webmux-linux-amd64 ~/.local/bin/webmux",
-    ].join("\n"),
-  );
   const box = $derived({ copyLabel: c.copy, copiedLabel: c.copied, failedLabel: c.copyFailed });
   const step = "m-0 text-[15px] leading-relaxed";
 </script>
@@ -201,19 +197,13 @@
         {#if debAmd}
           <li class="flex flex-col gap-3">
             <p class={step}><strong>Debian / Ubuntu.</strong> {c.packages.archNote}</p>
-            <CommandBox
-              command={`curl -LO ${debAmd.url}\nsudo apt install ./${debAmd.name}`}
-              {...box}
-            />
+            <CommandBox command={debAmd.command} {...box} />
           </li>
         {/if}
         {#if rpmAmd}
           <li class="flex flex-col gap-3">
             <p class={step}><strong>Fedora / RHEL / openSUSE.</strong> {c.packages.archNote}</p>
-            <CommandBox
-              command={`curl -LO ${rpmAmd.url}\nsudo dnf install ./${rpmAmd.name}`}
-              {...box}
-            />
+            <CommandBox command={rpmAmd.command} {...box} />
           </li>
         {/if}
         <li class="flex flex-col gap-3">
@@ -227,16 +217,6 @@
       </p>
     {/if}
   </Tabs.Content>
-
-  {#if tabs.includes("manual")}
-    <Tabs.Content value="manual" class="flex flex-col gap-3">
-      <p class={step}>{c.manual.intro}</p>
-      <CommandBox command={manualCommand} {...box} />
-      <p class="m-0 text-sm text-muted-foreground">
-        {c.manual.note} <a class="link" href={links.install}>{c.manual.more}</a>
-      </p>
-    </Tabs.Content>
-  {/if}
 
   {#if tabs.includes("source")}
     <Tabs.Content value="source" class="flex flex-col gap-3">

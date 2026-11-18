@@ -1,8 +1,5 @@
-// Per-agent alert sources and known limits for /agents/. Sources (origin/main, checked 2026-11-03):
-// docs/cli-agents.md, docs/hybrid-sessions.md, docs/usage.md#需要你介入的提醒.
-export const AGENTS_CHECKED = "2026-11-03";
-/** Date upstream checked the preset commands against official docs (docs/cli-agents.md). */
-export const COMMANDS_CHECKED = "2026-10-31";
+// Release used to check the CLI preset and hybrid-session matrix.
+export const PRESETS_REF = "v0.18.0";
 
 interface Text {
   zh: string;
@@ -15,6 +12,10 @@ export const GENERIC_ALERTS: Text = {
 };
 
 export const ALERTS: Record<string, Text> = {
+  devin: {
+    zh: "OSC 7501 的 app=devin 记录提供状态，不含会话 ID",
+    en: "OSC 7501 records with app=devin report status, not a session ID",
+  },
   "claude-code": {
     zh: "2.1.295 及以上无需配置（OSC 7501）；2.1.141 至 2.1.294 需在 ~/.claude/settings.json 注册 hook",
     en: "2.1.295+ works without setup (OSC 7501); 2.1.141–2.1.294 needs a hook in ~/.claude/settings.json",
@@ -30,6 +31,12 @@ export const ALERTS: Record<string, Text> = {
 };
 
 export const LIMITS: Record<string, Text[]> = {
+  devin: [
+    {
+      zh: "预置为 Bypass Permissions。需要逐次确认时请修改权限模式。聊天端使用本机 devin acp；--cloud 和 --config 不支持混合切换。",
+      en: "The preset uses Bypass Permissions. Change the permission mode if you want approvals. Chat uses local devin acp; --cloud and --config are incompatible with hybrid switching.",
+    },
+  ],
   "claude-code": [
     {
       zh: "聊天端需要 Node.js 22 或更高版本和第三方连接器 claude-agent-acp；WebMux 不会自动安装，也不会用 npx 临时下载。",
@@ -96,8 +103,8 @@ export const LIMITS: Record<string, Text[]> = {
   ],
   opencode: [
     {
-      zh: "预置参数 --auto 会自动批准工具调用；混合会话中 TUI 以 --standalone 运行，看不到后台服务中其他客户端的实时事件。",
-      en: "The preset --auto auto-approves tool calls; in hybrid sessions the TUI runs with --standalone and cannot see live events from other clients of a background server.",
+      zh: "预置参数 --yolo 会自动批准工具调用；混合会话中 TUI 以 --standalone 运行，看不到后台服务中其他客户端的实时事件。",
+      en: "The preset --yolo auto-approves tool calls; in hybrid sessions the TUI runs with --standalone and cannot see live events from other clients of a background server.",
     },
     {
       zh: "已验证版本为 OpenCode 2.1.4（2.2.0 参数相同）。",

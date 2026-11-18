@@ -9,15 +9,15 @@ import FaqList from "../components/FaqList.astro";
 import Base from "../layouts/Base.astro";
 import IconArrowRight from "@tabler/icons-svelte/icons/arrow-right";
 import TablerIcon from "../components/TablerIcon.astro";
-import { AGENTS, agentIcon } from "../data/agents";
+import { AGENTS, HYBRID_NAMES, agentIcon } from "../data/agents";
 import { useCases } from "../data/use-cases";
-import { recent } from "../data/features";
+import { recent, workbenchShot } from "../data/features";
 import PortForwardIllo from "../components/PortForwardIllo.astro";
 import { homeFaq } from "../data/faq";
 import { localize, UI, type Lang } from "../lib/i18n";
 import { softwareApplication } from "../lib/install";
-import { latest, serverSizeMB, version } from "../lib/releases";
-import { REPO_URL } from "../../site.config.mjs";
+import { latest, serverSizeMB } from "../lib/releases";
+import { RELAY_CONSOLE_URL, REPO_URL } from "../../site.config.mjs";
 
 interface Props {
   lang: Lang;
@@ -40,14 +40,14 @@ const c = zh
         {
           eyebrow: "01 / 电脑上开工",
           title: "你在电脑前让 Claude Code 重构一个模块，然后得出门。",
-          body: "合上笔记本，agent 还在干活。总览里按仓库分组列出所有会话，实时显示谁在运行、谁在等你、屏幕上正在发生什么。",
-          doc: { href: "/docs/usage/sessions/#会话列表", label: "会话列表" },
+          body: "合上笔记本，服务器上的 agent 还在干活。再打开工作台，「待我处理」会把需要答复或授权的会话放在进行中的任务前面。",
+          doc: { href: "/docs/usage/sessions/#会话队列", label: "工作台会话队列" },
         },
         {
           eyebrow: "02 / 手机上接管",
           title: "地铁上手机亮起，它停下来问你一个问题。",
           body: "锁屏推送叫你回来。可以用软键栏在原生 TUI 里回答，也可以把同一段对话切到聊天视图；回一句话它就继续。",
-          doc: { href: "/docs/usage/attention/", label: "需要你介入的提醒" },
+          doc: { href: l("/security/#topologies"), label: "如何选择远程访问方式" },
         },
         {
           eyebrow: "03 / 回到电脑审阅",
@@ -61,7 +61,7 @@ const c = zh
       whySub: `一个约 ${size} MB 的单二进制，把终端会话放在服务端。`,
       why: [
         ["断线不断会话", "锁屏、换网、关标签页都不影响；重连只补发缺失的输出。", "/docs/architecture/"],
-        ["原样运行你的 agent", "Claude Code、Codex、omp 等十一款 CLI 预置即用，跑在真实 PTY 里。", "/docs/cli-agents/"],
+        ["原样运行你的 agent", "启用启动配置后，可在真实 PTY 里运行 Claude Code、Codex CLI、Devin CLI 等工具。", "/docs/cli-agents/"],
         ["TUI ↔ 聊天一键切换", "同一段对话，电脑上用 TUI，手机上用聊天视图，历史完整保留。", "/docs/hybrid-sessions/"],
         ["它在等你时会告诉你", "识别 agent 的提问与授权请求：总览标记、标签页提示、锁屏推送。", "/docs/deployment/pwa-and-push/"],
         ["写代码的工作台", "分屏、草稿模式、资源管理器与 Diff、多格式预览、Git worktree、终端里显示图片。", "/docs/usage/terminal/"],
@@ -71,8 +71,8 @@ const c = zh
         [`${size} MB`, "单个二进制，前端已内嵌"],
         ["13 MB", "空闲常驻内存"],
         ["2 MiB", "每会话回放缓冲，重连只补缺口"],
-        ["11", "预置 CLI agent"],
-        ["7", "支持 TUI ↔ 聊天互切"],
+        [String(AGENTS.length), "预置 CLI agent（另有 omp）"],
+        [String(HYBRID_NAMES.length), "支持 TUI ↔ 聊天互切（含 omp）"],
         ["0", "需要的 root、tmux 与数据库"],
       ],
       statsLabel: "关键数字",
@@ -81,9 +81,9 @@ const c = zh
       howDevices: { title: "你的设备", items: ["电脑浏览器", "手机 / 平板（PWA）", "本机终端 webmux attach"] },
       howServer: { title: "WebMux（你的服务器）", items: ["持有 PTY，断线不断", "回放缓冲与提醒识别", "代码面板与端口转发"] },
       howProcs: { title: "真实进程", items: ["Claude Code、Codex、omp…", "Shell 与脚本", "pnpm dev 等开发服务器"] },
-      howLinkA: "HTTPS · Tailscale / VPN / 隧道",
+      howLinkA: "VPN / 官方 Relay / 受控隧道",
       howLinkB: "原样 PTY 字节",
-      howNote: "关掉标签页、锁屏、换网络都只断开窗口；服务重启才会结束终端会话。默认只监听本机，远程访问请放在可信 VPN 之后。",
+      howNote: "锁屏、换网不影响服务器上的终端会话。手机可经可信 VPN 直连；也可在 WebMux 设置中用 GitHub 配对主机，确认风险并启用官方 Relay，再到控制台打开自己的在线主机。",
       howDoc: "架构设计",
       webdevEyebrow: "远程 Web 开发",
       webdevTitle: "代码在服务器上跑，页面在你的浏览器里看。",
@@ -92,7 +92,7 @@ const c = zh
       webdevLink: "看完整的远程 Web 开发场景",
       webdevDoc: "端口转发预览文档",
       newTitle: "最近加入",
-      newMore: "查看全部新功能",
+      newMore: "看这三个场景的操作截图",
       allFeatures: "查看全部功能与最近加入的新功能",
       casesTitle: "用在哪里",
       casesSub: "从远程服务器上的 Web 开发，到通勤路上接管 agent。",
@@ -111,20 +111,20 @@ const c = zh
         ["terminal-splits/after-desktop-light.jpg", "terminal-splits/after-desktop-dark.jpg", "终端分屏 + 草稿：最多 8 个窗格，Ctrl+B 前缀操作"],
         ["kitty-graphics/after-desktop-light.png", "kitty-graphics/after-desktop-dark.png", "终端图形：Kitty 图形协议，agent 可直接显示图片"],
         ["file-explorer/after-desktop-light.png", "file-explorer/after-desktop-dark.png", "资源管理器：上传、下载、重命名、移动文件"],
-        ["cli-agents/after-desktop-light.png", "cli-agents/after-desktop-dark.png", "启动配置：预置十一款 CLI agent，可自由编辑"],
+        ["cli-agents/after-desktop-light.png", "cli-agents/after-desktop-dark.png", "启动配置：可编辑命令、参数与环境"],
       ],
       hybridEyebrow: "混合会话",
       hybridTitle: "同一段对话，电脑上用 TUI，手机上用聊天视图。",
       hybridBody:
-        "OpenCode、omp、Codex CLI、Claude Code、Antigravity CLI、Qoder 与 QoderCN 可以在终端与聊天视图之间切换，历史完整保留；聊天端支持附件、权限请求作答与 Token 用量。Codex CLI 与 Claude Code 的聊天端需要另装第三方 ACP 连接器（codex-acp、claude-agent-acp），它们不是 WebMux 或 agent 厂商的官方组件。",
+        `${HYBRID_NAMES.join("、")} 可在同一段对话的终端与聊天视图之间切换。Codex CLI 与 Claude Code 的聊天端需另装第三方连接器 codex-acp 或 claude-agent-acp。`,
       hybridLink: "混合会话文档",
-      agentsTitle: "预置十一款 CLI agent",
+      agentsTitle: `预置 ${AGENTS.length} 款 CLI agent`,
       agentsSub: "外加 Shell 与 omp。图标只用于说明兼容性，各商标归其所有者。",
       agentsLink: "查看兼容矩阵",
       installTitle: "两分钟装好",
       installBtn: "下载与安装",
       platforms: [
-        ["Linux / macOS", "一行脚本自动识别系统与架构，校验 SHA-256 后装到 ~/.local/bin，不需要 sudo；也有 deb / rpm 包与手动下载。"],
+        ["Linux / macOS", "安装脚本使用本机可用的验签工具验证发布清单，再按清单核对二进制的 SHA-256，通过后装到 ~/.local/bin，不需要 sudo。无验签工具时，默认只信任 GitHub 官方来源的清单。"],
         ["Windows（WSL 2）", "运行安装程序即可：自带托盘与同架构的 Linux 服务端，在托盘菜单里一键装进 WSL；安装托盘不需要管理员权限。"],
         ["正式版与开发版", "默认安装最新正式版；也可切换到开发版通道，并开启自动更新（deb / rpm 与 Windows 安装版托盘）。"],
       ],
@@ -146,14 +146,14 @@ const c = zh
         {
           eyebrow: "01 / Start at your desk",
           title: "You ask Claude Code to refactor a module, then you have to leave.",
-          body: "Close the laptop; the agent keeps working. The overview groups every session by repository and shows live who is running, who is waiting for you, and what is on each screen.",
-          doc: { href: "/docs/usage/sessions/#会话列表", label: "the session list (Chinese docs)" },
+          body: "Close the laptop; the agent keeps working on the server. Next time you open the workbench, “Needs attention” puts questions and approval requests ahead of work still in progress.",
+          doc: { href: "/docs/usage/sessions/#会话队列", label: "the workbench session queue (Chinese docs)" },
         },
         {
           eyebrow: "02 / Take over on your phone",
           title: "On the train your phone lights up: the agent has a question.",
           body: "A lock-screen notification brings you back. Answer in the native TUI with the soft-key bar, or switch the same conversation to the chat view. One reply and it carries on.",
-          doc: { href: "/docs/usage/attention/", label: "attention alerts (Chinese docs)" },
+          doc: { href: l("/security/#topologies"), label: "how to choose a remote access method" },
         },
         {
           eyebrow: "03 / Review back at your computer",
@@ -167,7 +167,7 @@ const c = zh
       whySub: `A single binary of about ${size} MB that keeps terminal sessions on the server.`,
       why: [
         ["Sessions survive disconnects", "Lock the phone, switch networks, close the tab. Reconnecting replays only the output you missed.", "/docs/architecture/"],
-        ["Your agents, unmodified", "Eleven CLIs including Claude Code, Codex and omp come preconfigured and run in a real PTY.", "/docs/cli-agents/"],
+        ["Your agents, unmodified", "Enable launch profiles to run tools like Claude Code, Codex CLI and Devin CLI in a real PTY.", "/docs/cli-agents/"],
         ["TUI ↔ chat in one tap", "One conversation: TUI on the desktop, chat view on the phone, full history kept.", "/docs/hybrid-sessions/"],
         ["It tells you when it’s waiting", "Questions and permission requests are detected: overview badges, tab hints, lock-screen push.", "/docs/deployment/pwa-and-push/"],
         ["A workbench for code", "Splits, drafts, file explorer and diffs, multi-format preview, Git worktrees, images in the terminal.", "/docs/usage/terminal/"],
@@ -177,8 +177,8 @@ const c = zh
         [`${size} MB`, "one binary, frontend included"],
         ["13 MB", "memory when idle"],
         ["2 MiB", "replay buffer per session; reconnects fill only the gap"],
-        ["11", "CLI agents preconfigured"],
-        ["7", "agents with TUI ↔ chat"],
+        [String(AGENTS.length), "CLI presets (plus omp)"],
+        [String(HYBRID_NAMES.length), "agents with TUI ↔ chat (including omp)"],
         ["0", "root, tmux or databases needed"],
       ],
       statsLabel: "Key numbers",
@@ -187,9 +187,9 @@ const c = zh
       howDevices: { title: "Your devices", items: ["Desktop browser", "Phone / tablet (PWA)", "Local terminal: webmux attach"] },
       howServer: { title: "WebMux (your server)", items: ["Holds the PTY through disconnects", "Replay buffer and alert detection", "Code panel and port forwarding"] },
       howProcs: { title: "Real processes", items: ["Claude Code, Codex, omp…", "Shells and scripts", "Dev servers such as pnpm dev"] },
-      howLinkA: "HTTPS · Tailscale / VPN / tunnel",
+      howLinkA: "VPN / official Relay / controlled tunnel",
       howLinkB: "raw PTY bytes",
-      howNote: "Closing the tab, locking the phone or switching networks only closes a window; a service restart is what ends terminal sessions. It listens on localhost by default; keep remote access behind a trusted VPN.",
+      howNote: "Locking the phone or switching networks leaves the terminal running. Connect over a trusted VPN, or pair the host with GitHub in WebMux settings, confirm the risk and enable the official Relay. Then open your online host from the console.",
       howDoc: "Architecture (Chinese)",
       webdevEyebrow: "Remote web development",
       webdevTitle: "The code runs on the server; the page opens in your browser.",
@@ -198,7 +198,7 @@ const c = zh
       webdevLink: "See the full remote web development use case",
       webdevDoc: "Port forwarding docs (Chinese)",
       newTitle: "Recently added",
-      newMore: "See all new features",
+      newMore: "See screenshots of these workflows",
       allFeatures: "See every feature and what was added recently",
       casesTitle: "Where it fits",
       casesSub: "From web development on a remote server to taking over an agent on your commute.",
@@ -217,20 +217,20 @@ const c = zh
         ["terminal-splits/after-desktop-light.jpg", "terminal-splits/after-desktop-dark.jpg", "Splits and drafts: up to 8 panes, Ctrl+B prefix"],
         ["kitty-graphics/after-desktop-light.png", "kitty-graphics/after-desktop-dark.png", "Terminal graphics: the Kitty protocol lets agents show images"],
         ["file-explorer/after-desktop-light.png", "file-explorer/after-desktop-dark.png", "File explorer: upload, download, rename and move files"],
-        ["cli-agents/after-desktop-light.png", "cli-agents/after-desktop-dark.png", "Launch configs: eleven CLI agents preconfigured, all editable"],
+        ["cli-agents/after-desktop-light.png", "cli-agents/after-desktop-dark.png", "Launch profiles: editable commands, arguments and environment"],
       ],
       hybridEyebrow: "Hybrid sessions",
       hybridTitle: "One conversation: TUI on the desktop, chat on the phone.",
       hybridBody:
-        "OpenCode, omp, Codex CLI, Claude Code, Antigravity CLI, Qoder and QoderCN switch between the terminal and a chat view with the full history kept; the chat side handles attachments, permission prompts and token usage. The chat side of Codex CLI and Claude Code needs a third-party ACP connector (codex-acp, claude-agent-acp), which is not an official component of WebMux or the agent vendors.",
+        `${HYBRID_NAMES.join(", ")} can switch between terminal and chat views of the same conversation. Codex CLI and Claude Code need the third-party codex-acp and claude-agent-acp connectors respectively for chat.`,
       hybridLink: "Hybrid session docs (Chinese)",
-      agentsTitle: "Eleven CLI agents, preconfigured",
+      agentsTitle: `${AGENTS.length} CLI agent presets`,
       agentsSub: "Plus Shell and omp. Icons only indicate compatibility; trademarks belong to their owners.",
       agentsLink: "See the compatibility matrix",
       installTitle: "Installed in two minutes",
       installBtn: "Download and install",
       platforms: [
-        ["Linux / macOS", "A one-line script detects your system and architecture, verifies SHA-256 and installs to ~/.local/bin without sudo. deb / rpm packages and manual downloads are available too."],
+        ["Linux / macOS", "The script uses an available verifier to authenticate the release manifest, checks the binary’s SHA-256, then installs to ~/.local/bin without sudo. Without a verifier it trusts only the official GitHub manifest by default."],
         ["Windows (WSL 2)", "Run the installer: it brings the tray app and the matching Linux server, which the tray installs into WSL in one click. No administrator rights are needed to install the tray."],
         ["Stable and dev builds", "The latest stable release by default; switch to the dev channel when you want it, and turn on auto-update (deb / rpm and the installed Windows tray)."],
       ],
@@ -242,14 +242,14 @@ const c = zh
       finalGithub: "View on GitHub",
     };
 
-const storyShots = [
-  { name: "desktop-overview.png" },
+const storyShots: { name?: string; names?: string[]; dark?: string; alt?: string }[] = [
+  workbenchShot(lang),
   { names: ["mobile-omp.png", "mobile-chat.png"] },
   { name: "desktop-diff.png" },
 ];
 const faq = homeFaq(lang);
 const cases = useCases(lang).slice(0, 6);
-const news = recent(lang).slice(0, 4);
+const news = recent(lang);
 const howCols = [c.howDevices, c.howServer, c.howProcs] as const;
 ---
 
@@ -316,7 +316,7 @@ const howCols = [c.howDevices, c.howServer, c.howProcs] as const;
                   ))}
                 </div>
               ) : (
-                <Shot name={storyShots[i].name!} sizes="(max-width: 768px) 100vw, 600px" widths={[480, 800, 1200]} />
+                <Shot name={storyShots[i].name!} dark={storyShots[i].dark} alt={storyShots[i].alt} sizes="(max-width: 768px) 100vw, 600px" widths={[480, 800, 1200]} />
               )}
             </div>
           </article>
@@ -356,7 +356,8 @@ const howCols = [c.howDevices, c.howServer, c.howProcs] as const;
       }
     </ol>
     <p class="mt-6 mb-0 max-w-3xl text-[15px] leading-[1.7] text-muted-foreground">
-      {c.howNote} <a class="link" href="/docs/architecture/">{c.howDoc}</a>
+      {c.howNote} <a class="link" href={RELAY_CONSOLE_URL}>{zh ? "官方 Relay 控制台" : "Official Relay console"}</a>
+      · <a class="link" href="/docs/architecture/">{c.howDoc}</a>
     </p>
   </section>
 
@@ -438,12 +439,12 @@ const howCols = [c.howDevices, c.howServer, c.howProcs] as const;
   <!-- 3c. What's new -->
   <section class="container-site py-16 sm:py-24" aria-labelledby="new-title">
     <h2 id="new-title" class="m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{c.newTitle}</h2>
-    <ul class="m-0 mt-8 grid list-none gap-x-10 gap-y-7 p-0 sm:grid-cols-2">
+    <ul class="m-0 mt-8 grid list-none gap-x-8 gap-y-7 p-0 md:grid-cols-3">
       {
         news.map((f) => (
           <li>
             <h3 class="m-0 text-[17px] font-semibold">
-              {f.href ? <a href={f.href} class="text-foreground no-underline hover:underline underline-offset-[3px]">{f.title}</a> : f.title}
+              <a href={f.href} class="text-foreground no-underline hover:underline underline-offset-[3px]">{f.title}</a>
             </h3>
             <p class="m-0 mt-1 text-[15px] leading-[1.7] text-muted-foreground">{f.body}</p>
           </li>

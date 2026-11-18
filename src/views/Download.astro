@@ -12,7 +12,7 @@ import TablerIcon from "../components/TablerIcon.astro";
 import SecurityNote from "../components/SecurityNote.astro";
 import Base from "../layouts/Base.astro";
 import { localize, UI, type Lang } from "../lib/i18n";
-import { installProps, softwareApplication } from "../lib/install";
+import { installProps, manualInstallCommand, softwareApplication } from "../lib/install";
 import {
   describeAsset,
   findAsset,
@@ -22,6 +22,7 @@ import {
   groupAssets,
   latest,
   releaseDataFresh,
+  version,
 } from "../lib/releases";
 import { INSTALL_URL, MIRROR_PREFIX, REPO_URL } from "../../site.config.mjs";
 
@@ -35,8 +36,9 @@ const zh = lang === "zh-cn";
 const box = { copyLabel: t.copy, copiedLabel: t.copied, failedLabel: t.copyFailed };
 const releasesUrl = `${REPO_URL}/releases`;
 const sums = findAsset(/^SHA256SUMS$/);
+const signature = findAsset(/^SHA256SUMS\.minisig$/);
 const groups = groupAssets(latest);
-const verifyCommand = "sha256sum --check --ignore-missing SHA256SUMS   # macOS: shasum -a 256 -c --ignore-missing SHA256SUMS";
+const verifyCommand = version && signature && manualInstallCommand(version, "webmux-linux-amd64");
 const mirrorCommand = `curl -fsSL ${MIRROR_PREFIX}${INSTALL_URL} | sh`;
 const mirrorsCommand = `curl -fsSL ${INSTALL_URL} \\\n  | WEBMUX_MIRRORS="" sh`;
 
@@ -53,7 +55,7 @@ const c = zh
       nextTitle: "下一步",
       next: [
         { pre: "让服务常驻后台：", code: "webmux start", mid: "，或", link: "安装为用户服务", href: "/docs/deployment/services/", post: "。" },
-        { pre: "从手机访问：在服务器和手机上加入同一个 Tailscale 网络，见", link: "远程访问", href: "/docs/deployment/remote-access/", post: "。" },
+        { pre: "从手机访问：用 Tailscale / WireGuard 直连，或在本机用 GitHub 配对并开启官方 Relay。见", link: "远程访问指南", href: "/docs/deployment/remote-access/", post: "。" },
         { pre: "在常用终端里启动 agent：", code: "webmux run -- claude", mid: "，", link: "Ctrl+] 分离", href: "/docs/usage/command-line/#启动与附着", post: "后到手机上继续。" },
       ],
       upgradeTitle: "升级提示",
@@ -67,15 +69,15 @@ const c = zh
       downloadLabel: (name: string) => `下载 ${name}`,
       noHash: "无",
       showHash: (name: string) => `${name} 的完整 SHA-256`,
-      tableNote: "SHA-256 列显示前 8 位，展开可查看完整值；全部摘要见",
-      verify: "下载后在同一目录手动校验：",
+      tableNote: "SHA-256 列显示 GitHub 提供的摘要，展开可查看完整值。发布者签名的清单是",
+      verify: "不用安装脚本？以下示例下载并安装 Linux amd64 正式版。先安装 minisign 0.11 或以上版本；在 macOS 或 ARM 设备上，把 file 换成上表对应的服务端文件名。示例只在清单签名、签名版本和所选文件的 SHA-256 都匹配后安装。",
       mirrorTitle: "国内镜像",
       mirrorIntro:
-        "安装脚本本身不依赖 raw.githubusercontent.com。国内网络可以经 ghfast.top 代理同一 Release 资产获取脚本：",
+        "无法从 GitHub 获取 install.sh 时，可经 ghfast.top 获取。下面的命令会直接执行镜像返回的脚本：只有在你信任这个镜像时才使用。否则，从 GitHub 获取脚本，或先用独立可信的摘要核对脚本本身。发布清单签名无法保护已被替换的验签脚本。",
       mirrorPoints: [
         "脚本先尝试 GitHub 直连，失败后依次尝试 WEBMUX_MIRRORS 中的镜像前缀（默认 https://ghfast.top https://gh-proxy.com，空格分隔），每个来源都有连接、低速和总时限。",
-        "二进制与 SHA256SUMS 必须来自同一来源并通过校验；失败时保留原有二进制。",
-        "镜像是第三方服务，能看到请求者 IP。同源校验只能发现截断和损坏，无法防范同时替换两者的恶意镜像；高保证或离线场景请用 WEBMUX_SHA256 固定摘要。",
+        "有可用的 minisign 或支持 Ed25519 的 OpenSSL 时，脚本用内置的对应通道公钥验证 SHA256SUMS.minisig，再按 SHA256SUMS 校验二进制。镜像不能用自己的清单和二进制替换已签名发布；要防止取到旧的有效签名版本，请固定 WEBMUX_VERSION。",
+        "若两种验签工具都不可用，只接受直接从官方 GitHub 仓库获取的清单；镜像仍可提供符合该摘要的二进制。也可从独立可信来源取得二进制摘要，设置 WEBMUX_SHA256 代替验签（固定安装 v0.11.0 之前的未签名旧版时使用此方式）。镜像可看到请求者 IP。",
       ],
       mirrorOff: "只想从 GitHub 下载时，把 WEBMUX_MIRRORS 设为空值：",
       mirrorDoc: "安装脚本的全部变量",
@@ -92,7 +94,7 @@ const c = zh
       nextTitle: "Next steps",
       next: [
         { pre: "Keep it running in the background: ", code: "webmux start", mid: ", or ", link: "install it as a user service", href: "/docs/deployment/services/", post: " (Chinese)." },
-        { pre: "Reach it from your phone: join the server and the phone to the same Tailscale network; see ", link: "remote access", href: "/docs/deployment/remote-access/", post: " (Chinese)." },
+        { pre: "From your phone, connect over Tailscale / WireGuard, or first pair the host with GitHub and enable official Relay. See the ", link: "remote access guide", href: "/docs/deployment/remote-access/", post: " (Chinese)." },
         { pre: "Start an agent from your usual terminal: ", code: "webmux run -- claude", mid: ", then ", link: "detach with Ctrl+]", href: "/docs/usage/command-line/#启动与附着", post: " (Chinese) and continue on your phone." },
       ],
       upgradeTitle: "Upgrading",
@@ -106,15 +108,15 @@ const c = zh
       downloadLabel: (name: string) => `Download ${name}`,
       noHash: "none",
       showHash: (name: string) => `Full SHA-256 of ${name}`,
-      tableNote: "The SHA-256 column shows the first 8 characters; expand a value to see all of it. Every checksum is in",
-      verify: "Verify the downloads by hand, in the same directory:",
+      tableNote: "The SHA-256 column shows GitHub’s digests; expand to see each full value. The publisher signs the manifest:",
+      verify: "Prefer not to run the installer script? This example downloads and installs the stable Linux amd64 server. Install minisign 0.11 or newer first. On macOS or ARM, set file to the matching server filename above. Installation runs only after the manifest signature, signed version and file digest match.",
       mirrorTitle: "Mirrors for mainland China",
       mirrorIntro:
-        "The install script does not depend on raw.githubusercontent.com. Where GitHub is slow or blocked, fetch the same release asset through the ghfast.top proxy:",
+        "If you cannot fetch install.sh from GitHub, ghfast.top can proxy it. The following command executes whatever script the mirror returns. Use it only if you trust the mirror; otherwise get the script from GitHub or check it against an independently trusted digest first. A signed manifest cannot protect a replaced verification script.",
       mirrorPoints: [
         "The script tries GitHub first, then each mirror prefix in WEBMUX_MIRRORS (default https://ghfast.top https://gh-proxy.com, space-separated). Every source has connect, low-speed and total time limits.",
-        "The binary and SHA256SUMS must come from the same source and pass verification; on failure the existing binary is kept.",
-        "Mirrors are third-party services and can see the requester's IP address. Same-source verification catches truncation and corruption, not a malicious mirror that replaces both files; for high assurance or offline installs, pin the digest with WEBMUX_SHA256.",
+        "With a working minisign or Ed25519-capable OpenSSL, the script checks SHA256SUMS.minisig using the built-in key for the selected channel, then checks the binary against SHA256SUMS. A mirror cannot substitute unsigned content. Pin WEBMUX_VERSION to rule out a stale but valid signed release.",
+        "If neither verifier works, only a manifest fetched directly from the official GitHub repository is trusted; a mirror may still supply a binary matching that digest. Alternatively, use WEBMUX_SHA256 to pin a binary digest from an independent trusted source instead of checking a signature, including for unsigned versions before v0.11.0. Mirrors can see your IP address.",
       ],
       mirrorOff: "To download from GitHub only, set WEBMUX_MIRRORS to an empty value:",
       mirrorDoc: "All install script variables (Chinese)",
@@ -142,6 +144,7 @@ const h2 = "m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]";
           </span>
           <span class="text-muted-foreground">{c.published(formatDate(latest.publishedAt, lang))}</span>
           {sums && <a class="link font-mono text-sm" href={sums.url}>SHA256SUMS</a>}
+          {signature && <a class="link font-mono text-sm" href={signature.url}>SHA256SUMS.minisig</a>}
           <a class="link" href={l("/changelog/")}>{c.changelog}</a>
           <a class="link inline-flex items-center gap-1" href={latest.url} rel="noopener">
             GitHub Release
@@ -162,7 +165,7 @@ const h2 = "m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]";
     <h2 id="install-title" class="sr-only">{c.installTitle}</h2>
     <div class="grid gap-10 md:grid-cols-12">
       <div class="min-w-0 md:col-span-8">
-        <InstallGenerator client:visible {...installProps(lang)} tabs={["linux", "windows", "packages", "source"]} />
+        <InstallGenerator client:visible {...installProps(lang)} />
       </div>
       <aside class="self-start rounded-lg border border-band-line bg-band p-5 md:col-span-4" aria-labelledby="next-title">
         <h3 id="next-title" class="m-0 text-[17px] font-semibold">{c.nextTitle}</h3>
@@ -259,9 +262,13 @@ const h2 = "m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]";
         {c.tableNote}{" "}
         {sums ? <a class="link font-mono" href={sums.url}>SHA256SUMS</a> : <span class="font-mono">SHA256SUMS</span>}
         {zh ? "。" : "."}
-        {" "}{c.verify}
       </p>
-      <CommandBox client:visible command={verifyCommand} {...box} />
+      {verifyCommand && (
+        <>
+          <p class="mt-4 mb-3 max-w-3xl text-[15px] leading-[1.7]">{c.verify} <a class="link" href="/docs/deployment/updates/#发布签名">{zh ? "核对发布公钥" : "Check the release public key (Chinese)"}</a></p>
+          <CommandBox client:visible command={verifyCommand} {...box} />
+        </>
+      )}
     </div>
   </section>
 

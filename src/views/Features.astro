@@ -20,11 +20,11 @@ const c = zh
   ? {
       title: "功能：持久终端、TUI ↔ 聊天、Diff、worktree、端口转发 · WebMux",
       description:
-        "WebMux 全部功能：持久会话与断线续接、终端分屏、十一款 CLI agent、TUI 与聊天视图互切、锁屏推送、Git worktree 与 Diff 审阅、多格式预览、端口转发预览、Tailscale 与 Cloudflare Tunnel、Windows WSL 2。",
+        "WebMux 功能：持久终端、CLI agent 预置、TUI 与聊天互切、上下文交接、Git 工作树、Diff 审阅与远程预览。可经可信 VPN 或可选的官方 Relay 访问。",
       h1: "功能一览",
       lead: "从持久终端到代码审阅，WebMux 把在远端跑 agent 需要的东西放进一个单二进制。",
       h2New: "最近加入",
-      newLead: "上次网站更新以来的主要变化。",
+      newLead: "从打开工作台到把任务交给另一个 agent，下面三个场景都可以跟着试。",
       since: (v: string) => `${v} 新增`,
       devNote: "完整变更见",
       changelog: "更新日志",
@@ -36,11 +36,11 @@ const c = zh
   : {
       title: "Features: persistent terminal, chat, diffs · WebMux",
       description:
-        "Everything in WebMux: persistent sessions, terminal splits, eleven CLI agents, TUI ↔ chat, lock-screen push, Git worktrees and diff review, file previews, port forwarding, Tailscale, Cloudflare Tunnel and Windows via WSL 2.",
+        "WebMux features: persistent terminals, CLI agent presets, TUI and chat views, context handoff, Git worktrees, diff review and remote previews. Connect via a trusted VPN or the optional official Relay.",
       h1: "Features",
       lead: "From a persistent terminal to code review, WebMux puts what you need to run agents remotely into one binary.",
       h2New: "Recently added",
-      newLead: "The main changes since the site was last updated.",
+      newLead: "Try these three tasks, from opening your workbench to handing work to another agent.",
       since: (v: string) => `New in ${v}`,
       devNote: "Full list of changes:",
       changelog: "changelog",
@@ -75,19 +75,18 @@ const shots: Record<string, { name: string; dark?: string }> = {
     <div class="container-site">
       <h2 id="new-title" class="m-0 text-[26px] leading-[1.25] font-bold sm:text-[34px]">{c.h2New}</h2>
       <p class="mt-3 mb-8 text-muted-foreground">{c.newLead}</p>
-      <ul class="m-0 grid list-none gap-4 p-0 md:grid-cols-2">
+      <ul class="m-0 grid list-none gap-5 p-0">
         {
           recent(lang).map((f) => (
-            <li class="flex flex-col gap-2 rounded-lg border bg-page p-5">
-              <h3 class="m-0 flex flex-wrap items-center gap-2 text-[17px] font-semibold">
-                {f.href ? (
-                  <a href={f.href} rel={external(f.href) ? "noopener" : undefined} class="text-foreground no-underline hover:underline underline-offset-[3px]">{f.title}</a>
-                ) : (
-                  f.title
-                )}
-                {f.since && <Badge variant="outline" class="text-[11px]">{c.since(f.since)}</Badge>}
-              </h3>
-              <p class="m-0 text-[15px] leading-[1.7] text-muted-foreground">{f.body}</p>
+            <li class="grid items-center gap-5 rounded-lg border bg-page p-5 md:grid-cols-2">
+              <div>
+                <h3 class="m-0 flex flex-wrap items-center gap-2 text-[17px] font-semibold">
+                  <a href={f.href} class="text-foreground no-underline hover:underline underline-offset-[3px]">{f.title}</a>
+                  <Badge variant="outline" class="text-[11px]">{c.since(f.since)}</Badge>
+                </h3>
+                <p class="mt-2 mb-0 text-[15px] leading-[1.7] text-muted-foreground">{f.body}</p>
+              </div>
+              <Shot {...f.shot} sizes="(max-width: 768px) 100vw, 480px" widths={[480, 720, 960]} />
             </li>
           ))
         }

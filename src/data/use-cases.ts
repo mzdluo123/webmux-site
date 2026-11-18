@@ -64,7 +64,7 @@ export function useCases(lang: Lang): UseCase[] {
               text: "在终端旁的代码面板里审 Git Diff、预览 Markdown 与图片，选中几行把 路径:行号 发回 agent 让它修改。",
             },
             {
-              text: "转发地址与 WebMux 同源，经 Tailscale 或 Cloudflare Tunnel 时手机上也能打开，顺手检查移动端布局。",
+              text: "在手机用同一 WebMux 地址检查移动端布局，无需对外开放开发服务器端口。经官方 Relay 访问时，端口预览走 WSS，不走 P2P。",
             },
             { text: "需要素材时直接拖进资源管理器上传；构建产物可以整目录打包成 ZIP 下载。" },
           ],
@@ -92,7 +92,10 @@ export function useCases(lang: Lang): UseCase[] {
           pain: "长任务跑到一半，agent 要你确认一次权限或回答一个问题；没人回应，它就在那里干等几个小时。",
           steps: [
             {
-              text: "安装为 PWA 并开启 Web Push：agent 提问、请求授权、出错或完成时推送到锁屏；页面右上角也会弹出提示，不需要通知权限。",
+              text: "先选远程入口：在同一 tailnet 内可用 Tailscale Serve；也可在宿主上配对并开启官方 Relay，在手机控制台用同一 GitHub 账号打开在线主机。",
+            },
+            {
+              text: "需要锁屏提醒时，从支持推送的 HTTPS 入口（如 Tailscale Serve）安装 PWA 并开启 Web Push。只看页面内提示不需要通知权限。",
             },
             {
               text: "点开通知直达会话：原生 TUI 配合软键栏（Esc、Ctrl、方向键、/ @ #）回答，或切到聊天视图打字回复。",
@@ -104,6 +107,10 @@ export function useCases(lang: Lang): UseCase[] {
           ],
           uses: ["Web Push", "软键栏", "聊天视图", "断线续接"],
           links: [
+            {
+              href: "/docs/deployment/remote-access/#官方-relay",
+              label: "官方 Relay 配对与手机访问",
+            },
             { href: "/docs/deployment/pwa-and-push/", label: "安装为应用与手机推送" },
             { href: "/docs/usage/mobile/", label: "移动端" },
             { href: "/docs/hybrid-sessions/#聊天视图", label: "聊天视图" },
@@ -254,7 +261,9 @@ export function useCases(lang: Lang): UseCase[] {
               text: "在 WebMux 的 Shell 会话里执行脚本，浏览器断开不影响进程；完成或出错时，程序发出的通知可以推送到手机。",
             },
             { text: "多台设备同时打开同一会话：一台控制，其他设备观察；输入即可接管控制权。" },
-            { text: "WebMux 以服务用户身份执行命令，不是沙箱：只放在本机回环或可信 VPN 后面。" },
+            {
+              text: "WebMux 以服务用户身份执行命令，不是沙箱。用防火墙把 VPN 直连限制在可信接口，不要公开服务的监听端口。",
+            },
           ],
           uses: ["Shell 会话", "多设备观察", "提醒"],
           links: [
@@ -284,7 +293,7 @@ export function useCases(lang: Lang): UseCase[] {
               text: "Review the Git diff and preview Markdown and images in the code panel beside the terminal; select lines and send path:line back to the agent.",
             },
             {
-              text: "The forward shares the WebMux address, so over Tailscale or Cloudflare Tunnel it opens on your phone too: check the mobile layout while you are at it.",
+              text: "Check the mobile layout at the same WebMux address without publishing the dev-server port. With official Relay, port previews travel over WSS, not P2P.",
             },
             {
               text: "Drag assets into the file explorer to upload them; download build output as a ZIP of the whole folder.",
@@ -314,7 +323,10 @@ export function useCases(lang: Lang): UseCase[] {
           pain: "Halfway through a long task the agent needs one permission or one answer. With nobody there, it waits for hours.",
           steps: [
             {
-              text: "Install the PWA and turn on Web Push: questions, permission requests, errors and completions reach the lock screen, and an in-page toast appears at the top right with no permission needed.",
+              text: "Choose a remote entry first: use Tailscale Serve inside a shared tailnet, or pair and enable official Relay on the host, then select that online host in the console on your phone using the same GitHub account.",
+            },
+            {
+              text: "For lock-screen alerts, install the PWA and enable Web Push from a supported HTTPS entry such as Tailscale Serve. In-page alerts do not need notification permission.",
             },
             {
               text: "Tap through to the session: answer in the native TUI with the soft-key bar (Esc, Ctrl, arrows, / @ #) or switch to the chat view and type.",
@@ -328,6 +340,10 @@ export function useCases(lang: Lang): UseCase[] {
           ],
           uses: ["Web Push", "Soft-key bar", "Chat view", "Reconnect"],
           links: [
+            {
+              href: "/docs/deployment/remote-access/#官方-relay",
+              label: `Official Relay pairing and phone access${cn}`,
+            },
             { href: "/docs/deployment/pwa-and-push/", label: `Install as an app and push${cn}` },
             { href: "/docs/usage/mobile/", label: `Mobile${cn}` },
             { href: "/docs/hybrid-sessions/#聊天视图", label: `Chat view${cn}` },
@@ -514,7 +530,7 @@ export function useCases(lang: Lang): UseCase[] {
               text: "Open the same session on several devices: one controls, the others watch, and typing takes over control.",
             },
             {
-              text: "WebMux runs commands as the service user and is not a sandbox: keep it on loopback or behind a trusted VPN.",
+              text: "WebMux runs commands as the service user; it is not a sandbox. For a direct VPN connection, use a firewall to limit access to the trusted interface. Do not publish the listening port.",
             },
           ],
           uses: ["Shell sessions", "Multi-device watching", "Alerts"],
@@ -530,7 +546,10 @@ export function useCases(lang: Lang): UseCase[] {
 export function notFor(lang: Lang): [string, string][] {
   return lang === "zh-cn"
     ? [
-        ["多人共用一台服务", "WebMux 是单用户服务，没有账号与权限隔离；团队请各自部署。"],
+        [
+          "多人共用一台服务",
+          "WebMux 不提供多用户隔离。Relay 的 GitHub 登录只用于识别宿主所有者；团队成员请分别部署。",
+        ],
         [
           "在浏览器里编辑代码",
           "代码面板是只读的，没有编辑器与 Git 提交界面；需要时搭配 VS Code Remote 或 code-server。",
@@ -541,7 +560,7 @@ export function notFor(lang: Lang): [string, string][] {
         ],
         [
           "直接暴露到公网",
-          "不要这样做。用 Tailscale / WireGuard，或受控隧道（此时 Token 是唯一屏障）。",
+          "不要公开监听端口。可通过 Tailscale / WireGuard 直连；需要公网入口时比较官方 Relay 与受控隧道的认证方式和风险。",
         ],
         [
           "转发其他主机或容器里的端口",
@@ -551,7 +570,7 @@ export function notFor(lang: Lang): [string, string][] {
     : [
         [
           "Several people sharing one service",
-          "WebMux is single-user with no accounts or isolation; give each person their own instance.",
+          "WebMux has no multi-user isolation. Relay's GitHub login identifies the host owner; give each person their own instance.",
         ],
         [
           "Editing code in the browser",
@@ -563,7 +582,7 @@ export function notFor(lang: Lang): [string, string][] {
         ],
         [
           "Exposing it directly to the internet",
-          "Don't. Use Tailscale / WireGuard or a controlled tunnel, where the token is the only barrier.",
+          "Do not publish the listening port. Connect over Tailscale / WireGuard, or compare the authentication and risks of official Relay and controlled tunnels if you need a public entry.",
         ],
         [
           "Forwarding ports from other hosts or containers",

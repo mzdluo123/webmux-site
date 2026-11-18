@@ -3,6 +3,7 @@
 // pages state; anything else is "unverified". Checked 2026-11-10.
 import type { Lang } from "../lib/i18n";
 import { serverSizeMB } from "../lib/releases";
+import { HYBRID_NAMES } from "./agents";
 
 const SIZE = serverSizeMB() ?? 20;
 
@@ -77,8 +78,8 @@ export const DIMENSIONS: Dimension[] = [
   },
   {
     id: "selfhost",
-    zh: "自托管，不经第三方中转",
-    en: "Self-hosted, no third-party relay",
+    zh: "可自托管，不依赖第三方中转",
+    en: "Can be self-hosted without a third-party relay",
     summary: true,
   },
   { id: "anyagent", zh: "适用任意 CLI agent", en: "Works with any CLI agent", summary: false },
@@ -143,6 +144,7 @@ export const WEBMUX: Tool = {
       label: "端口转发预览",
       url: "/docs/usage/port-forwarding/",
     },
+    { label: "官方 Relay / Official Relay", url: "/docs/deployment/remote-access/#官方-relay" },
   ],
   cells: {
     persist: {
@@ -167,8 +169,8 @@ export const WEBMUX: Tool = {
     },
     chat: {
       v: "partial",
-      zh: "八款：Claude Code、Codex CLI、OpenCode、omp、Antigravity、Qoder、QoderCN、Kimi",
-      en: "Eight: Claude Code, Codex CLI, OpenCode, omp, Antigravity, Qoder, QoderCN, Kimi",
+      zh: `${HYBRID_NAMES.length} 款：${HYBRID_NAMES.join("、")}`,
+      en: `${HYBRID_NAMES.length} agents: ${HYBRID_NAMES.join(", ")}`,
     },
     light: {
       v: "yes",
@@ -187,13 +189,13 @@ export const WEBMUX: Tool = {
     },
     selfhost: {
       v: "yes",
-      zh: "服务运行在你的机器上；Web Push 经浏览器厂商推送服务",
-      en: "Runs on your machine; Web Push goes via browser push services",
+      zh: "服务在自己的机器上；可信 VPN 直连不需官方中转。官方 Relay 默认关闭，启用后会终止 TLS；Web Push 经浏览器厂商送达",
+      en: "Runs on your machine. Direct VPN access needs no official relay. The optional official Relay is off by default and terminates TLS when used; Web Push uses browser push services",
     },
     anyagent: {
       v: "yes",
-      zh: "任意 CLI 可在终端运行；提醒依赖其信号，聊天视图限上述八款",
-      en: "Any CLI runs in the terminal; alerts depend on its signals, chat view limited to eight",
+      zh: "任意 CLI 可在终端运行；提醒取决于 CLI 发出的信号，聊天视图仅限已适配的 agent",
+      en: "Any CLI runs in the terminal; alerts depend on its signals, and chat requires a supported agent",
     },
     license: { v: "yes", zh: "MIT", en: "MIT" },
   },

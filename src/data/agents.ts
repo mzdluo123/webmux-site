@@ -1,5 +1,5 @@
-// Preset CLI agents, from mzdluo123/webmux docs/cli-agents.md (commands checked by upstream
-// on 2026-11-10) and docs/hybrid-sessions.md. Icons: LobeHub monochrome SVGs (MIT), synced.
+// Presets from the release's docs/cli-agents.md and docs/hybrid-sessions/agents.md.
+// Shell and omp are additional launch profiles, not part of the CLI preset count.
 export interface Agent {
   slug: string;
   name: string;
@@ -67,7 +67,7 @@ export const AGENTS: Agent[] = [
     name: "OpenCode",
     command: "opencode",
     icon: "opencode",
-    args: "--auto",
+    args: "--yolo",
     hybrid: true,
     docsUrl: "https://opencode.ai/docs/",
   },
@@ -85,7 +85,7 @@ export const AGENTS: Agent[] = [
     name: "Kimi Code CLI",
     command: "kimi",
     icon: "kimi",
-    args: "--auto",
+    args: "--yolo",
     hybrid: true,
     docsUrl: "https://github.com/MoonshotAI/kimi-code",
   },
@@ -116,6 +116,20 @@ export const AGENTS: Agent[] = [
     hybrid: true,
     docsUrl: "https://qoder.cn",
   },
+  {
+    slug: "devin",
+    name: "Devin CLI",
+    command: "devin",
+    icon: "devin",
+    args: "--permission-mode dangerous",
+    hybrid: true,
+    docsUrl: "https://docs.devin.ai/cli",
+  },
+];
+
+export const HYBRID_NAMES = [
+  ...AGENTS.filter((agent) => agent.hybrid).map((agent) => agent.name),
+  "omp",
 ];
 
 const icons = import.meta.glob<string>("../assets/agents/*.svg", {

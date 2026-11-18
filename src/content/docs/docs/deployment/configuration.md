@@ -20,7 +20,7 @@ sourcePath: "docs/deployment/configuration.md"
 | `state_dir`          | `$XDG_STATE_HOME/webmux` | 服务端状态目录，见 [状态目录](#状态目录)             |
 
 - 配置只在启动时读取；修改后需重启服务。
-- 新生成配置显式只启用 PTY 核心；需要的扩展先在 [内置插件选择](#内置插件选择) 中开启。
+- 新生成配置显式只启用 PTY 核心；需要的扩展先在 [内置功能选择](#内置功能选择) 中开启。
 - `webmux status` 的 `drift` 会列出已修改但尚未通过重启生效的 `listen`、`token`。
 
 ## 生成与加载配置
@@ -83,12 +83,12 @@ curl -H 'Authorization: Bearer YOUR_TOKEN' http://127.0.0.1:7681/api/health
 
 JSON 输出契约见 [控制面 JSON 契约](../protocol/control-json.md#控制面-json-契约)。
 
-## 内置插件选择
+## 内置功能选择
 
-`[plugins].enabled` 决定启动哪些随二进制发布的全栈内置功能，不下载第三方代码、不提供市场、热加载或进程沙箱。修改后重启服务，现有 PTY 会话随重启结束。
+`[features].enabled` 决定启动哪些随二进制发布的全栈内置功能，不下载第三方代码、不提供市场、热加载或进程沙箱。修改后重启服务，现有 PTY 会话随重启结束。
 
 ```toml
-[plugins]
+[features]
 enabled = [] # 生成配置的默认值：仅 PTY 核心
 # 保存启动配置与 ACP 聊天；依赖必须显式列出
 # enabled = ["launch", "files", "chat"]
@@ -111,13 +111,16 @@ enabled = [] # 生成配置的默认值：仅 PTY 核心
 | `tailscale`      | Tailscale 检测与 Serve/Funnel 托管                             |
 | `p2p`            | WebRTC DataChannel 直连                                        |
 | `mcp`            | MCP 控制入口；网络 `/mcp` 另需 `[mcp].enabled=true`            |
-| `immersive`      | TV/头显与 XR 界面贡献                                          |
 
-- **旧配置兼容**：省略整个 `[plugins]` 或省略 `enabled`，保留上表固定的 14 项旧版选择；不是“未来新增项也自动启用”。显式 `[]` 才是核心模式。
+- **旧配置兼容**：省略整个 `[features]` 或省略 `enabled`，保留上表固定的 13 项旧版选择；不是“未来新增项也自动启用”。显式 `[]` 才是核心模式。
+- **VR 功能移除**：`immersive` 已不再是有效功能 ID。旧配置若显式列出该项，启动前需从 `features.enabled` 删除；未列出该项的配置无需调整。
+- **改名迁移**：启动时自动将旧 `[plugins]` 改为 `[features]`，保留原有功能选择（含空数组）。原文备份到配置路径加 `.pre-features.bak`；配置重新编码，原注释保留在备份中。
+- 新旧两表并存时启动报错，原文件保持不变；`config show` / `validate` 保持只读，旧表仍提示迁移。已有新格式配置不重写。
 - 未知 ID、重复 ID、缺失依赖会在启动前报错，不自动补齐。`workspace` 不依赖 `code`，但 Git 工作台须显式同时选择两者。
-- 核心模式仍可创建自定义 argv/cwd 会话、附着、输入、控制、回放与修改核心偏好；没有启动配置、仓库、上传等插件入口或后台任务。
-- 禁用插件不打开、播种、迁移、清扫或删除所属数据；重新选择并重启后可读取旧数据。inactive 偏好保留但不可通过 API 修改。
+- 核心模式仍可创建自定义 argv/cwd 会话、附着、输入、控制、回放与修改核心偏好；没有启动配置、仓库、上传等功能入口或后台任务。
+- 禁用功能不打开、播种、迁移、清扫或删除所属数据；重新选择并重启后可读取旧数据。inactive 偏好保留但不可通过 API 修改。
 - **选择不等于可用**：外部命令、平台、存储与业务开关仍可能让功能不可用。用 [能力发现](../protocol.md#能力发现) 查询当前实例，不用 health/status 猜测。
+- Relay 配对、设置与 WSS 基线属于核心，不是 `features.enabled` ID；直连/TURN 优化需要选择 `p2p`，缺失时不加载 P2P 实现。
 
 ## 配置项
 
@@ -161,22 +164,14 @@ enabled = [] # 生成配置的默认值：仅 PTY 核心
 | `bell_attention`     | `true`                | 把终端响铃（输入 1 秒后）视为需要介入                                             |
 | `program_status`     | `true`                | 识别 `OSC 7501` 程序状态报告，并由服务端应答 `OSC 7501;?` 探测                    |
 
-这些识别开关属于核心 PTY，在显式零插件配置中仍生效；`notifications` 负责推送等通知投递，不决定核心会话的状态检测。
+这些识别开关属于核心 PTY，在显式零功能配置中仍生效；`notifications` 负责推送等通知投递，不决定核心会话的状态检测。
 
-### 对话历史保存
+### 原生历史交接
 
-`history_capture` 默认 `true`。WebMux 将规范化聊天消息、工具事实与交接草稿保存在 `state_dir/conversations.sqlite`；PTY 与进程仍不会跨服务重启存活。
-设置 `history_capture = false` 并重启后，停止写入新的规范化正文，同时关闭历史 REST、handoff 预览/投递和 `thread_read`。
-聊天实时显示与普通终端仍可使用；已有数据库保留，身份、删除与 unknown 投递保护继续使用数据库，不因关闭历史功能而解除。
-重新开启后只保存新的实时内容；有关闭区间的原生线程不自动把随后 load 的旧正文回填，缺口保持可见。
-关闭不会删除旧正文或 agent 自己的 transcript；会话标题、位置和原生恢复身份仍按既有规则保存。删除、备份与存储故障边界见[持久化清单](../persistence.md)。
-
-### 交接历史预算
-
-`handoff_token_cap` 默认 `16000`，允许 `1024`–`64000`。它限制交接历史的保守估算成本：一个 UTF-8 字节按一个 token，包含角色和 JSON 转义。
-实际预算还要扣除目标上下文占用、当前请求、附件与后续工作预留；增大上限不保证能保留更多历史。
-原生用量缺失时明确标为估算；inline 还受 64 KiB prompt 与附件序列化上限约束。用户请求和附件不会自动缩短。
-预览 API、编辑与 stale 语义见[交接预览](../protocol/http-handoff.md)。
+选择 `chat` 后，通过原生会话身份读取历史，默认使用内置的 OMP Snapcompact Go 移植生成首尾文本与中段图片。短历史为文本，也可显式选择 `text`。发布二进制可离线生成归档。
+`handoff_token_cap` 默认 16000，允许 1024–64000，约束历史上下文。压缩归档计入首尾文本与图片的 token 估计，文本交接采用保守字节上界；图片最多 8 页，附件字节与编码请求限制另行校验。
+预览保留五分钟，manifest、文本及图片表示共用 64 MiB；修改任务、目标、格式或页数后重新预览，目录计费估计与未知费率预留均不代表实际 usage。
+旧会话数据库升级说明见[持久化清单](../persistence.md#旧会话数据库与升级)，字段见[交接接口](../protocol/http-handoff.md)。
 
 ### Agent 启动
 
@@ -184,7 +179,7 @@ enabled = [] # 生成配置的默认值：仅 PTY 核心
 | ---------------- | ------ | ------------------------------------------------------------------------- |
 | `agent_pretrust` | `true` | 启动 agent 前把启动目录写入它自己的“信任此文件夹”记录，避免会话卡在对话框 |
 
-信任预写与 agent 专属提交延迟属于 `launch` 启动集成，只在选择该插件时装配。核心仍可用显式 argv 启动 agent，但不会自动预写信任记录；`agent_pretrust = true` 不会隐式启用插件。
+信任预写与 agent 专属提交延迟属于 `launch` 启动集成，只在选择该功能时装配。核心仍可用显式 argv 启动 agent，但不会自动预写信任记录；`agent_pretrust = true` 不会隐式启用功能。
 
 - 适用于 Claude Code、Codex、Copilot CLI、Antigravity CLI、Qoder、QoderCN 的持久信任记录，以及 Kimi 的进程级目录信任；见 [文件夹信任预写](../cli-agents.md#文件夹信任预写)。
 
@@ -300,7 +295,7 @@ which codex-acp claude-agent-acp  # 必须能在服务的 PATH 或“加载 shel
 - 本次未实测 npm 启动器或 macOS。
 - Claude 聊天端通过 `CLAUDE_CODE_EXECUTABLE` 使用 TUI 同一个 `claude`；配置显式设置时保留配置值。
 - Claude 聊天端复用服务用户、`HOME`、`CLAUDE_CONFIG_DIR` 与现有认证。
-- 不要把服务账号无权读取的 Linux 凭据文件或 macOS Keychain 当作可共享凭据。
+- 凭据共享范围以服务账号实际可读取的 Linux 文件与 macOS Keychain 条目为准。
 - 现有订阅登录、API key、OAuth token 或第三方 provider 由 Claude 自己管理；webmux 不保存凭据，也不在聊天端登录或注销。
 
 > [!WARNING]

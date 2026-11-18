@@ -24,8 +24,8 @@ const PAGES = {
     en: ["FAQ", "Sessions, access, safety, licensing"],
   },
   security: {
-    "zh-cn": ["安全与部署建议", "仅本机、可信 VPN、受控隧道"],
-    en: ["Security & deployment", "Local only, trusted VPN, controlled tunnel"],
+    "zh-cn": ["安全与部署建议", "仅本机、可信 VPN、官方 Relay 与隧道"],
+    en: ["Security & deployment", "Local, VPN, official Relay and tunnels"],
   },
   compare: {
     "zh-cn": ["对比", "与 tmux、ttyd、mosh 等方案的事实对比"],
@@ -40,8 +40,8 @@ const PAGES = {
     en: ["Windows (WSL)", "Tray, installer and console client"],
   },
   agents: {
-    "zh-cn": ["支持的 CLI agent", "九款预置启动配置与混合会话"],
-    en: ["Supported CLI agents", "Nine presets and hybrid sessions"],
+    "zh-cn": ["支持的 CLI agent", "预置启动配置与混合会话兼容矩阵"],
+    en: ["Supported CLI agents", "Launch presets and hybrid session support"],
   },
   licenses: {
     "zh-cn": ["许可与隐私", "MIT、字体与图标许可、无 Cookie"],

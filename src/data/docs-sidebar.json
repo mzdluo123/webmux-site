@@ -139,7 +139,7 @@
       },
       {
         "label": "头显与 TV 浏览器",
-        "link": "/docs/usage/xr-and-tv/",
+        "link": "/docs/usage/headset-and-tv/",
         "depth": 1
       },
       {
@@ -183,6 +183,21 @@
     "label": "开发与架构",
     "items": [
       {
+        "label": "原生历史直读与快照",
+        "link": "/docs/codex-native/",
+        "depth": 0
+      },
+      {
+        "label": "原生历史图片实验",
+        "link": "/docs/native-image-experiment/",
+        "depth": 0
+      },
+      {
+        "label": "真实 ACP 图片实验",
+        "link": "/docs/native-image-transport/",
+        "depth": 0
+      },
+      {
         "label": "参与贡献",
         "link": "/docs/contributing/",
         "depth": 0
@@ -190,6 +205,16 @@
       {
         "label": "架构设计",
         "link": "/docs/architecture/",
+        "depth": 0
+      },
+      {
+        "label": "架构分层与线上契约",
+        "link": "/docs/architecture/layers/",
+        "depth": 0
+      },
+      {
+        "label": "原生 Agent 历史夹具",
+        "link": "/docs/native-history-fixtures/",
         "depth": 0
       },
       {
@@ -213,7 +238,7 @@
         "depth": 1
       },
       {
-        "label": "Codex 原生历史",
+        "label": "交接原生身份",
         "link": "/docs/protocol/handoff-native/",
         "depth": 1
       },
@@ -263,7 +288,17 @@
     "label": "性能与质量",
     "items": [
       {
-        "label": "交接故障矩阵与性能验收",
+        "label": "Relay 真实公网验证",
+        "link": "/docs/relay-validation-604/",
+        "depth": 0
+      },
+      {
+        "label": "Relay 终端优先补测",
+        "link": "/docs/relay-terminal-validation-604/",
+        "depth": 0
+      },
+      {
+        "label": "交接故障矩阵与检查",
         "link": "/docs/protocol/handoff-validation/",
         "depth": 0
       },

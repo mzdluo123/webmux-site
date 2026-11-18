@@ -58,7 +58,7 @@ sourcePath: "docs/hybrid-sessions/agents.md"
 - 各 agent 的会话 ID 来源：
   - Codex：它打开的写锁文件（`$CODEX_HOME/thread-writer-locks/`）；
   - Claude Code：进程注册记录，见 [会话识别与占用检测](#会话识别与占用检测)；
-  - Antigravity CLI：注入的会话级 `--settings` `title` 钩子经 `OSC 7501` 子记录上报；
+  - Antigravity CLI：注入的会话级 `--settings` `title` 钩子向控制终端上报 `OSC 7501` 子记录与 `conversation_title` 对应的 `OSC 2` 窗口标题；
   - Kimi：不把 OSC 7501 子记录当作会话 ID，使用同一 cwd 下的 `session/list` 候选；根记录 `app=kimi-code` 或原生 `kimi` 根进程用于识别 agent。
   - Devin：OSC 7501 根记录 `app=devin` 只上报状态、不含会话 ID，使用同一 cwd 下的 `session/list` 候选；该记录用于识别 agent。
 - 读不到时按本次 TUI 启动后更新过的会话判定，有多个候选时让你选择。
@@ -70,6 +70,7 @@ sourcePath: "docs/hybrid-sessions/agents.md"
 
 ## Antigravity CLI（agy）
 
+- 每次启动或恢复 `agy` TUI 时，WebMux 注入会话级 `--settings` `title` 钩子：在向控制终端上报 `OSC 7501` 会话 UUID 的同时，将 `conversation_title` 作为 `OSC 2` 窗口标题写入控制终端（为空时清空上一会话标题，不向标准输出打印内容）；切换与恢复期间沿用当前 agent 会话标题，直到终端再次上报新标题。
 - agy 在后台命令完成后，可能要到下一次 prompt 才补发工具状态与结果。WebMux 在本回合新启动的进程退出且连续两次静默轮询后，自动发送英文消息，要求 agy 检查并汇报最新后台状态，通过正常 ACP 更新刷新工具行与回复。
 - 这个自动检查只用于 agy，会产生一次额外模型调用；Kimi 和其他 agent 在进程退出后直接按提醒策略完成，不额外发起回合。
 
@@ -83,7 +84,7 @@ sourcePath: "docs/hybrid-sessions/agents.md"
   - 在 `wire.jsonl` 旁保存首次修改前的 `wire.jsonl.before-local-binding` 备份；
   - 没有事件日志的旧实现保持原行为，更新失败则取消终端启动并回滚。
 - 崩溃重连使用无历史回放的 `session/resume`；Kimi 不支持插话，回合中发送的消息进入通用队列。
-- 选择 `launch` 启动集成时，浏览器草稿和 API 向混合或普通 Kimi TUI 提交文本与 Enter，都在同一回执内分隔 200ms，避免连续写入被 Kimi 当作粘贴内容；延迟期间输入锁继续阻止其他输入交错，空正文只发 Enter 时不等待，其他 agent 的提交方式不变。
+- 浏览器草稿和 API 向任何终端提交文本与 Enter 时，都在同一回执内至少分隔 200ms（见 [会话输入](../protocol/http-sessions.md#输入与中断)），Kimi 档案也声明了这一间隔，避免连续写入被当作粘贴内容；延迟期间输入锁继续阻止其他输入交错，空正文只发 Enter 时不等待。
 - `agent_pretrust` 开启时为首次启动注入 `KIMI_CODE_TRUST_WORKSPACE=1`，恢复 TUI 与 ACP 继承同一环境；它只信任当前工作区，不写持久配置，详见 [文件夹信任预写](../cli-agents.md#文件夹信任预写)。
 
 ## Devin CLI

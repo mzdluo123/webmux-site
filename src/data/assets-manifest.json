@@ -1,7 +1,7 @@
 {
   "repo": "mzdluo123/webmux",
-  "ref": "v0.16.0",
-  "commit": "289f9278e7f35ac6515135c18365f016ff8829db",
+  "ref": "v0.18.0",
+  "commit": "05d6980a073c9842ed10bd2d37d5c60ba9ed3f83",
   "files": [
     {
       "source": "docs/images/brand/webmux-logo-light.svg",
@@ -56,7 +56,7 @@
     {
       "source": "web/public/fonts/licenses/NOTICE.txt",
       "dest": "public/licenses/fonts-NOTICE.txt",
-      "sha256": "8c25a6fb430e155bd946d5ebd1810d39342d46719f6682379e5d0e2f0009a4cf"
+      "sha256": "57d7e78ec0cdc61aeb4d76ac565ef7bdc98d2169c2f006b519200c44ecbb5007"
     },
     {
       "source": "web/src/icons/lobehub/LICENSE",
@@ -157,6 +157,26 @@
       "source": "docs/images/cli-agents/after-desktop-dark.png",
       "dest": "src/assets/screenshots/cli-agents/after-desktop-dark.png",
       "sha256": "47c08b1fbf19a6fad8034ed805f4de7b2023e9a0866dfbfe18fda544bbf0a2fa"
+    },
+    {
+      "source": "web/test/evidence/project-picker/desktop-light-projects.png",
+      "dest": "src/assets/screenshots/project-picker/desktop-light-projects.png",
+      "sha256": "a55eb1013f81416409547bb36f5b61fa081105a8349f4ee092067cd07b48faf1"
+    },
+    {
+      "source": "docs/images/handoff/snapcompact-after-desktop-light.png",
+      "dest": "src/assets/screenshots/handoff/snapcompact-after-desktop-light.png",
+      "sha256": "31f01268c544e950d518c6fc2ad80def8104049a119b202a3c86c6d7f5ebf03c"
+    },
+    {
+      "source": "web/test/evidence/project-picker/desktop-dark-projects.png",
+      "dest": "src/assets/screenshots/project-picker/desktop-dark-projects.png",
+      "sha256": "0f923ebfad80100010849dc008effb4cfa8c582e606226e4b848b010fd0c35b5"
+    },
+    {
+      "source": "docs/images/handoff/snapcompact-after-desktop-dark.png",
+      "dest": "src/assets/screenshots/handoff/snapcompact-after-desktop-dark.png",
+      "sha256": "d0cb3e05abc247cf62cc75dbecc585354269c49c23453a96f9ca6bb09ceb2c38"
     },
     {
       "source": "web/src/icons/lobehub/antigravity.svg",

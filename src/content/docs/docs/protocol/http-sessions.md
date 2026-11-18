@@ -51,13 +51,18 @@ sourcePath: "docs/protocol/http-sessions.md"
 `POST /api/sessions/{id}/input` 的请求体为 `{clientRequestId, text, submit?, keys?, attachments?, mode?}`，按会话当前视图分派：
 
 - 终端视图：`text` 与 `submit` 作为一次带回执的提交写入 PTY，随后按顺序写入 `keys`。
-  - `submit` 缺省 `false`，为 `true` 时追加档案或终端的提交键。
+  - `text` 按浏览器粘贴的规则写入：换行转为 CR，程序开启 bracketed paste 时包裹 `ESC[200~`/`ESC[201~`；提交键在正文之后至少隔 200ms 写入（档案可要求更长），避免 Claude Code 等 TUI 把它当作粘贴的一部分。间隔期间输入锁继续持有，其他连接的输入不会插入；`keys` 在提交键之后写入。
+  - `submit` 缺省 `false`，为 `true` 时追加档案或终端的提交键（回车；对应 CLI 的 `--enter`）。只发 `text` 正文留在输入行不执行。
   - `keys` 取 `backspace`、`ctrl-c`、`ctrl-d`、`down`、`enter`、`esc`、`left`、`right`、`tab`、`up`，未知名称 400。
   - 回执为 `written` 时 200 `{view: "terminal"}`；`partial`、`failed` 或 `missing` 时 409 `input_failed`，`submission` 带回执状态。
   - 输入像浏览器输入一样取得终端控制，控制者标签为 `script`；从会话内经本机套接字调用时为 `script · <来源会话 ID>`。
   - 带 `attachments` 或 `mode` 时 409 `wrong_view`，不写入任何内容。
-- 聊天视图：`text` 与 `attachments` 作为提示，`mode` 取 `auto`（缺省，空闲时发送，否则排队）或 `steer`（插话）；`submit` 被忽略。
-  - 200 `{view: "chat", queued, itemId?, turnId?, promptId?}`，含义见 [聊天视图的输入](http-hybrid.md#聊天视图的输入)。
+- 聊天视图：`text` 与 `attachments` 作为提示，`submit` 被忽略。`mode` 支持以下四种值，能力、竞态与回执见[聊天视图的输入](http-hybrid.md#聊天视图的输入)：
+  - `auto`（缺省）：无运行回合、连接可用、队列为空且未暂停时开始新回合，否则排队。
+  - `steer`（插话）：向支持插话的运行中回合补充内容，不取消当前回合。
+  - `refuse`：立即发送条件同 `auto`，不满足时返回 409 `busy`，不排队。
+  - `now`（取消后立即发送）：取消运行回合后队首优先发送，可能打断工作；无运行回合且连接可用时直接发送。
+  - 200 `{view: "chat", queued, itemId?, position?, turnId?, promptId?}`，含义见 [聊天视图的输入](http-hybrid.md#聊天视图的输入)。
   - 带 `keys` 时 409 `wrong_view`。
 
 `POST /api/sessions/{id}/interrupt {clientRequestId}`：
@@ -168,7 +173,9 @@ sourcePath: "docs/protocol/http-sessions.md"
 - 文件位于会话临时文件夹的 `uploads/` 中，同名时追加 ` (2)` 等序号而不覆盖。
 - 单文件上限 100 MiB（超限 413），读期限 5 分钟（超时 408）。
 - 无效请求 400，会话不存在 404，会话已退出 409，临时文件夹不可用 503。
-- `GET /api/sessions/{id}/upload?path=<服务器绝对路径>` 读取该会话 `uploads/` 内的普通非符号链接文件（上限 10 MiB，超限 413），按文件内容嗅探 `Content-Type` 并返回原始字节；其他路径或不存在的文件返回 400，会话不存在 404。
+- `GET /api/sessions/{id}/upload?path=<服务器绝对路径>` 读取该会话 `uploads/` 内的普通非符号链接文件（上限 10 MiB，超限 413），返回原始字节与 `Content-Security-Policy: default-src 'none'; sandbox`；其他路径或不存在的文件返回 400，会话不存在 404。
+  - 嗅探属于光栅图片白名单（`image/png`、`image/jpeg`、`image/gif`、`image/webp`、`image/avif`、`image/bmp`、`image/x-icon`）时返回对应 `Content-Type` 与 `Content-Disposition: inline`；
+  - 其余类型统一返回 `Content-Type: application/octet-stream` 与 `Content-Disposition: attachment`。
 
 **会话临时文件夹**：`POST /api/sessions/{id}/artifacts` 幂等地创建并返回 `$TMPDIR/webmux-artifacts-<uid>-<实例摘要>/<会话ID>`（0700）。
 
@@ -278,12 +285,16 @@ interface SessionInfo {
 
 | 方法 | 路径                   | 说明                                                                                                                                                                                                           |
 | ---- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GET  | `/api/health`          | `{ok: true, sessions: n, load?, memory?}`，见下方说明                                                                                                                                                          |
+| GET  | `/api/health`          | `{ok: true, sessions: n, load?, memory?, swap?}`，见下方说明                                                                                                                                                   |
 | GET  | `/api/config`          | `{defaultCwd, defaultShell, hostname, workspace: {gitAvailable, registryAvailable, gitError, registryError}, tunnel, pendingUpdate?, portDetection}`，不含 token；`portDetection` 表示本平台会话会报告监听端口 |
 | GET  | `/api/fs/dirs?prefix=` | 匹配前缀的全部子目录（含符号链接目录），普通目录优先，按名称排序                                                                                                                                               |
 | POST | `/api/fs/mkdir`        | `{path}`，204                                                                                                                                                                                                  |
 
-`/api/health` 的 `load` 为 `{one, five, fifteen, cpus}`（1/5/15 分钟负载与逻辑核心数），`memory` 为 `{total, available}`（字节，`available` 不含需换出才能回收的部分）；平台无法读取时省略对应字段（Linux 与 macOS 支持）。
+`/api/health` 的主机指标字段（Linux 与 macOS 支持，平台无法读取时省略对应字段）：
+
+- `load`：`{one, five, fifteen, cpus}`，1/5/15 分钟负载与逻辑核心数；
+- `memory`：`{total, available}`（字节），`available` 不含需换出才能回收的部分；
+- `swap`：`{total, used}`（字节），`used` 为总量减去空闲交换空间，主机未配置交换空间时同样省略。
 
 `tunnel` 是只读的运行时隧道状态：`{enabled, state, named, hostname, publicUrl?}`。
 
@@ -342,6 +353,21 @@ interface SessionInfo {
 - 文件损坏、目录不可读写或状态目录已被另一实例占用：503，错误信息包含原因与文件路径。
 
 `launch-configs.json` 当前版本为 `2`，新增 `preview` 字段。本次升级仅接受版本 `2`；版本 `1` 文件保留原样，启动配置 API 返回 503。升级前备份旧配置，通过支持 v1 的旧版本保存为 v2，或备份后移走旧文件并在新版重新创建；详见 [部署升级说明](../deployment.md)。
+
+### Agent 工具检测与更新检查
+
+同样受 `launch` 内置功能门控（禁用时返回 404）；仅驻留内存缓存，不写入状态文件：
+
+| 方法 | 路径                     | 说明                                                                                              |
+| ---- | ------------------------ | ------------------------------------------------------------------------------------------------- |
+| GET  | `/api/agent-tools`       | 本机扫描与内存远端缓存拼合（可选 `?refresh=1` 强制重扫本机），零外网请求，返回 `AgentToolsReport` |
+| POST | `/api/agent-tools/check` | 可选请求体 `{refreshLocal?: boolean}`，对已安装且具备公开包源的工具查询最新稳定版并返回完整报告   |
+
+`AgentToolsReport` 返回 `{checkedAt, remoteCheckedAt?, shell, tools}`。`tools` 按固定顺序包含混合会话 Agent（含可选 `connector`）与纯终端预设：
+
+- 每项含 `{id, title, icon?, kind, installed, executable, executables, path?, installedVersion?, latestVersion?, verifiedVersion?, belowVerified?, updateStatus, checkError?, installCommand?, upgradeCommand?, docsUrl?, connector?}`；
+- `updateStatus` 为 `not_installed`、`unchecked`、`up_to_date`、`update_available`、`source_unavailable` 或 `check_failed`；
+- 响应使用 `Cache-Control: no-store`；未知查询参数或未知请求体字段返回 400。
 
 ## 原始终端输出分页
 

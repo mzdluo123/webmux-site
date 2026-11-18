@@ -30,9 +30,10 @@ sourcePath: "docs/user-stories/code-and-worktrees/worktrees/git-workbench/core.m
   - 所有视口使用顶部水平下划线标签「历史」「提交」「分支」「贮藏」，复用 WebMux 原生令牌；同排工具栏控件等高，文件行通过眼睛图标切换审阅状态；已审阅态仅改变图标与主题色，保持同尺寸，不显示描边填充块。
   - 路由支持 `/git`、`/git/{repositoryId}`（只读仓库模式）与 `/git/{repositoryId}/worktrees/{worktreeId}`（工作树读写模式），并解析深链查询参数 `view=log|commit|branches|stash`、`scope=all|branch|task|to-push|incoming`、`branch`、`commit`、`q`、`author`、`since`、`until`、`path` 与 `returnSession`；
   - 显式 URL 查询参数优先级始终高于本地记忆，浏览器前进/后退仅改变查询串时响应式同步当前视图与筛选，不销毁单实例 `AppShell` 或重复建立 `/ws/sessions` 连接；在 `/git/...` 页面切换侧栏“工作台 / 聊天”模式保持当前 `/git/...` 路由；
-  - 零活跃会话下可通过首页工具栏“Git 工作台”按钮、侧栏仓库“⋯”菜单、仓库面板头部“Git 工作台”按钮或直接访问 URL 打开工作台，全程不创建任何伪终端会话；创建并删除最后一个会话不会卸载或中断当前 `/git` 页面；
+  - 零活跃会话下可通过首页“会话”旁的“Git”入口、侧栏仓库“⋯”菜单、仓库面板头部“Git 工作台”按钮或直接访问 URL 打开工作台，全程不创建任何伪终端会话；创建并删除最后一个会话不会卸载或中断当前 `/git` 页面；
   - 三类入口精确落位并支持无损返回会话：
-    - 仓库级入口打开只读仓库模式 `/git/{repositoryId}`；首页工具栏“Git 工作台”按钮常驻并随当前范围落位：选中工作树时直达 `/git/{repositoryId}/worktrees/{worktreeId}`，选中仓库时打开 `/git/{repositoryId}`，未选中仓库时经 `/git` 落位到最近使用的仓库；
+    - Git 顶栏的“会话”按钮返回工作台会话列表，保留进入 Git 前的仓库与工作树范围。来自终端的“返回会话”按钮另行保留。
+    - 仓库级入口打开只读仓库模式 `/git/{repositoryId}`；首页“会话”旁的“Git”入口常驻并随当前范围落位：选中工作树时直达 `/git/{repositoryId}/worktrees/{worktreeId}`，选中仓库时打开 `/git/{repositoryId}`，未选中仓库时经 `/git` 落位到最近使用的仓库；
     - 工作树“⋯”菜单提供“在 Git 工作台打开”（`/git/{repositoryId}/worktrees/{worktreeId}`），且当工作树可用、未锁定、非 `bare` 并存在待处理改动时额外提供“提交改动…”直达 `?view=commit`；
     - 会话代码工作区头部“在 Git 中查看”携带 `returnSession={sessionId}` 跳转并在顶栏提供“返回会话”；若原会话已退出、归档或删除则诚实提示状态，工作台继续独立可用；
   - 顶栏语义分离与工作树写门禁：
@@ -41,7 +42,7 @@ sourcePath: "docs/user-stories/code-and-worktrees/worktrees/git-workbench/core.m
     - 工作树缺失、待清理或已锁定时禁用写操作并提供管理/修复或只读切换入口；
   - 跨视图、跨工作树与跨设备尺寸隔离记忆：
     - 按 `(hostId, repositoryId, worktreeId)` 隔离保留选中提交、父提交对比、筛选条件、列表与 Diff 滚动位置、已看标记与本地提交草稿，`Log -> Commit -> Branches -> Log` 往返不丢状态，切换工作树或仓库立即清空确认码与跨目录草稿；
-    - 分栏比例、引用栏显隐与统一/并排 Diff 偏好按设备尺寸档位（`desktop`、`compact`、`tablet`、`phone`）独立持久化，手机端操作不覆盖桌面端布局。
+    - 分栏比例、底部差异栏高度与折叠状态及引用栏显隐按设备尺寸档位（`desktop`、`compact`、`tablet`、`phone`）独立持久化，手机端操作不覆盖桌面端布局。
 - **US-J21 Git 工作台历史视图：引用筛选、`%P` 拓扑分页、提交详情、两版本比较与 Pierre Diff 阅读**：作为检视仓库演进或对照分支差异的使用者，我希望在同一历史工作面筛选多分支拓扑提交图、切换合并父节点或比较任意两提交，并复用只读差异阅读器检查变更，绝不静默切换检出状态或改动 `.git/index`。
   验收要点：
   - 左侧引用筛选树与检出解耦：
@@ -56,11 +57,11 @@ sourcePath: "docs/user-stories/code-and-worktrees/worktrees/git-workbench/core.m
     - 基于真实父提交 `%P` 渲染节点、分支/标签/`HEAD` 徽标、`direct` 实线边、`indirect` 虚线边（当路径或关键字过滤省略中间节点时额外显示“筛选省略中间节点”）及页尾 `boundary` 延续短边，车道与曲线贯穿单行及徽标换行行高且跨分页连续衔接；
     - 滚动触底或点击“加载更多历史”通过不透明 `cursor` 追加下一页且不重排已渲染行；当分页或刷新返回 `refsChanged: true` 时给出非阻塞“分支引用已更新，可刷新”提示；
   - 右上变更文件、右下提交详情与合并父节点切换：
-    - 右上“变更文件”复用会话代码列表的状态图标与语义色（新增、修改、删除、重命名、复制、类型变更）、重命名路径（`oldPath → newPath`）、二进制标记与按路径二次过滤，支持 `ArrowUp`/`ArrowDown`/`Home`/`End` 键盘导航、单击在底部预览、`Enter` 或双击放大至主工作区；
+    - 右上“变更文件”复用会话代码列表的状态图标与语义色（新增、修改、删除、重命名、复制、类型变更）、重命名路径（`oldPath → newPath`）、二进制标记与按路径二次过滤，支持 `ArrowUp`/`ArrowDown`/`Home`/`End`/`Enter` 键盘导航与底部停靠栏预览；
     - 右下“提交详情”展示完整消息（标题与保留换行的正文）、作者与提交者（`distinctCommitter` 为真时分开列出）、完整 OID 复制、可点击跳转的父提交 OID 与全部引用徽标；合并提交（`parents.length >= 2`）提供显式父节点切换器并联动刷新变更文件与差异；
   - Pierre `CodeDiffReader` 复用、任意两版本比较与异步竞态隔离：
-    - 底部可折叠与高度可拖拽（`140–640px`）差异栏及主工作区放大态统一复用 Pierre `CodeDiffReader`，保留语法高亮 worker、文件内查找、行号跳转、自动换行与字号缩放、Unified/Split 切换、变更前后完整快照预览及原始文件下载；
-    - 差异面板对加载中、二进制、超预算/纯元数据变更与错误重试态给出中文内嵌反馈；放大态按 `Escape`（无打开面板时）或返回按钮恢复原提交、文件选中与列表滚动位置；
+    - 底部可折叠与高度可拖拽（`140–640px`）差异栏统一复用 Pierre `CodeDiffReader`，桌面与平板固定采用双栏（`Split`）差异布局（`< 640px` 手机视口与 `< 480px` 窄容器自适应回退为单列 `Unified`），保留语法高亮 worker、文件内查找、行号跳转、自动换行与字号缩放，以及二进制/超预算快照原始文件下载；
+    - 差异面板对加载中、二进制、超预算/纯元数据变更与错误重试态给出中文内嵌反馈；折叠/展开底部差异栏或切换文件时保持原提交选中与列表滚动位置；
     - 提交行与引用行菜单支持“设为比较起点 / 与起点比较 / 与当前选中提交比较”，只读拉取 `baseOid → targetOid` 变更文件列表与逐文件差异，支持一键“交换方向”与“退出比较”，全程不执行 `git checkout`、不触碰 `.git/index`、不自动触发 `git fetch`；
     - 提交详情、父节点切换、单文件差异与两版本比较均绑定 `LatestRequest` 与 `AbortController`，快速连续切换时丢弃过期响应，绝不覆盖当前选中状态；
     - 窄屏手机端（`< 640px`）采用“提交列表（含引用筛选抽屉）→ 提交详情与变更文件 → Unified 差异阅读”单列步进导航且无横向溢出。
@@ -71,7 +72,7 @@ sourcePath: "docs/user-stories/code-and-worktrees/worktrees/git-workbench/core.m
     - 当前阅读高亮（`aria-selected`）、绑定 `identityKey` 内容版本的本地“已审阅”标记与真实 Git `index` 驱动的“已暂存”三态严格分离；无勾选框暂存列表，文件或暂存身份在外部变化时自动失效旧“已审阅”标记；
     - 支持分组头批量 `Stage`/`Unstage`、文件行整文件 `Stage`/`Unstage`，以及不依赖鼠标悬停（桌面键盘与触屏均常驻可达）、绑定 `StageFileIdentity` 与 `hunkIds` 的常驻逐块操作条；
   - Pierre `CodeDiffReader` 暂存阅读、降级兜底、冲突引导与过期快照门禁：
-    - 右侧差异区复用 Pierre `CodeDiffReader`，顶栏标明文件路径、比较端点（`index → working tree` 或 `HEAD → index`，缺失侧显式注明“文件不存在”）、上/下一块跳转、Unified/Split 切换及整文件暂存/取消暂存；
+    - 右侧差异区复用 Pierre `CodeDiffReader`（桌面与平板固定双栏显示，窄容器自适应回退为单列），顶栏标明文件路径、比较端点（`index → working tree` 或 `HEAD → index`，缺失侧显式注明“文件不存在”）、上/下一块跳转及整文件暂存/取消暂存；
     - 二进制、重命名/复制、符号链接/子模块、`.gitattributes` 含 `filter`/`working-tree-encoding`、纯删除、纯权限变更及超预算（`> 2 MiB` 或 `> 20,000` 行）文件展示明确 `degradeReason`，仅开放整文件 `Stage`/`Unstage`；
     - 冲突条目（`Conflicts`）不伪装为可提交文件，展示进行中 Git 操作并提供一键打开内置三方冲突解决器（US-J26）以及跳转或新建该工作树终端会话入口；
     - 外部终端或 Agent 修改当前文件或 `.git/index` 导致 `409 stale` 或前台检测到 `identityKey` 变化时，保留当前阅读视图、置灰旧快照暂存按钮并提示点击“刷新快照”；
@@ -122,7 +123,7 @@ sourcePath: "docs/user-stories/code-and-worktrees/worktrees/git-workbench/core.m
 
 依据：
 
-- Git 只读与暂存提交接口：[只读路由](../../../../../internal/pluginapi/git_read.go)、[暂存提交路由](../../../../../internal/pluginapi/git_write.go)、[线上契约](../../../../../internal/contract/git_read.go)、[转换层](../../../../../internal/pluginwire/git.go)；
+- Git 只读与暂存提交接口：[只读路由](../../../../../internal/featureapi/git_read.go)、[暂存提交路由](../../../../../internal/featureapi/git_write.go)、[线上契约](../../../../../internal/contract/git_read.go)、[转换层](../../../../../internal/featurewire/git.go)；
   [代码上下文与比较](../../../../../internal/codeview/git_lookup.go)、[历史与暂存提交服务](../../../../../internal/workspace/staging.go)、[前端契约](../../../../../web/src/contracts/git-api-schemas.ts)、[前端请求封装](../../../../../web/src/platform/git-api.ts)；
   [只读接口测试](../../../../../internal/api/git_read_test.go)、[暂存提交接口测试](../../../../../internal/api/git_write_test.go)、[快照录制](../../../../../internal/api/wire_git_snapshot_test.go)、[前端契约单测](../../../../../web/test/git-api.test.ts)。
 - 独立 `/git` 路由与壳层：
@@ -138,7 +139,7 @@ sourcePath: "docs/user-stories/code-and-worktrees/worktrees/git-workbench/core.m
   - 左侧引用与筛选：[Log 主面板](../../../../../web/src/components/workspace/GitLogPane.svelte)、[引用树](../../../../../web/src/components/workspace/GitLogBranchTree.svelte)、[筛选栏](../../../../../web/src/components/workspace/GitLogFilterBar.svelte)；
   - 中间提交列表与拓扑：[提交列表面板](../../../../../web/src/components/workspace/GitLogListPane.svelte)、[提交拓扑行](../../../../../web/src/components/workspace/GitLogCommitRow.svelte)；
   - 右侧变更与详情：[变更文件列表](../../../../../web/src/components/workspace/GitLogFilesPane.svelte)、[提交详情](../../../../../web/src/components/workspace/GitLogDetailPane.svelte)；
-  - 底部与放大差异：[差异面板](../../../../../web/src/components/workspace/GitLogDiffPanel.svelte)、[Pierre 阅读器](../../../../../web/src/components/code/CodeDiffReader.svelte)；
+  - 底部双栏差异：[差异面板](../../../../../web/src/components/workspace/GitLogDiffPanel.svelte)、[Pierre 阅读器](../../../../../web/src/components/code/CodeDiffReader.svelte)；
   - 单测与组件测试：[收藏与深链单测](../../../../../web/test/git-log-controller.test.ts)、[竞态与分页浏览器单测](../../../../../web/test/browser/GitLogController.test.ts)、[工作台组件测试](../../../../../web/test/browser/GitWorkbench.test.ts)；
   - 端到端验证：[历史视图 E2E](../../../../../web/test/e2e/git-workbench-log.spec.ts)。
 - Git 工作台提交暂存、三处共享分支动作与宽幅推送确认：

@@ -1,9 +1,9 @@
 ---
 title: "内嵌二进制体积"
-description: "在 macOS arm64 上使用 Go 1.26.1 和同一组发布参数比较上游 700f043 与本次修改：CGOENABLED=0、-trimpath、-ldflags \"-s -w -X main.version=0.1.0\"。以下是可执行文件本身的大小，不是下载压缩包。"
+description: "以下首表是历史优化记录，不代表当前发行体积。在 macOS arm64 上使用 Go 1.26.1 和同一组发布参数比较上游 700f043 与本次修改：CGOENABLED=0、-trimpath、-ldflags \"-s -w -X main.version=0.1.0\"。以下是可执行文件本身…"
 sourcePath: "docs/binary-size.md"
 ---
-在 macOS arm64 上使用 Go 1.26.1 和同一组发布参数比较上游 `700f043` 与本次修改：`CGO_ENABLED=0`、`-trimpath`、`-ldflags "-s -w -X main.version=0.1.0"`。以下是可执行文件本身的大小，不是下载压缩包。
+以下首表是历史优化记录，不代表当前发行体积。在 macOS arm64 上使用 Go 1.26.1 和同一组发布参数比较上游 `700f043` 与本次修改：`CGO_ENABLED=0`、`-trimpath`、`-ldflags "-s -w -X main.version=0.1.0"`。以下是可执行文件本身的大小，不是下载压缩包。
 
 | 指标                   |       修改前 |       修改后 |   缩减 |
 | ---------------------- | -----------: | -----------: | -----: |
@@ -15,19 +15,19 @@ sourcePath: "docs/binary-size.md"
 
 Vite 保留可供普通静态服务器预览的 `dist`，同时生成确定性的 `dist/embed.zip`。Go 只嵌入 ZIP，通过标准库文件系统按需读取；HTTP 层缓存访问过的文件。资源 URL 与缓存策略不变，运行时仍只需要一个二进制。
 
-1 KiB 及以上的文本类资源与 WebAssembly 在 ZIP 中只保存构建期生成的 `.br` 与 `.gz`，不保存原文（US-H11）：
+1 KiB 及以上的文本类资源与 WebAssembly 在 ZIP 中只保存 Brotli 版本（US-H11）。
 
-- 服务端按 `Accept-Encoding` 直接返回已有字节，不做运行时压缩。
-- 客户端拒绝两种编码时，原文由 gzip 解出一次并缓存。
-- 代价是 ZIP 增加约 3.4 MB（brotli 版本）。
+- 接受 Brotli 的浏览器可以直接读取构建期压缩的字节。
+- 首次请求 gzip 时，服务端流式解码 Brotli 并生成 gzip。首次请求原文时单独解码，两种结果按需缓存到进程退出。
+- 同一资源同时收到多个 gzip 请求时只执行一次转换。仅请求 gzip 的客户端不会触发原文缓存。
 
-拉丁界面保留 Inter，界面中日韩文字使用浏览器所在设备的系统无衬线字体；终端和代码使用内置 Maple Mono NF CN 的拉丁字形、制表符、Powerline、Nerd Font 图标，以及由 `cn-font-split` 按 `unicode-range` 切分的中文分片（仅在进入终端或代码工作区且遇到对应码位时按需加载）。
+拉丁界面保留 Inter，界面中日韩文字使用浏览器所在设备的系统无衬线字体；终端和代码使用内置 Maple Mono NF CN 的拉丁字形、制表符、Powerline和共享 Nerd Font 图标。终端和代码中的中文也使用系统字体。
 
 终端标题带到界面的 Nerd Font 私有区图标复用同一份图标 WOFF2；普通界面文字和中文仍由 Inter 与系统字体渲染。
 
-两种字重中 10,329 个轮廓及水平度量相同、且没有 hint 指令的图标共用同一个 WOFF2 文件。有差异或带 hint 指令的字形继续分别保留。共享文件分别声明 `100 500` 和 `600 900` 两个字重范围，与其他 unicode-range 分片保持一致；单独声明 `100 900` 会破坏复合字体匹配，使英文回退为比例字体。
+两种字重中 10,329 个轮廓及水平度量相同、且没有 hint 指令的图标共用同一个 WOFF2 文件。其余字形使用系统回退。共享文件分别声明 `100 500` 和 `600 900` 两个字重范围，与其他 unicode-range 分片保持一致；单独声明 `100 900` 会破坏复合字体匹配，使英文回退为比例字体。
 
-## 验证
+## 历史验证
 
 - Go race、`go vet`、Svelte/TypeScript、Oxlint 和格式检查通过。
 - 90 个 Node 单元测试、67 个 Chromium 组件测试通过。
@@ -37,7 +37,7 @@ Vite 保留可供普通静态服务器预览的 `dist`，同时生成确定性�
 - 两种字重各 11,818 个非中日韩码位的集合、轮廓和 advance width 与原字体一致。
 - 浏览器在图标字体加载后验证 400/700 字重、14/16px 下 `W` 和 `i` 等宽，并验证 0.6em 字宽在平台 hinting 取整范围内。
 
-字体生成使用 Maple v7.9、Inter 5.2.8，生成工具为 Python 3.12+、fonttools、brotli 与 cn-font-split 7.4.3。普通构建使用提交的字体，无需安装字体生成工具。
+字体生成使用 Maple v7.9、Inter 5.2.8，生成工具为 Python 3.12+、fonttools 与 brotli。普通构建使用提交的字体，无需安装字体生成工具。
 
 ## 截图
 
@@ -65,3 +65,30 @@ Storybook 设计系统标题允许换行，以适应不同系统字体和大号�
 | ------------------------------------------------------------------- | -----------: | -----------------: |
 | 默认构建（含 WebRTC P2P 与网关端口映射）                            | 60,620,960 B |  基准（57.81 MiB） |
 | 裁剪构建（`-tags nop2p`）                                           | 55,607,456 B | -4.78 MiB（-8.3%） |
+
+## 原生历史 PNG 的字体预算
+
+本阶段选择默认包含完整、未修改的 Noto Sans CJK SC Regular，以保持单文件发行、离线中文 PNG 生成与缺字检测。
+不在运行时下载字体，也不另复制渲染器；使用 `snapcompact-go v0.1.0` 的字库和实现。
+`features.enabled=[]` 或关闭 chat 不会裁掉静态链接的字库；`nop2p` 也不裁剪它。
+为这次原生导入与 PNG 接入记录的增量预算为 **20 MiB**，包含字库及新链接的 Go 代码；这不是承诺后续整个程序总大小不变。
+
+2026-11-16 在 Linux amd64、Go 1.27.4 上构建本机版及 macOS arm64 交叉版。
+基线为 `62c43b2aa`，接入版 Go 代码为 `3d82e33ca`；两边复用相同前端 ZIP，隔离后端接入的增量。
+两边 ZIP 的 SHA256 均为 `7c5044d83c17ffffa2a3d0d3bb2a1a21f33ba71e051a6812e5130b98152032f2`。
+参数均为 `CGO_ENABLED=0 go build -trimpath -ldflags '-s -w -X main.version=native-size-check' ./cmd/webmux`，仅切换 GOOS/GOARCH。
+
+| 目标        |         基线 |       接入版 |                              增量 |
+| ----------- | -----------: | -----------: | --------------------------------: |
+| Linux amd64 | 65,257,632 B | 82,735,264 B | 17,477,632 B（16.67 MiB，26.78%） |
+| macOS arm64 | 63,633,874 B | 81,224,290 B | 17,590,416 B（16.78 MiB，27.64%） |
+
+字库本身为 16,437,364 B。这里测量可执行文件，不是下载压缩包或运行时 RSS；macOS 结果没有真机运行验证。
+原始二进制在内嵌资源 `/fonts/licenses/OFL-NotoSansCJK.txt` 中携带完整版权和 OFL 文本。
+`/fonts/licenses/Snapcompact-Go-NOTICES.txt` 同时包含压缩库和依赖的许可声明；Linux deb/rpm 另将两份文本安装到 `/usr/share/licenses/webmux/`。
+许可证静态资源读取和包内路径、内容、权限、卸载均有回归检查；PNG 生成成功不证明模型可读或节省 token。
+
+2026-11-18 的归档预算接入了离线 `cl100k_base` 词表。复用同一份前端 ZIP，以 `29157a82` 为基线，Linux amd64 裁去调试符号后的二进制由 83,726,496 B 增至 87,429,280 B（+3.53 MiB）。
+词表与正则库许可证随上述许可文件发放。
+
+随后默认交接切换到 OMP Snapcompact 的 Go 移植。该路径自带 OMP 点阵字库和模型费率目录，许可证与来源收录在同一静态资源中。

@@ -13,6 +13,7 @@ const EXCLUDE = [
   /^docs\/agent-rules\.md$/,
   /^docs\/agent-rules\//,
   /^docs\/doc-governance\.md$/,
+  /^docs\/proposals\//,
   /^docs\/user-stories\/verification-log-[^/]*\.md$/,
 ];
 

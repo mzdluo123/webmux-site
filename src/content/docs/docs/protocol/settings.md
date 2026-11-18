@@ -1,13 +1,12 @@
 ---
 title: "服务端偏好协议"
-description: "GET /api/settings 返回 {revision, updatedAt, values}。values 始终包含 theme、preview、codeReader、quickCommands、homeWorktrees、sessionPins、forceSoftKeys、ignoreH…"
+description: "GET /api/settings 返回 {revision, updatedAt, values}。values 始终包含 preview、codeReader、quickCommands、homeWorktrees、sessionPins、forceSoftKeys、ignoreHighPor…"
 sourcePath: "docs/protocol/settings.md"
 ---
-`GET /api/settings` 返回 `{revision, updatedAt, values}`。`values` 始终包含 theme、preview、codeReader、quickCommands、homeWorktrees、sessionPins、forceSoftKeys、ignoreHighPorts 八个键。
+`GET /api/settings` 返回 `{revision, updatedAt, values}`。`values` 始终包含 preview、codeReader、quickCommands、homeWorktrees、sessionPins、forceSoftKeys、ignoreHighPorts 七个键。
 
 ## 值与默认
 
-- theme：light / dark / null；null 跟随系统。
 - preview：`{lines: 1..50, skip: 0..50}` 或 null（10/1）。
 - codeReader：`{lineNumbers: "show"|"hide", diffOverflow: "scroll"|"wrap"}` 或 null（show/scroll）。
 - quickCommands：最多 50 个 `{id, name, command, enter}`，唯一 ID；null 显示系统预设（“恢复会话” `/resume`、“新会话” `/new` 与“WebMux 工具” `{{webmux}}`；旧版本保存的“临时文件夹”原样保留），空数组表示明确清空。
@@ -23,7 +22,7 @@ sourcePath: "docs/protocol/settings.md"
 
 `PATCH /api/settings` 请求为 `{baseRevision, changes}`。changes 只包含本次修改的已知键；null 恢复默认，不提供的键保持不变。请求上限 2 MiB，拒绝重复键、未知字段、大小写变体、无效类型和多个 JSON 值。
 
-禁用插件拥有的字段保留在读取快照与磁盘中，但 PATCH 该字段返回 400，即使请求值为 null；更新其他字段不会清空 inactive 值。
+禁用功能拥有的字段保留在读取快照与磁盘中，但 PATCH 该字段返回 400，即使请求值为 null；更新其他字段不会清空 inactive 值。
 `preview` / `codeReader` 归 `code`，`quickCommands` 归 `quick-commands`，`homeWorktrees` 归 `workspace`，`ignoreHighPorts` 归 `forward`；其余字段属核心。
 
 修订号一致时持久提交后返回完整新快照；revision 增一，updatedAt 为 UTC 时间。冲突 409，非法请求 400，认证 401，Origin 403，存储不可用 503。错误不回显设置值。客户端重读后按字段/ID 操作意图最多重试一次，不上传整个旧快照；网络失败不会后台重放。
@@ -40,4 +39,4 @@ sourcePath: "docs/protocol/settings.md"
 
 会话置顶在首次连接时从旧浏览器导入。其他旧浏览器键不迁移。
 
-旧 `settings.json` 中遗留的历史键（`fontSize`、`chatIdleSleepMinutes`、`artifactPrompt`）读取时忽略，下次写入时移除。`webmux.settingsCache` 只缓存最后确认的快照；不能用作离线写入队列。Token、Web Push 身份、草稿、最近目录和临时命令不属于此协议。
+旧 `settings.json` 中遗留的历史键（`theme`、`fontSize`、`chatIdleSleepMinutes`、`artifactPrompt`）读取时忽略，下次写入时移除。`webmux.settingsCache` 只缓存最后确认的快照；不能用作离线写入队列。Token、Web Push 身份、草稿、最近目录和临时命令不属于此协议。

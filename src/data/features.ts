@@ -1,8 +1,9 @@
 // Feature inventory for /features/, grouped as in strategy.md#价值主张与消息层级 (layer 3).
 // Facts: mzdluo123/webmux docs/overview.md, docs/usage.md, docs/usage/*.md, docs/hybrid-sessions.md,
-// docs/deployment/*.md, checked 2026-11-10 at v0.14.3/main. `since` marks features new in that release.
+// docs/deployment/*.md. `since` marks the release that introduced a feature.
 import type { Lang } from "../lib/i18n";
 import { serverSizeMB } from "../lib/releases";
+import { AGENTS, HYBRID_NAMES } from "./agents";
 
 const SIZE = serverSizeMB() ?? 20;
 import { PORT_FORWARD_DOC } from "./use-cases";
@@ -21,94 +22,64 @@ export interface FeatureGroup {
   items: Feature[];
 }
 
-export function recent(lang: Lang): Feature[] {
-  return lang === "zh-cn"
-    ? [
-        {
-          title: "快速开始可选已有工作树",
-          body: "快速开始不再只能新建 worktree：在弹出面板顶部切到「已有工作树」，就能直接在主工作区或现有 worktree 中启动聊天 agent，继续已有分支或未提交的改动；默认仍是新建独立的 worktree。",
-          href: "/use-cases/#parallel-agents",
-        },
-        {
-          title: "会话置顶",
-          body: "把正在跟进的会话置顶，并按需要上移、下移或取消；侧栏与快速切换优先显示同一顺序，顺序保存在服务端并跨设备同步。",
-          href: "/docs/usage/sessions/#快速切换会话",
-          since: "v0.14",
-        },
-        {
-          title: "聊天提示召回与模型搜索",
-          body: "聊天输入框按 ↑ 召回本会话发过的提示，按 ↓ 往后翻；模型选项支持按名称、值与说明搜索，手机端在会话选项面板内完成。",
-          href: "/docs/hybrid-sessions/#输入框与会话选项",
-          since: "v0.14",
-        },
-        {
-          title: "工作台导航树记住折叠",
-          body: "侧栏导航树在本设备记住每个节点的展开状态，并在节点下的未结束会话变化时自动展开到会话行；当前打开的会话路径始终展开。",
-          href: "/docs/usage/sessions/#排列与分组",
-          since: "v0.14",
-        },
-        {
-          title: "Kimi 加入混合会话",
-          body: "Kimi Code CLI 的同一段对话可在原生 TUI 与聊天视图之间切换，支持模型与模式恢复、首次启动自动处理目录信任；混合会话现覆盖八款 agent（含 omp）。",
-          href: "/docs/hybrid-sessions/agents/#kimi-code-cli",
-          since: "v0.14",
-        },
-        {
-          title: "全局会话切换",
-          body: "按 ⌘K（macOS）或 Ctrl+Alt+K（Windows / Linux）从工作台、快速开始、终端或设置页搜索并跳到已有会话，支持跨仓库、目录与分支名，置顶会话优先。",
-          href: "/docs/usage/sessions/#快速切换会话",
-          since: "v0.14",
-        },
-        {
-          title: "语音输入与移动端快捷操作",
-          body: "聊天、快速开始页与终端草稿支持可插拔的语音识别；手机端提供软键栏、触控手柄覆盖层与紧凑输入卡片。",
-          href: "/docs/usage/mobile/",
-          since: "v0.14",
-        },
-      ]
-    : [
-        {
-          title: "Quick Start in an existing worktree",
-          body: "Quick Start no longer only creates worktrees: switch to “Existing worktree” at the top of the picker to start a chat agent in the main workspace or a linked worktree, continuing existing branches or uncommitted work. A new worktree is still the default.",
-          href: "/use-cases/#parallel-agents",
-        },
-        {
-          title: "Pin active sessions",
-          body: "Pin the sessions you are following and move them up or down; the sidebar and quick switcher show pinned sessions first in the same server-saved order across devices.",
-          href: "/docs/usage/sessions/#快速切换会话",
-          since: "v0.14",
-        },
-        {
-          title: "Prompt recall and model search",
-          body: "Press ↑ in the chat composer to recall prompts sent in this session and ↓ to move forward; model options can be searched by name, value or description, including inside the mobile session options panel.",
-          href: "/docs/hybrid-sessions/#输入框与会话选项",
-          since: "v0.14",
-        },
-        {
-          title: "The workbench tree remembers folds",
-          body: "The sidebar tree remembers each node's expanded state on this device and auto-expands to unfinished sessions when a node's live sessions change; the current session path always expands.",
-          href: "/docs/usage/sessions/#排列与分组",
-          since: "v0.14",
-        },
-        {
-          title: "Kimi joins hybrid sessions",
-          body: "Kimi Code CLI switches between its native TUI and the chat view, with model and mode restoration plus automatic folder trust on first start; eight agents (including omp) now support hybrid sessions.",
-          href: "/docs/hybrid-sessions/agents/#kimi-code-cli",
-          since: "v0.14",
-        },
-        {
-          title: "Global session switcher",
-          body: "Press ⌘K on macOS or Ctrl+Alt+K on Windows / Linux to search and jump to sessions from the workbench, Quick Start, terminal or settings, across repositories, directories and branches, with pinned sessions first.",
-          href: "/docs/usage/sessions/#快速切换会话",
-          since: "v0.14",
-        },
-        {
-          title: "Voice input and mobile shortcuts",
-          body: "Chat, Quick Start and terminal drafts support pluggable speech recognition; on phones the soft-key bar, touch gamepad overlay and compact composer keep controls within reach.",
-          href: "/docs/usage/mobile/",
-          since: "v0.14",
-        },
-      ];
+// The session home images come from upstream PR #694's evidence commit
+// 82503078788c0d6deb9a9519f4f7cda0938af0ff (sidebar-group-padding-conversation-desktop-{light,dark}.png).
+export function workbenchShot(lang: Lang) {
+  return {
+    name: "workbench/desktop-light.png",
+    dark: "workbench/desktop-dark.png",
+    alt:
+      lang === "zh-cn"
+        ? "工作台会话主页：「待我处理」列在进行中的会话上方。"
+        : "Workbench session home, with sessions that need attention above work in progress.",
+  };
+}
+
+export function recent(lang: Lang) {
+  const zh = lang === "zh-cn";
+  return [
+    {
+      title: zh ? "先处理等你回复的会话" : "Answer the sessions waiting on you",
+      body: zh
+        ? "打开工作台，「待我处理」会列出提问、授权请求和错误。点行尾的「预览」看最近输出，再进入需要回复的会话；仍在运行的任务列在下方。"
+        : "Open the workbench. “Needs attention” lists questions, approval requests and errors. Preview the latest output, then open the session that needs a reply. Work in progress stays below.",
+      href: "/docs/usage/sessions/#会话队列",
+      since: "v0.18.0",
+      shot: workbenchShot(lang),
+    },
+    {
+      title: zh
+        ? "从本地项目或 GitHub 仓库开工"
+        : "Start from a local project or GitHub repository",
+      body: zh
+        ? "点「新建会话」，先选项目。可以打开服务器上的普通文件夹，不必初始化 Git；也可以用服务器已登录的 gh 搜索并克隆 GitHub 仓库。Git 项目再选工作树，最后选择要运行的 agent 或 Shell。"
+        : "In “New session”, choose the project first. Open a folder on the server without setting up Git, or use the server’s signed-in gh CLI to find and clone a GitHub repository. For Git projects, choose a worktree, then launch your agent or shell.",
+      href: "/docs/usage/sessions/#新建会话",
+      since: "v0.17.1",
+      shot: {
+        name: "project-picker/desktop-light-projects.png",
+        dark: "project-picker/desktop-dark-projects.png",
+        alt: zh
+          ? "新建会话的项目列表，可按名称或路径搜索服务器上的项目。"
+          : "The New session project list, with a field to search server projects by name or path.",
+      },
+    },
+    {
+      title: zh ? "换一个 agent 接着做" : "Hand the task to another agent",
+      body: zh
+        ? "在会话菜单选「更换 Agent…」，指定目标聊天，写下接下来要做的事。发送前可以查阅原文、修改任务并重新生成预览。目标 agent 收到的是这份上下文；它不会接管原进程，这与同一会话切换 TUI 和聊天视图不同。"
+        : "Choose “Switch agent…” in the session menu, pick a target chat and describe what to do next. Inspect the source history, edit the task and regenerate the preview before sending. The target gets that context, not the running process. Switching between TUI and chat keeps you in the same session instead.",
+      href: "/docs/hybrid-sessions/handoff/",
+      since: "v0.15.0",
+      shot: {
+        name: "handoff/snapcompact-after-desktop-light.png",
+        dark: "handoff/snapcompact-after-desktop-dark.png",
+        alt: zh
+          ? "交接预览显示归档页和当前任务，底部标明发送成功。"
+          : "The handoff screen shows an archive page, the current task and a successful delivery.",
+      },
+    },
+  ];
 }
 
 export function groups(lang: Lang): FeatureGroup[] {
@@ -125,9 +96,9 @@ export function groups(lang: Lang): FeatureGroup[] {
               href: "/docs/architecture/",
             },
             {
-              title: "聊天与工作台模式",
-              body: "侧栏在聊天历史与“仓库 → worktree → 会话”树之间切换；快速开始选仓库、工作树方式与 agent，写下任务即在新 worktree 或已有工作树中开工。",
-              href: "/docs/usage/chat/",
+              title: "先选项目，再创建会话",
+              body: "从「新建会话」选择或添加项目。普通文件夹可直接运行；Git 项目可沿用已有工作树或新建一棵，再选择 agent 或 Shell。",
+              href: "/docs/usage/sessions/#新建会话",
             },
             {
               title: "仓库初始化指令",
@@ -136,7 +107,7 @@ export function groups(lang: Lang): FeatureGroup[] {
             },
             {
               title: "会话总览",
-              body: "按仓库与 worktree 分组，实时显示标题、状态（运行中 / 可能在等你 / 空闲 / 已退出）与屏幕预览，可搜索与按状态筛选；导航树在本设备记住展开状态，并自动展开有未结束会话的节点。",
+              body: "默认按处理顺序列出会话，可预览输出，或只看需要你介入的会话。要定位某个分支，切换到「按分支」，按仓库和工作树浏览。",
               href: "/docs/usage/sessions/#会话列表",
             },
             {
@@ -181,13 +152,13 @@ export function groups(lang: Lang): FeatureGroup[] {
           title: "Agent 协作",
           items: [
             {
-              title: "十一款 CLI 预置",
-              body: "Claude Code、Codex CLI、Antigravity、Cursor、Copilot、OpenCode、Qwen、Kimi、CodeBuddy、Qoder、QoderCN，外加 Shell 与 omp；全部可编辑。",
+              title: `${AGENTS.length} 款 CLI 预置`,
+              body: `启用 launch 后可使用 ${AGENTS.map((a) => a.name).join("、")} 的配置；另有 Shell 与 omp，全部可编辑。`,
               href: "/docs/cli-agents/",
             },
             {
               title: "TUI ↔ 聊天互切",
-              body: "八款 agent（含 omp）的同一段对话可在原生 TUI 与 ACP 聊天视图之间切换，历史由 agent 自己保存；Kimi 也支持模型与模式恢复。",
+              body: `${HYBRID_NAMES.length} 款 agent（含 omp）支持在原生 TUI 与聊天视图之间切换同一段对话。`,
               href: "/docs/hybrid-sessions/",
             },
             {
@@ -300,8 +271,13 @@ export function groups(lang: Lang): FeatureGroup[] {
               href: "/docs/deployment/services/",
             },
             {
+              title: "官方 Relay",
+              body: "不方便加入同一 VPN 时，可用 GitHub 配对主机并显式开启固定 HTTPS 入口。WSS 属于核心，不需额外功能；Relay 终止 TLS，需信任运营者。",
+              href: "/docs/deployment/remote-access/#官方-relay",
+            },
+            {
               title: "Tailscale Serve / Funnel",
-              body: "在设置页托管 Tailscale，获得 HTTPS 地址，无需重启。",
+              body: "Serve 只在 tailnet 内提供 HTTPS；Funnel 才公开到互联网。选用 Tailscale 功能后可在设置中管理入口。",
               href: "/docs/tailscale/",
             },
             {
@@ -333,9 +309,9 @@ export function groups(lang: Lang): FeatureGroup[] {
               href: "/docs/architecture/",
             },
             {
-              title: "Chat and workbench modes",
-              body: "The sidebar switches between chat history and a repository → worktree → session tree; Quick Start picks a repository, worktree mode and agent, then starts in a new or existing worktree.",
-              href: "/docs/usage/chat/",
+              title: "Choose a project, then start a session",
+              body: "Pick or add a project in “New session”. Run directly in a plain folder, or choose an existing or new worktree for a Git project. Then choose your agent or shell.",
+              href: "/docs/usage/sessions/#新建会话",
             },
             {
               title: "Repository init instructions",
@@ -344,7 +320,7 @@ export function groups(lang: Lang): FeatureGroup[] {
             },
             {
               title: "Session overview",
-              body: "Grouped by repository and worktree with live title, status (running / may be waiting / idle / exited) and screen preview; search and status filters, plus per-device fold memory and auto-expand to unfinished sessions.",
+              body: "The queue puts sessions needing attention first. Preview their output or filter down to sessions that need you. To find work on a particular branch, switch the grouping to browse by repository and worktree.",
               href: "/docs/usage/sessions/#会话列表",
             },
             {
@@ -389,13 +365,13 @@ export function groups(lang: Lang): FeatureGroup[] {
           title: "Working with agents",
           items: [
             {
-              title: "Eleven CLIs preconfigured",
-              body: "Claude Code, Codex CLI, Antigravity, Cursor, Copilot, OpenCode, Qwen, Kimi, CodeBuddy, Qoder and QoderCN, plus Shell and omp; all editable.",
+              title: `${AGENTS.length} CLI presets`,
+              body: `Enable launch profiles for ${AGENTS.map((a) => a.name).join(", ")}. Shell and omp are additional profiles; all are editable.`,
               href: "/docs/cli-agents/",
             },
             {
               title: "TUI ↔ chat",
-              body: "Eight agents (including omp) switch one conversation between the native TUI and an ACP chat view, with history kept by the agent; Kimi also restores model and mode.",
+              body: `${HYBRID_NAMES.length} agents (including omp) can switch one conversation between the native TUI and chat view.`,
               href: "/docs/hybrid-sessions/",
             },
             {
@@ -508,8 +484,13 @@ export function groups(lang: Lang): FeatureGroup[] {
               href: "/docs/deployment/services/",
             },
             {
+              title: "Official Relay",
+              body: "Without a shared VPN, pair the host with GitHub and explicitly enable its fixed HTTPS entry. WSS is built in; the Relay terminates TLS, so you must trust its operator.",
+              href: "/docs/deployment/remote-access/#官方-relay",
+            },
+            {
               title: "Tailscale Serve / Funnel",
-              body: "Managed from the settings page for an HTTPS address, no restart needed.",
+              body: "Serve provides HTTPS inside your tailnet; Funnel publishes it to the internet. Select the Tailscale feature to manage either in settings.",
               href: "/docs/tailscale/",
             },
             {

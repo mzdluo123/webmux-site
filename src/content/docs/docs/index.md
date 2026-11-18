@@ -17,13 +17,17 @@ sourcePath: "docs/README.md"
 
 - [项目介绍](overview.md)：定位、设计理念、全部特性、混合会话概览与技术栈。
 - [User Stories](user-stories.md)：每项功能的用户目的与验收要点，适合评审和查找“某个功能能做什么”。[连接与会话](user-stories/access-and-sessions.md)覆盖登录、启动和工作区。[草稿用户故事](user-stories/terminal/drafts.md)收录草稿、暂存及发送确认。
+- [2026-11-18 起的核对记录](user-stories/verification-log-2026-11-18.md)：会话上传读取响应头安全收敛与增量验证。
+- [2026-11-17 至 2026-11-18 的核对记录](user-stories/verification-log-2026-11-17.md)：会话界面修复、Relay 页内配对、宿主授权生命周期与响应式验收。
+- [2026-11-15 起的核对记录](user-stories/verification-log-2026-11-15.md)：项目来源与会话创建的增量验证。
+- [混合压缩归档核对记录](user-stories/verification-log-2026-11-18-handoff-archive.md)：交接预算、模型实验与手机编辑验收。
 - [2026-11-12 起的核对记录](user-stories/verification-log-2026-11-12.md)：本机客户端响应处理与测试环境隔离的验证证据。
 - [常见问题与获取帮助](faq.md)：常见疑问、排障入口与反馈渠道。
 
 ## 安装与部署
 
 - [部署指南](deployment.md)：总索引。
-  - [安装与升级](deployment/install-and-upgrade.md)：一键脚本、deb / rpm、手动下载与升级。
+  - [安装与升级](deployment/install-and-upgrade.md)：一键脚本、deb / rpm、手动下载与升级（验证记录见 [`install.sh` 签名校验核对记录](user-stories/verification-log-2026-11-18-install-signature.md)）。
   - [自动更新](deployment/updates.md)：后台定时检查新版本、设置页一键更新与回退策略。
   - [配置](deployment/configuration.md)：命令行参数、配置项与状态目录。
   - [服务管理与平台差异](deployment/services.md)：systemd / launchd、agent 的 PATH。
@@ -45,7 +49,7 @@ sourcePath: "docs/README.md"
   - [从本机终端使用](usage/command-line.md)：`run` / `attach`、Windows 终端与后台启动。
   - [仓库与 worktree](usage/worktrees.md)：仓库登记、新建工作树与起点选择、释放空间、删除与重建、推送检查。
   - [移动端使用](usage/mobile.md)：软键栏、虚拟键盘、触摸手势、锁定尺寸与全屏。
-  - [头显与 TV 浏览器](usage/xr-and-tv.md)：头显 2D、TV 遥控导航、沉浸式 VR 与硬件前提。
+  - [头显与 TV 浏览器](usage/headset-and-tv.md)：头显 2D、TV 遥控导航与硬件前提。
   - [需要你介入的提醒](usage/attention.md)：agent 状态识别、徽章与声音提醒、`OSC 7501` 协议及旧版钩子。
   - [端口转发预览](usage/port-forwarding.md)：把服务器上的开发服务器经 WebMux 转发到浏览器，终端端口提示与兼容选项。
   - [Shell 目录报告](usage/shell-directory.md)：可选的 OSC 7 目录报告与 bash / zsh 配置片段。
@@ -56,13 +60,19 @@ sourcePath: "docs/README.md"
 
 ## 开发与架构
 
+- [原生历史直读与快照](codex-native.md)：来源中立读取、引用/保留快照、格式证据与当前迁移边界。
+- [原生历史图片实验](native-image-experiment.md)：合成样本、隔离 CLI 实测、计费未知项及文本回退边界。
+- [真实 ACP 图片实验](native-image-transport.md)：WebMux ACP 客户端到实际模型的传输、用量与精确读取错误。
+
 - [参与贡献](../CONTRIBUTING.md)：开发环境、常用命令、测试、PR 与 OpenSpec 工作流。
 - [架构设计](architecture.md)：会话模型、缓冲与回放、状态探测、分层规则 R0–R11。
+- [架构分层与线上契约](architecture/layers.md)：R0–R11、Relay 公开协议子模块边界与 wire 快照维护。
+- [原生 Agent 历史夹具](native-history-fixtures.md)：真实会话脱敏样本、离线读取器开发与缺失覆盖说明。
 - [API 与协议](protocol.md)：REST、WebSocket 帧与错误码（按主题分页）。
-  - [交接操作](hybrid-sessions/handoff.md)：换 Agent、新聊天位置、草稿与恢复。
-  - [交接预览](protocol/http-handoff.md)：整项历史选择、预算、revision 与 stale。
+  - [交接操作](hybrid-sessions/handoff.md)：默认历史图片、显式文本、新聊天位置与单次发送。
+  - [交接预览](protocol/http-handoff.md)：冻结图片页集、独立预算、能力检查与操作状态。
   - [只读历史 MCP](protocol/handoff-mcp.md)：目标 scope、分页恢复、可用性和生命周期。
-  - [Codex 原生历史](protocol/handoff-native.md)：已核实的版本、角色、独立用户 turn 与 unknown 恢复。
+  - [交接原生身份](protocol/handoff-native.md)：来源身份、冻结内容发送与操作生命周期。
   - [持久对话历史](protocol/http-conversation.md)：Activity 分页、长文本余文、完整性和 portable projection。
 - [配置与持久化清单](persistence.md)：状态目录中每类文件的格式与治理。
 - [OpenSpec 规格索引](specs.md)：按主题列出 `openspec/specs/` 下的全部 capability。
@@ -71,7 +81,9 @@ sourcePath: "docs/README.md"
 
 ## 性能与质量
 
-- [交接故障矩阵与性能验收](protocol/handoff-validation.md)：迁移清理、unknown、全局关闭、SQLite 与 selector 实测。
+- [Relay 真实公网验证](relay-validation-604.md)：issue #604 的传输筛选、BBR、业务与证据边界。
+- [Relay 终端优先补测](relay-terminal-validation-604.md)：CLI/TUI 网络负载下的按键、输出完整性与恢复。
+- [交接故障矩阵与检查](protocol/handoff-validation.md)：来源冻结、图片覆盖、发送状态与测试入口。
 - [布局稳定性与 4× CPU 回归](performance.md)：性能测试的测量方式与阈值。
 - [页面性能与连接稳定性验证](page-performance.md)：页面加载与重连的实测记录。
 - [内嵌二进制体积](binary-size.md)：发布二进制的体积对比。
@@ -86,3 +98,9 @@ sourcePath: "docs/README.md"
 
 - [文档治理](doc-governance.md)：文档规模、链接可达性与 README 预算。
 - [Agent 规则](agent-rules.md)：从 `AGENTS.md` 迁出的仓库地图、约定、测试与 User Stories 维护规则。
+
+## 待评审设计
+
+- [项目优先的新建会话弹窗](proposals/project-first-session-dialog/proposal.md)：项目列表、四种来源和会话设置的设计及实施记录。
+
+项目 API：[本地项目接口](protocol/http-projects.md)描述 workspace 的目录登记、创建和浏览。

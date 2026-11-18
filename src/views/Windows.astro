@@ -55,14 +55,14 @@ const c = zh
         `${v} 未附带安装程序；可以直接运行托盘程序（放到固定位置后双击），之后的步骤相同。`,
       download: "下载",
       downloadLabel: (name: string) => `下载 ${name}`,
-      allDownloads: "全部下载与 SHA-256",
+      allDownloads: "全部下载、清单签名与 SHA-256",
       trayTitle: "安装程序与托盘能做什么",
       installer: [
         ["只为当前用户安装", "默认目录 %LOCALAPPDATA%\\Programs\\WebMux\\，创建开始菜单“WebMux”并在“应用和功能”中登记卸载项。唯一的管理员确认来自下面可选的防火墙规则。"],
         ["可选的防火墙规则", "“允许其他设备通过托盘转发访问 WebMux”默认勾选：安装完成后弹出一次管理员确认，为托盘添加仅限专用 / 域网络的入站 TCP 允许规则。取消确认或不需要时可取消勾选，之后可重新运行安装程序或执行 webmux-tray.exe firewall allow。"],
         ["登录 Windows 后启动托盘", "“开机后自动启动 WebMux”默认勾选，写入与托盘菜单“登录时自动启动”相同的启动项。"],
         ["预置同架构的服务端", "安装包把 Linux 服务端放进托盘的下载缓存；安装程序本身不访问 WSL，首次使用在托盘菜单选择“安装 WSL 中的 webmux”。"],
-        ["未签名", "Windows SmartScreen 可能拦截，选择“更多信息 → 仍要运行”。架构不符时安装程序提示应下载的安装包并退出，不写任何文件。"],
+        ["没有 Windows 代码签名", "SmartScreen 可能提示警告。运行前用正式版公钥验证 SHA256SUMS.minisig，并核对清单中该 .exe 的 SHA-256；不要仅凭文件名放行。架构不符时安装程序提示正确的安装包并退出。"],
       ],
       tray: [
         ["安装 / 升级 WSL 中的 webmux", "取得与托盘同版本、与发行版架构匹配的 Linux 二进制，SHA-256 与发布构建时写入托盘的摘要一致才使用；GitHub 无响应时依次改用 ghfast.top、gh-proxy.com 镜像。托盘从不在后台自动安装。"],
@@ -126,14 +126,14 @@ const c = zh
         `${v} ships no installer. Run the tray app directly (keep the exe in a fixed location and double-click it); the remaining steps are the same.`,
       download: "Download",
       downloadLabel: (name: string) => `Download ${name}`,
-      allDownloads: "All downloads with SHA-256",
+      allDownloads: "All downloads, signed manifest and SHA-256",
       trayTitle: "What the installer and tray do",
       installer: [
         ["Installs for the current user", "Default folder %LOCALAPPDATA%\\Programs\\WebMux\\, with a “WebMux” Start menu entry and an uninstall entry in Apps & features. The only administrator prompt comes from the optional firewall rule below."],
         ["Optional firewall rule", "“允许其他设备通过托盘转发访问 WebMux” (allow other devices through the tray) is checked by default: after install, one administrator prompt adds an inbound TCP allow rule for the tray, limited to private and domain networks. If you cancel or do not need it, untick the option; you can re-run the installer or run webmux-tray.exe firewall allow later."],
         ["Starts the tray when you sign in", "“开机后自动启动 WebMux” (start WebMux at sign-in) is checked by default and writes the same startup entry as the tray's “登录时自动启动” (start at login) option."],
         ["Bundles the matching server", "The installer places the Linux server for your architecture in the tray's download cache. It never touches WSL itself; on first use, choose “安装 WSL 中的 webmux” (install webmux in WSL) in the tray menu."],
-        ["Unsigned", "Windows SmartScreen may block it; choose “More info → Run anyway”. On an architecture mismatch the installer names the right package and exits without writing any files."],
+        ["No Windows code signature", "SmartScreen may warn. Before running the installer, verify SHA256SUMS.minisig with the stable release key and check the .exe against the digest in the signed manifest. A filename alone is not proof of origin. An architecture mismatch prompts you to use the correct installer."],
       ],
       tray: [
         ["Installs or upgrades webmux in WSL", "Fetches the Linux binary matching the tray version and the distribution's architecture, and uses it only if its SHA-256 matches the digest built into the tray. Falls back to the ghfast.top and gh-proxy.com mirrors when GitHub does not respond. It never installs in the background."],

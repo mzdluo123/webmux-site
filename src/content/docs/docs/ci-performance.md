@@ -27,7 +27,7 @@ E2E 的 worker 数从 2 调到 4，Storybook 从 2 调到 6，使用同一台机
 
 - 本地 Vitest 浏览器、E2E、Storybook 分别使用 `min(4, CPU 并行度)`、`min(8, CPU 并行度)`、`min(6, CPU 并行度)` 个 worker。
 - `WEBMUX_E2E_WORKERS` 在所有环境覆盖 E2E worker 数；`WEBMUX_E2E_WORKERS=1` 可回退串行排查 flaky。
-- CI 的 E2E 使用 2 个 worker，Storybook 使用 6 个（macOS runner 已移除，见文末）。
+- CI 的 E2E 与 Storybook 均使用 2 个 worker（macOS runner 已移除，见文末）。
 - Go 测试默认 `-parallel=4`，多核本机可提高 `GO_TEST_PARALLEL`（例如 `make test GO_TEST_PARALLEL=8`）。
 
 ## 改动
@@ -35,7 +35,7 @@ E2E 的 worker 数从 2 调到 4，Storybook 从 2 调到 6，使用同一台机
 - **构建与复用**：
   - 直接运行 `pnpm --dir web test:e2e` 或 `test:performance` 时，每次调用在独立临时目录构建一次真实的生产前端、嵌入式 Go 程序与假 agent，各 worker 只共享不可变可执行文件。
   - Go 源码与前端产物进入该临时目录，避免其他构建清理 `web/dist` 时破坏嵌入。
-  - `make test` 与 `make test-e2e` 则构建并复用 `.cache/webmux-e2e/webmux`；同一 checkout 中不要并发运行多个构建或 E2E 任务。
+  - `make test` 与 `make test-e2e` 则构建并复用 `.cache/webmux-e2e/webmux`；同一 checkout 中的构建或 E2E 任务串行运行。
   - 每个 worker 仍有独立的后端、HOME、状态目录、端口、仓库和 PTY。
 
 - E2E 按用例调度，均衡长文件和分片。仍使用真实键盘、触摸、终端输出和原来的时间窗口。
@@ -69,7 +69,7 @@ E2E 的 worker 数从 2 调到 4，Storybook 从 2 调到 6，使用同一台机
 
 ## 复测
 
-先在基线源码运行，再在候选源码运行；需要复制测量脚本到旧版本时，仅复制脚本。不要同时运行其他重任务。
+先在基线源码运行，再在候选源码运行；需要复制测量脚本到旧版本时，仅复制脚本。测量期间独占计算资源。
 
 ```sh
 node web/scripts/benchmark-ci.mjs --suite e2e --workers 2 --runs 3 \

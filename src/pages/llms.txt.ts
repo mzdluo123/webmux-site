@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import sidebar from "../data/docs-sidebar.json";
 import { latest } from "../lib/releases";
-import { INSTALL_URL, REPO_URL, SITE_URL } from "../../site.config.mjs";
+import { INSTALL_URL, RELAY_CONSOLE_URL, REPO_URL, SITE_URL } from "../../site.config.mjs";
 
 // Plain-text product summary for LLMs and agents (seo.md#面向-ai-搜索与-agent, features.md#9-llmstxt).
 // Facts mirror the home page; the version comes from build-time release data.
@@ -30,8 +30,9 @@ Then open http://127.0.0.1:7681 and click “New session”. Downloads and check
 ## Safety boundary
 
 - WebMux exposes a shell to the network as the current user; it listens on 127.0.0.1:7681 only by default.
-- To reach it from other devices use a trusted VPN (Tailscale / WireGuard) or Tailscale Serve, and restrict interfaces with a firewall.
-- Do not expose it to the public internet unless you use the tunnel mode and accept that the token is the only barrier.
+- For direct access from other devices use a trusted VPN (Tailscale / WireGuard) and restrict the listening interface with a firewall. Do not publish the ordinary HTTP port.
+- Official Relay is off by default. Pair the host with GitHub, explicitly enable public access, then select the online host in the console with the same account. Relay terminates TLS and can access forwarded credentials and terminal content. Console: ${RELAY_CONSOLE_URL}. Pairing guide (Chinese): ${abs("/docs/deployment/remote-access/#官方-relay")}
+- Cloudflare Tunnel and Tailscale Funnel are separate public entry points; protect their login token.
 - It is not a process sandbox. Restarting the service ends all terminal sessions.
 - Security model: ${abs("/security/")}
 

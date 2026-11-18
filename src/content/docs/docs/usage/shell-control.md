@@ -8,7 +8,7 @@ sourcePath: "docs/usage/shell-control.md"
 先从下面的常见任务找到对应命令；单个命令的全部选项、默认值、输出与示例写在 `webmux <命令> --help` 中，本页不重复。`webmux help --json` 输出机器可读的命令树。
 
 CLI 用当前实例的 `/api/capabilities` 判断可选操作，不靠 health/status 或本地配置猜测。自定义命令、附着、输出与提醒属核心；启动配置需 `launch`，仓库/worktree 需 `workspace`，聊天需 `chat` 及依赖，临时文件夹需 `files`。
-下表示例按对应功能已启用书写；先按 [内置插件选择](../deployment/configuration.md#内置插件选择) 配置并重启，禁用接口不会被探测或自动开启。
+下表示例按对应功能已启用书写；先按 [内置功能选择](../deployment/configuration.md#内置功能选择) 配置并重启，禁用接口不会被探测或自动开启。
 
 ## 常见任务
 
@@ -22,6 +22,7 @@ CLI 用当前实例的 `/api/capabilities` 判断可选操作，不靠 health/st
 | 等会话需要我或空闲                      | `webmux wait <ID> --until attention,idle --changed`                                      |
 | 任务完成后提醒我                        | `webmux notify --kind done "构建完成"`                                                   |
 | 查看当前会话的仓库与分支                | `webmux get`                                                                             |
+| 查看本机已安装的 CLI agent 与可用更新   | `webmux agents [--check]`                                                                |
 | 找到本会话的临时文件夹                  | `webmux dir self`                                                                        |
 | 读 WebMux 工具手册                      | `webmux guide`                                                                           |
 
@@ -103,6 +104,7 @@ webmux launch-config options CONFIG_NAME          # 在已登记仓库中发现�
 - 失败时按步骤报告，已创建的 worktree 与会话保留。
 - `--new-worktree` 是开关，分支名用 `--branch` 给出，省略时由服务端生成 `wt/<日期>-<时间>`；新 worktree 像 Web 端一样加入主页显示。
   - 没有 `--` 时出现的位置参数是用法错误，因此旧写法 `--new-worktree BRANCH` 不会被当作命令执行。
+  - 创建前检查上游；发现更新或获取失败时，终端交互选择上游最新、保留本地或取消；脚本用 `--upstream=latest|local` 明确选择，未选择时返回确认信息并停止创建。
 - 聊天视图没有终端可附着，以聊天视图启动时总是后台运行；`--reply` 跟踪首条提示的回合并输出 agent 的最终回复。
 - 仓库有初始化指令时，`--init` 需要显式给出。
 - `--cols N --rows M` 给终端设定初始尺寸，程序第一次输出就按它排版。
@@ -127,7 +129,10 @@ webmux api /api/launch-configs                   # 没有专用命令的接口�
 
 - `send` 与 `interrupt` 只需要会话 ID，由服务端按会话当前视图分派：
   - 终端视图：带回执的输入。它取得控制权（控制指示器显示 `script`），在会话内还附上来源会话 ID；
-  - 聊天视图：作为提示立即发送或排队；`--mode` 取 `auto`（默认，空闲即发、忙则排队）、`steer`（插入当前回合）、`refuse`（忙时以 1 结束、不排队）或 `now`（取消当前回合并立即发送）；
+  - 聊天视图：`--mode auto`（默认）在无运行回合、连接可用、队列为空且未暂停时开始下一任务，否则排队；
+  - 当前工作补充用可用的 `steer` 插话；不能排队的自动化用 `refuse`，立即发送条件不满足时以 1 结束并报告 `busy`；
+  - 明确停止替换用 `now`（取消后立即发送），可能打断工作；无运行回合且未连接时返回 `busy`；
+  - `steer` 在连接与视图检查后，能力不足或无运行回合时返回 `steering_unavailable`；不取消当前回合，不保证立即处理。完整条件与竞态见[聊天输入协议](../protocol/http-hybrid.md#聊天视图的输入)；
   - 排队时标准错误报告队列项与位置（`--json` 的 `position`），标准输出保持为空；
   - 选项属于另一种视图时服务端以 `wrong_view` 拒绝，什么也不写入。
 - `send --wait` 先订阅再输入，只接受之后的状态变化，对两种视图都适用；`--reply` 只用于聊天视图，在终端视图上以 1 结束并提示改用 `--wait`。
@@ -170,8 +175,8 @@ webmux rm <ID> --forget --yes                    # 删除归档记录与临时�
 - 从开启了聊天视图的启动配置创建的会话有终端与聊天两个视图，`webmux ls` 在状态列显示它当前的视图（终端、聊天、切换中）。
   - `ls --json` 原样包含 `views`、`view`、`transition` 与 `agent`，不再含 `hybrid` 对象。
 - 启动配置用 `webmux launch-config add` 或 `webmux launch-config edit` 的 `--chat` / `--no-chat` 开启或关闭聊天视图（混合模式）；旧选项 `--hybrid` 已删除。
-  - 只选择 `launch` 时仍可新增和编辑普通终端配置。修改已有配置的名称、环境或预览，不会清除未启用聊天/通知插件拥有的已存选项；显式修改聊天开关需选择 `chat`。
-  - 未修改的提醒策略始终保留，包括通知插件已选择但推送投递尚未启用的情况。
+  - 只选择 `launch` 时仍可新增和编辑普通终端配置。修改已有配置的名称、环境或预览，不会清除未启用聊天/通知功能拥有的已存选项；显式修改聊天开关需选择 `chat`。
+  - 未修改的提醒策略始终保留，包括通知功能已选择但推送投递尚未启用的情况。
 - `run --launch-config <名称>` 引用这类配置时创建混合会话，默认从终端开始；本地终端可以照常输入，附着中的终端不提供切换按键。
   - `--view chat` 从聊天开始（隐含 `--detach`）；
   - `--set ID=VALUE`、`--permission ask|auto`、`--attach-file PATH` 只在 `--view chat` 时可用。
@@ -211,10 +216,12 @@ webmux repo branch-rm . --cleanup                # 删除工作树遗留的分�
 printf '{{webmux}}\n\n{{user}}' | webmux repo settings . --init -
 webmux launch-config add "Dev" --icon terminal --env MODE=dev -- bash -lc 'npm run dev'
 webmux launch-config edit "Dev" --unset-env MODE; webmux launch-config show "Dev" --json
+webmux agents; webmux agents --check --all       # 本机已安装的 CLI agent 与 ACP 连接器版本；--check 按需查上游更新
 webmux forward add 5173 --session self --label web
 ```
 
 - `REPO` 是仓库 ID、仓库内路径或 `.`；worktree 用 ID、分支名或路径。找不到时以 2 结束并列出候选。
+- `worktree create` 与 `run --new-worktree` 共享上游检查及 `--upstream=latest|local` 选择；已有分支仅安全快进，分叉时只能保留本地或取消。详细边界见[选择起点](worktrees.md#选择起点)。
 - 主页显示的规则与 Web 端相同：从未设置的仓库只显示主工作区，有会话或已归档会话的 worktree 总会显示。
   - 写入只改该仓库的 `homeWorktrees` 条目，与其他设备冲突（409）时重新读取并重放，最多 3 次。
 - `worktree rm`、`repo rm`、`launch-config rm` 与 `rm --forget` 一样：终端上先确认，非交互时需要 `--yes`。`repo rm` 不删除文件，并清理该仓库的主页显示设置。
@@ -259,7 +266,7 @@ curl -s http://127.0.0.1:7681/llms.txt   # 也可以直接读 HTTP 地址，不�
 
 手册不写死安装路径：示例中的 `webmux` 指 `"$WEBMUX_BIN"`、指令中给出的绝对路径或 `PATH` 中的 `webmux`。路径只定位文件，仍须比较客户端 `version` 与服务 `status`；经 TCP 读取的手册不含实例信息，本机套接字附带本实例版本、可执行文件与套接字。
 
-在快捷指令或仓库初始化指令里写 `{{webmux}}`，会插入一段说明：会话 ID、命令与套接字路径、手册地址，以及本会话临时文件夹的路径和“交付文件放这里而不是项目仓库”的规则。系统预设“WebMux 工具”就是一条正文为 `{{webmux}}` 的快捷指令。`webmux dir self` 输出临时文件夹路径。
+在快捷指令或仓库初始化指令里写 `{{webmux}}`，会插入一段说明：会话 ID、命令与套接字路径、手册地址，以及本会话临时文件夹的路径和“交付文件保存在会话临时文件夹”的规则。系统预设“WebMux 工具”就是一条正文为 `{{webmux}}` 的快捷指令。`webmux dir self` 输出临时文件夹路径。
 
 ## 帮助与退出码
 

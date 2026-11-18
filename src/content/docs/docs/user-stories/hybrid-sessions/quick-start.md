@@ -10,6 +10,7 @@ sourcePath: "docs/user-stories/hybrid-sessions/quick-start.md"
   验收要点：
   - 页面需 `chat`（含显式 `launch`、`files` 依赖）；仓库与新/已有工作树部分另需 `workspace`，未选择时不加载仓库清单或提供工作树操作，可使用直接目录；
   - 快捷指令菜单另需 `quick-commands`；禁用 `chat` 后不加载 `/new` 的实现或 agent 选项，不用旧聊天偏好绕过能力发现，直接访问显示“功能未启用”及“返回会话”；
+  - 首条消息输入框与聊天视图共用长草稿滚动区域，输入区达到高度上限后仍可滚动编辑，发送按钮保持可见；
   - 桌面快速开始页 `/new` 是聊天模式的主区域：底部输入框，上方一行是仓库与工作树方式（新建 worktree 的基准分支，或已有工作树），下方一行是 agent、该 agent 的配置项（模型配置项同样支持文本搜索）与权限模式。下拉按钮显示当前选项，空间不足时可用鼠标滚轮或触控板横向滚动到两端；
   - 工作树方式弹出面板顶部提供“新建 worktree | 已有工作树”分段切换：
     - 选择“新建 worktree”时显示加号图标与基准分支名（`基准分支：<名称>`），下方以可搜索列表按名称选择本地分支或远程跟踪分支（如 `origin/*`），指向同一提交的分支互不影响；
@@ -39,7 +40,8 @@ sourcePath: "docs/user-stories/hybrid-sessions/quick-start.md"
     - 会话还不存在时经 `POST /api/uploads` 上传到服务端的暂存文件夹，发送后移入新会话的上传目录，随首条消息发送；
     - 首条消息之前的步骤失败时附件保留以便重发；首条消息发送失败时附件已归新会话，输入框不再保留；
   - 输入框底部、发送按钮左侧有与聊天视图相同的“快捷指令”菜单（US-G02）：选择后正文原样插入光标处，不自动发送；正文里的 `{{dir}}`、`{{webmux}}` 不在浏览器展开；
-  - 发送只发出一次 `POST /api/sessions`（新建 worktree 时带 `newWorktree`，选择已有工作树时带 `workspace`；另有 `configId`、`view: "chat"`、`prompt`、`expandPrompt: true`、`attachments`、`agentConfig`、`permissionMode` 与 `clientRequestId`），快速开始没有独立接口：
+  - 发送调用统一 `POST /api/sessions`（新建 worktree 时带 `newWorktree`，选择已有工作树时带 `workspace`；另有 `configId`、`view: "chat"`、`prompt`、`expandPrompt: true`、`attachments`、`agentConfig`、`permissionMode` 与 `clientRequestId`），快速开始没有独立接口：
+    - 新建工作树遇到上游更新或获取失败时先显示确认；选择后携带 `upstreamChoice` 重试，保留首条消息与已上传附件，取消不创建资源；已有工作树仅启动会话，不因其上游状态改变分支；
     - `expandPrompt` 只由快速开始页设置：服务端在会话创建后替换首条消息里的 `{{dir}}`（会话临时文件夹路径）与 `{{webmux}}`（WebMux 工具说明）：
       - 先 `{{dir}}`、说明最后插入，单遍，不展开其他名称；
       - 临时文件夹或说明不可用时预检即以 503 拒绝，不创建会话或 worktree；
@@ -50,7 +52,7 @@ sourcePath: "docs/user-stories/hybrid-sessions/quick-start.md"
     - 同一请求 ID 在执行中及完成后 10 分钟内重复提交只返回同一结果；
   - 仓库设置了初始化指令时，输入框附近显示“使用初始化指令”勾选框：
     - 从聊天开始时默认勾选，从终端开始时默认不勾选；手动选择在切换页面时保留，发送成功后或切换仓库时恢复默认；
-    - 勾选时首条消息为“展开后的指令、空行、用户输入”，指令里写了 `{{user}}` 时用户输入放在那里而不是接在后面；可预览展开后的内容（`{{dir}}` 与 `{{webmux}}` 在会话创建后才替换为临时文件夹路径与 WebMux 工具说明）；
+    - 勾选时首条消息为“展开后的指令、空行、用户输入”，指令里写了 `{{user}}` 时用户输入放在该占位符位置；可预览展开后的内容（`{{dir}}` 与 `{{webmux}}` 在会话创建后才替换为临时文件夹路径与 WebMux 工具说明）；
     - 引用了不存在的快捷指令时服务端拒绝发送并列出缺少的名称，不创建会话或 worktree；
   - 成功后当前标签页进入新会话的聊天视图；失败时停在原页面、保留文字，按失败体的 `step`（`precheck`、`worktree`、`session`、`config`、`prompt`）说明失败步骤与原因，已创建的 worktree 或会话保留并提供入口；
   - 生成的是标准混合会话：切换、恢复、关闭、归档与删除 worktree 都按[混合会话的其他故事](../hybrid-sessions.md)进行。

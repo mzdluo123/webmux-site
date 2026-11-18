@@ -1,9 +1,9 @@
 ---
 title: "Windows（WSL）部署"
-description: "WebMux 不原生运行在 Windows 上，而是运行在 WSL 2 发行版中，由托盘程序 webmux-tray.exe 在 Windows 通知区域启动、监控和停止。托盘只是 WebMux 的客户端：配置解析、链接推导和停止都由 WSL 中的 webmux 完成。"
+description: "WebMux 运行在 WSL 2 发行版中，由托盘程序 webmux-tray.exe 在 Windows 通知区域启动、监控和停止。托盘只是 WebMux 的客户端：配置解析、链接推导和停止都由 WSL 中的 webmux 完成。"
 sourcePath: "docs/deployment/windows-wsl.md"
 ---
-WebMux 不原生运行在 Windows 上，而是运行在 WSL 2 发行版中，由托盘程序 `webmux-tray.exe` 在 Windows 通知区域启动、监控和停止。托盘只是 WebMux 的客户端：配置解析、链接推导和停止都由 WSL 中的 `webmux` 完成。
+WebMux 运行在 WSL 2 发行版中，由托盘程序 `webmux-tray.exe` 在 Windows 通知区域启动、监控和停止。托盘只是 WebMux 的客户端：配置解析、链接推导和停止都由 WSL 中的 `webmux` 完成。
 
 ## 前置条件
 

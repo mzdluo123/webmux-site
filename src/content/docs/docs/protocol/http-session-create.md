@@ -11,9 +11,9 @@ Web 端的新建会话对话框、快速开始页与 `webmux run` 都调用它�
 
 创建成功时，实际提交初始聊天提示才返回可选 `initialInput`（沿用会话输入回执，含 turnId/promptId 或排队项）；空白提示和空初始化指令不返回该字段。
 
-**插件前提**：显式 `cmd`/`env` + `cwd` 的普通 PTY 创建属于核心，不需要 launch/workspace/files。
+**功能前提**：显式 `cmd`/`env` + `cwd` 的普通 PTY 创建属于核心，不需要 launch/workspace/files。
 `configId` 需要 `launch`；`workspace` / `newWorktree` / 仓库初始化指令需要 `workspace`；附件需要 `files`；聊天视图需要 `chat`（依赖 `launch` + `files`）；快捷指令展开需要 `quick-commands`。
-未提供对应贡献时不猜测命令或位置，也不隐式启用插件；先读取 [能力发现](../protocol.md#能力发现)。旧浏览器记住的 `configId` 不能回退为任意默认命令。
+未提供对应贡献时不猜测命令或位置，也不隐式启用功能；先读取 [能力发现](../protocol.md#能力发现)。旧浏览器记住的 `configId` 不能回退为任意默认命令。
 
 ## 请求体
 
@@ -50,10 +50,11 @@ Web 端的新建会话对话框、快速开始页与 `webmux run` 都调用它�
 
 - `cwd`：直接目录。
 - `workspace: {repositoryId, worktreeId}`：已登记 worktree。省略 `cwd` 时使用工作树根目录，提供时必须位于该工作树内。
-- `newWorktree: {repositoryId, mode, branch?, base?, path?}`：先新建 worktree，再在其根目录创建会话。
+- `newWorktree: {repositoryId, mode, branch?, base?, path?, upstreamChoice?}`：先新建 worktree，再在其根目录创建会话。
   - `mode` 为 `new`（从 `base` 新建分支 `branch`）或 `existing`（检出已有分支 `branch`）。
   - `mode` 为 `new` 且省略 `branch` 时，服务端生成 `wt/<日期>-<时间>`，与已有分支或目录冲突时追加 `-2`、`-3` 等后缀。
   - 省略 `base` 时取仓库的默认基点；省略 `path` 时取 `defaultParent/<分支名末段>`。
+  - 创建前检查分支上游；409 `reason: "worktree_upstream_confirmation"` 的 `worktreeUpstream` 给出确认信息，确认后在 `newWorktree.upstreamChoice` 传回选择，详见[工作树上游确认](http-workspace.md#创建前的上游确认)。
 
 **命令**二选一：
 
@@ -79,7 +80,7 @@ Web 端的新建会话对话框、快速开始页与 `webmux run` 都调用它�
 `view` 取 `terminal`（缺省）或 `chat`，只对开启了聊天视图（`chat: true`）的启动配置有意义：
 
 - `terminal`：在 PTY 中运行配置的 argv；混合配置运行档案生成的终端命令（OpenCode 注入 `--standalone`）。
-- `chat`：不启动终端，而是启动 ACP 进程并依次调用 `initialize` 与 `session/new`。
+- `chat`：启动 ACP 进程并依次调用 `initialize` 与 `session/new`。
 
 对普通配置或自定义命令提供 `view: "chat"` 返回 400。以聊天视图创建而档案的连接器未安装时返回 409 `connector_missing`，不创建会话。
 
@@ -156,6 +157,7 @@ Web 端的新建会话对话框、快速开始页与 `webmux run` 都调用它�
 
 **去重**：带 `clientRequestId`（`[A-Za-z0-9_-]{8,64}`）的请求在第一次执行进行中或完成后 10 分钟内重复提交时，等待并返回第一次的结果，不再创建 worktree、会话或提示；首条提示复用该 ID。
 缺省时不去重。处理不依赖客户端连接，最长 3 分钟。
+上游确认响应尚未创建资源，不作为最终创建结果保留；收到确认信息后可用同一 `clientRequestId` 提交带 `upstreamChoice` 的请求。其他失败与成功仍遵循上述去重窗口。
 
 ## 创建前的上传与选项探测
 

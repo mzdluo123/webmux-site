@@ -29,10 +29,10 @@ pnpm --dir web install --frozen-lockfile
 make test-browsers-install   # 安装 Playwright Chromium（Linux 上同时安装系统依赖，可能需要 sudo）
 ```
 
-前端依赖由 `web/pnpm-lock.yaml` 锁定。请使用 pnpm，不要使用 npm、Yarn 或 Bun 管理依赖。
+前端依赖由 `web/pnpm-lock.yaml` 锁定。安装和更新依赖统一使用 pnpm。
 
 前端构建、测试、lint 与格式化统一使用项目本地的 Vite+ 1.6.0；安装上述依赖后即可通过 `pnpm --dir web exec vp` 调用，不需要全局安装 `vp`。
-Vite+ 不替代 pnpm，也不替代 `svelte-check --tsgo` 的 Svelte/TypeScript 类型检查或 ESLint 的架构与模板规则。
+Vite+ 不替代 pnpm，也不替代 `svelte-check --tsrs` 的 Svelte/TypeScript 类型检查或 ESLint 的架构与模板规则。
 构建、格式化与 lint 配置统一放在 `web/vite.config.ts`；`make format` 与 `make format-check` 也用该配置处理仓库文档，不再维护独立的 Oxfmt/Oxlint 配置文件。
 
 ### 从源码构建
@@ -100,7 +100,7 @@ README 顶部的合成主图 `docs/images/hero.jpg`（浏览器窗口 + 手机�
 直接调用前端工具时，从仓库根目录运行：
 
 ```sh
-pnpm --dir web check                         # svelte-check --tsgo，拒绝 warning
+pnpm --dir web check                         # svelte-check --tsrs，拒绝 warning
 pnpm --dir web exec vp build                 # 仅构建；完整类型检查 + 构建用 pnpm --dir web build
 pnpm --dir web exec vp test run --config vitest.config.ts
 pnpm --dir web exec vp test run --config vitest.browser.config.ts
@@ -126,7 +126,7 @@ pnpm --dir web exec playwright test test/e2e/terminal.spec.ts
 - **Go**：标准 `testing` 包，始终使用 `-race`；默认 `-parallel=4`，多核本机可提高 `GO_TEST_PARALLEL`（例如 `make test GO_TEST_PARALLEL=8`）。
 - **单元测试**：Vitest 在 Node 中运行。
 - **组件测试**：真实 Svelte / Tailwind / xterm 渲染，不需要后端；本地按可用并行度最多使用 4 个 worker，避免与其他并行套件争用资源。
-- **Storybook**：本地按可用并行度使用最多 6 个 worker，CI 固定为 6 个。
+- **Storybook**：本地按可用并行度使用最多 6 个 worker，CI 固定为 2 个，为长对话布局和滚动检查保留 CPU 余量。
 - **端到端测试**：`make test` 与 `make test-e2e` 先构建一次真实的生产前端和 `.cache/webmux-e2e/webmux`，并在本次调用内复用；直接运行 `pnpm --dir web test:e2e` 时仍在私有临时目录构建。各 worker 使用独立后端、临时 HOME、配置、工作目录与动态端口，结束后自动清理进程。本地按可用并行度使用最多 8 个 worker，可用 `WEBMUX_E2E_WORKERS=1` 回退串行；直接运行 Playwright 时可加 `--workers=N`。CI 在 Ubuntu 上分四片运行（每片 2 个 worker）。测试不会连接你正在使用的 WebMux 服务。
 
 E2E 失败时的截图、trace 和日志位于 `web/playwright-report/` 与 `web/test-results/`，可通过 `pnpm --dir web test:e2e:report` 查看。
@@ -153,8 +153,7 @@ CI 将各套件拆成并行 job：格式检查与前端构建、Go race（含 `G
 `.github/workflows/pullfrog.yml` 使用 OpenCode Go 订阅通道的
 `opencode-go/deepseek-v4.1-flash`，并通过 `effort: high` 固定使用 High 推理等级。
 在仓库的 GitHub Actions Secrets 中设置
-`OPENCODE_API_KEY`，值为订阅所在 OpenCode workspace 的 API Key；不要使用
-DeepSeek 直连的 `DEEPSEEK_API_KEY`。
+`OPENCODE_API_KEY`，值为订阅所在 OpenCode workspace 的 API Key。
 
 在 OpenCode workspace 的 **Settings → Privacy → Regions** 中启用 **Global**，
 以允许 DeepSeek 请求。在 Pullfrog 控制台选择 **BYOK**，并将仓库模型设为
@@ -171,14 +170,14 @@ DeepSeek 直连的 `DEEPSEEK_API_KEY`。
 - 使用 `pnpm --dir web lint` 调用 `vp lint`，`pnpm --dir web lint:fix` 应用自动修复。
   Vite+ 的 Oxlint 对 `.ts` 与 `.svelte.ts` 启用类型感知 Promise 规则，并检查 Svelte 的脚本部分。
   Oxlint 没有 Svelte 模板规则，也没有 `.svelte` 脚本的类型感知；模板事件处理器仍需按 [前端代码质量基线](docs/frontend-style.md) 第 6 条处理 rejection。
-  `check:arch` 保留 ESLint 的架构与 Svelte 推荐模板规则；`check`、`build`、`check:test`、`check:storybook` 均保留 `svelte-check --tsgo` 并拒绝 warning。
+  `check:arch` 保留 ESLint 的架构与 Svelte 推荐模板规则；`check`、`build`、`check:test`、`check:storybook` 均保留 `svelte-check --tsrs` 并拒绝 warning。
 - 使用 `pnpm --dir web check:arch` 检查组件复用、设计令牌与分层；基线已清空，任何违规都会失败；只有引入带存量违规的新规则时才记录基线，并在修复后运行 `pnpm --dir web arch:ratchet` 收紧。规则见 [前端架构守卫](docs/frontend-architecture.md)。
 - 文档与 OpenSpec 规格遵循 [文档治理](docs/doc-governance.md)：单个文件 20–400 行、单行不超过 300 显示列（汉字与全角标点算 2 列，仅围栏代码块除外）且不超过 48 KiB，`docs/` 与 `openspec/` 每一级直接子目录不超过 20 个；`make docs-check` 失败时会给出具体指令，超长行按语义改写而非机械折行，并更新引用。
 - 前端代码遵循 [前端代码质量基线](docs/frontend-style.md)：`$state` 只用于驱动界面更新，派生值用 `$derived`，`$effect` 只做副作用并清理，列表用稳定业务 ID 作 key，props 必须带类型，事件使用 Svelte 5 属性写法。
 - TypeScript 开启严格模式；HTTP 响应、WebSocket JSON 和本地设置必须经过 Zod 校验。
 - 修改后端 JSON 字段时，同步更新 `web/src/contracts/schemas.ts` 及其使用方；`web/test/wire-contract.test.ts` 消费 Go wire 快照并检查必填字段，新增或变更快照映射时一并更新。
 - 命令以 argv 执行，不经 shell 展开。
-- 不要在持有会话 / 管理器锁时执行阻塞的网络或 PTY 操作。
+- 阻塞的网络或 PTY 操作在释放会话 / 管理器锁后执行。
 - 不在日志中记录终端输入输出，也不在配置响应中暴露 token。
 - 基础 UI 控件使用 `web/src/lib/components/ui/` 中的 shadcn-svelte 组件，新增组件请使用 `pnpm --dir web exec shadcn-svelte add <组件名>`。
 - 新增或调整 UI 图标统一使用 Iconify，优先 `tabler` 图标集；图标数据随应用本地打包，纯图标按钮需有可访问名称和提示。详细约定见 [图标规范](docs/design-system.md#icons)。

@@ -26,17 +26,16 @@ const zh = lang === "zh-cn";
     {
       zh ? (
         <p class="m-0">
-          WebMux 等同于以当前用户身份把 shell 暴露到网络，默认仅监听本机 <code>127.0.0.1:7681</code>。让局域网或其他设备访问
-          （如 <code>0.0.0.0</code>）时，请绑定 Tailscale / WireGuard 等可信 VPN 并配合防火墙；除非明确使用隧道并接受“Token
-          是唯一入口屏障”的风险，不要开放到公网。它不是进程沙箱，服务重启会结束所有终端会话。{" "}
+          WebMux 以服务用户身份执行命令，默认仅监听 <code>127.0.0.1:7681</code>。不要把这个端口直接开放到公网。
+          可信 VPN 直连时用防火墙限制接口；若选择官方 Relay，需主动配对并开启。Relay 会终止 TLS，运营者可接触转发内容和凭据。
+          WebMux 不是进程沙箱，服务重启会结束终端会话。{" "}
           <a class="underline underline-offset-[3px]" href={localize(lang, "/security/")}>阅读安全模型</a>
         </p>
       ) : (
         <p class="m-0">
-          WebMux exposes a shell to the network as your user and listens only on <code>127.0.0.1:7681</code> by default.
-          If you open it to your LAN or other devices (for example <code>0.0.0.0</code>), bind to a trusted VPN such as Tailscale or
-          WireGuard and use a firewall. Do not expose it to the internet unless you deliberately use a tunnel and accept that the token is
-          the only barrier. It is not a process sandbox, and restarting the service ends every terminal session.{" "}
+          WebMux runs commands as the service user and listens only on <code>127.0.0.1:7681</code> by default. Do not expose that port directly to the internet.
+          For direct access over a trusted VPN, restrict the port to its interface with a firewall. The optional official Relay requires pairing and explicit activation.
+          It terminates TLS, so its operator can access forwarded content and credentials. WebMux is not a sandbox; restarting it ends terminal sessions.{" "}
           <a class="underline underline-offset-[3px]" href={localize(lang, "/security/")}>Read the security model</a>
         </p>
       )

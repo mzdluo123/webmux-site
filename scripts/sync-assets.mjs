@@ -1,6 +1,6 @@
 // Copies brand assets, fonts, licenses, homepage screenshots and agent icons from the same
 // mzdluo123/webmux ref as the docs mirror (docs/website/stack.md#内容与资产同步).
-// Alt text comes from the README so the site and GitHub describe screenshots identically.
+// README screenshots keep their original alt text; feature walkthroughs supply localized alt text in the page data.
 import { createHash } from "node:crypto";
 import sharp from "sharp";
 import { listFiles, readFile } from "./lib/source.mjs";
@@ -95,6 +95,12 @@ export async function syncAssets(repo, source) {
     add(from, `src/assets/screenshots/${name}`);
     if (!alts[name]) throw new Error(`README has no alt text for ${from}`);
     screenshots[name] = alts[name];
+  }
+  for (const theme of ["light", "dark"]) {
+    const project = `project-picker/desktop-${theme}-projects.png`;
+    const handoff = `handoff/snapcompact-after-desktop-${theme}.png`;
+    add(`web/test/evidence/${project}`, `src/assets/screenshots/${project}`);
+    add(`docs/images/${handoff}`, `src/assets/screenshots/${handoff}`);
   }
 
   const agentIcons = [...files]

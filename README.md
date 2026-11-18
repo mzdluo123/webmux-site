@@ -25,11 +25,13 @@ tests/                link + anchor checker, axe/overflow scan, static server
 
 Generated, never hand-edited: `src/content/docs/**`, `public/docs/**`, `public/{brand,fonts,licenses}/**`, `src/assets/{screenshots,agents,brand}/**`, `src/styles/design-tokens.css`, `src/data/{docs-manifest,docs-sidebar,assets-manifest,screenshots,fonts}.json`.
 
+Marketing pages are bilingual and maintained separately from the docs mirror. Update `src/data/features.ts` for homepage highlights and `src/data/agents.ts` for the preset matrix; the preset total excludes Shell and omp, while the hybrid total includes omp. `src/assets/editorial/` holds screenshots from upstream PRs that are not part of the release tree; record their source commit next to the selection. The official Relay console URL lives in `site.config.mjs`, distinct from a paired host’s access URL.
+
 ## Docs sync
 
 `pnpm sync` mirrors the **latest release tag** of mzdluo123/webmux. When that tag predates the docs hub (`docs/README.md`), it mirrors `main` instead and switches back automatically once a release ships the hub. Override with `WEBMUX_REF=<ref>`; use `WEBMUX_SOURCE=../webmux` to read from a local clone instead of cloning.
 
-- Excluded by rule: `docs/agent-rules*`, `docs/doc-governance.md`, `docs/user-stories/verification-log-*.md`, and any file whose first lines contain `<!-- site: exclude -->`.
+- Excluded by rule: `docs/agent-rules*`, `docs/doc-governance.md`, internal design drafts under `docs/proposals/`, `docs/user-stories/verification-log-*.md`, and any file whose first lines contain `<!-- site: exclude -->`. Links to proposals still resolve on GitHub; published pages still require an H1.
 - Links to files that are not mirrored point to GitHub at the mirrored ref; a link that resolves to nothing fails the sync and the build.
 - `pnpm sync:check` regenerates from the commit recorded in `src/data/docs-manifest.json` and fails if the committed mirror differs.
 

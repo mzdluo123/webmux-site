@@ -7,8 +7,8 @@ sourcePath: "docs/usage/mcp.md"
 外部 MCP 客户端也可以连接同一组工具。
 交接自动注入的 `webmux-history` 仍然独立，只读取冻结的来源历史。
 
-先按 [内置插件选择](../deployment/configuration.md#内置插件选择) 启用 `mcp` 并重启；只选 `mcp` 也可控制核心 PTY，不强制开启 launch/chat。
-工具根据已认证的 `/api/capabilities` 裁剪参数、视图与发现内容，不调用禁用插件接口。聊天自动注入另需 `chat` 及依赖；冻结历史仍遵循来源与历史保存边界。
+先按 [内置功能选择](../deployment/configuration.md#内置功能选择) 启用 `mcp` 并重启；只选 `mcp` 也可控制核心 PTY，不强制开启 launch/chat。
+工具根据已认证的 `/api/capabilities` 裁剪参数、视图与发现内容，不调用禁用功能接口。聊天自动注入另需 `chat` 及依赖；冻结历史仍遵循来源与历史保存边界。
 
 ## ACP 默认接入
 
@@ -49,7 +49,7 @@ sourcePath: "docs/usage/mcp.md"
    ```toml
    token = "REPLACE_WITH_CONFIGURED_OWNER_TOKEN"
    
-   [plugins]
+   [features]
    enabled = ["mcp"] # 若还需其他功能，在同一列表显式加入
    
    [mcp]
@@ -144,7 +144,7 @@ wait 继续同一 turn/queue 选择器，read 继续原 cursor；游标或历史
 | `capabilities` | 可用启动配置 ID、名称、聊天支持、当前工具列表与显式 transport/locality/selfSessionId；不探测登录状态 |
 | `session_list` | 按 state、parentId、repositoryId、status 筛选；offset 缺省 0，limit 缺省 20、最大 100                |
 | `session_get`  | 按 sessionId 读取详情、父子关系、worktree 与浏览器链接                                               |
-| `guide_read`   | 按需读取操作指南索引或七个精选主题；只读，不加载聊天历史或任意路径                                   |
+| `guide_read`   | 按需读取操作指南索引或八个精选主题；只读，不加载聊天历史或任意路径                                   |
 
 `session_list` 的 state 为 active（默认）、closed、interrupted、archived 或 all；status 为 running、waiting、idle 或 exited。
 返回 nextOffset、done 和 total；列表在调用间可能变化，offset 不是冻结快照。
@@ -152,7 +152,7 @@ wait 继续同一 turn/queue 选择器，read 继续原 cursor；游标或历史
 ## 按需读取共享操作指南
 
 初始化 instructions、capabilities 与 guide_read 使用同一实际注册表快照，不列出未注册工具。先调用 `guide_read({})`，再按需传 `{"topic":"requests"}` 等主题。
-主题为 connect、operations、completion、requests、launch、artifacts、rules；不提供 shell 完整手册、commands、任意 URL/路径或 full 参数。
+主题为 connect、operations、input、completion、requests、launch、artifacts、rules；不提供 shell 完整手册、commands、任意 URL/路径或 full 参数。
 成功对象始终包含 kind、transport、locality、selfSessionId、tools、topics、topic、markdown；text 是同一对象的默认 JSON 编码，完整工具结果最多 64 KiB，不截断半篇正文。
 未知主题、null/空 topic、未知参数与超限返回 isError 工具错误，后续调用仍可继续。stdio 不自动证明会话身份，未知 selfSessionId 为 null，不能从调用者环境猜测。
 当前控制工具没有 answer/view/upload 或 agent 设置选项发现；授权需用户或已有客户端处理，动态模型设置先通过具备发现能力的 CLI 查询，不猜 optionId、provider 或模型。
@@ -175,7 +175,7 @@ CLI 与 MCP 共用逻辑操作 ID、去重边界、完成证据、授权范围�
 
 返回 session、worktree、configWarnings、可用时的 link，实际提交初始聊天提示时的 initialInput 回执与等待选择器。
 创建响应丢失时重试相同请求；创建去重仅在服务进程内保留十分钟，服务重启后应先查询现有会话再决定是否重建。
-失败正文保留 step、已创建 sessionId/worktree；不会自动回滚，不要因后续提示失败而重复创建。
+失败正文保留 step、已创建 sessionId/worktree；不会自动回滚，后续操作使用已返回的资源标识。
 
 `session_send` 接受 sessionId 与 request，request 沿用[会话输入契约](../protocol/http-sessions.md#输入与中断)：
 
@@ -184,14 +184,17 @@ CLI 与 MCP 共用逻辑操作 ID、去重边界、完成证据、授权范围�
   "sessionId": "SESSION_ID",
   "request": {
     "clientRequestId": "followup-20261113",
-    "text": "补充测试",
-    "mode": "auto"
+    "text": "当前修改还需补充错误路径测试",
+    "mode": "steer"
   }
 }
 ```
 
-- 聊天返回 turnId/promptId，排队时返回 itemId/position；steer 插话不创建独立回合。
-- 终端使用 submit/keys；写入回执仅证明输入已写入，不证明命令执行或任务完成。
+- 上例适用于当前工作补充，先核对实际 `steering` 能力及运行回合；下一项独立任务用默认 `auto`，明确停止替换用 `now`，不能排队用 `refuse`。
+- 聊天开始新回合时返回 turnId/promptId，排队时返回 itemId/position；steer 回执通常没有 turnId/promptId，成功不证明理解或完成。
+- 插话能力不足或无运行回合时返回 `steering_unavailable`（先检查连接与视图）；只有适配器报告 `promptRequired` 的竞态才回队首，`startedNewTurn` 会提示回合不受跟踪。
+- 立即发送条件、`now` 的中断风险与错误见[聊天输入协议](../protocol/http-hybrid.md#聊天视图的输入)。已有排队项先核对状态，迁移需通过有能力的 CLI/API 删除自己的未发送项；control MCP 没有队列删除工具。
+- 终端视图使用 `submit`（追加回车，对应 CLI 的 `--enter`）与 `keys`；只发 `text` 会把文字留在输入行而不执行。写入回执仅证明输入已写入，不证明命令执行或任务完成。
 - `session_interrupt` 接受 sessionId/clientRequestId，按当前视图取消回合或写入中断键，不删除会话。
 - 输入与中断的去重、错误和视图限制完全沿用服务端；重试复用同一个 clientRequestId。
 - 创建操作沿用服务端三分钟上限；MCP 调用总上限为 185 秒，断开连接不等于停止已创建会话。
@@ -245,7 +248,7 @@ maxBytes 范围 1–65536，limited 表示尚有回放字节；解码后按顺�
 - status=ended 表示选定回合结束；结合 stopReason 判断正常结束、取消或失败，不等于所有后台工作已结束。
 - unfinished 沿用当前回合的后台工作标记；reply 最多 64 KiB，截断或回放不完整时 replyTruncated=true。
 - status=waiting_for_user 表示选定回合有待回答请求，返回请求信息；工具不会替用户批准操作。
-- 超时只结束观察，waitTimedOut=true，不中断执行；继续使用同一选择器等待，不要重发输入。
+- 超时只结束观察，waitTimedOut=true，不中断执行；继续使用同一选择器等待，后续请求沿用原操作标识。
 - 缺失回合和队列项不会改为等待其他回合；断线返回错误，不把沉默当成完成。
 - 等待期间曾出现的 queueItemId 被移除且没有启动对应回合时立即报错；初始未出现不冒充“已移除”，同帧 turn.start 优先于队列缺席。
 - CLI 与 MCP 使用同一观察状态机；只有结束事件或匹配的当前回合状态能证明结束，历史缺失保持 replyTruncated，不借用无关回合回复。

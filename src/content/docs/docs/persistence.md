@@ -16,6 +16,8 @@ sourcePath: "docs/persistence.md"
 | bootstrap           | config.toml              | none                          | internal/config + cmd/webmux | 配置错误阻止启动      | 否       |
 | launch              | launch-configs.json      | launch-configs.json.lock      | internal/launch              | unavailable           | 是       |
 | repositories        | repositories.json        | repositories.json.lock        | internal/workspace           | unavailable           | 是       |
+| projects            | projects.json            | projects.json.lock            | internal/workspace           | unavailable           | 是       |
+| project-clones      | project-clones.json      | project-clones.json.lock      | internal/workspace           | unavailable           | 是       |
 | git-operations      | git-operations.json      | git-operations.json.lock      | internal/workspace           | unavailable           | 是       |
 | git-task-baselines  | git-task-baselines.json  | git-task-baselines.json.lock  | internal/workspace           | unavailable           | 是       |
 | git-workbench-state | git-workbench-state.json | git-workbench-state.json.lock | internal/workspace           | unavailable           | 是       |
@@ -23,6 +25,8 @@ sourcePath: "docs/persistence.md"
 | tailscale-settings  | tailscale-settings.json  | tailscale-settings.json.lock  | internal/tailscalesettings   | fail_closed           | 是       |
 | voice-settings      | voice-settings.json      | voice-settings.json.lock      | internal/voicesettings       | fail_closed           | 是       |
 | p2p-settings        | p2p-settings.json        | p2p-settings.json.lock        | internal/p2psettings         | fail_closed           | 是       |
+| relay               | relay-settings.json      | relay-settings.json.lock      | internal/relaysetting        | fail_closed           | 是       |
+| relay-machine       | relay-machine.json       | relay-machine.json.lock       | internal/relaysetting        | pairing_unavailable   | 否       |
 | tailscale-ownership | tailscale-ownership.json | tailscale-ownership.json.lock | cmd/webmux                   | block_start           | 否       |
 | push                | push.json                | push.json.lock                | internal/push                | unavailable           | 是       |
 | runtime             | run/server.json          | run/server.json.lock          | internal/runtime             | local_api_unavailable | 否       |
@@ -30,55 +34,33 @@ sourcePath: "docs/persistence.md"
 | hybrid              | hybrid-sessions.json     | hybrid-sessions.json.lock     | internal/hybrid              | unavailable           | 是       |
 | agent-options       | agent-options.json       | agent-options.json.lock       | internal/hybrid              | unavailable           | 是       |
 
-| conversation | conversations.sqlite | conversations.sqlite.lock | internal/conversation | unavailable | 是 |
-
 <!-- persistence-inventory:end -->
 
 这份表的机器来源是 `internal/archtest/persistence_inventory.json`；`make persistence-check` 精确比较表格各单元格（允许 Markdown 对齐空格变化），拒绝遗漏、重复或过时条目。
 
-### 插件选择与数据保留
+项目克隆操作使用独立账本；提供幂等克隆提交、状态查询及登记失败后的恢复接口。
+重启把未完成克隆标为 interrupted，把已发布但未登记的操作标为 registration_failed；保留目录，不自动重试或清理。
 
-这份清单列出二进制支持的全部存储，不表示每次启动都打开。生成配置只选择核心；未选择的插件不构造服务、不取得锁、不写默认值、不迁移或启动清扫。
-`launch` 拥有启动配置；`workspace` 拥有仓库登记，Git 工作台存储需 `workspace` + `code`；`chat` 拥有 hybrid、agent-options 与 conversation；其余专属设置随对应插件打开。
+### 功能选择与数据保留
+
+这份清单列出二进制支持的全部存储，不表示每次启动都打开。生成配置只选择核心；未选择的功能不构造服务、不取得锁、不写默认值、不迁移或启动清扫。
+`launch` 拥有启动配置；`workspace` 拥有仓库登记及独立项目目录清单（可经项目 API 登记，尚无网页入口），Git 工作台存储需 `workspace` + `code`；`chat` 拥有 hybrid 与 agent-options；其余专属设置随对应功能打开。
 禁用不删除既有数据，重新选择并重启后仍按原来的版本、锁与故障规则读取。只有启用 `launch` 且文件不存在时才写预设，已存在空列表也不补写。
-核心 `settings.json` 继续保存 inactive 字段；API 拒绝写入禁用插件拥有的字段，不把它们重置为空。字段所有权见 [偏好协议](protocol/settings.md#原子更新)。
+核心 `settings.json` 继续保存 inactive 字段；API 拒绝写入禁用功能拥有的字段，不把它们重置为空。字段所有权见 [偏好协议](protocol/settings.md#原子更新)。
 `files` 开启而 `chat` 关闭时，无法确认归属的旧会话产物保守保留，不通过读取禁用的聊天数据库推断清理资格。
-停服先取消并等待创建、恢复和 handoff 等生产者，再停止 PTY/连接，最后释放存储锁。选择配置见 [内置插件选择](deployment/configuration.md#内置插件选择)。
+停服先取消并等待创建、恢复和 handoff 等生产者，再停止 PTY/连接，最后释放存储锁。选择配置见 [内置功能选择](deployment/configuration.md#内置功能选择)。
 
-## 对话事务存储
+## 旧会话数据库与升级
 
-`conversations.sqlite` 保存 Conversation、ProviderThread、单调 Run 序号，以及 handoff、delivery 和幂等 receipt 的事务基础。
-ACP 聊天的规范化消息与工具内容在 UI 截断前保存为完整 Activity；服务端交接预览保存冻结来源、预算、选项与用户编辑。fork inline 投递先提交 receipt/pending，再按持久 checkpoint 准备资源；结果不明保留 unknown。
-现有混合会话一对一迁移为稳定身份，旧记录标记 `historyOrigin=unknown`，不猜测升级前历史。
+新版使用 Agent 原生历史和进程内交接预览。`conversations.sqlite`、journal、WAL、SHM 与旧生命周期锁保留为离线原件。
+普通聊天与原生恢复使用 `hybrid-sessions.json` 中已有的身份、命令与目录记录。
+启动提示说明旧草稿、独立快照和回执可通过旧版本读取。
 
-- 纯 Go SQLite（modernc.org/sqlite），支持 `CGO_ENABLED=0`；schema 迁移与版本号在同一事务提交。
-- 交接选择的完整计数与草稿在同一事务维护，旧记录升级时从 selection 条目回填；按 handoff/position 建索引，小页读取不重新统计或排序整个历史。
-- 数据库、生命周期锁与崩溃恢复 sidecar 均为 0600，状态目录 0700；拒绝文件自身的符号链接。
-- SQLite 使用 FULL 同步和默认 DELETE rollback journal；不使用长期保留正文的 WAL；删除启用 `secure_delete`。
-- 损坏、未知未来版本和锁冲突只禁用依赖对话存储的创建、恢复和忘记操作，以及历史/交接入口；普通终端仍可运行，原数据库不重建。
-- 删除最后一条运行绑定（`forget=1`）或成功淘汰关联归档记录，清理其 Conversation、Run、Activity 分块和来源 handoff/命令记录；同一 Conversation 尚有其他 provider 记录时继续保留共享历史。
-- 目标独立的 dispatch 摘要与用户 receipt 受目标生命周期管理：来源删除不能解除可能已经发送的 unknown，也不清空目标占用估算；精确原生回放只更新目标事实，不恢复来源操作。
-- fork 目标单独保存回放所需的用户新请求、精确 native ID/hash 与目标附件引用，不复制来源历史。忘记来源后仍能正常显示目标用户消息；忘记目标时一并删除，来源的操作记录不会被重新建立。
-- JSON 记录与 SQLite 不共享事务；受管 runtime 有未发布/已发布/正在删除标记。创建窗口保留预留资源，删除前先写意图；中断后用成功读取的 JSON 清单对账，不让已发布的 managed runtime 永久跳过清理。
-- 未开始执行的孤立 fork 草稿一并清理；有目标原生事实、已 claim 的 prompt 或独立历史时继续保留目标事实。
-- worktree 释放与重建保留身份，配置删除不隐式删除对话。备份时先停服务，并备份整个状态目录；不得只复制活跃数据库。
-- 流式消息追加分块；重复前缀的工具快照只改写变化尾部，读取按 UTF-8 字节分页，不把整条历史装入内存。
-- 完成后才发布持久 position；崩溃尾部保持不可见并标 gap，服务重启不把半条内容视为已提交。
-- replay 按 ProviderThread + item ID 或有序完整项对账；无法判定时保留 `reconcile_required`，相同文本不会被全局 hash 合并。
-- TUI 时段只记录缺口，不解析 PTY 伪造历史；不保存 reasoning、raw ACP、环境、原生工具状态或附件 blob，只保留附件元数据和引用。
-- 投递 attempt 保留精确 worktree、runtime 与 dispatch 身份，旧 receipt 不跟随新重试改变；unknown 只能通过精确原生回放确认，不自动重发。
-- 预览、独立用户任务、冻结来源工作位置、手工编辑与 revision 在同一数据库保存；服务重启不丢草稿。预览不启动 agent 或创建 worktree，SQLite 不存附件正文。
-- 生成持久预览前，受限暂存附件复制到已验证来源 runtime 的私有 uploads，保留原暂存文件供其他表单使用；已有来源上传不重复复制。副本沿用该 runtime 的保留、清扫和忘记生命周期，可跨服务重启，但不保证抵御操作系统临时目录清理。
-- 来源草稿快照以已验证内容和原暂存文件名共同生成固定长度 SHA-256 身份；同一暂存文件相同内容幂等复用，不同文件即使字节相同也保留独立引用。同名不同内容仍可并存，不覆盖普通 uploads 或旧预览；显示名称与实际路径授权、内容探测分离。
-- 投递时以持久 copy intention 和内容 hash 发布独立目标 uploads；目标副本不依赖来源或暂存区继续存在。
-- Codex 原生注入保存独立 pending/injected/unknown、原生身份及有序项目摘要；目标持有回放摘要和占用估算，来源删除不导致再次导入。用户 prompt 的结果不能撤销已确认的原生注入。
-- 原生注入已保存但确认丢失时，即使已忘记来源，目标仍可用完整、有序且身份一致的原生回放持久确认注入及项目 ID；不重建来源投递，不重发历史或来源中尚未发送的用户请求。
-- v10 升级与已验证的 v11 重开在启动事务中修复孤立派发 owner，分别恢复历史 ProviderThread/native 身份与当前 runtime 绑定；不要求旧线程仍有活绑定。历史 unknown 仅按原 native 身份对账，不能借新的原生线程恢复绕过；不增加 schema 版本或逐请求修复。
-- 取消原生注入不会丢弃已排队的写者准入结果；转换始终收回 ACP 写者并完成清理，关闭会话不因遗留的打开中状态而挂起。
-- 数据库错误不把 SQL 值或正文交给应用日志；当前版本不可用时保留原文件供人工诊断。
-- `history_capture=false` 关闭新正文捕获、历史 REST、handoff 与 MCP，但仍维护身份和未决投递保护；已保存正文不删除。关闭区间不在重新开启后的 load 中自动回填。
-- SQLite 随完整历史增长，不受终端 `scrollback_bytes` 淘汰；当前没有自动历史期限或数据库配额。需要删除时使用“忘记”，并监测磁盘空间。
-- `secure_delete` 清除当前数据库空闲页中的删除内容，文件大小可能保留；不能擦除旧备份、文件系统快照、浏览器离线草稿或外部 agent transcript。
+升级前停止旧进程，备份完整 `state_dir`；仅保存在旧数据库的正文可先通过旧版本检查和导出。
+回滚时停止新进程，再恢复旧版本及匹配的完整备份。
+新版交接预览限五分钟、32 项，manifest、文本及图片表示共同计入 64 MiB；结果缓存限 256 项、完成十五分钟后失效。
+原生 SQLite 仍由对应的 Agent history 读取器只读访问。
+接口与生命周期见[交接协议](protocol/http-handoff.md)。
 
 ## 统一行为与故障隔离
 
@@ -103,6 +85,9 @@ ACP 聊天的规范化消息与工具内容在 UI 截断前保存为完整 Activ
 - `fail_closed` 表示覆盖文件异常时关闭对应入口，不能从 TOML 回退为启用；紧急关闭仍可停止当前入口，但写盘失败必须报告未持久化。
 - `tunnel-settings.json`、`tailscale-settings.json`、`voice-settings.json` 与 `p2p-settings.json` 共用 `internal/settingsstore` 的打开、读取、提交与 fail-closed 骨架；文件结构、校验与关闭方式由各自包注入，盘点中登记为 `entry-settings` 例外。
 - `tailscale-settings.json` 保存用户希望的 mode/port/provider；`tailscale-ownership.json` 保存本实例实际创建的外部入口（精确目标、端口、pending/active），供撤销和重启对账。它们的职责、权限和失败策略不同。
+- `relay-settings.json` 只接受并写入 v3，不再读取或迁移 v1/v2；旧格式 fail-closed 并保留原文件，不恢复旧身份或启用意图。破坏性升级先备份清理旧绑定状态，再全新配对；其他状态文件的版本门禁不变。
+- `relay-machine.json` 使用严格 v1 格式，首次配对前才生成并提交 32 字节随机机器 ID；打开服务只取得生命周期锁，不创建身份。删除绑定或删除 `relay-settings.json` 均保留该文件，机器 ID 不能恢复旧绑定或代替 GitHub 授权。
+- 机器 ID 只用于同账号配对判重，不是凭据，也不来自硬件指纹；不会进入状态响应、URL 或日志。身份损坏、锁冲突或 I/O 失败时保留原件、阻止新配对，不生成替代 ID，不影响本地 PTY；修复后重启服务再配对。
 - 旧 `tailscale.json` 即使损坏或与新文件并存，也在监听前阻止启动。先停止旧版本并核实/撤销其精确外部入口，再整理旧文件；不执行全局 reset。旧 `tunnel.json` 使 Cloudflare 保持关闭。新版不自动迁移文件或旧浏览器偏好。
 - `run/server.json.lock` 仅保护运行时记录和本机控制面；锁冲突退化为 TCP 服务，不能与 Tailscale 安全阻止启动混淆。
 - 升级前停止全部旧进程并备份；新旧版本不得共用状态目录并发运行，改名后的锁无法与旧锁互斥。

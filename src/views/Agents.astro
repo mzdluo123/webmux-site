@@ -1,10 +1,10 @@
 ---
-// /agents/ (pages.md agent 兼容矩阵): eleven preset CLIs × command, terminal, hybrid, alerts, extra deps.
+// CLI preset compatibility matrix.
 import PageBreadcrumb from "../components/PageBreadcrumb.astro";
 import Base from "../layouts/Base.astro";
 import * as Table from "$lib/components/ui/table/index.js";
 import { AGENTS, agentIcon } from "../data/agents";
-import { AGENTS_CHECKED, ALERTS, COMMANDS_CHECKED, GENERIC_ALERTS, TERMINAL_NOTE } from "../data/agent-details";
+import { ALERTS, GENERIC_ALERTS, PRESETS_REF, TERMINAL_NOTE } from "../data/agent-details";
 import { localize, type Lang } from "../lib/i18n";
 
 interface Props {
@@ -19,9 +19,9 @@ const c = zh
   ? {
       title: "支持的 CLI agent · WebMux",
       description:
-        "WebMux 预置十一款 CLI agent：Claude Code、Codex CLI、Antigravity CLI、Cursor CLI、GitHub Copilot CLI、OpenCode、Qwen Code、Kimi Code CLI、CodeBuddy Code、Qoder 与 QoderCN 的命令、混合会话与提醒兼容矩阵。",
+        `WebMux ${AGENTS.length} 款 CLI 预置的兼容矩阵：查看命令、启动参数、混合会话、提醒来源与额外依赖。`,
       h1: "支持的 CLI agent",
-      lead: "新安装首次启动时，WebMux 写入十一款 CLI 的启动配置。它们是可编辑、可删除的普通配置，不会自动安装或认证 CLI；CLI 使用服务用户的权限、账号与配置。",
+      lead: `启用 launch 功能后，首次生成启动配置时会写入 ${AGENTS.length} 款 CLI，另有 Shell 与 omp。配置可编辑或删除；WebMux 不会自动安装 CLI 或登录账号。`,
       h2: "兼容矩阵",
       cols: ["CLI", "命令", "预置参数", "终端", "混合会话", "提醒来源", "额外依赖"],
       none: "无",
@@ -31,18 +31,18 @@ const c = zh
       h2Notes: "说明",
       notes: [
         TERMINAL_NOTE.zh,
-        "混合会话可在终端与聊天视图之间切换；其他五款使用终端视图，不能仅凭其提供 ACP 接口就视为已适配。",
-        "Claude Code、Codex、Antigravity、OpenCode、Qoder、QoderCN 的预置参数会自动批准工具调用，Codex 参数还关闭其沙箱；需要逐次授权时在设置页移除。",
+        "混合会话需要启用 chat、launch 和 files。仅提供 ACP 接口并不代表支持在聊天与终端间切换。omp 也支持切换，但不计入上表的 CLI 数量。",
+        "部分预置参数会自动批准工具调用，Codex 的预置参数还会关闭沙箱。需要逐次授权时，请修改对应启动配置。",
         "运行、空闲与等待状态使用通用终端判断；具体的回答、授权与完成提醒取决于 CLI 发出的结构化事件、OSC 通知或 BEL。",
       ],
-      checked: `命令由上游按 ${COMMANDS_CHECKED} 的官方资料核对；本页核对于 ${AGENTS_CHECKED}。`,
+      checked: `预置与混合会话支持按 WebMux ${PRESETS_REF} 核对。`,
     }
   : {
       title: "Supported CLI agents · WebMux",
       description:
-        "Compatibility matrix for the eleven CLI agents WebMux presets, from Claude Code, Codex CLI and Antigravity CLI to Qoder and QoderCN: commands, hybrid sessions and alerts.",
+        `Compatibility matrix for ${AGENTS.length} CLI presets: commands, launch arguments, hybrid sessions, alerts and extra dependencies.`,
       h1: "Supported CLI agents",
-      lead: "On a fresh install WebMux writes launch configurations for eleven CLIs. They are ordinary configurations you can edit or delete; WebMux does not install or sign in to any CLI, and each CLI runs with the service user's permissions, accounts and configuration.",
+      lead: `With launch profiles enabled, WebMux seeds ${AGENTS.length} CLI presets plus Shell and omp when it first creates the profile list. You can edit or delete them; WebMux does not install CLIs or sign in for you.`,
       h2: "Compatibility matrix",
       cols: ["CLI", "Command", "Preset args", "Terminal", "Hybrid session", "Alert source", "Extra dependency"],
       none: "None",
@@ -52,11 +52,11 @@ const c = zh
       h2Notes: "Notes",
       notes: [
         TERMINAL_NOTE.en,
-        "Hybrid sessions switch between terminal and chat views; the other five use the terminal view, and offering an ACP interface alone does not make a CLI adapted.",
-        "The presets for Claude Code, Codex, Antigravity, OpenCode, Qoder and QoderCN auto-approve tool calls, and the Codex preset also disables its sandbox; remove those arguments in settings to approve each step.",
+        "Hybrid sessions require chat, launch and files. An ACP interface alone does not imply switching support. The additional omp profile supports switching and is not counted in the table.",
+        "Some presets auto-approve tool calls; the Codex preset also disables its sandbox. Edit the launch profile if you want approval at each step.",
         "Running, idle and waiting states use generic terminal heuristics; specific question, permission and completion alerts depend on the CLI's structured events, OSC notifications or BEL.",
       ],
-      checked: `Commands checked upstream against official docs on ${COMMANDS_CHECKED}; this page verified on ${AGENTS_CHECKED}.`,
+      checked: `Presets and hybrid support checked against WebMux ${PRESETS_REF}.`,
     };
 ---
 

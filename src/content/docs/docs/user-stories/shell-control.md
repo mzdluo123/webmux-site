@@ -43,10 +43,10 @@ sourcePath: "docs/user-stories/shell-control.md"
     测试保证手册与使用说明中 `webmux <命令> … --<选项>` 的选项属于该命令，除 `recipes` 外没有与命令表示例相同的命令行；
   - TCP 上不需要 Token 但检查 Host，内容不含版本、主机、路径或会话信息，示例不写死安装路径；本机套接字上附加本实例的版本、可执行文件与套接字，并在调用者运行于某个会话内时附加“本会话 ID”（按套接字对端进程判定，与父会话记录相同），使 agent 只读手册也能知道自己是哪个会话；
   - `webmux guide [TOPIC] [--full]` 经本机套接字读取，服务未运行时输出内嵌副本并在标准错误说明；`--path` 输出服务端可执行文件与套接字路径；
-  - CLI 与 MCP 共用逻辑操作 ID/保留窗口、四类操作证据与独立业务验收、当前授权请求、版本比较、动态设置发现和交付物生命周期；路径不保证版本，CLI 配置按真实名称选择。
+  - CLI 与 MCP 共用逻辑操作 ID/保留窗口、输入与视图分派语义、四类操作证据与独立业务验收、当前授权请求、版本比较、动态设置发现和交付物生命周期；路径不保证版本，CLI 配置按真实名称选择。
   - `webmux dir [SESSION]` 输出会话临时文件夹路径（按需创建），会话内默认 `self`。
 - **US-S06 在指令中插入 WebMux 工具说明**：作为使用者，我希望在快捷指令或仓库初始化指令中写 `{{webmux}}`，以便 agent 拿到本会话的手册地址、命令路径和交付文件位置。
-  - `POST /api/sessions/{id}/agent-guide` 确保临时文件夹存在并返回说明：会话 ID、`webmux` 可执行文件与套接字的绝对路径（环境变量丢失时的用法）、`/llms.txt` 地址与 `webmux guide`、本会话临时文件夹路径与“交付文件放这里而不是项目仓库”的规则；不含 Token；
+  - `POST /api/sessions/{id}/agent-guide` 确保临时文件夹存在并返回说明：会话 ID、`webmux` 可执行文件与套接字的绝对路径（环境变量丢失时的用法）、`/llms.txt` 地址与 `webmux guide`、本会话临时文件夹路径与“交付文件保存在会话临时文件夹”的规则；不含 Token；
   - 初始化指令中的 `{{webmux}}` 不再被拒绝：会话创建后在 `{{dir}}` 之后插入说明，说明中的文字不再被当作变量；说明不可用时预检返回 503 且不创建 worktree；
   - 快捷指令正文中的 `{{webmux}}` 在选择时经该接口展开，失败时提示“WebMux 工具说明不可用”且不插入；快速开始页（US-Q18）不能在浏览器展开，菜单插入原样的 `{{webmux}}`，随 `expandPrompt` 由服务端在会话创建后展开，规则与初始化指令相同；
   - 设置页初始化指令的“可插入”提供内置的“WebMux 说明”按钮，快速开始预览说明 `{{webmux}}` 会在会话创建后替换；快捷指令名称仍不能是 `webmux`。
@@ -57,7 +57,7 @@ sourcePath: "docs/user-stories/shell-control.md"
   - 位置：
     - 当前目录所在的已登记 worktree 自动关联；
     - `--worktree REPO:WORKTREE|PATH` 选已有 worktree，`--cwd` 须在其中；
-    - `--new-worktree` 是开关（`--branch`、`--base`、`--existing-branch`、`--worktree-path`、`--repo`、`--refresh-base`）：只发一次带 `newWorktree` 的 `POST /api/sessions`，由服务端先建 worktree 再启动；
+    - `--new-worktree` 是开关（`--branch`、`--base`、`--existing-branch`、`--worktree-path`、`--repo`、`--no-pin`、`--upstream=latest|local`）：请求带 `newWorktree`，服务端先检查上游、确认选择，再建 worktree 与会话；
       省略 `--branch` 时服务端自动生成 `wt/<日期>-<时间>` 形式的不冲突分支名；默认像 Web 端一样加入主页显示（`--no-pin` 不加入）；
     - `--` 之前出现位置参数时以 2 结束，与 `--new-worktree` 同用时提示改用 `--branch`（旧写法 `--new-worktree BRANCH` 不会被当作命令执行）；
     - 失败按服务端的 `step` 报告失败步骤，保留已创建的 worktree 与会话并给出路径与 ID，不回滚；
@@ -80,7 +80,8 @@ sourcePath: "docs/user-stories/shell-control.md"
 
 - **US-S09 向会话输入并等待结果**：作为编排脚本，我希望向终端会话输入并可靠地等到它有反应，以便把交互程序串进流程。
   - `webmux send SESSION [TEXT|-] [--enter] [--key NAME]...` 调用 `POST /api/sessions/{id}/input`，由服务端按当前视图分派，CLI 不再自己连接终端 WebSocket；
-  - 终端视图：以带回执的提交写入文字，收到 `written` 才以 0 退出，`partial`、`failed`、`missing`（409 `input_failed`）以 1 退出；命名按键在文字之后发送，未知按键以 2 结束；
+  - 终端视图：以带回执的提交写入文字，`--enter`（输入 API 的 `submit`）在正文同一提交里追加回车，不带它正文留在输入行不执行；收到 `written` 才以 0 退出，`partial`、`failed`、`missing`（409 `input_failed`）以 1 退出；命名按键在文字之后发送，未知按键以 2 结束；
+  - 文字按浏览器粘贴的规则写入（换行转 CR，程序开启 bracketed paste 时包裹），回车在正文之后至少隔 200ms 写入，间隔期间仍持有输入锁，因此 Claude Code 等 TUI 不会把回车当作粘贴内容而只填入不提交；MCP `session_send` 的 `submit` 同样如此；
   - 发送像浏览器输入一样取得控制权，控制指示器显示 `script`，在会话内附上来源会话 ID；
   - 脚本之后要改终端尺寸见 US-S19；
   - 聊天视图：文字作为提示发送（见 US-S14）；选项与当前视图不符（终端视图带 `--attach-file`/`--mode`，聊天视图带 `--key`）时服务端返回 409 `wrong_view`，CLI 以 1 结束且不写入任何内容；
@@ -106,13 +107,15 @@ sourcePath: "docs/user-stories/shell-control.md"
 - **US-S12 shell 补全**：作为命令行使用者，我希望按 Tab 补全命令、选项与会话 ID，以便少记少打。
   - `webmux completion bash|zsh|fish` 输出补全脚本；隐藏的 `__complete` 给出命令、子命令、选项、枚举值，并向服务查询会话 ID（附标题；`resume` 与 `rm --forget` 补全 `GET /api/sessions?state=archived` 中的已归档会话）、启动配置、仓库、worktree 与手册主题；
   - 查询超过 1 秒或服务未运行时只给静态候选，不输出错误，也不输出 Token 或环境变量值；Windows 客户端不提供补全。
+  - bash 3.2 与新版 Bash 均保持子命令和当前参数的独立单词边界，不将 `chat a` 合成一个参数而丢失静态候选。
 - **US-S13 从脚本提醒用户**：作为在会话里跑长任务的脚本或 agent，我希望任务结束或需要决定时直接提醒用户，以便用户不必盯着终端。
   - `webmux notify [--kind notify|done|error|question] [MESSAGE]` 默认作用于当前会话，会话外需 `--session`；消息最多 200 个字符、不含控制字符，超出时 CLI 以 2 拒绝；
   - 提醒来源为 `cli`，覆盖当前锁存的提醒而不受来源分层限制；会话徽章、页面内弹窗与后台推送照常出现，消息作为弹窗说明行与推送正文，只保存在内存中；
   - 之后按原有规则清除：用户输入、程序的下一次状态报告（会话在聊天视图时为 agent 的新状态或新一轮）；`notify --clear` 与 `send` 的输入同样清除，并同步到所有设备；已退出的会话以 1 拒绝。
 - **US-S14 从脚本驱动混合会话聊天**：作为编排脚本，我希望向另一个 agent 发送提示、取回回复并代为处理它的请求，以便不打开浏览器也能完成多 agent 协作。
   - `webmux send SESSION TEXT` 对聊天视图的会话立即发送或进入服务端队列，可用 `--attach-file PATH`（先经会话上传接口上传，任一失败则不发送）附带文件；`--json` 输出 `{view, queued, itemId, position, turnId, promptId}`；
-  - `--mode` 取 `auto`（默认，空闲即发、忙则排队）、`steer`（插入当前回合）、`refuse`（忙时以 1 结束并报告 `busy`，不排队）或 `now`（取消当前回合并立即发送）；排队时在不带 `--json` 时向标准错误输出队列项与位置，标准输出保持为空；
+  - `--mode` 取 `auto`（默认，无运行回合、连接可用、队列为空且未暂停时发送，否则排队）、`steer`（向支持插话的运行回合补充内容）、`refuse`（不能立即发送时以 1 结束并报告 `busy`）或 `now`（取消后立即发送）；
+  - 排队时在不带 `--json` 时向标准错误输出队列项与位置，标准输出保持为空；帮助与 MCP 工具描述解释插话能力、竞态及回执边界，排队提示引导核对状态以避免重复发送；
   - `--reply` 先连接聊天流再发送，跟踪本次输入开启的回合（插话时跟踪进行中的回合，`now` 跟随取消后开始的回合），与 `--wait` 互斥；会话在终端视图时不写入任何内容，以 1 结束并提示改用 `--wait STATE`；
   - `end_turn` 以 0 退出并输出最终回复；`--json` 为原有 `{stopReason,error,reply,events,request}` 对象加顶层 unfinished；true 时 stderr 提示后台工作，仍为 0，不添加伪事件。其他结束原因或遇到授权、提问时为 1，
     `--auto-wait-requests` 继续等待；排队的提示被删除时以 1 退出；超时 124 且不取消回合；
@@ -135,7 +138,7 @@ sourcePath: "docs/user-stories/shell-control.md"
   - 已删除的 `chat switch`、`chat ls`、`chat resume`、`chat forget` 按未知命令以 2 结束。
 - **US-S16 从脚本管理 worktree 与主页显示**：作为编排脚本，我希望为并行任务创建、查看和删除 worktree，并决定它们是否出现在主页，以便 Web 端与脚本看到同一个工作区。
   - `worktree ls|show|create|rm`：`REPO` 为 ID、路径或 `.`，worktree 为 ID、分支或路径，找不到时以 2 结束并列出候选；`create` 默认放在 `<仓库>.worktrees/<分支末段>`，
-    `--refresh-base` 先取回上游；`rm` 先在标准错误输出预览，有阻止原因时需要 `--force`，终端上要求输入路径确认，非交互时需要 `--yes`；
+    创建前统一检查上游，存在更新或获取失败时先明确选择最新上游、保留本地或取消；非交互调用返回可重试的确认信息；`rm` 先在标准错误输出预览，有阻止原因时需要 `--force`，终端上要求输入路径确认，非交互时需要 `--yes`；
   - 主页状态（`pinned`、`sessions`、`hidden`）与 Web 端规则一致：从未设置的仓库只显示主工作区，有会话或归档记录的 worktree 总会显示；
   - `worktree` 命令对已归档会话的计数读取 `GET /api/sessions?state=archived`；
   - `worktree create` 与 `run --new-worktree` 默认加入主页显示（`--no-pin`）；`worktree pin|unpin|home [--set|--reset]` 只改该仓库的 `homeWorktrees` 条目，
@@ -150,8 +153,9 @@ sourcePath: "docs/user-stories/shell-control.md"
     `edit` 只改给出的字段，未提及的变量值保持不变；名称不存在时以 2 结束并列出已保存的名称；变量值不出现在输出或诊断中；
   - 聊天视图（混合模式）开关：`add --chat` 先经 `POST /api/launch-configs/chat-support` 做支持检查，不支持时以 1 结束；`edit` 用 `--chat`/`--no-chat` 开关；`ls` 显示是否开启聊天视图；
     旧选项 `--hybrid`/`--no-hybrid` 按未知选项以 2 结束；
-  - 仅选择 `launch` 时可新增和编辑普通终端配置；`edit` 未修改的聊天开关与完整提醒策略保持不变，即使其所属插件当前关闭；显式切换聊天模式仍要求选择 `chat`。
+  - 仅选择 `launch` 时可新增和编辑普通终端配置；`edit` 未修改的聊天开关与完整提醒策略保持不变，即使其所属功能当前关闭；显式切换聊天模式仍要求选择 `chat`。
   - `forward ls|add|rm`：`add` 输出转发端口，`--session self` 关联当前会话，`--no-compat` 关闭兼容改写；转发关闭、端口非法或重复时给出原因并以 1 结束。
+  - `agents [--check] [--refresh] [--all] [--json]`：读取本机已安装的 CLI agent 与外部 ACP 连接器路径和版本号（`--all` 含未安装项，`--refresh` 强制重扫，`--check` 按需查询公开上游最新版本，`--json` 输出 `AgentToolsV1`），见 US-B13。
 - **US-S19 从脚本调整终端尺寸**：作为脚本或 agent，我希望在没有浏览器控制终端时改变会话的 PTY 尺寸，以便让程序按我需要的宽高排版并用 `screen` 读到完整画面。
   - `POST /api/sessions/{id}/resize {cols, rows, take?}` 与其他会话接口一样要求认证并检查 Origin（本机套接字上的会话内调用同样可用），成功时 200 返回 `SessionInfo`，PTY、会话信息与预览同时变为新尺寸并向观察端广播控制帧；
   - 当前没有控制端，或控制端是脚本输入（`send` 取得的 `script` 控制权）时直接允许；控制端是浏览器或 `attach` 时返回 409，因为浏览器收到控制帧后会把自己的网格重发，脚本强行修改会来回抢；
@@ -169,7 +173,7 @@ sourcePath: "docs/user-stories/shell-control.md"
   - `session_list` 支持状态、父会话、仓库和运行状态筛选，分页默认 20、最多 100，并报告 nextOffset、done、total。
   - `session_get` 返回既有 SessionDetails；非法 ID、未知及重复参数在访问 API 前拒绝。
   - 交接历史 MCP 保持独立，只读冻结的历史范围；控制入口不改变该范围。
-  - `guide_read` 只读返回索引或七个精选主题，完整编码结果最多 64 KiB；非法参数/未知主题/超限隔离失败，不提供任意 URL/路径、shell 手册或冻结历史工具。
+  - `guide_read` 只读返回索引或八个精选主题（含输入与视图语义），完整编码结果最多 64 KiB；非法参数/未知主题/超限隔离失败，不提供任意 URL/路径、shell 手册或冻结历史工具。
   - 使用说明与限制见 [MCP 控制](../usage/mcp.md)，实现见 [控制工具](../../internal/mcpcontrol/control.go)和 [CLI 入口](../../internal/clicmd/mcp.go)。
   - 网络入口复用同一控制工具集，远程 guide/capabilities 返回 mcp-http、remote、selfSessionId=null；不从 clientInfo 或环境推断身份，见 US-S25。
 
@@ -177,6 +181,7 @@ sourcePath: "docs/user-stories/shell-control.md"
   - `session_launch` 复用创建 API，支持启动配置、argv、已有或新 worktree、初始提示、设置与权限模式；要求显式稳定 clientRequestId。
   - 返回已有创建结果、可用链接与实际提交的 initialInput；仅按真实回执提供等待选择器，空白提示与空初始化指令不伪造回合；部分失败保留 step 和已创建资源，链接读取失败不把成功创建伪装为失败。
   - `session_send` 返回原输入回执，包括聊天回合 ID 或排队项与位置；终端写入不承诺执行完成。
+  - 控制工具的入参字段在 inputSchema 中带描述：终端 `submit` 与 CLI `--enter` 为同一语义（在同一提交中追加回车），只发 `text` 的正文留在输入行不执行。
   - `session_interrupt` 复用中断 API；所有写入重试复用请求 ID，不扩大原有去重保留范围。
   - operations/launch 指南要求按逻辑操作复用请求 ID，从 capabilities 选真实配置 ID；缺少设置发现或文件上传能力时说明限制，不虚构模型值或上传工具。
   - 网络创建不推断父会话，服务进程位于其他会话内也不改变这一点；取消 MCP 请求不执行补偿回滚，业务去重窗口不变。
@@ -210,7 +215,7 @@ sourcePath: "docs/user-stories/shell-control.md"
   - 本机新增 `GET /local/v1/p2p` 窄只读能力；原有会话内 P2P 控制仍 403，TCP 认证与 Origin 保持；UI、连接策略、持久配置不变，不实现 TURN 或交换 offer 方向。
 
 - **US-S25 通过 URL 连接网络 MCP**：作为外部 MCP 客户端使用者，我希望只配置实例 URL 与 owner Bearer 就能控制 WebMux，以便不在客户端安装 WebMux 或连接服务端 socket。
-  - 网络入口默认关闭；先选择 `mcp`，再配置非空根 token 和 `[mcp] enabled=true` 并重启，才开放 TCP 精确 `/mcp`；空 token 在自动生成前启动失败，取消插件选择或关闭网络开关后重启均撤销入口。
+  - 网络入口默认关闭；先选择 `mcp`，再配置非空根 token 和 `[mcp] enabled=true` 并重启，才开放 TCP 精确 `/mcp`；空 token 在自动生成前启动失败，取消功能选择或关闭网络开关后重启均撤销入口。
   - 同一 owner 凭据授予完整 REST 与任意 argv 权限，精选工具不是 ACL 或沙箱；Host / Origin 校验仍执行，代理保留边界，远程部署使用可信 VPN / TLS。
   - 使用 initialize-era JSON-only Streamable HTTP，基线 2025-11-25，兼容 2025-03-26 / 2025-06-18；支持 URL 和 Authorization 的 legacy 客户端无需 command/socket。
   - 成功 initialize 返回会话头，后续携带 Bearer、会话头和匹配版本；initialized 后使用工具。POST 请求 200、通知 202、有效 GET 405、DELETE 清理并等待在途调用后 204。
@@ -230,8 +235,8 @@ sourcePath: "docs/user-stories/shell-control.md"
 - [手册与简述](../../internal/agentguide/agentguide.go)、[手册主题](../../internal/agentguide/llms/connect.md)、[手册路由与说明接口](../../internal/api/guide.go)、[guide 与 dir 命令](../../internal/clicmd/guide.go)
 - [会话控制命令](../../internal/clicmd/control.go)、[补全](../../internal/clicmd/completion.go)
 - [notify 命令](../../internal/clicmd/notify.go)、[脚本提醒](../../internal/session/manager_attention.go)、[推送正文](../../internal/push/alert.go)
-- [worktree 与主页显示命令](../../internal/clicmd/worktree.go)、[仓库命令](../../internal/clicmd/repo.go)、[启动配置命令](../../internal/clicmd/launchconfig.go)、[转发命令](../../internal/clicmd/forward.go)
-- [聊天命令](../../internal/clicmd/chat.go)、[聊天历史、设置与队列命令](../../internal/clicmd/chat_config_queue.go)、[聊天接口](../../internal/pluginapi/chat.go)
+- [worktree 与主页显示命令](../../internal/clicmd/worktree.go)、[仓库命令](../../internal/clicmd/repo.go)、[启动配置命令](../../internal/clicmd/launchconfig.go)、[agents 命令](../../internal/clicmd/agents.go)、[转发命令](../../internal/clicmd/forward.go)
+- [聊天命令](../../internal/clicmd/chat.go)、[聊天历史、设置与队列命令](../../internal/clicmd/chat_config_queue.go)、[聊天接口](../../internal/featureapi/chat.go)
 - [启动命令](../../internal/clicmd/launch.go)、[会话列表订阅、跟随与回合跟踪](../../internal/clicmd/streams.go)、[仓库与主页显示](../../internal/clicmd/workspace.go)
 - [核心创建与初始化指令展开](../../internal/sessioncreate/service.go)、[会话接口](../../internal/api/sessions.go)、[快捷指令运行](../../web/src/components/terminal/SessionTerminal.svelte)、[预设与内置变量](../../web/src/domains/settings/quick-commands.ts)
 - [脚本调整尺寸](../../internal/session/session.go)、[尺寸校验与创建尺寸](../../internal/session/manager.go)、[尺寸请求类型](../../internal/contract/sessions.go)、[resize 命令与 screen 滚动历史](../../internal/clicmd/control.go)

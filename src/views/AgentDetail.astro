@@ -6,7 +6,7 @@ import Base from "../layouts/Base.astro";
 import CommandBox from "$lib/components/site/CommandBox.svelte";
 import type { Agent } from "../data/agents";
 import { agentIcon } from "../data/agents";
-import { AGENTS_CHECKED, ALERTS, COMMANDS_CHECKED, GENERIC_ALERTS, LIMITS, TERMINAL_NOTE } from "../data/agent-details";
+import { ALERTS, GENERIC_ALERTS, LIMITS, PRESETS_REF, TERMINAL_NOTE } from "../data/agent-details";
 import { localize, UI, type Lang } from "../lib/i18n";
 import { SITE_URL } from "../../site.config.mjs";
 
@@ -110,8 +110,8 @@ const description = zh
       <p class="mt-4 text-base leading-[1.75]">
         {
           zh
-            ? "在“新建会话 → 预先输入”选择该启动配置，指定目录或工作树，再创建会话。也可以在服务所在机器的终端里启动，Ctrl+] 分离后到手机上继续："
-            : "In “New session → Pre-type”, pick this launch configuration, choose a directory or worktree and create the session. You can also start it from a terminal on the server, detach with Ctrl+] and continue on your phone:"
+            ? "启用 launch 后，在「新建会话」先选项目和工作位置，再在「运行」中选择启动配置。也可从服务器终端启动，Ctrl+] 分离后到手机继续："
+            : "Enable launch profiles. In New session, choose the project and working directory first, then pick the profile under Run. Or start from the server terminal, detach with Ctrl+] and continue on your phone:"
         }
       </p>
       <div class="mt-3">
@@ -173,7 +173,7 @@ const description = zh
     <SecurityNote lang={lang} class="mt-12 max-w-3xl" />
 
     <p class="mt-8 text-sm text-muted-foreground">
-      {zh ? `命令由上游按 ${COMMANDS_CHECKED} 的官方资料核对；本页核对于 ${AGENTS_CHECKED}。` : `Command checked upstream against official docs on ${COMMANDS_CHECKED}; page verified on ${AGENTS_CHECKED}.`}{" "}
+      {zh ? `预置与混合会话支持按 WebMux ${PRESETS_REF} 核对。` : `Preset and hybrid support checked against WebMux ${PRESETS_REF}.`}{" "}
       <a class="link" href={localize(lang, "/agents/")}>{zh ? "返回全部 agent" : "All agents"}</a>
     </p>
   </div>

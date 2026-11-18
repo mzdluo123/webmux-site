@@ -15,7 +15,7 @@ WebMux 是持续运行的终端工作台。视觉方向为克制的开发工具�
    - 危险操作使用 destructive，文字形式的危险次要操作（如“删除全部”）用 `destructive-outline`，都在确认弹窗中说明后果；对话框里更安全的替代操作使用 success 并放在右下角。
    - 同一行的文字按钮在右侧仍有空间时不换行，放不下时才换行（`flex-wrap`）。
    - 设计语言以线条表达状态：开关按钮保持原 variant，只设置 `aria-pressed`；展开（`aria-expanded`）和当前项（`aria-current="true"`）同理，由 Button 统一显示前景色描边，不切换成绿色或灰色填充。
-5. **紧凑但可操作。** 控件使用统一尺寸，而不是页面级 CSS 覆盖。
+5. **紧凑但可操作。** 控件使用统一尺寸。
    - 触屏或小于 640px 的窗口中，常规按钮最小 44px（顶栏等主要导航）；设置、工作区、代码等信息密集页面降为 36px 紧凑触控高度（见 Tokens）；终端紧凑顶栏保留 32px，软键保持横向滚动，优先保留终端内容空间。
    - 小于 640px 时工具栏保持单行：只常驻高频操作，低频操作收进同处的 ⋯ 菜单。菜单项沿用原按钮的名称、处理函数和禁用条件；显隐用 `max-sm:` / `sm:` 断点完成，不新增 JS 布局状态。
    - 聊天输入卡片使用 `composer-mobile:` 断点：小于 640px 宽，或触屏且高度小于 480px 时隐藏低频选项行，在卡片内通过“会话选项”打开底部面板，横屏不恢复常驻选项行。
@@ -48,8 +48,8 @@ WebMux 是持续运行的终端工作台。视觉方向为克制的开发工具�
   - `rounded-xl`（12px）：只用于 Dialog、AlertDialog 与 Drawer 的弹层表面。
   - `rounded-full` 用于圆点、开关、滑块与滚动条；`rounded-none` 用于贴边的行与分段；`rounded-[inherit]` 只用于跟随父级圆角的内层。
   - 不使用裸 `rounded`、`rounded-xs` 或 `rounded-2xl` 及以上；CSS 中的 `border-radius` 只写 `var(--radius-*)`、`0`、`50%`、`999px` 或 `inherit`。
-- 默认控件高 36px，紧凑 32px，工具 28px，大控件 44px。信息密集页面（设置、工作区、代码）在触屏或小于 640px 时，常规按钮与图标按钮用紧凑触控高度 36px（`--control-touch-compact`），由 `.settings-layout`、`.workspace-page`、`.code-panel` 统一设置；不要在页面里再给按钮加 `icon-touch` 或手写高度。
-- 拉丁界面字体使用内置 Inter，界面中日韩文字使用系统无衬线字体；终端和代码使用内置 Maple Mono NF CN（含拉丁字形、制表符、Nerd Font 图标及按 `unicode-range` 切片的中文）。终端标题里的 Nerd Font 私有区图标在界面中回退到同一套内置图标分片，其余界面文字仍使用 Inter 与系统字体。
+- 默认控件高 36px，紧凑 32px，工具 28px，大控件 44px。信息密集页面（设置、工作区、代码）在触屏或小于 640px 时，常规按钮与图标按钮用紧凑触控高度 36px（`--control-touch-compact`），由 `.settings-layout`、`.workspace-page`、`.code-panel` 统一设置；页面沿用该统一尺寸规则。
+- 拉丁界面字体使用内置 Inter，界面中日韩文字使用系统无衬线字体；终端和代码使用内置 Maple Mono NF CN（含拉丁字形、制表符、共享 Nerd Font 图标，中文使用系统字体）。终端标题里的 Nerd Font 私有区图标在界面中回退到同一套内置图标分片，其余界面文字仍使用 Inter 与系统字体。
 - ANSI 终端和语法高亮令牌保持独立；业务状态不再借用 ANSI 色板。
 - 焦点使用 primary 对应的 ring；不依赖 hover 提供唯一反馈。
 
@@ -57,13 +57,16 @@ WebMux 是持续运行的终端工作台。视觉方向为克制的开发工具�
 
 继续使用 `web/src/lib/components/ui/` 中的 shadcn-svelte 与 bits-ui 组件，保留键盘导航、焦点管理和 ARIA 行为。修改生成组件后，重新运行生成器时需要审查本地差异。这些约定由 [前端架构守卫](frontend-architecture.md) 检查，现有的 variant、size 与例外契约也列在其中。
 
-| 层级       | 组件                                                                | 约定                                                 |
-| ---------- | ------------------------------------------------------------------- | ---------------------------------------------------- |
-| 基础操作   | Button、Badge、Input、Textarea、Label、Switch、Select               | 使用 variant 和 size；不以页面选择器覆盖全体按钮外观 |
-| 容器和导航 | Card、Item、Tabs、DropdownMenu、Popover                             | 内容层使用边界和留白；浮层使用独立表面和阴影         |
-| 弹层       | Dialog、AlertDialog、Drawer                                         | 共享文字与形状规范；危险菜单项保留红色               |
-| 业务反馈   | InlineNotice、SessionStatus                                         | 复用语义颜色和状态文字，长错误信息允许换行           |
-| 业务模式   | WorkspaceGroup、SessionRow、ResponsiveDialog、TerminalInputComposer | 组合基础组件；响应式布局与资源生命周期由业务组件管理 |
+该目录同时容纳生成基础控件与手工公共组合。生成文件的检查豁免逐文件登记在 `web/ui-generated-files.json`，未登记文件默认接受检查。手工组件保留命名、体量、循环依赖与未使用代码检查；设计系统的模板外观和底层元素封装豁免适用，语义色、圆角与 Svelte 规则继续生效。
+
+| 层级       | 组件                                                             | 约定                                                 |
+| ---------- | ---------------------------------------------------------------- | ---------------------------------------------------- |
+| 基础操作   | Button、Badge、Input、Textarea、Label、Switch、Select            | 使用 variant 和 size；不以页面选择器覆盖全体按钮外观 |
+| 容器和导航 | Card、Item、Tabs、DropdownMenu、Popover                          | 内容层使用边界和留白；浮层使用独立表面和阴影         |
+| 弹层       | Dialog、AlertDialog、Drawer                                      | 共享文字与形状规范；危险菜单项保留红色               |
+| 公共反馈   | InlineNotice、StripNotice、InfoHint                              | 位于 `ui/`，统一提示语义与按需说明                   |
+| 公共组合   | ResponsiveDialog、PickerField、AdvancedSection、KeyValueSummary  | 位于 `ui/`，通过 props、snippet 和回调组合基础控件   |
+| 业务模式   | SessionStatus、WorkspaceGroup、SessionRow、TerminalInputComposer | 位于 `components/`，负责领域状态和业务操作           |
 
 `SessionStatus` 区分需立即处理的提醒（需要回答、等待授权、出错停止）与普通等待，以及正常退出与非零退出码。`InlineNotice` 的 danger 使用 `role="alert"`，其他提示使用 `role="status"`；常规静态说明可继续使用普通段落，避免过多实时播报。
 
@@ -102,7 +105,7 @@ WebMux 是持续运行的终端工作台。视觉方向为克制的开发工具�
 - **名称与交互不可省略。** 纯图标按钮必须提供 `aria-label` 或屏幕阅读器文字，并提供可见的悬停提示（`title` 或 Tooltip）；装饰性图标使用 `aria-hidden="true"`。按钮继续遵循现有焦点、禁用态和触摸区域规范。
 - **沿用语义样式。** 图标大小随基础控件尺寸，颜色继承文字或语义令牌，不通过图标颜色单独表达状态。本约定针对应用 UI，不替换 PTY 输出中的字符或终端字体字形。
 
-## TV、头显与沉浸式呈现
+## TV 与头显呈现
 
 设备模式由用户明确选择，不通过 UA、分辨率或 coarse pointer 猜测。设置与终端菜单共享设备本地开关；TV 使用根 `data-ui-mode="tv"`，头显浏览器模式使用 `data-headset-mode="true"`，默认均关闭。
 
@@ -112,14 +115,7 @@ WebMux 是持续运行的终端工作台。视觉方向为克制的开发工具�
 - TV 终端区明确显示导航/输入状态；返回先退出输入，Esc 控件发送真正的终端 Escape。网页不能接收的系统返回键不承诺可拦截。
 - 头显模式提供明确的「键盘」入口并抑制意外自动聚焦；TV/头显模式隐藏自动触屏软键，但保留用户强制显示选择。coarse pointer 仍可用于触控目标，不代表手机布局或头显身份。
 
-沉浸式入口由能力、用户手势与活动状态共同决定：检查安全上下文、WebXR 和 `immersive-vr`；支持时宽屏显示「进入 VR」，窄屏/TV 放入菜单，不支持时菜单仍解释原因。
-活动时显示「退出 VR」，忙碌时阻止重复请求；普通全屏与 XR 请求互斥，但全屏不是进入 XR 的前提。
-
-XR 使用独立 Canvas/Three.js 面板，不把 DOM 控件或 xterm 私有画布截图搬入 VR。
-终端呈现公开 Buffer 的文本、颜色、基本属性、光标、宽字符与组合字符；纹理每边不超过 4096 像素且总量不超过 4 Mi 像素，面板物理缩放不修改 PTY 网格。
-Kitty 等未支持图形显示说明与「返回 2D」入口，文本和输入继续可用；聊天、代码与 Diff 为专用只读文本视图，不承诺富文本或编辑器的视觉等价。
-
-上述设计契约仍需真实头显与电视验证控制器、系统键盘、十英尺可读性和双眼显示；浏览器 fixture 与视口截图不等于硬件兼容证明。
+上述设计契约仍需真实头显与电视验证系统键盘、窗口输入和十英尺可读性；浏览器 fixture 与视口截图不等于硬件兼容证明。
 
 ## Storybook
 

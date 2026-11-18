@@ -1,5 +1,5 @@
 ---
-// /security/ (pages.md#安全页): security model, three deployment topologies and the vulnerability
+// /security/: security model, deployment options and the vulnerability
 // report entry. Source: SECURITY.md, docs/deployment/remote-access.md, docs/tailscale.md.
 import PageBreadcrumb from "../components/PageBreadcrumb.astro";
 import SecurityNote from "../components/SecurityNote.astro";
@@ -7,7 +7,7 @@ import Base from "../layouts/Base.astro";
 import * as Card from "$lib/components/ui/card/index.js";
 import { Badge } from "$lib/components/ui/badge/index.js";
 import type { Lang } from "../lib/i18n";
-import { REPO_URL } from "../../site.config.mjs";
+import { RELAY_CONSOLE_URL, REPO_URL } from "../../site.config.mjs";
 
 interface Props {
   lang: Lang;
@@ -37,6 +37,16 @@ const topologies = zh
         token: "使用随机 token；托管 Serve 要求至少 43 字符的登录 Token。token 保存在浏览器 localStorage 中，只在可信设备上登录。",
         dont: ["让防火墙对 VPN 以外的接口开放该端口。", "把 tailnet 内的入口当作公网入口分享给不在 tailnet 的人。"],
         doc: ["手机访问（Tailscale）", "deployment/remote-access/#手机访问tailscale"],
+      },
+      {
+        id: "relay",
+        name: "官方 Relay",
+        badge: "公网：需信任中转运营者",
+        listen: "127.0.0.1:7681，由宿主主动连接 Relay",
+        who: "GitHub 账号已获 Relay 邀请，希望从不同网络打开自己的固定 HTTPS 地址，不想把长期 Token 复制到手机上。",
+        token: "保留至少 43 字符的本机恢复 Token。Relay 默认关闭：在“设置 → 管理官方 Relay”点击“使用 GitHub 配对”，到 GitHub 输入一次性用户码；配对成功后开启“允许 Relay 公网访问”并确认风险。手机用同一账号登录控制台，选择自己的在线主机。",
+        dont: ["把 Relay 当作端到端加密：它终止 TLS，运营者可接触 Cookie、转发凭据与终端内容。", "把配对码、登录 Cookie 或恢复 Token 分享给他人。控制台可打开不等于主机已在线。"],
+        doc: ["官方 Relay 配对与访问", "deployment/remote-access/#官方-relay"],
       },
       {
         id: "public",
@@ -76,6 +86,16 @@ const topologies = zh
         doc: ["Phone access (Tailscale)", "deployment/remote-access/#手机访问tailscale"],
       },
       {
+        id: "relay",
+        name: "Official Relay",
+        badge: "Public: trust the Relay operator",
+        listen: "127.0.0.1:7681; the host connects out to the Relay",
+        who: "Your GitHub account is invited to the Relay, and you want a fixed HTTPS address without copying a long-lived token to your phone.",
+        token: "Keep a local recovery token of at least 43 characters. Relay is off by default. Under Settings → Manage official Relay, select “Pair with GitHub” and enter the one-time code on GitHub. After pairing, turn on “Allow public Relay access” and confirm the risk. Sign in to the console on your phone with the same account and select your online host.",
+        dont: ["Assume end-to-end encryption: Relay terminates TLS, so its operator can access cookies, forwarded credentials and terminal content.", "Share the pairing code, login cookie or recovery token. Reaching the console does not mean your host is online."],
+        doc: ["Pairing and access", "deployment/remote-access/#官方-relay"],
+      },
+      {
         id: "public",
         name: "Cloudflare Named Tunnel or Tailscale Funnel",
         badge: "Public: the token is the only barrier",
@@ -96,14 +116,14 @@ const c = zh
   ? {
       title: "安全与部署建议 · WebMux",
       description:
-        "WebMux 的安全模型与推荐部署拓扑：它等同于把 shell 暴露到网络，不是进程沙箱，也不提供多用户隔离；本页说明仅本机、Tailscale / WireGuard 与公网隧道三种方式各自适合谁、Token 要求、不要这样做的事项，以及私下报告漏洞的入口。",
+        "WebMux 以服务用户身份运行 shell。比较本机、可信 VPN、官方 Relay 与受控隧道的访问范围、认证方式和信任边界，并了解如何私下报告漏洞。",
       h1: "安全与部署建议",
-      lead: "WebMux 以启动服务的系统用户身份执行任意命令，等同于把一个 shell 暴露到网络上。它不是进程沙箱，也不提供多用户隔离，安全依赖于网络隔离。",
+      lead: "WebMux 以启动服务的系统用户身份执行任意命令，不是进程沙箱，也不提供多用户隔离。选择远程入口前，先确认谁能连到你的 shell，以及谁能看到转发内容。",
       h2Model: "安全模型",
-      h2Topo: "三种推荐拓扑",
+      h2Topo: "选择远程访问方式",
       who: "适合谁",
       listen: "监听",
-      token: "Token 要求",
+      token: "认证方式",
       dont: "不要这样做",
       more: "详细步骤",
       h2Report: "报告漏洞",
@@ -111,14 +131,14 @@ const c = zh
   : {
       title: "Security and deployment · WebMux",
       description:
-        "WebMux security model and topologies: it exposes a shell and is not a sandbox. Token rules and risks for local, Tailscale / WireGuard and public tunnels, plus reporting.",
+        "WebMux runs a shell as the service user. Compare local, trusted VPN, official Relay and public tunnel access, including authentication, trust boundaries and vulnerability reporting.",
       h1: "Security and deployment",
-      lead: "WebMux runs arbitrary commands as the user who started the service, which amounts to exposing a shell to the network. It is not a process sandbox and offers no multi-user isolation; safety relies on network isolation.",
+      lead: "WebMux runs arbitrary commands as the user who started the service. It is not a sandbox and offers no multi-user isolation. Before choosing a remote entry point, consider who can reach your shell and who can see forwarded traffic.",
       h2Model: "Security model",
-      h2Topo: "Three recommended topologies",
+      h2Topo: "Choose an access method",
       who: "Who it suits",
       listen: "Listen on",
-      token: "Token requirements",
+      token: "Authentication",
       dont: "Do not",
       more: "Step-by-step guide",
       h2Report: "Reporting a vulnerability",
@@ -128,18 +148,18 @@ const model = zh
   ? [
       "默认仅监听本机 127.0.0.1:7681。需要局域网访问时才改为 0.0.0.0:7681（或在 Windows 托盘勾选“允许局域网访问”），远程访问建议使用 Tailscale Serve 或绑定可信 VPN 地址，并用防火墙限制可访问的接口。",
       "首次启动生成 0600 配置文件和持久化的 256 位 Token，可用 webmux status --json --reveal-token 查看。",
-      "所有 API 与 WebSocket 都需要认证（启用 token 时），token 以常量时间比较；带 Origin 的请求必须同源或位于 allowed_origins 中。",
-      "Token 不进入请求 URL：HTTP 使用 Bearer 头，WebSocket 使用子协议；终端输入输出不会写入日志，配置接口不返回 token。",
-      "WebMux 不内置 TLS；需要 HTTPS 时使用 tailscale serve 或反向代理。",
+      "传统直连使用 Token：HTTP 使用 Bearer 头，WebSocket 使用子协议。带 Origin 的请求必须同源或在允许列表中。WebMux 不记录终端输入输出，配置接口不返回 Token。",
+      "官方 Relay 校验所有者身份，用有时限的浏览器 Cookie 认证；写请求还检查 Origin 和 CSRF。它不替代本机恢复 Token，也不提供多用户隔离。",
+      "普通 HTTP 监听不提供公网 TLS。需要 HTTPS 时用 Tailscale Serve、官方 Relay 或受控反向代理，不要直接公开监听端口。",
       "登记的 Git 仓库必须可信：Git 会执行仓库配置中的 hooks 与 filters。关闭会话会清理其进程树，但完全脱离终端会话的自守护进程可能不受控制。",
       "只有最新发布版本会接收安全修复。",
     ]
   : [
       "By default it listens on 127.0.0.1:7681 only. Switch to 0.0.0.0:7681 (or tick “allow LAN access” in the Windows tray) only when you need LAN access; for remote use prefer Tailscale Serve or a trusted VPN address, and restrict reachable interfaces with a firewall.",
       "The first start creates a 0600 configuration file and a persistent 256-bit token; show it with webmux status --json --reveal-token.",
-      "Every API and WebSocket requires authentication (when a token is set), compared in constant time; requests with an Origin must be same-origin or listed in allowed_origins.",
-      "The token never appears in request URLs: HTTP uses a Bearer header and WebSocket a subprotocol. Terminal input and output are never logged, and the configuration API never returns the token.",
-      "WebMux has no built-in TLS; for HTTPS use tailscale serve or a reverse proxy.",
+      "Traditional token-authenticated connections use a Bearer header for HTTP and a subprotocol for WebSocket. Requests with an Origin must be same-origin or allowlisted. WebMux does not log terminal I/O or return the token in configuration responses.",
+      "Official Relay verifies the owner and authenticates the browser with a time-limited cookie. Writes also require Origin and CSRF checks. This neither replaces the local recovery token nor adds multi-user isolation.",
+      "The ordinary HTTP listener does not terminate public TLS. Use Tailscale Serve, official Relay or a controlled reverse proxy for HTTPS rather than publishing the listener.",
       "Registered Git repositories must be trusted: Git runs hooks and filters from repository config. Closing a session cleans up its process tree, but daemons that fully detach from the session may escape it.",
       "Only the latest release receives security fixes.",
     ];
@@ -166,12 +186,12 @@ const model = zh
   <section class="border-y border-band-line bg-band py-16 sm:py-24" aria-labelledby="topologies">
     <div class="container-site">
       <h2 id="topologies" class="text-[26px] font-bold sm:text-[30px]">{c.h2Topo}</h2>
-      <div class="mt-8 grid gap-6 lg:grid-cols-3">
+      <div class="mt-8 grid gap-6 lg:grid-cols-2">
         {
           topologies.map((tp) => (
             <Card.Root id={tp.id} class="scroll-mt-24 bg-page">
               <Card.Header>
-                <Badge variant={tp.id === "public" ? "outline" : "secondary"} class:list={["w-fit", tp.id === "public" && "border-note-warning-border bg-note-warning-bg text-note-warning-fg"]}>{tp.badge}</Badge>
+                <Badge variant={tp.id === "public" || tp.id === "relay" ? "outline" : "secondary"} class:list={["w-fit", (tp.id === "public" || tp.id === "relay") && "border-note-warning-border bg-note-warning-bg text-note-warning-fg"]}>{tp.badge}</Badge>
                 <h3 class="mt-2 text-xl font-bold">{tp.name}</h3>
               </Card.Header>
               <Card.Content class="grid gap-4 text-[15px] leading-[1.7]">
@@ -196,6 +216,9 @@ const model = zh
                 <p class="m-0">
                   {c.more}: <a class="link" href={`/docs/${tp.doc[1]}`}>{tp.doc[0]}</a>{cn}
                 </p>
+                {tp.id === "relay" && (
+                  <p class="m-0"><a class="link" href={RELAY_CONSOLE_URL}>{zh ? "打开官方 Relay 控制台" : "Open the official Relay console"}</a> · <a class="link" href="/docs/deployment/official-relay/">{zh ? "部署与验证记录" : "Deployment and verification record (Chinese)"}</a></p>
+                )}
               </Card.Content>
             </Card.Root>
           ))

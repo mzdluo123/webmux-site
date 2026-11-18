@@ -4,6 +4,7 @@
 import type { Lang } from "../lib/i18n";
 import { localize } from "../lib/i18n";
 import { PORT_FORWARD_DOC } from "./use-cases";
+import { RELAY_CONSOLE_URL } from "../../site.config.mjs";
 
 export interface FaqItem {
   /** ASCII anchor slug, stable across languages. */
@@ -44,12 +45,12 @@ function items(lang: Lang): Record<string, FaqItem> {
         {
           id: "phone-access",
           q: "手机怎么访问？",
-          a: `推荐在服务器和手机上安装 Tailscale 并加入同一网络，在配置中设置 <code>[tailscale] mode = "serve"</code>，手机打开 <code>https://&lt;节点&gt;.ts.net/</code>；也可以把监听地址设为服务器的 Tailscale / WireGuard 地址，并输入一次 token。防火墙应只允许可信 VPN 接口访问该端口。HTTPS 地址还可以安装为应用并接收锁屏推送。详见 <a href="${d("deployment/remote-access/#手机访问tailscale")}">手机访问</a>。`,
+          a: `两台设备都能加入同一私网时，可用 <a href="${d("deployment/remote-access/#手机访问tailscale")}">Tailscale Serve 或 VPN 直连</a>，用防火墙限制访问接口。没有共享 VPN 时，可选默认关闭的官方 Relay：在本机“设置 → 管理官方 Relay”用获准的 GitHub 账号配对，按提示输入用户码授权，再开启“允许 Relay 公网访问”并确认风险。手机用同一账号登录<a href="${RELAY_CONSOLE_URL}">官方 Relay 控制台</a>，选择自己的在线主机，打开固定 HTTPS 入口，无需复制长期 Token。见<a href="${d("deployment/remote-access/#官方-relay")}">配对步骤</a>。`,
         },
         {
           id: "is-it-safe",
           q: "WebMux 安全吗？",
-          a: `WebMux 以启动服务的系统用户身份执行任意命令，等同于把一个 shell 暴露到网络上；它不是进程沙箱，也不提供多用户隔离。安全依赖网络隔离：默认只监听本机 <code>127.0.0.1:7681</code>，需要远程访问时开启 Tailscale Serve，或绑定 Tailscale / WireGuard 等可信 VPN，并使用随机 token（首次启动会生成 256 位 Token）。不要直接暴露到公网；确需公网访问时只用受控隧道，此时 Token 是唯一入口屏障。详见 <a href="${localize(lang, "/security/")}">安全与部署建议</a>。`,
+          a: `WebMux 以服务用户身份执行命令，不是沙箱，也没有多用户隔离。默认仅监听 <code>127.0.0.1:7681</code>，不要直接公开这个端口。可信 VPN 直连不需官方中转；通过 Cloudflare Tunnel 或 Tailscale Funnel 公开的 shell 要保护登录 Token。官方 Relay 则以 GitHub 所有者身份认证，需保留至少 43 字符的本机恢复 Token。Relay 终止 TLS，可接触转发内容和凭据，不是端到端加密。详见<a href="${localize(lang, "/security/")}">安全与部署建议</a>。`,
         },
         {
           id: "windows",
@@ -64,17 +65,17 @@ function items(lang: Lang): Record<string, FaqItem> {
         {
           id: "install",
           q: "怎么安装？",
-          a: `Linux / macOS 可运行 <code>curl -fsSL https://github.com/mzdluo123/webmux/releases/latest/download/install.sh | sh</code>，脚本自动识别架构并校验 SHA-256，安装到 <code>~/.local/bin/webmux</code>，不需要 root。也可以使用 deb / rpm 安装包、手动下载、Windows 安装程序或从源码构建，见 <a href="${localize(lang, "/download/")}">下载与安装</a> 与 <a href="${d("deployment/install-and-upgrade/")}">安装与升级</a>。`,
+          a: `Linux / macOS 可从 GitHub Releases 获取 <code>install.sh</code>：它识别系统与架构，使用 minisign 或支持 Ed25519 的 OpenSSL（可用时）验签发布清单，再核对二进制的 SHA-256。两种验签工具都不可用时，默认只信任从官方 GitHub 直取的清单。默认装到 <code>~/.local/bin/webmux</code>，不需要 root。安装命令、deb / rpm、Windows 安装程序和手动验签示例见<a href="${localize(lang, "/download/")}">下载与安装</a>。`,
         },
         {
           id: "data-and-telemetry",
           q: "我的数据去哪了？有遥测吗？",
-          a: `会话只在内存中；状态目录只保存显式登记的 JSON 文件（仓库清单、启动配置、偏好、推送、隧道与 Tailscale 设置、混合会话记录），见 <a href="${d("persistence/")}">持久化清单</a>。终端输入输出不会写入日志，配置接口不返回 token。按 2026-11-03 对源码的检索，WebMux 不包含遥测或使用统计代码；对外连接只发生在你启用的功能中，例如下载 cloudflared、隧道与手机推送。`,
+          a: `PTY 和回放缓冲在宿主内存中；项目、设置、Relay 绑定和混合会话记录等状态保存在本机，见<a href="${d("persistence/")}">持久化清单</a>。WebMux 不记录终端输入输出。按 2026-11-03 对源码的检索，未发现使用统计代码。主动开启的功能可以向外发送数据：例如 Web Push 经浏览器厂商送达，官方 Relay 的运营者可接触经它转发的内容与凭据。`,
         },
         {
           id: "multi-user",
           q: "能给多人使用吗？",
-          a: `不能当作多用户系统使用。WebMux 只有一个共享 token，所有命令以启动服务的系统用户身份运行，不提供多用户隔离。拿到 token 的人与你拥有同样的 shell 权限；需要隔离时请为每个人使用独立的系统用户和独立的 WebMux 实例。`,
+          a: `不能当作多用户系统使用。直连使用共享 Token；官方 Relay 的 GitHub 登录只用于识别宿主所有者，不提供团队账号或权限隔离。命令都以服务用户身份运行。需要隔离时，请为每个人使用独立的系统用户和 WebMux 实例。`,
         },
         {
           id: "two-devices",
@@ -94,7 +95,7 @@ function items(lang: Lang): Record<string, FaqItem> {
         {
           id: "forgot-token",
           q: "忘了 Token，或者浏览器提示需要登录？",
-          a: `首次启动生成的 token 持久化在配置文件中，可用 <code>webmux status --json --reveal-token</code> 查看，或用 <code>webmux config path</code> 找到配置文件。详见 <a href="${d("deployment/configuration/")}">配置</a>。`,
+          a: `直连时，首次启动生成的 Token 在本机配置文件中，可用 <code>webmux status --json --reveal-token</code> 查看；不要把它分享给他人。若是官方 Relay 会话过期，请回到<a href="${RELAY_CONSOLE_URL}">控制台</a>用配对时的 GitHub 账号重新登录，不要在中转登录页输入本机恢复 Token。详见<a href="${d("deployment/configuration/")}">配置</a>。`,
         },
         {
           id: "sessions-after-upgrade",
@@ -126,12 +127,12 @@ function items(lang: Lang): Record<string, FaqItem> {
         {
           id: "phone-access",
           q: "How do I open it from my phone?",
-          a: `The recommended route: install Tailscale on the server and the phone, join the same tailnet, set <code>[tailscale] mode = "serve"</code> and open <code>https://&lt;node&gt;.ts.net/</code> on the phone. Alternatively, listen on the server's Tailscale / WireGuard address and enter the token once. Your firewall should only allow the trusted VPN interface to reach the port. An HTTPS address can also be installed as an app and receive lock-screen notifications. See <a href="${d("deployment/remote-access/#手机访问tailscale")}">phone access</a>${cn}.`,
+          a: `If both devices can join the same private network, use <a href="${d("deployment/remote-access/#手机访问tailscale")}">Tailscale Serve or a direct VPN connection</a>${cn} and restrict the port to the VPN interface. Without a shared VPN, the official Relay is an opt-in alternative. Open the Relay manager in WebMux settings on the host, pair with an eligible GitHub account using the displayed code, then enable public Relay access and confirm the risk. On your phone, sign in to the <a href="${RELAY_CONSOLE_URL}">official Relay console</a> with that same account and select your online host to open its fixed HTTPS address. There is no long-lived token to copy to your phone. See the <a href="${d("deployment/remote-access/#官方-relay")}">pairing guide</a>${cn}.`,
         },
         {
           id: "is-it-safe",
           q: "Is WebMux safe?",
-          a: `WebMux runs arbitrary commands as the user who started the service, which amounts to exposing a shell to the network. It is not a process sandbox and offers no multi-user isolation. Safety relies on network isolation: by default it listens on <code>127.0.0.1:7681</code> only; for remote use turn on Tailscale Serve or bind to a trusted VPN such as Tailscale or WireGuard, and use a random token (the first start generates a 256-bit one). Do not expose it directly to the internet; if you must, use a controlled tunnel only, and accept that the token is then the only barrier. See <a href="${localize(lang, "/security/")}">security and deployment</a>.`,
+          a: `WebMux runs commands as the service user, without sandboxing or multi-user isolation. By default it listens only on <code>127.0.0.1:7681</code>; do not publish that port. A trusted VPN does not require the official Relay. A shell published through Cloudflare Tunnel or Tailscale Funnel depends on keeping the login token secret. The optional official Relay authenticates the owner through GitHub and requires a local recovery token of at least 43 characters. It terminates TLS and can access forwarded content and credentials; it is not end-to-end encrypted. See <a href="${localize(lang, "/security/")}">security and deployment</a>.`,
         },
         {
           id: "windows",
@@ -146,17 +147,17 @@ function items(lang: Lang): Record<string, FaqItem> {
         {
           id: "install",
           q: "How do I install it?",
-          a: `On Linux or macOS, run <code>curl -fsSL https://github.com/mzdluo123/webmux/releases/latest/download/install.sh | sh</code>. The script detects your architecture, verifies the SHA-256 and installs to <code>~/.local/bin/webmux</code> without root. deb / rpm packages, manual downloads, a Windows installer and source builds are also available; see <a href="${localize(lang, "/download/")}">download and install</a> and <a href="${d("deployment/install-and-upgrade/")}">install and upgrade</a>${cn}.`,
+          a: `On Linux / macOS, get <code>install.sh</code> from GitHub Releases. It detects your platform, verifies the signed release manifest with minisign or Ed25519-capable OpenSSL when available, then checks the binary’s SHA-256. Without either verifier, by default only a manifest fetched directly from official GitHub is trusted. Installation defaults to <code>~/.local/bin/webmux</code> without root. See <a href="${localize(lang, "/download/")}">download and install</a> for commands, deb / rpm packages, Windows installers and a manual signature check.`,
         },
         {
           id: "data-and-telemetry",
           q: "Where does my data go? Is there telemetry?",
-          a: `Sessions live only in memory; the state directory holds only explicitly registered JSON files (repository list, launch configurations, preferences, push, tunnel and Tailscale settings, hybrid-session records); see the <a href="${d("persistence/")}">persistence list</a>${cn}. Terminal input and output are never logged, and the configuration API never returns the token. A search of the source on 2026-11-03 found no telemetry or usage-analytics code; outbound connections happen only for features you enable, such as downloading cloudflared, tunnels and push notifications.`,
+          a: `PTYs and replay buffers live in host memory. State such as projects, settings, Relay bindings and hybrid-session records stays on the host; see the <a href="${d("persistence/")}">persistence list</a>${cn}. WebMux does not log terminal input or output. A source review on 2026-11-03 found no usage-analytics code. Features you enable can send data externally: for example, Web Push uses browser vendors’ services, and the official Relay operator can access content and credentials forwarded through it.`,
         },
         {
           id: "multi-user",
           q: "Can several people share one instance?",
-          a: `Not as a multi-user system. WebMux has a single shared token, every command runs as the user who started the service, and there is no multi-user isolation. Anyone holding the token has the same shell access as you; if you need isolation, give each person their own system user and their own WebMux instance.`,
+          a: `Not as a multi-user system. Direct access uses a shared token; official Relay uses GitHub to identify the host owner, not to provide team accounts or permission isolation. Every command runs as the service user. For isolation, give each person their own system user and WebMux instance.`,
         },
         {
           id: "two-devices",
@@ -176,7 +177,7 @@ function items(lang: Lang): Record<string, FaqItem> {
         {
           id: "forgot-token",
           q: "Forgot the token, or the browser asks you to log in?",
-          a: `The token generated on first start is stored in the configuration file. Show it with <code>webmux status --json --reveal-token</code>, or find the file with <code>webmux config path</code>. See <a href="${d("deployment/configuration/")}">configuration</a>${cn}.`,
+          a: `For direct access, the token generated on first start is stored in your local configuration. Show it with <code>webmux status --json --reveal-token</code> and do not share it. If an official Relay session expires, sign back in to the <a href="${RELAY_CONSOLE_URL}">console</a> with the GitHub account used to pair the host; do not enter your local recovery token on the Relay sign-in page. See <a href="${d("deployment/configuration/")}">configuration</a>${cn}.`,
         },
         {
           id: "sessions-after-upgrade",

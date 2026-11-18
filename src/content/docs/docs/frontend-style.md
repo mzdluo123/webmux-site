@@ -46,10 +46,10 @@ Google 的指南自述部分条款受其内部环境约束，因此只采纳类�
 这七条覆盖绝大多数 Svelte 5 代码评审，按顺序检查：
 
 1. **只有驱动界面更新的状态才用 `$state`。** 仅参与流程控制、不参与渲染的一次性标志位用普通 `let`；整体替换的列表优先 `$state.raw`。
-2. **能从已有状态算出的值用 `$derived` / `$derived.by`。** 不要把派生结果再存进 `$state` 手动同步，也不要用 `$effect` 回写。
+2. **能从已有状态算出的值用 `$derived` / `$derived.by`。** 派生结果由 `$derived` 跟随输入计算。
 3. **`$effect` 只做副作用。** 典型用途是订阅、计时器、观察器与 DOM 集成；必须返回清理函数，且不能写入自身依赖。
 4. **可增删、排序的列表用稳定业务 ID 作 key。** 只有内容固定的静态列表才允许 index。
-5. **`$props()` 必须有类型。** 可选参数给默认值；需要双向绑定时显式 `$bindable`，不要让可绑定 prop 充当派生输出。
+5. **`$props()` 必须有类型。** 可选参数给默认值；需要双向绑定时显式 `$bindable`，派生输出使用 `$derived`。
 6. **事件统一使用 Svelte 5 属性写法。** 使用 `onclick={...}` 等，不新增 `on:` 指令；异步处理函数进入 `onclick` 前要显式处理 rejection。
 7. **跨层共享用 Context，模块单例只用于进程级配置。** `setContext` / `getContext` 优先于隐式全局。
    单实例应用的模块级状态按职责放在 `src/domains/<主题>/*.svelte.ts` 或 `src/hooks/<主题>/*.svelte.ts`，并说明生命周期。
@@ -75,7 +75,8 @@ Oxlint 只解析 Svelte 的 `<script>`，不提供模板规则，也不对 `.sve
 
 类型感知模式同时启用其余 correctness 规则（`await-thenable`、`no-array-delete`、`no-base-to-string`、`no-implied-eval`、`no-misused-spread` 与 `unbound-method`）；`code-popout.ts` 的属性描述符解构和 `terminal.svelte.ts` 的对象方法转交不依赖 `this`，在这两个文件关闭 `unbound-method`。
 
-`check`、`build`、`check:storybook` 与 `check:test` 都保留 `svelte-check --tsgo --fail-on-warnings`，警告不得静默累积；`vp lint` 不替代该类型检查。
+`check`、`build`、`check:storybook` 与 `check:test` 都保留 `svelte-check --tsrs --fail-on-warnings`，警告不得静默累积；`vp lint` 不替代该类型检查。
+`web/patches/` 为 `svelte-check` 提供 `--tsrs`，继续使用其 Svelte 虚拟文件和源位置映射。
 引入带存量违规的新规则时，先记录基线，再按 [前端架构守卫](frontend-architecture.md#基线与新规则) 的方式收紧。
 
 - Markdown 预览唯一保留的 `{@html}` 必须先经过专用 DOMPurify 实例。
