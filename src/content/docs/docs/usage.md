@@ -5,7 +5,7 @@ sourcePath: "docs/usage.md"
 ---
 WebMux 把服务器上的 CLI agent 或 Shell 会话跑在后台，你可以随时从电脑或手机的浏览器接管。关闭标签页或锁屏不会结束会话；服务重启才会。
 
-首次生成的配置只有 PTY 核心：点「新建会话」，填写完整命令与启动目录即可使用。下列聊天、仓库、代码、上传等入口需要先 [选择对应内置功能](deployment/configuration.md#内置功能选择) 并重启；旧配置省略选择时保留旧版全部功能。
+首次启动即可保存启动配置、管理仓库、浏览代码、上传文件和使用 Agent 聊天。要调整启用的功能，请编辑配置后重启服务。见 [内置功能选择](deployment/configuration.md#内置功能选择)。
 
 ## 第一次使用
 
@@ -30,7 +30,6 @@ WebMux 把服务器上的 CLI agent 或 Shell 会话跑在后台，你可以随�
 | 在本机终端里 `run` / `attach`，或在 Windows 用   | [从本机终端使用](usage/command-line.md)              |
 | 让脚本或 agent 控制 WebMux                       | [用脚本和 agent 控制 WebMux](usage/shell-control.md) |
 | 在手机上输入、用软键栏和手势                     | [移动端使用](usage/mobile.md)                        |
-| 在头显或电视浏览器操作                           | [头显与 TV 浏览器](usage/headset-and-tv.md)          |
 | 预览服务器上的开发服务器                         | [端口转发预览](usage/port-forwarding.md)             |
 | 让会话行显示 shell 当前目录                      | [Shell 目录报告](usage/shell-directory.md)           |
 | 接入某个 CLI agent                               | [CLI agent 接入](cli-agents.md)                      |

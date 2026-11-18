@@ -5,7 +5,7 @@ sourcePath: "docs/overview.md"
 ---
 WebMux 是一个单二进制的 Web 终端服务，为在浏览器和手机上遥控 Claude Code、Codex、omp 等 CLI agent 而设计。本页是首页 [README](../README.md) 的完整版：定位、设计理念、全部特性与技术栈。操作步骤见 [使用指南](usage.md)，部署见 [部署指南](deployment.md)。
 
-新生成配置只启用持久 PTY 核心；下列扩展能力按 [14 个内置功能](deployment/configuration.md#内置功能选择) 显式选择并重启。
+新生成配置默认启用全部 13 项内置功能。完整清单见 [内置功能选择](deployment/configuration.md#内置功能选择)。
 功能随同一二进制发布，禁用时不加载前端实现、不启动后端服务或打开所属存储；不是功能市场、热加载或安全隔离。旧配置未声明选择时保留固定旧版全量功能。
 
 ## 定位
@@ -106,7 +106,7 @@ OpenCode、omp、Codex CLI、Claude Code、Antigravity CLI、Qoder、QoderCN 与
   - 圆环显示上下文用量，点击查看 Token 详情。
 - **多设备协作**：默认 `auto` 在回合进行中将消息加入所有设备共享的队列；当前工作补充可在实际能力与运行状态允许时用 `steer` 插话，详见[排队与插话](hybrid-sessions.md#排队与插话)。权限请求与表单在所有设备同步。
   - 上传的图片与文件按 agent 能力以 ACP 内容块直接发送。
-- **持久运行、可恢复**：聊天端保持 agent 进程运行直到切换或显式归档；服务重启后自动恢复仍在运行的会话，已归档的可从首页所属工作树的“已归档”中按归档前的聊天或终端模式恢复。
+- **持久运行、可恢复**：聊天端保持 agent 进程运行直到切换或显式归档；服务重启后先列出此前运行的会话，打开时恢复，已归档的可从首页所属工作树的“已归档”中按归档前的聊天或终端模式恢复。
 
 新安装预置的 Open Code、omp、Codex CLI、Claude Code、Antigravity CLI、Qoder、QoderCN 与 Kimi 启动配置已开启混合模式：
 

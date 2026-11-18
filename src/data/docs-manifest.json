@@ -1,7 +1,7 @@
 {
   "repo": "mzdluo123/webmux",
   "ref": "v0.18.0",
-  "commit": "05d6980a073c9842ed10bd2d37d5c60ba9ed3f83",
+  "commit": "76e97971bb6f24e3218e8b7bbb5921a705d126a9",
   "latestRelease": "v0.18.0",
   "fallbackToMain": false,
   "docs": [
@@ -21,13 +21,13 @@
       "source": "docs/README.md",
       "url": "/docs/",
       "titleAnchor": "webmux-文档中心",
-      "sha256": "96a3c2f3a44a402eb62fe443e245d7a5a49bfdc2a7f20ccc5bb91d3f2d8d4389"
+      "sha256": "e85322fe279bab34f18ec622c64a4055f7e3482b1b29e99c021f22b399176af7"
     },
     {
       "source": "docs/architecture.md",
       "url": "/docs/architecture/",
       "titleAnchor": "架构设计",
-      "sha256": "88ed9bdb8fd013565fca4e567d20909ad0daf3ab32af6a5f0c2e96bd0008bf98"
+      "sha256": "2fc8da5865f3cb844bffce35113260bf6e8f290747fd8d4e4ceb813b60d03544"
     },
     {
       "source": "docs/architecture/layers.md",
@@ -51,7 +51,7 @@
       "source": "docs/cli-agents.md",
       "url": "/docs/cli-agents/",
       "titleAnchor": "cli-agent-接入",
-      "sha256": "c24f62073a9bcc8b3101e5bbc39d204484dac26ad526b54baacdfeb498e9e88b"
+      "sha256": "fd5faf0cd103c7e7630734edfdba9b3f13c9a85d65d15b5a7b822e23210fb956"
     },
     {
       "source": "docs/cloudflare-tunnel.md",
@@ -63,7 +63,7 @@
       "source": "docs/codex-native.md",
       "url": "/docs/codex-native/",
       "titleAnchor": "原生历史直读与快照",
-      "sha256": "ea12282c1dc902546183f04bad7c8399abac2830b75471c574f5b0b191c48e68"
+      "sha256": "210072d16ac47961df6d13d3d91b36f95ae797bc87ee4677bd591fb149346039"
     },
     {
       "source": "docs/deployment.md",
@@ -75,13 +75,13 @@
       "source": "docs/deployment/configuration.md",
       "url": "/docs/deployment/configuration/",
       "titleAnchor": "配置",
-      "sha256": "323fb4bb867494228f8196c8afbf7dfa00bc67ecf26bedf783f925e8381ae52e"
+      "sha256": "211a3ba3f3850e6e6d05677c5e39661e2a7a385cc66535006da41097f0adb7d7"
     },
     {
       "source": "docs/deployment/install-and-upgrade.md",
       "url": "/docs/deployment/install-and-upgrade/",
       "titleAnchor": "安装与升级",
-      "sha256": "3c6358ee0ae4a5ea381094bedee51b023d885bd0f68aa66d84be8ba9aa492b78"
+      "sha256": "3ee4c32f4c35bfc0dd84e6b10b351d57cc5dede8695f028532fb71284df2ddcf"
     },
     {
       "source": "docs/deployment/official-relay.md",
@@ -117,25 +117,25 @@
       "source": "docs/deployment/windows-wsl.md",
       "url": "/docs/deployment/windows-wsl/",
       "titleAnchor": "windowswsl部署",
-      "sha256": "7cca535b7589c52ad223635f0a4def6917aff43b7b40c0377dc6a9806cc52c70"
+      "sha256": "9fa81934aae9eb327e360b8aa36b7357997dadbc41ae92c77f619f934b5f1ac1"
     },
     {
       "source": "docs/design-system.md",
       "url": "/docs/design-system/",
       "titleAnchor": "webmux-design-system",
-      "sha256": "8e72e1c1133cc71299cf798b345f09b8502de5d953b81f2ba318588d339ee7a4"
+      "sha256": "2b2289515a44d4e44459d9232805618a7031cd650ba6a393094ead96e18fb32c"
     },
     {
       "source": "docs/faq.md",
       "url": "/docs/faq/",
       "titleAnchor": "常见问题与获取帮助",
-      "sha256": "51a8fed2e62b8899f371a7d4b644263dd359a9e5e88e58436d5fba707ed35d1e"
+      "sha256": "7e1f0afc87430bd99b3dcd341bfc5f48a35b2653b7cc839f0ca6f601b9bbe97f"
     },
     {
       "source": "docs/frontend-architecture.md",
       "url": "/docs/frontend-architecture/",
       "titleAnchor": "frontend-architecture-guard",
-      "sha256": "a83de2412638e791226121350bf303eb7a2729c424c6d4d4d424d627b73c6ea4"
+      "sha256": "6bd2df0920050ca35c2483c96a28a692139c32d2c0de6cf0edfba6696a8d9f84"
     },
     {
       "source": "docs/frontend-style.md",
@@ -153,7 +153,7 @@
       "source": "docs/hybrid-sessions.md",
       "url": "/docs/hybrid-sessions/",
       "titleAnchor": "混合会话聊天--终端",
-      "sha256": "e77e2bc96045af302e43b3e5bc6e0e0c017f16f94c8af87b39757d92e98ef6a5"
+      "sha256": "8793d3c2196c8335ae1d5519a1dd63c9e1daff761a39cfba20b4b3f66d80d72c"
     },
     {
       "source": "docs/hybrid-sessions/agents.md",
@@ -171,7 +171,7 @@
       "source": "docs/native-history-fixtures.md",
       "url": "/docs/native-history-fixtures/",
       "titleAnchor": "原生-agent-历史夹具",
-      "sha256": "ff5dd11e16e5ae1e395d7a73565c8336e24304cae721c9ad0b024685f4e1c09f"
+      "sha256": "e533b4f41a533a5ba945032bdaf56200c02f69362da5f6f4b8d8fb2d99b24155"
     },
     {
       "source": "docs/native-image-experiment.md",
@@ -189,7 +189,7 @@
       "source": "docs/overview.md",
       "url": "/docs/overview/",
       "titleAnchor": "项目介绍",
-      "sha256": "2042b967bf6b2e45cd49a9e8dac70c797347caf62e882534e0ae7c76307e11d8"
+      "sha256": "a1789a6327656f8313e6a3cce980bfe1e2b821de4dce3ea3461bba4d39ab2cbe"
     },
     {
       "source": "docs/page-performance.md",
@@ -207,7 +207,7 @@
       "source": "docs/persistence.md",
       "url": "/docs/persistence/",
       "titleAnchor": "配置与持久化清单",
-      "sha256": "a7a96a821dc82400e991866d0f3d1dca65365077b92b5fa16c6879e0044bd5cd"
+      "sha256": "b640788635cbdcdbcccff06c30cea00b1a8e7d5499777e23c1edee0f82ba9df0"
     },
     {
       "source": "docs/protocol.md",
@@ -243,7 +243,7 @@
       "source": "docs/protocol/http-conversation.md",
       "url": "/docs/protocol/http-conversation/",
       "titleAnchor": "http-api原生历史读取",
-      "sha256": "e8ca522b593fcb2a7b696900863394f09b9568ccbb1210c47c5eac61fd21acb7"
+      "sha256": "66ab7a3ce4e345bb1cf9ea771fe23e605fd2cc03a1ec2a2dcb9ca4f5ff6c3960"
     },
     {
       "source": "docs/protocol/http-forward.md",
@@ -267,7 +267,7 @@
       "source": "docs/protocol/http-hybrid.md",
       "url": "/docs/protocol/http-hybrid/",
       "titleAnchor": "http-与-websocket聊天视图与混合会话",
-      "sha256": "b5fb248743c2762e9a278cc02a0fb87ea18cf52e32ede7a2f47927cba8e796c7"
+      "sha256": "3cdd7d9db288b6cd9e4df0ca1e70be9929f9f6888163b85465909b5c6528739f"
     },
     {
       "source": "docs/protocol/http-projects.md",
@@ -291,7 +291,7 @@
       "source": "docs/protocol/http-sessions.md",
       "url": "/docs/protocol/http-sessions/",
       "titleAnchor": "http-api会话启动配置与其他",
-      "sha256": "6fb6693db6446b6524ab1f56d884ab70f8d41ac76516733cc9de99a366c0b701"
+      "sha256": "bf5d3e3fdc2de83fbcf3c5d4c68c1a8b7e25c32e075f4ad94431204c34f40b0b"
     },
     {
       "source": "docs/protocol/http-tailscale.md",
@@ -351,7 +351,7 @@
       "source": "docs/specs.md",
       "url": "/docs/specs/",
       "titleAnchor": "openspec-规格索引",
-      "sha256": "a85ac63ee6f283d3033a332f0f714f32f7ee3bda917dd267bd8f767bd9292608"
+      "sha256": "aadc7a9e4844d24a40b019dd8bd61fbdfe4bb6f546a793f609ddfef9c95e711a"
     },
     {
       "source": "docs/storybook.md",
@@ -369,7 +369,7 @@
       "source": "docs/usage.md",
       "url": "/docs/usage/",
       "titleAnchor": "使用指南",
-      "sha256": "f677ad3af9d40a9cfa982149791b0307c5b3affe53b7d5ca68a5b993ee258c3c"
+      "sha256": "1c3a3e1f8746633b950cd12b2a2e39ac19d70631b26ec9312aa58d414e338f40"
     },
     {
       "source": "docs/usage/attention.md",
@@ -402,12 +402,6 @@
       "sha256": "70afa12a60b15f9303a07246a34ee573f0182f45e01298e0d424f9763b48f737"
     },
     {
-      "source": "docs/usage/headset-and-tv.md",
-      "url": "/docs/usage/headset-and-tv/",
-      "titleAnchor": "头显与-tv-浏览器",
-      "sha256": "e454d00cd98afcf8e335d39ec800db835fc8e0da3e561ec854636959ff900745"
-    },
-    {
       "source": "docs/usage/mcp.md",
       "url": "/docs/usage/mcp/",
       "titleAnchor": "通过-mcp-控制-webmux",
@@ -429,7 +423,7 @@
       "source": "docs/usage/sessions.md",
       "url": "/docs/usage/sessions/",
       "titleAnchor": "会话与工作台",
-      "sha256": "c5f55cbd9e3036403b1d59357c2420998d240b4a2adeccf5dd92db07d334850a"
+      "sha256": "6085309147e78d2bd23fa877322b7b1e4750b1f6fe55b619418f1db389053bdc"
     },
     {
       "source": "docs/usage/shell-control.md",
@@ -447,19 +441,19 @@
       "source": "docs/usage/terminal.md",
       "url": "/docs/usage/terminal/",
       "titleAnchor": "终端使用",
-      "sha256": "cd5f63efabdcb6df13555d0c170134d7c80918d33e6d53457318ab2cf0e9b02d"
+      "sha256": "a7f25a5408e5ccb02e268a43fd568a134ab28cce14a7699079849d21e3d9523b"
     },
     {
       "source": "docs/usage/worktrees.md",
       "url": "/docs/usage/worktrees/",
       "titleAnchor": "仓库与-worktree",
-      "sha256": "e3ece02f08384f6828e9fd62b415895442428d5fe7940f3a32154b923f44e886"
+      "sha256": "24d7a3398c8182ddc74dc083b90b4b25f56d2b428422c8581a16993cb994a921"
     },
     {
       "source": "docs/user-stories.md",
       "url": "/docs/user-stories/",
       "titleAnchor": "webmux-user-stories",
-      "sha256": "a622543f87a4999c6e2c372cd06b5d69aefcb8a1bb8471a02d470b3c713e4d15"
+      "sha256": "c88368c4bdb91a85ee2c22139bbe2175a08b0d895546f9b737bccfa5562af8c2"
     },
     {
       "source": "docs/user-stories/access-and-sessions.md",
@@ -471,19 +465,19 @@
       "source": "docs/user-stories/access-and-sessions/connection-and-launch.md",
       "url": "/docs/user-stories/access-and-sessions/connection-and-launch/",
       "titleAnchor": "连接认证与启动会话",
-      "sha256": "ec8b0afe28093a30da779dc9bf1d78267e763372f1d280258f84bb9ca34ec19c"
+      "sha256": "b83cea37941ef642b51d57550c9772b42570e13fb7d1eb8b319ae9180d18a93c"
     },
     {
       "source": "docs/user-stories/access-and-sessions/workspace.md",
       "url": "/docs/user-stories/access-and-sessions/workspace/",
       "titleAnchor": "会话总览搜索与提醒",
-      "sha256": "5bdbba55a6bce4fe9d6aec78571fa0e52bfd0cb6959c0a710d2377d75eeef6e5"
+      "sha256": "d222fd1a5e61d345275349efcee113f6562032a47f419c1c7601e4a4905ff89f"
     },
     {
       "source": "docs/user-stories/clients-network-tray.md",
       "url": "/docs/user-stories/clients-network-tray/",
       "titleAnchor": "原生客户端隧道与托盘",
-      "sha256": "2b13dea7c3fae368ef17084b2187ceddce30872ed96f8e63098119c316078f00"
+      "sha256": "4e699ea7c8daed184f3485108e04cd49a864945b443b871ede0f12bfa6a2efc5"
     },
     {
       "source": "docs/user-stories/code-and-worktrees.md",
@@ -525,7 +519,7 @@
       "source": "docs/user-stories/coverage.md",
       "url": "/docs/user-stories/coverage/",
       "titleAnchor": "功能覆盖核对与后续维护",
-      "sha256": "0f32718f0ac8c5188a423331224acd8abdd67e6d77eabd996712dbac2bcf31aa"
+      "sha256": "8ca4a16c1518887d1bffac3c629ec265f8b0c363d1f103c114deb332c0da8e71"
     },
     {
       "source": "docs/user-stories/hybrid-sessions.md",
@@ -537,13 +531,13 @@
       "source": "docs/user-stories/hybrid-sessions/composition-and-handoff.md",
       "url": "/docs/user-stories/hybrid-sessions/composition-and-handoff/",
       "titleAnchor": "编写历史与交接",
-      "sha256": "d6523057dca3ac7282c52ff4851a574d1340ed6cb11e2919056385fc83124566"
+      "sha256": "92595fe28fc3d25bdb1e23c8ac736dbe2066598a2cccc0f909f784c4f978babf"
     },
     {
       "source": "docs/user-stories/hybrid-sessions/lifecycle-and-commands.md",
       "url": "/docs/user-stories/hybrid-sessions/lifecycle-and-commands/",
       "titleAnchor": "命令生命周期与附件",
-      "sha256": "c456b953c81a4f3e064ee76d431afe92d795650abd40b0ff39c54cb69898d961"
+      "sha256": "4d447bdcb3f198b6dd14142d991718f158cf9cdb126803803dea4ba54555a5d9"
     },
     {
       "source": "docs/user-stories/hybrid-sessions/mode-and-timeline.md",
@@ -567,7 +561,7 @@
       "source": "docs/user-stories/operations-and-tooling/operations.md",
       "url": "/docs/user-stories/operations-and-tooling/operations/",
       "titleAnchor": "配置运行与服务管理",
-      "sha256": "cd144dc88c8aaa7099784ba7135d95d11322a04ac8be18d096d87bb2d0d0fe31"
+      "sha256": "0e9577abb8c7f644c20ac0469943a50c69e4b8c2140366c844181d332916e638"
     },
     {
       "source": "docs/user-stories/operations-and-tooling/tooling.md",
@@ -590,8 +584,8 @@
     {
       "source": "docs/user-stories/terminal-headset-tv.md",
       "url": "/docs/user-stories/terminal-headset-tv/",
-      "titleAnchor": "头显与-tv-工作区",
-      "sha256": "aac7ef4c55b050916f49c4bd940d1a4121c05124461554ade79d939695d1d897"
+      "titleAnchor": "头显与-tv-工作区已退役",
+      "sha256": "cbcf4081bda9f242f2ad69618f6bf0db92eb5498cb716255998d0aa15b73ad2b"
     },
     {
       "source": "docs/user-stories/terminal-network.md",
@@ -615,7 +609,7 @@
       "source": "docs/user-stories/terminal.md",
       "url": "/docs/user-stories/terminal/",
       "titleAnchor": "终端输入与移动端",
-      "sha256": "7e637c9637d61a6b2a48dda4c3382bffb064b8963e05598e70030321eff32b11"
+      "sha256": "8e88dee0f1f27d67a5e7d99a604504b04ce4fb1e4d29605cba8aa8ae74331e0b"
     },
     {
       "source": "docs/user-stories/terminal/drafts.md",
@@ -938,21 +932,6 @@
       "source": "docs/images/mobile-omp.png",
       "url": "/docs/images/mobile-omp.webp",
       "sha256": "140a0329aa712ce81faf4683eddfb978d1bbf5f9620bede9c82d6e5542321efd"
-    },
-    {
-      "source": "docs/images/pr/xr-tv/headset-1280-dark.webp",
-      "url": "/docs/images/pr/xr-tv/headset-1280-dark.webp",
-      "sha256": "8434b6053c46788b6486d3402dfe393ac3c1100a99c1380f50c54182c73371fb"
-    },
-    {
-      "source": "docs/images/pr/xr-tv/modes.gif",
-      "url": "/docs/images/pr/xr-tv/modes.gif",
-      "sha256": "8bc9f53bb5fe3c8ee6611ae67db04c4a22da98608bce88d316d384e021f9c068"
-    },
-    {
-      "source": "docs/images/pr/xr-tv/tv-1280-dark.webp",
-      "url": "/docs/images/pr/xr-tv/tv-1280-dark.webp",
-      "sha256": "34d3208dd7a9a843d2926d16de1bdeb2bd99cbdd59b0964627d678112a23b93a"
     },
     {
       "source": "docs/images/website-prototypes/a-workbench.jpg",
@@ -1458,7 +1437,6 @@
     "openspec/specs/git-index-staging-and-commit/spec.md": "blob",
     "openspec/specs/git-workbench-context/spec.md": "blob",
     "openspec/specs/git-workbench-ui-foundation/spec.md": "blob",
-    "openspec/specs/headset-browser-support/spec.md": "blob",
     "openspec/specs/host-scoped-storage/spec.md": "blob",
     "openspec/specs/hub-message-conn/spec.md": "blob",
     "openspec/specs/hybrid-agent-profiles/spec.md": "blob",
@@ -1529,7 +1507,6 @@
     "openspec/specs/terminal-submission-delivery/spec.md": "blob",
     "openspec/specs/terminal-touch-gamepad/spec.md": "blob",
     "openspec/specs/tunnel-exposure/spec.md": "blob",
-    "openspec/specs/tv-browser-support/spec.md": "blob",
     "openspec/specs/update-channels/spec.md": "blob",
     "openspec/specs/voice-recognition/spec.md": "blob",
     "openspec/specs/web-i18n/spec.md": "blob",
@@ -1601,7 +1578,6 @@
     "web/src/components/sessions/SessionViewControls.svelte": "blob",
     "web/src/components/settings/AgentToolRow.svelte": "blob",
     "web/src/components/settings/AgentToolsSettings.svelte": "blob",
-    "web/src/components/settings/AppearanceSettings.svelte": "blob",
     "web/src/components/settings/InstallSettings.svelte": "blob",
     "web/src/components/settings/LaunchConfigDialog.svelte": "blob",
     "web/src/components/settings/LaunchConfigIcon.svelte": "blob",
@@ -1638,7 +1614,6 @@
     "web/src/components/terminal/SessionTerminalDialogs.svelte": "blob",
     "web/src/components/terminal/SoftKeys.svelte": "blob",
     "web/src/components/terminal/SplitSessionDialog.svelte": "blob",
-    "web/src/components/terminal/TerminalDisplayControls.svelte": "blob",
     "web/src/components/terminal/TerminalFindBar.svelte": "blob",
     "web/src/components/terminal/TerminalHeader.svelte": "blob",
     "web/src/components/terminal/TerminalInputComposer.svelte": "blob",
@@ -1769,7 +1744,6 @@
     "web/src/hooks/shared/composer-morph.svelte.ts": "blob",
     "web/src/hooks/shared/route.ts": "blob",
     "web/src/hooks/shared/shell.svelte.ts": "blob",
-    "web/src/hooks/shared/tv-navigation.svelte.ts": "blob",
     "web/src/hooks/shared/upload.svelte.ts": "blob",
     "web/src/hooks/shared/viewport.svelte.ts": "blob",
     "web/src/hooks/shared/voice.svelte.ts": "blob",
