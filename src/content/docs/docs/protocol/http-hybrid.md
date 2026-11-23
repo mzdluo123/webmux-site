@@ -76,7 +76,7 @@ sourcePath: "docs/protocol/http-hybrid.md"
 - agent 会话已不存在：返回 409 `session_missing`，`candidates` 为同一目录下的会话（`{agentSessionId, title, updatedAt}`，按更新时间倒序，最多 20 个）。以 `agentSessionId` 重试即改用所选会话，原 ID 进入历史。
 - 该会话正被其他会话打开：返回 409。
 - 档案的连接器未安装：恢复到聊天视图返回 409 `connector_missing`；恢复到终端视图跳过核对照常执行。
-- 记录中没有 agent 会话 ID：不核对，所选视图开始新对话。
+- 从终端开始且记录中没有 agent 会话 ID：对依赖 `session/list` 候选识别 ID 的档案，以记录创建时间为下界重新判定候选；唯一候选直接恢复，多个候选返回 409 `session_ambiguous` 并附同样的 `candidates`，以 `agentSessionId` 重试，没有候选才在所选视图开始新对话。
 
 聊天视图打开会话时 Codex 报告会话正被其他 Codex 客户端使用（`thread_active_writer`），恢复返回 409 `occupied_external`，切到聊天则回到终端视图并以同样原因失败。
 
@@ -129,10 +129,11 @@ Claude Code 的 ACP 进程无参数执行 `claude-agent-acp`，`initialize` 固�
 
 ## 聊天通道 `GET /ws/s/{id}/chat`
 
-文本 JSON 帧，会话在任一视图时都可连接（普通会话在升级前返回 409 `no_chat_view`）；查询参数 `generation` 与 `seq`（客户端最后已应用的事件序号）用于续接。帧 `type`：
+文本 JSON 帧，会话在任一视图时都可连接（普通会话在升级前返回 409 `no_chat_view`）；查询参数 `generation` 与 `seq`（客户端最后已应用的事件序号）用于续接，可选 `backfill=tail` 请求先发尾部最新一段历史再分块回填更早事件。帧 `type`：
 
 - `snapshot`：首帧。`state` 为完整聊天状态，`generation`、`from`（日志中最早的序号）、`next`；`reset: true` 表示所给位置已不在日志中，客户端须丢弃时间线；`truncated: true` 表示更早的事件已按字节上限丢弃。
-- `events`：`{generation, from, items}`，snapshot 之后立即发送一帧补发（可为空），之后为实时增量。
+- `events`：`{generation, from, items, more?}`，snapshot 之后立即发送一帧补发（可为空），之后为实时增量；请求了 `backfill=tail` 且缓存超过尾部块预算时只先发送最新尾部并带 `more: true`。
+- `backfill`：`{generation, from, items, more?}`，仅在请求 `backfill=tail` 且存在更早缓存时按从新到旧分块下发，前置合并到已有时间线之前，优先让位给实时增量；最后一块省略 `more`。
 - `state`：完整替换聊天状态（资格与原因、回合、待答复请求、配置项、命令、计划、用量、队列、是否可插话、`authRequired`、`promptCapabilities`、`permissionMode`、`forceSwitchNote`、`idChange`、`queueLost` 等）。其中几个字段如下：
   - 所在视图、切换阶段与 agent 身份不在聊天状态中（不再有 `side`、`phase`、`agent`、`agentSessionId`），只由会话信息的 `view`、`transition` 与 `agent` 提供。
   - `turn`：当前或上一回合；`startedAt` 在回合开始时记录，`endedAt` 在回合结束时记录，二者为 UTC RFC 3339 时间。聊天视图据此显示已用时间与结束后的总用时，刷新、重连和其他设备不重新计时。

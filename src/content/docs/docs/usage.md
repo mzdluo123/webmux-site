@@ -9,11 +9,11 @@ WebMux 把服务器上的 CLI agent 或 Shell 会话跑在后台，你可以随�
 
 ## 第一次使用
 
-1. **想直接把任务交给 agent**（`chat` + `launch` + `files`，仓库流程另需 `workspace`）：点左上角切到**聊天模式**，选仓库、工作树方式与 agent，写下任务并发送。
-   服务端会按所选方式启动聊天 agent 并发出第一条消息。见 [聊天模式](usage/chat.md)。
-2. **想管理多个终端或查看全局状态**：点右上角「新建会话」，填写目录与临时命令；开启 `workspace` 项目能力后先选项目，开启 `launch` 后也可选保存的启动配置（如 Claude Code、Codex、Shell）。
+1. **想直接把任务交给 agent**（`chat` + `launch` + `files`，仓库流程另需 `workspace`）：打开首页 `/`（按会话模式）即可在独立的居中任务区选好仓库、工作树方式与 agent，写下任务并发送。
+   服务端会按所选方式启动聊天 agent 并发出第一条消息。见 [快速开始与聊天视图](usage/chat.md)。
+2. **想管理多个终端或查看全局状态**：点侧栏「全部」或切到「按分支」，再点「＋ 新建会话」，填写目录与临时命令；开启 `workspace` 项目能力后先选项目，开启 `launch` 后也可选保存的启动配置（如 Claude Code、Codex、Shell）。
    见 [会话与工作台](usage/sessions.md)。
-3. **随时审阅与接管**：开启 `chat` 后在会话页切换“聊天 | 终端”；点击「打开面板」展开右侧栏，选「分屏」管理终端窗格，开启 `code` 后也可选「代码」查看文件与 Diff；Git 工作台还需同时开启 `workspace`。
+3. **随时审阅与接管**：开启 `chat` 后在会话顶栏切换输入端，手机入口在「⋯ → 输入端」。点「打开面板」选择要看的面板、创建分屏，或在启用 `code` 后查看文件和 Diff；独立 Git 工作台还需要 `workspace`。
 
 ## 你想做什么
 
@@ -25,7 +25,7 @@ WebMux 把服务器上的 CLI agent 或 Shell 会话跑在后台，你可以随�
 | 知道 agent 什么时候在等我                        | [需要你介入的提醒](usage/attention.md)               |
 | 用终端：回放、多设备控制、查找、分屏、草稿       | [终端使用](usage/terminal.md)                        |
 | 在终端旁看文件、审 Diff、把行号发给 agent        | [代码工作区](usage/code.md)                          |
-| 浏览提交图、逐块暂存提交、审任务净变更与交回返工 | [Git 工作台](usage/git-workbench.md)                 |
+| 浏览提交图、逐块暂存提交、审任务净变更与多端同步 | [Git 工作台](usage/git-workbench.md)                 |
 | 管理仓库、新建或删除 worktree、释放空间          | [仓库与 worktree](usage/worktrees.md)                |
 | 在本机终端里 `run` / `attach`，或在 Windows 用   | [从本机终端使用](usage/command-line.md)              |
 | 让脚本或 agent 控制 WebMux                       | [用脚本和 agent 控制 WebMux](usage/shell-control.md) |

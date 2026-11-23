@@ -12,7 +12,7 @@ sourcePath: "docs/user-stories.md"
 Relay 页内配对与宿主授权生命周期覆盖 US-A10：刷新恢复、暂时失败继续查询、未知结果核对及删除/关闭证据分别呈现，编号和总数保持不变。
 Relay 有效期上限由签发端限制、接收端仅检查绝对到期时间的调整覆盖 US-A10；编号与总数保持不变。
 中转浏览器会话断线暂停、控制面重新授权、原路径重新登录与 12 小时绝对期限覆盖 US-A08、US-A10；编号与总数保持不变。
-原生历史混合压缩归档、显式文本、冻结页集、手机页数编辑与失败阻止覆盖 US-Q20；正文/工具提取覆盖 US-Q19，统一上下文预算说明覆盖 US-K04。故事编号与总数不变，实际验证见最新核对记录。
+原生历史图片交接、冻结页集、手机页数编辑与失败阻止覆盖 US-Q20；正文/工具提取覆盖 US-Q19，统一上下文预算说明覆盖 US-K04。故事编号与总数不变，实际验证见最新核对记录。
 工作树创建前的上游检查与显式选择覆盖 US-J04、US-J05、US-S07、US-S16、US-Q18、US-Q20；独立创建、会话与交接共享确认，故事编号与数量保持不变。
 
 本次局部核对（2026-11-03）：
@@ -52,9 +52,9 @@ Relay 有效期上限由签发端限制、接收端仅检查绝对到期时间�
 | G    | 快捷指令与语音输入                     | US-G01–US-G07 |
 | H    | 移动端与慢速网络                       | US-H01–US-H15 |
 | I    | 代码工作区、Diff、引用与文件操作       | US-I01–US-I19 |
-| J    | 仓库登记与 worktree 管理               | US-J01–US-J28 |
+| J    | 仓库登记与 worktree 管理               | US-J01–US-J29 |
 | K    | 配置、升级迁移、功能选择与服务管理     | US-K01–US-K21 |
-| L    | 开发、验证与发布支持                   | US-L01–US-L15 |
+| L    | 开发、验证与发布支持                   | US-L01–US-L16 |
 | M    | 原生终端、CLI 与本机控制面             | US-M01–US-M08 |
 | N    | Cloudflare 公网隧道                    | US-N01–US-N08 |
 | O    | Windows/WSL 托盘管理                   | US-O01–US-O14 |
@@ -63,7 +63,7 @@ Relay 有效期上限由签发端限制、接收端仅检查绝对到期时间�
 | R    | 端口转发预览                           | US-R01–US-R04 |
 | S    | 脚本与 agent 控制                      | US-S01–US-S25 |
 
-目录共 264 条故事；A 组为 10 条，K 组为 21 条，S 组为 25 条。编号范围包含已保留的历史/退役条目，不表示本次重新验收全部能力。
+目录共 266 条故事；A 组为 10 条，K 组为 21 条，L 组为 16 条，S 组为 25 条。编号范围包含已保留的历史/退役条目，不表示本次重新验收全部能力。
 
 ## 分组文档
 
@@ -71,7 +71,8 @@ Relay 有效期上限由签发端限制、接收端仅检查绝对到期时间�
 
 | 文件                                                                              | 分组               |
 | --------------------------------------------------------------------------------- | ------------------ |
-| [连接、认证与启动会话](user-stories/access-and-sessions/connection-and-launch.md) | A–B                |
+| [连接、认证与访问边界](user-stories/access-and-sessions/connection-and-launch.md) | A                  |
+| [创建会话与选择启动位置](user-stories/access-and-sessions/launch.md)              | B                  |
 | [会话总览、搜索与提醒](user-stories/access-and-sessions/workspace.md)             | C                  |
 | [终端、输入与移动端](user-stories/terminal.md)                                    | D–E、G–H           |
 | [草稿编写、保存与发送确认](user-stories/terminal/drafts.md)                       | F                  |
@@ -106,3 +107,4 @@ Relay 有效期上限由签发端限制、接收端仅检查绝对到期时间�
 | [verification-log-2026-11-15](user-stories/verification-log-2026-11-15.md)                             | 2026-11-15 起                     |
 | [verification-log-2026-11-17](user-stories/verification-log-2026-11-17.md)                             | 2026-11-17 至 2026-11-18          |
 | [verification-log-2026-11-18](user-stories/verification-log-2026-11-18.md)                             | 2026-11-18 起                     |
+| [verification-log-2026-11-19](user-stories/verification-log-2026-11-19.md)                             | 2026-11-19 起                     |

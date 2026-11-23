@@ -36,8 +36,8 @@ sourcePath: "docs/user-stories/operations-and-tooling/operations.md"
   - 支持 `default_cwd`、`scrollback_bytes`、`idle_after_seconds`、`prompt_patterns`、`agent_protocol`、`bell_attention`、`program_status`、`agent_pretrust`，校验正则；
   - `agent_protocol`、`bell_attention`、`program_status` 属于核心 PTY 状态识别，不依赖通知或聊天功能；`agent_pretrust` 与 agent 专属提交延迟由 `launch` 启动集成提供，未选择时不装配；
   - 启动命令由显式 argv（核心）或 `launch` 保存配置提供，原 `shell`/`presets` 不提供内置命令；仅首次启用 `launch` 且文件缺失时写入常见 agent 预设；
-  - 选择 `chat` 后，通过 Agent 原生身份读取历史，默认用随二进制发布的 OMP Snapcompact Go 移植离线生成首尾文本与中段图片，支持显式文本；图片最多 8 页，短历史保持为文本；
-  - `handoff_token_cap` 默认 16000、范围 1024–64000，约束归档文本与图片的 token 估计之和，显式文本交接采用保守字节上界，两种格式均受窗口和 prompt 上限限制；图片字节另受附件与编码请求限制，未知费率明确标注；
+  - 选择 `chat` 后，通过 Agent 原生身份读取历史，由内置 Snapcompact 离线生成最多 8 页历史图片；
+  - `handoff_token_cap` 默认 16000、范围 1024–64000，约束来源指引与图片的 token 估计之和；附件字节与编码请求单独校验，未知费率明确标注；
   - 提醒集成方式见 [使用指南](../../usage/attention.md)。
 - **US-K05 安装后台用户服务**：作为部署者，我希望以当前用户安装并启动后台服务，以便不需要一直开着前台终端。
   验收要点：
@@ -77,7 +77,7 @@ sourcePath: "docs/user-stories/operations-and-tooling/operations.md"
   - `[mcp] enabled=false` 并重启撤销入口；回退旧二进制前移除新配置表。MCP 会话不持久化，普通 PTY 不跨重启存活。
 - **US-K10 定位设置分区**：作为使用者，我希望通过分区导航快速找到设置项，以便在桌面和手机上减少长页面翻找。
   验收要点：
-  - 桌面左侧显示固定分区导航，手机顶部显示可横向滚动的吸顶导航；
+  - 桌面左侧显示固定分区导航，手机顶部显示可横向滚动的吸顶导航；跨 1024 px 切换时保留当前分区和阅读位置，横条呈现在已聚焦的分区标题上方。
   - 按已选择的功能显示快捷指令、启动配置、网络诊断、公网访问、Tailscale 与通知推送分区；核心外观与阅读、草稿与暂存、安装应用、输出预览不因此消失；
   - 点击或键盘激活滚动到对应分区并转移焦点，滚动时高亮当前分区；
   - Home Screen App 中吸顶导航按实际顶栏高度定位，不遮挡顶栏；

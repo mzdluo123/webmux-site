@@ -68,9 +68,12 @@ WebMux 是持续运行的终端工作台。视觉方向为克制的开发工具�
 | 公共组合   | ResponsiveDialog、PickerField、AdvancedSection、KeyValueSummary  | 位于 `ui/`，通过 props、snippet 和回调组合基础控件   |
 | 业务模式   | SessionStatus、WorkspaceGroup、SessionRow、TerminalInputComposer | 位于 `components/`，负责领域状态和业务操作           |
 
-`SessionStatus` 区分需立即处理的提醒（需要回答、等待授权、出错停止）与普通等待，以及正常退出与非零退出码。`InlineNotice` 的 danger 使用 `role="alert"`，其他提示使用 `role="status"`；常规静态说明可继续使用普通段落，避免过多实时播报。
+- `SessionStatus` 区分需立即处理的提醒（需要回答、等待授权、出错停止）与普通等待，以及正常退出与非零退出码。
+- `InlineNotice` 的 danger 使用 `role="alert"`，其他提示使用 `role="status"`；可选 `actions` 插槽统一对齐图标、正文与行尾按钮，`surface="floating"` 用于固定在视口上的实心阴影浮层提示；常规静态说明可继续使用普通段落，避免过多实时播报。
 
 表单标签应使用 `for` 关联控件；帮助和错误使用 `aria-describedby`，无效字段设置 `aria-invalid`。字段在手机上使用 16px 文字，避免阅读困难和输入缩放。图标按钮需要可访问名称。
+
+异步操作需要保留按钮焦点时，可以用 `aria-disabled` 表达暂时不可用，并在事件处理函数中拦截重复激活。
 
 长路径可在列表中截断，但应保留完整可访问名称或 `title`。错误描述、警告、表单标签必须换行。终端预览、代码视图和单行输入的内部滚动/截断属于明确的产品行为。
 
@@ -78,6 +81,7 @@ WebMux 是持续运行的终端工作台。视觉方向为克制的开发工具�
   - 启动配置显示图标、名称与等宽命令摘要，仓库和工作树显示名称与路径摘要。
   - 触发器和展开选项使用相同主题、焦点环与选中标记，长内容保留完整提示。
   - 使用键盘方向键、Enter 和 Escape 选择或关闭。
+- 可搜索选择器的搜索栏铺满候选面板，与面板共用底色，左侧放搜索图标，底部细线分隔搜索与候选项。输入框获得焦点时，分隔线加粗并使用焦点色；窄屏和触屏上搜索栏高度为 44px。
 - 多选一按语义选组件，两者都用下划线标出当前项：
   - 切换带关联面板的内容区域（如 Tailscale 模式、会话视图、代码根）用 `Tabs.List variant="line"`；隐藏面板不能影响当前方式的校验或提交。
   - 只选一个值（如分屏方向、主题、状态筛选、显示方式）用 `SegmentedControl`：基于 RadioGroup（`role="radiogroup"` 与 `radio`），方向键切换，已选项不能被再次点击清空。

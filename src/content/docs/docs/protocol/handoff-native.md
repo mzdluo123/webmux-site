@@ -1,10 +1,10 @@
 ---
 title: "交接的原生身份与内容发送"
-description: "交接来源使用 Agent 原生历史中的 session、分支与记录边界。 目标通过 hybrid 的普通 prompt 接收默认历史图片或显式文本投影，以及独立当前用户任务。"
+description: "交接来源使用 Agent 原生历史中的 session、分支与记录边界。 目标通过 hybrid 的普通 prompt 接收历史图片，以及独立当前用户任务。"
 sourcePath: "docs/protocol/handoff-native.md"
 ---
 交接来源使用 Agent 原生历史中的 session、分支与记录边界。
-目标通过 hybrid 的普通 prompt 接收默认历史图片或显式文本投影，以及独立当前用户任务。
+目标通过 hybrid 的普通 prompt 接收历史图片，以及独立当前用户任务。
 
 ## 原生身份
 
