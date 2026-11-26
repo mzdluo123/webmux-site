@@ -14,28 +14,25 @@ sourcePath: "docs/user-stories/access-and-sessions/connection-and-launch.md"
   - 非认证类连接失败（网络不可达、服务离线或 5xx）显示独立的连接失败与重试界面，并提供手动切换共享 Token 登录入口；
   - 未设置 token 的服务可直接进入；
   - 按需加载的页面在极短延迟内不闪现加载文字，超时后显示加载状态，下载失败时提示刷新重试。
-- **US-A02 共享 token 登录**：作为使用者，我希望输入并在本机记住共享 token，以便以后方便地访问自己的会话。
+- **US-A02 共享 token 登录（遗留兼容）**：作为已有静态配置或自动化测试的使用者，我希望继续通过配置中的共享 token 登录，以便平滑迁移而不破坏旧部署。
   验收要点：
-  - 登录页在共享 Token 右侧提供问号提示，默认收起说明；
-  - 鼠标悬停、键盘激活或手机点击可查看，指针可移入说明，Escape 或点击外部可关闭；
-  - 说明涵盖共享密码用途、初始化生成与保存、配置路径及启动参数覆盖；
-  - 配置路径独立成行、窄屏可换行且无横向溢出；
-  - 启用认证后，正确 token 才能访问 HTTP API 与 WebSocket；HTTP 只接受 `Authorization: Bearer`，WebSocket 只接受 Bearer 或 token 子协议，`webmux_token` Cookie 与 URL 参数都不能认证；
+  - 新安装的默认 `config.toml` 不再写入硬编码随机 token（保持 `token = ""`），改由 US-A11 的 Passkey 首次引导完成认证初始化；
+  - 仅当配置或 `--token` 显式设置了非空静态 token 时，登录页才呈现共享 token 表单及说明（问号提示默认收起，鼠标悬停/键盘激活/手机点击展开，Escape 或外部点击关闭，配置路径窄屏可换行且无横向溢出）；
+  - 启用认证后，正确 token（Passkey 签发的会话令牌、可选命名 API 令牌或显式遗留共享 token）才能访问 HTTP API 与 WebSocket；HTTP 只接受 `Authorization: Bearer`，WebSocket 只接受 Bearer 或 token 子协议，`webmux_token` Cookie 与 URL 参数都不能认证；
   - 端口转发凭据 Cookie `webmux_forward` 独立于 token，只能访问 `/forward/` 网关，不能认证 `/api/` 与 `/ws/`，见 US-R01；
-  - 当前浏览器保存 token；
-  - 错误或变更后的 token 触发重新认证提示；
-  - 本机套接字采用同用户身份校验，见 US-M08。
+  - 当前浏览器保存当前会话或遗留 token；
+  - 错误、过期或已撤销的凭据触发重新认证提示；
+  - 本机套接字采用同用户身份校验，见 US-M08；
   - 启用网络 MCP 时 `/mcp` 只接受同一 owner Bearer；会话 ID、Cookie 和 URL 不能认证，凭据仍可调用完整 REST 并启动任意 argv，不是工具级权限。
 - **US-A03 可信网络访问**：作为部署者，我希望控制监听地址和允许的浏览器来源，以便只从预期的本机或可信 VPN 入口操作终端。
   验收要点：
-  - 默认仅监听本机回环（127.0.0.1:7681），局域网或可信 VPN 访问可改为 0.0.0.0:7681；
-  - 未显式指定配置且默认文件缺失时，首次启动生成并保存 256 位随机 token，非隧道启动不打印该 token，可经本机状态显式查询；
-  - 已有配置的 token 为空且监听地址不是 loopback 时，每次启动生成临时随机 token；启动链接与二维码不携带 token，通过 `webmux status --json --reveal-token` 查看；
-  - 只有 loopback 且未启用隧道时允许无 token；
-  - 隧道启动链接与二维码同样不含 token，持久 token 不因重启失效；
-  - 监听 loopback 时校验请求 Host（防止无 token 下的 DNS 重绑定），非 loopback 监听（强制要求 token）接受任意合法 Host（如局域网主机名或 Tailscale MagicDNS），并始终校验 Origin（同源、allowed_origins 或受控公网来源）；
-  - 认证和来源检查同时覆盖终端与文件、仓库、代码接口。
-  - 网络 MCP 默认关闭；`[mcp] enabled=true` 必须已有非空根 token，空值在自动生成启动 Token 前失败，loopback 也不豁免。
+  - 默认仅监听本机回环（127.0.0.1:7681），终端启动输出使用 `http://localhost:<port>`（满足 WebAuthn RP ID 要求），局域网或可信 VPN 访问可改为 0.0.0.0:7681；
+  - 默认启动与 `config init` / `config listen` 不写入硬编码随机 token；未完成 Passkey 初始化时服务处于 `needs_onboarding` 状态，保护全部业务接口；
+  - 只有显式传入 `--insecure-no-auth` 且监听 loopback 且未启用 Tunnel/Tailscale 时才允许无认证访问；
+  - 隧道与 Tailscale Serve/Funnel 启动链接与二维码不含 token，且支持 Passkey 已就绪的实例；
+  - 监听 loopback 时校验请求 Host（防止 DNS 重绑定），非 loopback 监听接受任意合法 Host（如局域网主机名或 Tailscale MagicDNS），并始终校验 Origin（同源、allowed_origins 或受控公网来源）；
+  - 认证和来源检查同时覆盖终端与文件、仓库、代码接口；
+  - 网络 MCP 默认关闭；`[mcp] enabled=true` 必须已有非空根 token，空值失败，loopback 也不豁免；
   - 所有 MCP 方法保留 Host / Origin 校验，仅在 TCP 精确 `/mcp` 开放，不暴露 Unix / P2P 端点；详见 US-S25。
 - **US-A04 查看服务与能力**：作为部署者，我希望知道服务是否在线、会话数量及 Git/仓库能力是否可用，以便定位连接或环境问题。
   验收要点：
@@ -66,25 +63,29 @@ sourcePath: "docs/user-stories/access-and-sessions/connection-and-launch.md"
 - **US-A10 配对并启用官方中转**：作为宿主使用者，我希望确认公网风险后通过 GitHub 配对自己的主机，以便获得固定 HTTPS 入口而不复制长期 Token 到手机。
   验收要点：
   - Relay 配对、设置与 WSS 基线属于核心，默认关闭；配对由用户显式发起，启用前须确认公网 Shell 风险，保留足够长的本机恢复 Token；
+  - 在官方中转设置试用节点支持的 QUIC/UDP，候选链路独立通过授权与回源验证才替换 WSS/TCP。试连失败保留原连接，设置页和 CLI 可核对实际生效协议、最近试连与回源结果；
   - 官方 HTTPS 控制地址、控制受众与 WSS 传输内置于开源代码，省略 `[relay]` 即可开始配对；显式 TOML 字段覆盖对应默认值，未覆盖字段保留默认值，不内置私钥、OAuth Secret 或用户凭据；
   - 设备配对由宿主持有单个活动尝试，可取消、到期和重新发起；v2 协议必须提供有效机器 ID，账号已有绑定一律冲突；
   - 创建防重复，浏览器刷新、切标签与导航返回恢复原用户码和有效期；离开页面保持宿主查询，进程重启丢失授权上下文时明确报告中断；
   - 机器 ID 独立保存于 `relay-machine.json`，不由硬件或密钥派生，解绑和丢失 Relay 设置不删除；损坏、锁冲突或初始化落盘失败阻止新配对，不静默换 ID；
   - 未配对主区展示用途、信任说明和「使用 GitHub 配对」；授权中原位展示用户码、复制、GitHub 入口、失效倒计时、等待说明与取消，倒计时仅表示验证码有效期；准备、等待和重试共用授权布局，轮询保留当前验证码的选择与复制焦点；
-  - 完成后显示账号与公网开关，配对成功保持关闭；启用前说明公网 Shell 风险及 Relay 可读取转发内容，就绪后可复制或打开地址；
+  - 完成后显示账号与公网开关，配对成功保持关闭；启用前说明公网 Shell 风险及 Relay 可读取转发内容。当前管理授权及宿主回源可用时，可复制或打开固定地址；
   - 网络、上游及限流失败保留同一尝试和取消，宿主按间隔、Retry-After 与退避继续查询；明确拒绝或过期清理待配对密钥，由用户重新开始；
   - 创建、启停、重连及删除的响应未知时先核对宿主操作结果，不盲目重发；异常处可检查状态，核对成功后清除过期错误；
   - 删除绑定位于次级危险操作区；记录删除即清除身份并允许新配对，旧直连关闭未确认时单独警告，旧地址失效与新配对取得新地址均明确说明；
   - 公开控制面可经 CDN；宿主使用 Go 系统 CA（可追加 RootCA）、域名、有效期和 TLS 1.3，不额外固定控制 SPKI；分配 WSS 的 pin 与 TURN 服务身份校验不变；
   - 本机只接受 v3 绑定状态，不迁移 v1/v2；旧格式阻止 Relay 连接，破坏性升级先备份清理旧绑定状态，保留独立机器 ID；
   - 切换界面语言时，配对状态、有效期与已打开的风险确认保持不变；文案与已保留的授权错误立即更新，不重新发起配对或自动确认公网访问。
-  - 「连接诊断」按连接健康、分配和会话候选分组，保留角色数量、端点来源、可达性、TURN、TCP、节点及版本；主流程仅显示账号和当前操作相关的状态或阻塞；
+  - Relay 设置分别显示「管理连接」和「应用回源探测」；最近探测时间以浏览器所选语言显示，从未探测时显示「暂无探测记录」。
+  - 「连接诊断」显示 WSS 基线、控制面可达性及端点来源、TURN、TCP、节点和版本；逐浏览器显示实际交互路径及脱敏回落原因；
   - 手动开合连接诊断、路由分配与候选连接时，各区独立过渡高度。轮询即时更新，系统开启减少动态效果时直接切换。
   - 关闭立即停止连接，保存失败仍保持关闭；状态文件损坏或锁冲突不能恢复旧授权或自动重新暴露公网；
-  - 控制角色断开使派生访问失效，批量角色断开只降级文件业务，不将文件挤入交互连接；
+  - 管理断开或租约失效撤销公网与派生访问。宿主按有效管理授权及当前回源登记固定 HTTPS 地址，节点须在实际工作连接通过首次 mTLS 探测后才能转发请求；
   - 有效期上限由签发端限制，接收端只检查是否到期，几秒时钟偏差不会因超出未来上界误拒绝新质询或分配；控制消息签发有效期为 60 秒，心跳每 10 秒发送、失联撤权仍为 30 秒，签名、单次 nonce、请求关联、受众及代际校验保持生效；
-  - 连接器使用 `webmux-relay.v2`，默认一条独立管理、两条交互与四条 bulk WSS/TCP；宿主固定槽位并行认证、同代际退避补齐，配置数量为 1–16，每 TCP 无四流业务限制；
-  - 辅助认证遇到过期质询或暂时代际冲突时按原槽位退避重试，连接稳定运行达到租期后再重置退避间隔并遵循 `Retry-After` 下界；鉴权拒绝使连接失败并保留权限边界。管理连接存活且交互、bulk 池均可用时才显示 WSS 2/2；交互池丢失显示交互连接不可用，保留管理连接所授权的登录会话与公共地址。
+  - 管理连接继续使用 `webmux-relay.v2` 和独立 WSS；签名宿主发行物内置受管 `frpc`，业务经 WSS 到分配节点，宿主只需允许 DNS 和出站 TCP/443，通过 WebSocket Upgrade 及端点证书校验；
+  - 周期探测失败或通知过期时，当前授权及本机回源仍有效就保留地址和链接。通知过期显示未知，仍显示当代最近一次实际探测时间；授权代际改变时清除旧观测。
+  - `frpc` 或本机回源中断清除可用访问链接，管理连接仍可处理撤权。同一节点恢复后重新验证实际回源，缺件、版本或信任检查失败不影响本机 PTY，也不改走旧传输；
+  - 本机状态与 CLI JSON 在一个 `relay` 对象内报告 `controlReady`、`dataReady`、三态 `dataReachability` 及可选 `dataCheckedAt`；`dataReady` 仅表示当前观测有效且探测成功，`transport` 保持 `wss`；
   - Relay 单点执行普通流准入，每账号最多 128 个等待者、最长 15 秒；过载返回 429，宿主清理旧流期间不因重复计数误拒绝新流，已发送请求不重放；
   - 未选择或裁剪 P2P 时仍能使用 WSS，明确显示交互优化不可用，不偷偷加载 Pion 或启动 P2P I/O。
 - **US-A08 GitHub 登录自己的主机**：作为跨设备使用者，我希望在手机登录同一个 GitHub 账号并打开自己的在线主机，以便免输长期 Token，同时保留账号与主机隔离。
@@ -95,6 +96,8 @@ sourcePath: "docs/user-stories/access-and-sessions/connection-and-launch.md"
   - GitHub 回调兼容可选 `iss`，提供时须精确匹配 GitHub issuer；重复、未知及错误 issuer 参数仍拒绝，不绕过浏览器事务 Cookie、state 或 PKCE；
   - 宿主签发 Secure、HttpOnly、SameSite=Lax、限定公共 Origin 的绝对期限 Cookie；不在 URL、日志或网页设置中暴露长期 Token 或秘密；
   - 浏览器登录绝对有效期最多 12 小时；暂时 control 断线立即暂停访问并关闭派生连接，恢复后由控制面重新验证原后台会话、邀请、所有者及绑定，原 Cookie 才能继续使用，到期时间保持不变；
+  - 整版切换保留固定 HTTPS 地址、GitHub 登录与授权 Cookie 的校验和撤权规则；登录、文件和全部 `/forward/*` 经 frp 基线，已授权交互仍可按实际测量使用 WebRTC 直连或 TURN；
+  - 已通过首次回源验证的现有路由继续接受有权的新请求和已建立的终端连接，即使周期探测通知延迟或缺失。真实转发失败按受影响请求报告，已发送的输入或写请求不会重放；
   - 暂时重连、登录过期、授权撤销与直连 Token 无效分别呈现；重连期间保留已挂载页面，左下角状态指示提供再次检查和官方登录入口，过期、撤销与未登录以门禁页提供官方登录入口，校验同源应用返回路径后回到原终端页面，不自动重放输入或业务写请求；
   - 断线期间注销、撤销、解绑、换钥、移出邀请名单及明确关闭 Relay 都阻止旧会话恢复；宿主重启清空内存登录记录。
   - 控制面 Cookie 写请求验证精确 Origin 和 CSRF，`/forward/` 转发网关写请求验证精确 Origin（无 Origin 时要求 `Sec-Fetch-Site: same-origin`）并拦截跨站/兄弟子域子资源，WebSocket 校验 Origin；
@@ -107,21 +110,39 @@ sourcePath: "docs/user-stories/access-and-sessions/connection-and-launch.md"
 - **US-A09 管理中转节点与授权**：作为中转运营者，我希望经受限 CLI 集中管理节点、邀请与秘密，以便分开部署 WSS 和 TURN，而不让普通登录账号获得运营权限。
   验收要点：
   - 独立控制面持久化 PostgreSQL；管理 CLI 经同用户 Unix socket 调用管理 API，不开放运营网页或公网管理端口；
-  - 配对和删除保留事务互斥、单次消费、邀请和代际检查；破坏性升级清理旧绑定、分配、派生授权及配对状态，保留账号、邀请、节点和密钥配置；
+  - 配对和删除保留事务互斥、单次消费、邀请与代际检查；整版切换保持固定地址、绑定、宿主密钥和授权/撤销记录，只关闭旧路由和旧代际后启用新分配；
   - 首次连接前预置节点 CA 签发的客户端证书及匹配私钥，控制面同时校验证书链与管理员登记的节点 SPKI，不从首次连接学习身份；
   - 支持 WSS-only、TURN-only 和双能力节点；按用途发现地址，禁止向 TURN-only 分配 WSS 流量，也不自动改变既有宿主 Origin；
+  - 节点可单独开放实验 QUIC 数据入口。未协商能力的宿主保持 WSS；并行试连受原宿主配额和租约约束，节点撤权同时关闭正在使用和测试中的连接；
   - 配置按版本和摘要校验并区分 desired、实际 applied、pending-restart；运行中的中断变更须批准精确版本及组件，失败保留最后有效状态；
   - 秘密以部署主密钥加密保存，经认证通道按节点和用途交付；冷启动控制面不可达时不恢复旧秘密或授权，运行中失联有界撤权；
-  - 每数据角色最多 16 条物理连接；普通流额度由 Relay 聚合计算，管理流及其带宽独立，bulk 留出交互余量；接收窗口按每连接限制，运营者按连接数量预留内存；
+  - 自营 WSS 节点在私有网络运行原版 frps；按管理代际限制代理分配和工作连接，回源用分配专属 mTLS，探针必须经过实际工作连接；组件或注册成功不等于回源就绪；
+  - 同一注册的周期探测只更新观测。首次探测未通过、注册或分配失效时节点停止路由；失效后重新开放业务须重新验证当前注册。单个工作连接故障不驱逐健康交互；
+  - Relay 网关统一执行宿主和账号普通流准入，管理流独立；64 个普通流中 bulk 至多 56，账号等待上限 128，最长 15 秒；
   - 原版 coturn 使用账号 allocation 数、每会话带宽及节点容量限制，不宣称共享账号带宽桶、累计流量额度或凭据到期立即清除 allocation；
-  - Docker 使用 `--init`，代理监督并回收 coturn；TURN 故障不重启健康 WSS，容器升级仍会中断存量连接。
-  - 服务端镜像记录固定源码与共享协议版本；本次按运营策略禁用服务端远程 CI，以隔离本地 PostgreSQL、真实客户端和节点验证为依据，客户端仍须完整 CI 通过；不把构建或镜像发布等同于生产联合验收。
+  - Docker 使用 `--init`，代理分别监督并回收 frps 与 coturn；一方故障不重启健康的另一方，容器升级仍会中断存量连接；
+  - 宿主、控制面与节点固定配套制品，同一维护窗口停旧入口、确认撤权、验证新管理与真实业务后再开放。不混合版本；回滚先全停并撤销新代际，再从当前数据库以新代际恢复已验证制品，不恢复旧权限；
+  - 联合验收分别记录管理、组件、回源与真实 PTY 收发证据；构建、镜像发布或任一组件就绪不能代替业务验收。
   - Dokku 分离控制面、数据节点和不暴露公网的 PostgreSQL；节点私网直连控制面，保留 CA、SPKI 与 mTLS，不跟随公开控制 CDN 放宽；
   - 公网 HTTPS 上游模板来自镜像 `/app/nginx.conf.sigil`，保留 Host、WebSocket 与 Origin/CSRF，不改全局 Nginx 或占用 UDP 443；
   - 服务证书持久 P-256 同 key 续签；节点 CA 签发私钥离线，运行容器仅最小私密挂载；宿主既有 BBR/cake 策略不由容器更改；
-  - 公共文档只记录授权公开的地址、客户端接入前提与真实上线阶段；管理员配置和秘密交付留在受限服务端指南，不能以 CI、应用创建或计划端口冒充生产可用，见[部署记录](../../deployment/official-relay.md)。
+  - 公共文档记录客户端接入前提、切换顺序和验收要求；管理员配置和秘密交付留在受限服务端指南，见[部署与切换](../../deployment/official-relay.md)。
+- **US-A11 Passkey 首次引导、多设备配对与凭据管理**：作为使用者，我希望首次启动 WebMux 时通过一次性安装码注册自己的 Passkey 并获取恢复码，之后在任意可信设备用 Passkey 登录、配对新域名或撤销设备会话，而无需在 `config.toml` 里保存硬编码静态 token。
+  验收要点：
+  - 首次启动且未配置遗留静态 token 时，服务进入 `needs_onboarding` 状态并打印 `http://localhost:<port>/onboarding#setup=<code>` 与一次性安装码（30 分钟有效）；浏览器读取 `#setup=` 后立即从地址栏和历史记录移除；
+  - 访问 `127.0.0.1` 或 `::1` 时提示 WebAuthn 要求域名并提供一键跳转 `localhost`（保留片段）；非安全上下文 HTTP IP 地址给出明确提示，不静默降级；
+  - 引导流程依次完成：校验安装码 → 注册首个 Passkey（后端使用纯 Go 标准库校验 WebAuthn `attestationObject`/COSE 公钥与签名，支持 ES256/EdDSA/RS256，校验 `rpIdHash` 与 `signCount`）并展示一次性恢复码（支持复制/下载）→ 确认默认工作目录 → 远程访问说明（后两步可跳过）；
+  - 引导完成后进入工作台时，引导卡片柔和退场，桌面展开侧栏下品牌图标平滑衔接至侧栏顶栏，侧栏与主工作区依次入场（开启「减少动态效果」时直接切换）；
+  - 凭据与可撤销会话持久化于 `<state_dir>/auth.json`（文件锁保护、损坏或不可读时 fail-closed 返回 503），不采用 Cookie 认证，改用每设备独立的 `Authorization: Bearer` 与 WebSocket 子协议令牌；
+  - 登录页在已初始化状态下默认展示 Passkey 一键登录、新域名配对指引与折叠的一次性恢复码兜底入口；
+  - “设置 → 安全与登录”支持管理 Passkey（添加/删除，禁止删除最后一枚）、跨设备/跨域名 5 分钟一次性配对（`/pair#code=`）及查看/撤销已登录设备会话；
+  - 同一设置区支持重新生成恢复码与为外部自动化脚本创建/吊销可选命名 API 令牌；敏感变更（添加/删除 Passkey、生成配对码、重生成恢复码、创建 API 令牌）要求 5 分钟内 Passkey 二次验证（Step-Up）；
+  - 本机 CLI 提供 `webmux auth status|setup|pair|reset`（经同用户 Unix 套接字操作运行中实例，`reset --force` 支持在线与离线恢复；禁止 WebMux 会话内进程调用任何 `/local/v1/auth/*` 或 `/api/auth/*` 写操作）。
 
 依据：
+
+- [Passkey 认证服务](../../../internal/auth/service.go)、[WebAuthn 校验](../../../internal/auth/webauthn.go)、[认证接口](../../../internal/api/auth.go)、[认证 CLI](../../../cmd/webmux/authcmd.go)
+- [首次引导页](../../../web/src/pages/OnboardingPage.svelte)、[引导进入动效](../../../web/src/hooks/shared/onboarding-enter-transition.ts)、[设备配对页](../../../web/src/pages/PairDevicePage.svelte)、[安全与登录设置](../../../web/src/components/settings/SecuritySettings.svelte)
 
 - [统一品牌标识](../../../web/src/components/shell/Brand.svelte)、[品牌图标](../../../web/public/icon.svg)、[浏览器图标入口](../../../web/index.html)
 - [应用入口](../../../web/src/App.svelte)、[Token 说明](../../../web/src/components/shared/TokenHelp.svelte)、[配置命令](../../../cmd/webmux/configcmd.go)
@@ -129,4 +150,5 @@ sourcePath: "docs/user-stories/access-and-sessions/connection-and-launch.md"
 - [启动与 token 生成](../../../cmd/webmux/main.go)、[API 路由与安全检查](../../../internal/api/router.go)、[Host 校验](../../../internal/api/host.go)
 - [Relay 公共授权协议](../../../protocol/relay/access.go)、[节点配置及身份协议](../../../protocol/relay/node.go)、[撤销与流边界](../../../protocol/relay/stream.go)
 - [Relay 配对设置](../../../web/src/components/settings/RelaySettings.svelte)、[宿主授权流程](../../../cmd/webmux/relay_enrollment.go)、[配对规格](../../../openspec/specs/official-relay-pairing/spec.md)
+- [Relay 就绪状态](../../../web/src/components/settings/RelayReadiness.svelte)、[授权与回源观测](../../../cmd/webmux/relay_health.go)
 - [安全说明](../../../SECURITY.md)。
