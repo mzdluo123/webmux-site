@@ -1,6 +1,6 @@
 {
   "fetched": true,
-  "stars": 19,
+  "stars": 21,
   "latest": {
     "tag": "v0.19.1",
     "name": "WebMux v0.19.1",
@@ -151,6 +151,154 @@
   },
   "releases": [
     {
+      "tag": "dev",
+      "name": "WebMux 开发版",
+      "publishedAt": "2026-11-03T12:23:18Z",
+      "prerelease": true,
+      "url": "https://github.com/mzdluo123/webmux/releases/tag/dev",
+      "body": "main 上通过 CI 的最新开发版，版本见 SHA256SUMS.minisig 的可信注释。安装：curl -fsSL https://github.com/mzdluo123/webmux/releases/download/dev/install.sh | WEBMUX_CHANNEL=dev sh",
+      "assets": [
+        {
+          "name": "install.sh",
+          "size": 17315,
+          "sha256": "a8d7be2df3fe2ac44f6cd728bb9b23413a5c5f36fc3ae0d3b32afacdcaf38b19",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/install.sh"
+        },
+        {
+          "name": "SHA256SUMS",
+          "size": 2137,
+          "sha256": "6cc7165ca1e411db5627889e31336fe292821b9ac6f15185f859b8b2ef483548",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/SHA256SUMS"
+        },
+        {
+          "name": "SHA256SUMS.minisig",
+          "size": 297,
+          "sha256": "61d5b0df0ee612325c5f13104dd2f208044ae5318c61ca748e8f63b446240228",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/SHA256SUMS.minisig"
+        },
+        {
+          "name": "webmux-0.19.2-dev.2-1.aarch64.rpm",
+          "size": 37164952,
+          "sha256": "1a18a2e2470d27a676a59245184f3eb89ccf6ec0dc293d6457c36b22b21e9fc3",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.2-dev.2-1.aarch64.rpm"
+        },
+        {
+          "name": "webmux-0.19.2-dev.2-1.x86_64.rpm",
+          "size": 39661424,
+          "sha256": "fd8995e00c2650ede643d787b3d698762abe582bd69c5301714ace43e9238041",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.2-dev.2-1.x86_64.rpm"
+        },
+        {
+          "name": "webmux-0.19.2-dev.2-darwin-amd64",
+          "size": 85015888,
+          "sha256": "4062b0783a5ffa6734714de6eae81833166410dde1a723a3c7308c66354665f9",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.2-dev.2-darwin-amd64"
+        },
+        {
+          "name": "webmux-0.19.2-dev.2-darwin-amd64.tar.gz",
+          "size": 43336493,
+          "sha256": "51ee2718e7f97fdfd7e406ceb915ae74993a1fe4f7d45910ca9798efb275cfb5",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.2-dev.2-darwin-amd64.tar.gz"
+        },
+        {
+          "name": "webmux-0.19.2-dev.2-darwin-arm64",
+          "size": 80804562,
+          "sha256": "5c2754a009180e69674cc2bf7e6a02707a1dc28bbc417e2b3b169f6a3873e587",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.2-dev.2-darwin-arm64"
+        },
+        {
+          "name": "webmux-0.19.2-dev.2-darwin-arm64.tar.gz",
+          "size": 42114728,
+          "sha256": "31313d4912807a165077e04f7beb8cd54f25033d19cfec88c1fd9d61163a775b",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.2-dev.2-darwin-arm64.tar.gz"
+        },
+        {
+          "name": "webmux-0.19.2-dev.2-frpc-LICENSE.txt",
+          "size": 11358,
+          "sha256": "c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.2-dev.2-frpc-LICENSE.txt"
+        },
+        {
+          "name": "webmux-0.19.2-dev.2-frpc-pins.txt",
+          "size": 846,
+          "sha256": "23e2640cc77bee9f20b7271eb96ee80f9029f2f911a8a9f696540180ee7921c0",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.2-dev.2-frpc-pins.txt"
+        },
+        {
+          "name": "webmux-0.19.2-dev.2-linux-amd64",
+          "size": 83808416,
+          "sha256": "d2dd16ed29cbda4ab8a68fcf08b6fbe521b1990a4f83ed8eb262c756f9f25b9b",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.2-dev.2-linux-amd64"
+        },
+        {
+          "name": "webmux-0.19.2-dev.2-linux-amd64.tar.gz",
+          "size": 43105823,
+          "sha256": "d545fa084a1e16e51029636ce3976298882f6a83cc184f89e691d3754a2833f5",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.2-dev.2-linux-amd64.tar.gz"
+        },
+        {
+          "name": "webmux-0.19.2-dev.2-linux-arm64",
+          "size": 79036576,
+          "sha256": "243e60129f6574b26cdb99613a3af8dcc01f89253390133b529c37ec1d5e87cf",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.2-dev.2-linux-arm64"
+        },
+        {
+          "name": "webmux-0.19.2-dev.2-linux-arm64.tar.gz",
+          "size": 41121802,
+          "sha256": "1eafa98ed71357c35b3ad4409d8707be9089b6917d5cd83d4d77644ed3b3c676",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.2-dev.2-linux-arm64.tar.gz"
+        },
+        {
+          "name": "webmux-0.19.2-dev.2-setup-windows-amd64.exe",
+          "size": 37877192,
+          "sha256": "664f70ee317ecef86a6ecdb7a76e8d1024f198d342f53fde40eb94ea723ef6e5",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.2-dev.2-setup-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-0.19.2-dev.2-setup-windows-arm64.exe",
+          "size": 35140420,
+          "sha256": "989321ed5c925dfeb0f69f382447ee26c4bf5b374ddfdab6bb3f6a3019b32716",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.2-dev.2-setup-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-0.19.2-dev.2-tray-windows-amd64.exe",
+          "size": 9022464,
+          "sha256": "b72081ce848bae909b5367541a495b18a2d1de109add339f96d40c9ec479bb5d",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.2-dev.2-tray-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-0.19.2-dev.2-tray-windows-arm64.exe",
+          "size": 8204288,
+          "sha256": "724e2c023740666357c0c0af3ceac0511691814b888e8e2f4cd2f57b988ff28d",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.2-dev.2-tray-windows-arm64.exe"
+        },
+        {
+          "name": "webmux-0.19.2-dev.2-windows-amd64.exe",
+          "size": 9505792,
+          "sha256": "7e526d5d8d130d76c4e853c739e257518b3dd3ef217f8f65c3603bf8e780df05",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.2-dev.2-windows-amd64.exe"
+        },
+        {
+          "name": "webmux-0.19.2-dev.2-windows-arm64.exe",
+          "size": 8582656,
+          "sha256": "af92c039f04e12ca20a5a8c3e6b68b870548523c62ab599e07d2ba37c81da27a",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.2-dev.2-windows-arm64.exe"
+        },
+        {
+          "name": "webmux_0.19.2-dev.2-1_amd64.deb",
+          "size": 39658628,
+          "sha256": "45d382f7694c57f7b83905c0a43c4066f8dde3f860e62b81fbaf15cc91089518",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux_0.19.2-dev.2-1_amd64.deb"
+        },
+        {
+          "name": "webmux_0.19.2-dev.2-1_arm64.deb",
+          "size": 37162084,
+          "sha256": "96818447b0aed533b4c340726198ea7fb77ad2d25569ee4782d848de8f27030f",
+          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux_0.19.2-dev.2-1_arm64.deb"
+        }
+      ]
+    },
+    {
       "tag": "v0.19.1",
       "name": "WebMux v0.19.1",
       "publishedAt": "2026-11-26T14:36:35Z",
@@ -295,154 +443,6 @@
           "size": 37161136,
           "sha256": "626d03393a22f9342ced2d595d0e76be39ade0189c0d3d0b5c368bf2f6576fff",
           "url": "https://github.com/mzdluo123/webmux/releases/download/v0.19.1/webmux_0.19.1-1_arm64.deb"
-        }
-      ]
-    },
-    {
-      "tag": "dev",
-      "name": "WebMux 开发版",
-      "publishedAt": "2026-11-03T12:23:18Z",
-      "prerelease": true,
-      "url": "https://github.com/mzdluo123/webmux/releases/tag/dev",
-      "body": "main 上通过 CI 的最新开发版，版本见 SHA256SUMS.minisig 的可信注释。安装：curl -fsSL https://github.com/mzdluo123/webmux/releases/download/dev/install.sh | WEBMUX_CHANNEL=dev sh",
-      "assets": [
-        {
-          "name": "install.sh",
-          "size": 17315,
-          "sha256": "a8d7be2df3fe2ac44f6cd728bb9b23413a5c5f36fc3ae0d3b32afacdcaf38b19",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/install.sh"
-        },
-        {
-          "name": "SHA256SUMS",
-          "size": 2157,
-          "sha256": "6a168424955abe92606a908423e2b0110a0b9001fe9b0cc6dfe47578a4ce5c39",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/SHA256SUMS"
-        },
-        {
-          "name": "SHA256SUMS.minisig",
-          "size": 298,
-          "sha256": "61fb98a33054a8a4a8cc596dd84364793c9c75bd64001438b5496953e486ac43",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/SHA256SUMS.minisig"
-        },
-        {
-          "name": "webmux-0.19.1-dev.51-1.aarch64.rpm",
-          "size": 37164344,
-          "sha256": "9594c5c6b03230a2835f21a9bb76ef82cac64b06aead1bbd2868ed64eeae5296",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.1-dev.51-1.aarch64.rpm"
-        },
-        {
-          "name": "webmux-0.19.1-dev.51-1.x86_64.rpm",
-          "size": 39661256,
-          "sha256": "ebcf2cb40c9c761339469391b65f101f87012dec3ab07d916903378e01a7a5d0",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.1-dev.51-1.x86_64.rpm"
-        },
-        {
-          "name": "webmux-0.19.1-dev.51-darwin-amd64",
-          "size": 85011792,
-          "sha256": "bac5ecb0957570f6ec2bd6c3dd3eac51fa781f64d5256707e0ed0b1efb74bca7",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.1-dev.51-darwin-amd64"
-        },
-        {
-          "name": "webmux-0.19.1-dev.51-darwin-amd64.tar.gz",
-          "size": 43336392,
-          "sha256": "7731ea2b1815b7662a247b5f970648ab66bbb6b9fccf3c06436d48e86f66014d",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.1-dev.51-darwin-amd64.tar.gz"
-        },
-        {
-          "name": "webmux-0.19.1-dev.51-darwin-arm64",
-          "size": 80804562,
-          "sha256": "ca78554cbc695bde93eb81abc9a33ecd164ab5fb8012dea58114f584b5882e36",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.1-dev.51-darwin-arm64"
-        },
-        {
-          "name": "webmux-0.19.1-dev.51-darwin-arm64.tar.gz",
-          "size": 42113484,
-          "sha256": "771da7d115b7883666016f6ad8807f702d68ddf5ae414343762bf54ee2a650fe",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.1-dev.51-darwin-arm64.tar.gz"
-        },
-        {
-          "name": "webmux-0.19.1-dev.51-frpc-LICENSE.txt",
-          "size": 11358,
-          "sha256": "c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.1-dev.51-frpc-LICENSE.txt"
-        },
-        {
-          "name": "webmux-0.19.1-dev.51-frpc-pins.txt",
-          "size": 846,
-          "sha256": "23e2640cc77bee9f20b7271eb96ee80f9029f2f911a8a9f696540180ee7921c0",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.1-dev.51-frpc-pins.txt"
-        },
-        {
-          "name": "webmux-0.19.1-dev.51-linux-amd64",
-          "size": 83808416,
-          "sha256": "494808aa883b04bb84f427e10645d1ea577c91fcbed7213de518dcdec4ce917b",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.1-dev.51-linux-amd64"
-        },
-        {
-          "name": "webmux-0.19.1-dev.51-linux-amd64.tar.gz",
-          "size": 43103652,
-          "sha256": "68990946641a41600ffdf116f3a1a718cb8a94877381bc2bc969d26b94aede63",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.1-dev.51-linux-amd64.tar.gz"
-        },
-        {
-          "name": "webmux-0.19.1-dev.51-linux-arm64",
-          "size": 79036576,
-          "sha256": "87edac243922b8dfdb1b30c422b48f6376e41ec821b40d5e0385b57d45cb1ab8",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.1-dev.51-linux-arm64"
-        },
-        {
-          "name": "webmux-0.19.1-dev.51-linux-arm64.tar.gz",
-          "size": 41121358,
-          "sha256": "acbd5bc9f16c52b3cf574fb9eb223fa7bd70b2027176977aa6f7968e9fbbf9ef",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.1-dev.51-linux-arm64.tar.gz"
-        },
-        {
-          "name": "webmux-0.19.1-dev.51-setup-windows-amd64.exe",
-          "size": 37881614,
-          "sha256": "781c6545fbd3841f6f0da6d6933a78ae5f1fceeb02183e151209e046a5fb565f",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.1-dev.51-setup-windows-amd64.exe"
-        },
-        {
-          "name": "webmux-0.19.1-dev.51-setup-windows-arm64.exe",
-          "size": 35132588,
-          "sha256": "0ea9bee95f308452a3b5e8d2c806e4147db66ee6edc36a77cab4498ae7fa6b47",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.1-dev.51-setup-windows-arm64.exe"
-        },
-        {
-          "name": "webmux-0.19.1-dev.51-tray-windows-amd64.exe",
-          "size": 9022464,
-          "sha256": "69601613df0e72ab446425451afda0210cb41a337c3b270caca66cf1c9206fa8",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.1-dev.51-tray-windows-amd64.exe"
-        },
-        {
-          "name": "webmux-0.19.1-dev.51-tray-windows-arm64.exe",
-          "size": 8204288,
-          "sha256": "a8dca453e3c75e37fd1a4ae55056eb488679180c193c1ae2ca1fcc66496576f7",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.1-dev.51-tray-windows-arm64.exe"
-        },
-        {
-          "name": "webmux-0.19.1-dev.51-windows-amd64.exe",
-          "size": 9505792,
-          "sha256": "3f634500251708aaaa9ff3561635b713fa3b984b41375e8570b3d8199bd4cca0",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.1-dev.51-windows-amd64.exe"
-        },
-        {
-          "name": "webmux-0.19.1-dev.51-windows-arm64.exe",
-          "size": 8582656,
-          "sha256": "bb8320f32e92a52d42839000a570e9950e9c7170a511d467de5123d18bfefd16",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux-0.19.1-dev.51-windows-arm64.exe"
-        },
-        {
-          "name": "webmux_0.19.1-dev.51-1_amd64.deb",
-          "size": 39658406,
-          "sha256": "2000585a5ac78be2376591f62a89273c9fc7c1a3fb8eec08ce6b7ec92e42ac6d",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux_0.19.1-dev.51-1_amd64.deb"
-        },
-        {
-          "name": "webmux_0.19.1-dev.51-1_arm64.deb",
-          "size": 37161456,
-          "sha256": "fbf7f06318433781c00796fe88a1578f81ab86192c7cd838be0ec831f460007c",
-          "url": "https://github.com/mzdluo123/webmux/releases/download/dev/webmux_0.19.1-dev.51-1_arm64.deb"
         }
       ]
     },
